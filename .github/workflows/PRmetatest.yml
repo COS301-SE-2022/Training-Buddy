@@ -25,14 +25,14 @@ jobs:
         with:
           mode: minimum
           count: 1
-          labels: 'type:bug, type:change, type:chore, type:cosmetic, type:documentation, type:enhance, type:feature, type:fix, type:refactor, type:test'
+          labels: 'type:bug, type:change, type:documentation, type:enhance, type:fix, type:refactor, type:test'
 
       - name: Has atleast one status label
         uses: mheap/github-action-required-labels@v1
         with:
           mode: minimum
           count: 1
-          labels: 'status:needs-info, status:needs-tests, status:not-ready, status:on-hold, status:ready, status:next-release'
+          labels: 'status:needs-tests, status:ready, status:not-ready'
           
       - name: Has atleast one scope label
         uses: mheap/github-action-required-labels@v1
