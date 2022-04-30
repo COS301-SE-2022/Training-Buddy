@@ -84,7 +84,7 @@ I am a third year BSc Computer Science Student who is passionate about technolog
 ## [Lehlohonolo Sehako (u20557622)](https://github.com/Lehlohonolo-Sehako) <a href="https://www.linkedin.com/in/lehlohonolo-sehako-4378311b6/"><img height="30px" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/linkedin.png"></img></a>
 <img src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/Lehlohonolo_Sehako.png" alt="Image" align="left" height="180px"/>
 
-I am a diligent 3rd year BSc Computer Science student who is passionate about Machine Learning and developing predictive models. I am familiar with C++, Java, Python, CSS, HTML, Javascript, NodeJS and PHP. I have a good understanding of developing Machine Learning models using ML libraries such as scikit-learn and pandas. I possess good analytical skills that help with providing solutions to complex problems.
+I am a 3rd year BSc Computer Science student who is passionate about Machine Learning and developing predictive models. I am familiar with C++, Java, Python, CSS, HTML, Javascript, NodeJS and PHP. I have a good understanding of developing Machine Learning models using ML libraries such as scikit-learn and pandas. I possess good analytical skills that help with providing solutions to complex problems.
 
 <br clear="left"/>
 
