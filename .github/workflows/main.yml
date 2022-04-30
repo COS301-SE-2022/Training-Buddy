@@ -26,8 +26,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       # Runs the super linter
-      - name: Run Super-Linter
-        uses: github/super-linter@v3
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.2
       # Checks if all the buttons are available.
       
       # Runs a set of commands using the runners shell
