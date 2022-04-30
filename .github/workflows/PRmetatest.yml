@@ -9,7 +9,6 @@ jobs:
     name: Checks if labels are used
     runs-on: ubuntu-latest
     steps: 
-        #Checking out to the develop branch
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -34,14 +33,7 @@ jobs:
           mode: minimum
           count: 1
           labels: 'status:needs-info, status:needs-tests, status:not-ready, status:on-hold, status:ready, status:next-release'
-
-      - name: Has atleast one role label
-        uses: mheap/github-action-required-labels@v1
-        with:
-          mode: minimum
-          count: 1
-          labels: 'role:api-engineer, role:data-engineer, role:designer, role:developer-operations, role:project-owner, role:service-engineer, role:ui-engineer'
-      
+          
       - name: Has atleast one scope label
         uses: mheap/github-action-required-labels@v1
         with:
