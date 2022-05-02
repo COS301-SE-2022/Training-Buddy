@@ -10,27 +10,27 @@ short description of the repo
 ## Project Technologies
 - Frontend
 ```
-here
+Angular
 ```
 - API
 ```
-here
+REST
 ```
 - Backend
 ```
-here
+Node/NestJS
 ```
 - Database
 ```
-here
+PostgreSQL
 ```
 - Hosting
 ```
-here
+GCP
 ```
 - Authentication
 ```
-here
+Firebase
 ```
 
 ## Software Engineering Model
@@ -68,7 +68,7 @@ I am a third year BSc Information Knowledge Systems (Data Science) student.I am 
 ## [Matthew Gotte (u20734621)](https://github.com/MatthewGotte) <a href="https://www.linkedin.com/in/matthew-gotte-ab85531a4/"><img height="30px" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/linkedin.png"></img></a>
 <img src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/Matthew_Gotte.png" alt="Image" align="left" height="180px"/>
 
-I am a third year BSc Information Knowledge Systems with software development student. I am familiar with Java, C++, TypeScript, PHP, NodeJs, ES6, and markup languages. I am good at responsive frontend and implementing designs into a working frontend. I have built many applications in React, Ionic and Angular from start to finish. I am committed to delivering quality work and supporting my peers to deliver the best system possible.
+I am a third year BSc Information Knowledge Systems (Software Development). I am familiar with Java, C++, TypeScript, PHP, NodeJs, ES6, and markup languages. I am good at responsive frontend and implementing designs into a working frontend. I have built many applications in React, Ionic and Angular from start to finish. I am committed to delivering quality work and supporting my peers to deliver the best system possible.
 
 <br clear="left"/>
 
