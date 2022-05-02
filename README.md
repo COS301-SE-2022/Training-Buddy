@@ -37,7 +37,7 @@ short description here
 
 ## Video Demo Links:
 
-## Functional Reuqirements (SRS):
+## Functional Requirements (SRS):
 ### 1. Introduction
 
 - 1.1 Purpose: The goal of your project and the objectives it aims to accomplish
