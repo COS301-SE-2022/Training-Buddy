@@ -12,10 +12,12 @@
     "client": "apps/client",
     "client-e2e": "apps/client-e2e",
     "client-example-feature": "libs/client/example/feature",
+    "client-login-feature": "libs/client/login/feature",
     "client-shared-components-navbar-ui": "libs/client/shared/components/navbar/ui",
     "client-shared-interfaces-user-data-access": "libs/client/shared/interfaces/user/data-access",
     "client-shared-services-authentication-data-access": "libs/client/shared/services/authentication/data-access",
     "client-shared-stores-authentication-data-access": "libs/client/shared/stores/authentication/data-access",
-    "client-shell-feature": "libs/client/shell/feature"
+    "client-shell-feature": "libs/client/shell/feature",
+    "client-signup-feature": "libs/client/signup/feature"
   }
 }
