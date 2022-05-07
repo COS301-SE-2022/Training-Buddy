@@ -43,3 +43,7 @@ mat-form-field {
 .logInLink:hover {
     cursor: pointer;
 }
+
+::ng-deep .mat-form-field-wrapper {
+    margin-bottom: -1.25em;
+ }
