@@ -1,3 +1,5 @@
+<unsigned-navbar></unsigned-navbar>
+
 <mat-grid-list cols="1" rows="1" rowHeight="2:1">
 
     <mat-card>
@@ -6,8 +8,8 @@
 
           <form>
 
-            <h1 class="text-center">Training-Buddy-Logo</h1>
-            <h2 class="text-center"te>Sign Up</h2>
+            <h1 class="text-center">Sign Up</h1>
+            <!-- <h2 class="text-center"te>Sign Up</h2> -->
 
             <!-- <mat-error>
               The username and password were not recognized
@@ -15,59 +17,63 @@
 
             <!-- userName -->
             <mat-form-field appearance="outline">
-                <input id="userName" matInput type="text" placeholder="Firstname" name="userName" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-label>Firstname</mat-label>
+                <input id="userName" matInput type="text" name="userName" required>
+                <mat-error>
+                    Please provide a name
+                </mat-error>
             </mat-form-field>
 
             <!-- userSurname -->
             <mat-form-field appearance="outline">
-                <input id="userSurname" matInput type="text" placeholder="Surname" name="userSurname" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-label>Surname</mat-label>
+                <input id="userSurname" matInput type="text" name="userSurname" required>
+                <mat-error>
+                    Please provide a surname
+                </mat-error>
             </mat-form-field>
 
             <!-- email -->
             <mat-form-field appearance="outline">
-                <input id="userEmail" matInput type="text" placeholder="Email" name="email" required>
-                <!-- <mat-error>
+                <mat-label>Email</mat-label>
+                <input id="userEmail" matInput type="email" placeholder="Email" name="email" required>
+                <mat-error>
                     Please provide a valid email address
-                </mat-error> -->
+                </mat-error>
             </mat-form-field>
 
             <!-- password -->
             <mat-form-field appearance="outline">
-                <input id="password" matInput type="text" placeholder="Password" name="password" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
-            </mat-form-field>
+                <mat-label>Password</mat-label>
+                <input id="password" matInput [type]="hide ? 'password' : 'text'">
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </mat-form-field>
 
             <!-- cellNumber -->
             <mat-form-field appearance="outline">
                 <input id="cellNumber" matInput type="tel" placeholder="Phone Number" name="cellNumber" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-error>
+                    Please provide a valid phone number
+                </mat-error>
             </mat-form-field>
 
             <!-- gender -->
             <mat-form-field appearance="outline">
                 <mat-label>Gender</mat-label>
-                <mat-select>
+                <mat-select id="gender">
                     <mat-option value="one">Male</mat-option>
                     <mat-option value="two">Female</mat-option>
                 </mat-select>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-error>
+                    Please provide a gender option
+                </mat-error>
             </mat-form-field>
 
             <!-- location? -->
             <mat-form-field appearance="outline">
-                <input id="userName" matInput type="text" placeholder="Location" name="userName" required>
+                <input id="location" matInput type="location" placeholder="Location" name="location" required>
                 <!-- <mat-error>
                     Please provide a valid email address
                 </mat-error> -->

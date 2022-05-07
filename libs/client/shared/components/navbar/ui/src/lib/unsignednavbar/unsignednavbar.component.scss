@@ -1,0 +1,11 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+@media (max-width: 428px) {
+
+    p {
+        color: blue !important;
+    }
+    
+}
