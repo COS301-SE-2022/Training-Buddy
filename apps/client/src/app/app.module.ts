@@ -19,9 +19,7 @@ import { AppComponent } from './app.component';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     ClientShellFeatureModule,
-
     AppRoutingModule
-
   ],
   providers: [],
   bootstrap: [AppComponent],

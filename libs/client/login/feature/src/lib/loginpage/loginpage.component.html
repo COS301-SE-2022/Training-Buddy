@@ -1,1 +1,42 @@
-<p>loginpage works!</p>
+<mat-grid-list cols="1" rows="1" rowHeight="2:1">
+
+    <mat-card>
+
+        <mat-card-content>
+
+          <form>
+
+            <h1 class="text-center">Training-Buddy-Logo</h1>
+            <h2 class="text-center"te>Log In</h2>
+
+            <!-- <mat-error>
+              The username and password were not recognized
+            </mat-error> -->
+
+            <mat-form-field appearance="outline">
+              <input id="email" matInput type="email" placeholder="Email" name="email" required>
+              <!-- <mat-error>
+                Please provide a valid email address
+              </mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field id="passwordFormField" appearance="outline">
+              <input id="password" matInput type="password" placeholder="Password" name="password" required>
+              <!-- <mat-error>
+                Please provide a valid password
+              </mat-error> -->
+            </mat-form-field>
+
+            <div class="submitbutton mt-3">
+                <!-- <button routerLink="/signup" type="button" class="text-center mr-1" mat-raised-button color="primary">Register</button> -->
+                <button id="login" (click)="login()" class="text-center ml-1" mat-raised-button color="primary">Login</button>
+                <div class="signUp"><p>No Account?</p><p routerLink="/signup" class="signUpLink">Sign Up</p></div>
+            </div>
+
+          </form>
+
+        </mat-card-content>
+
+      </mat-card>
+
+</mat-grid-list>

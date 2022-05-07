@@ -1,1 +1,87 @@
-<p>signup works!</p>
+<mat-grid-list cols="1" rows="1" rowHeight="2:1">
+
+    <mat-card>
+
+        <mat-card-content>
+
+          <form>
+
+            <h1 class="text-center">Training-Buddy-Logo</h1>
+            <h2 class="text-center"te>Sign Up</h2>
+
+            <!-- <mat-error>
+              The username and password were not recognized
+            </mat-error> -->
+
+            <!-- userName -->
+            <mat-form-field appearance="outline">
+                <input id="userName" matInput type="text" placeholder="Firstname" name="userName" required>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <!-- userSurname -->
+            <mat-form-field appearance="outline">
+                <input id="userSurname" matInput type="text" placeholder="Surname" name="userSurname" required>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <!-- email -->
+            <mat-form-field appearance="outline">
+                <input id="userEmail" matInput type="text" placeholder="Email" name="email" required>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <!-- password -->
+            <mat-form-field appearance="outline">
+                <input id="password" matInput type="text" placeholder="Password" name="password" required>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <!-- cellNumber -->
+            <mat-form-field appearance="outline">
+                <input id="cellNumber" matInput type="tel" placeholder="Phone Number" name="cellNumber" required>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <!-- gender -->
+            <mat-form-field appearance="outline">
+                <mat-label>Gender</mat-label>
+                <mat-select>
+                    <mat-option value="one">Male</mat-option>
+                    <mat-option value="two">Female</mat-option>
+                </mat-select>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <!-- location? -->
+            <mat-form-field appearance="outline">
+                <input id="userName" matInput type="text" placeholder="Location" name="userName" required>
+                <!-- <mat-error>
+                    Please provide a valid email address
+                </mat-error> -->
+            </mat-form-field>
+
+            <div class="submitbutton mt-3">
+                <button id="signup" (click)="signup()" class="text-center ml-1" mat-raised-button color="primary">Sign Up</button>
+                <div class="logIn"><p>Have An Account?</p><p routerLink="/login" class="logInLink">Log In</p></div>
+            </div>
+
+          </form>
+
+        </mat-card-content>
+
+      </mat-card>
+
+</mat-grid-list>
