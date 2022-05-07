@@ -1,0 +1,45 @@
+mat-card {
+    max-width: 400px;
+    margin: 2em auto;
+    padding: 2em auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.submitbutton {
+    text-align: center;
+    width: 100%;
+}
+
+.forgotpassword {
+    text-align: right;
+    text-decoration: underline;
+}
+
+mat-form-field {
+    display: block;
+}
+
+#login {
+    width: 100%;
+}
+
+.signUp {
+    text-align: right;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.signUpLink {
+    text-decoration: underline;
+    color: #4350af;
+    margin-left: 1%;
+}
+
+.signUpLink:hover {
+    cursor: pointer;
+}
