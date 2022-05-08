@@ -71,6 +71,9 @@
       ],
       "@training-buddy/client/signup/feature": [
         "libs/client/signup/feature/src/index.ts"
+      ],
+      "@training-buddy/shared/services/authentication/data-access/src/lib/image-generator": [
+        "libs/client/shared/services/authentication/data-access/src/lib/image-generator.service"
       ]
     }
   },
