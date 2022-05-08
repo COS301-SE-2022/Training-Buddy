@@ -5,7 +5,7 @@ import { TrainingBuddyServiceService } from './training-buddy-service.service'
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy){
-    constructor(private trainingBuddyServiceService: TrainingBuddyServiceService ){
+    constructor(private trainingBuddyServiceService: TrainingBuddyServiceService ){    
         super();
     }
     async validate(email: string , password: string): Promise<any>{
