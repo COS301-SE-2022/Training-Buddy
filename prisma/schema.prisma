@@ -2,6 +2,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+//hello there testing
 datasource db {
   provider = "postgresql"
   url      = "postgresql://postgres:mydogRubi@localhost:5432/postgres?schema=TrainingBuddy"
