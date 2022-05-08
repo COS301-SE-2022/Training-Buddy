@@ -1,7 +1,13 @@
 mat-card {
     max-width: 400px;
+    width: 90vw;
     margin: 2em auto;
     padding: 2em auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    background-color: rgba(255, 255, 255, 1);
 }
 
 .text-center {
@@ -24,6 +30,7 @@ mat-form-field {
 
 #signup {
     width: 100%;
+    background-color: #1b1a1b !important;
 }
 
 .logIn {
@@ -46,4 +53,29 @@ mat-form-field {
 
 ::ng-deep .mat-form-field-wrapper {
     margin-bottom: -1.25em;
- }
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.b { color: #4285F4; }
+.r { color: #EA4335; }
+.y { color: #FBBC05; }
+.g { color: #34A853; }
+
+p {
+    font-size: 12px !important;
+}
+
+.fullhint {
+    width: 100% !important;
+}
+
+#background {
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

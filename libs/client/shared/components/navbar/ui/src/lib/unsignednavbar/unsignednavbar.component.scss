@@ -2,10 +2,14 @@
     flex: 1 1 auto;
 }
 
-@media (max-width: 428px) {
+mat-toolbar {
+    background-color: rgba(255, 255, 255, 0.90);
+}
 
-    p {
-        color: blue !important;
-    }
-    
+#bar {
+    background-color: #1b1a1b !important;
+}
+
+span {
+    color : white;
 }
