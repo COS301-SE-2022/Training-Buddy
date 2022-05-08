@@ -2,14 +2,39 @@ generator client {
   provider = "prisma-client-js"
 }
 
+//hello there testing
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:mydogRubi@localhost:5432/postgres?schema=TrainingBuddy"
 }
 
-// Use CUIDs for IDs please
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model activityStatistic {
+  activity                     String       @db.VarChar(50)
+  user                         String       @db.VarChar(50)
+  timeSpent                    Decimal      @default(0) @db.Decimal(10, 0)
+  experienceLevel              String       @db.VarChar(50)
+  insight                      String?      @db.VarChar(125)
+  activityType                 activityType @relation(fields: [activity], references: [activityName], onDelete: Cascade, map: "activityStatisticForeignKeyActivityType")
+  user_activityStatisticTouser user         @relation(fields: [user], references: [username], onDelete: Cascade, map: "activityStatisticForeignKeyUser")
+
+  @@id([activity, user], map: "activityStatisticPrimaryKey")
+}
+
+model activityType {
+  activityName       String              @id(map: "activityTypePrimaryKey") @db.VarChar(50)
+  distanceOrientated Boolean
+  activityStatistic  activityStatistic[]
+}
+
+model user {
+  username          String              @id(map: "userPrimaryKey") @db.VarChar(25)
+  firsName          String              @db.VarChar(50)
+  lastName          String              @db.VarChar(50)
+  emailAddress      String              @db.VarChar(62)
+  contactNumber     Decimal             @db.Decimal(10, 0)
+  dateOfBirth       DateTime            @db.Date
+  gender            String              @db.VarChar(20)
+  location          String              @db.VarChar(100)
+  password          String              @db.VarChar(50)
+  activityStatistic activityStatistic[]
 }
