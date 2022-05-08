@@ -1,3 +1,8 @@
+
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+
+<unsigned-navbar></unsigned-navbar>
+
 <mat-grid-list cols="1" rows="1" rowHeight="2:1">
 
     <mat-card>
@@ -6,73 +11,79 @@
 
           <form>
 
-            <h1 class="text-center">Training-Buddy-Logo</h1>
-            <h2 class="text-center"te>Sign Up</h2>
-
-            <!-- <mat-error>
-              The username and password were not recognized
-            </mat-error> -->
+            <h1 class="text-center">Sign Up</h1>
 
             <!-- userName -->
             <mat-form-field appearance="outline">
-                <input id="userName" matInput type="text" placeholder="Firstname" name="userName" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-label>Firstname</mat-label>
+                <input id="userName" matInput type="text" name="userName" required>
+                <mat-error>
+                    Please provide a name
+                </mat-error>
             </mat-form-field>
 
             <!-- userSurname -->
             <mat-form-field appearance="outline">
-                <input id="userSurname" matInput type="text" placeholder="Surname" name="userSurname" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-label>Surname</mat-label>
+                <input id="userSurname" matInput type="text" name="userSurname" required>
+                <mat-error>
+                    Please provide a surname
+                </mat-error>
             </mat-form-field>
 
             <!-- email -->
             <mat-form-field appearance="outline">
-                <input id="userEmail" matInput type="text" placeholder="Email" name="email" required>
-                <!-- <mat-error>
+                <mat-label>Email</mat-label>
+                <input id="userEmail" matInput type="email" placeholder="Email" name="email" required>
+                <mat-error>
                     Please provide a valid email address
-                </mat-error> -->
+                </mat-error>
             </mat-form-field>
 
             <!-- password -->
             <mat-form-field appearance="outline">
-                <input id="password" matInput type="text" placeholder="Password" name="password" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
-            </mat-form-field>
+                <mat-label>Password</mat-label>
+                <input id="password" matInput [type]="hide ? 'password' : 'text'" required>
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </mat-form-field>
 
             <!-- cellNumber -->
             <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
                 <input id="cellNumber" matInput type="tel" placeholder="Phone Number" name="cellNumber" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-error>
+                    Please provide a valid phone number
+                </mat-error>
             </mat-form-field>
 
             <!-- gender -->
             <mat-form-field appearance="outline">
                 <mat-label>Gender</mat-label>
-                <mat-select>
+                <mat-select id="gender" required>
                     <mat-option value="one">Male</mat-option>
                     <mat-option value="two">Female</mat-option>
                 </mat-select>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-error>
+                    Please provide a gender option
+                </mat-error>
             </mat-form-field>
 
-            <!-- location? -->
+            <!-- location with google autocomplete -->
             <mat-form-field appearance="outline">
-                <input id="userName" matInput type="text" placeholder="Location" name="userName" required>
-                <!-- <mat-error>
-                    Please provide a valid email address
-                </mat-error> -->
+                <mat-label>Location</mat-label>
+                <input matInput
+                       matGoogleMapsAutocomplete
+                       (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                       (onLocationSelected)="onLocationSelected($event)" required>
+                       <mat-hint class="fullhint">
+                           <div>
+                               <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
+                            </div>
+                        </mat-hint>
             </mat-form-field>
-
+            <!--Submit button-->
             <div class="submitbutton mt-3">
                 <button id="signup" (click)="signup()" class="text-center ml-1" mat-raised-button color="primary">Sign Up</button>
                 <div class="logIn"><p>Have An Account?</p><p routerLink="/login" class="logInLink">Log In</p></div>
@@ -85,3 +96,5 @@
       </mat-card>
 
 </mat-grid-list>
+
+</div>
