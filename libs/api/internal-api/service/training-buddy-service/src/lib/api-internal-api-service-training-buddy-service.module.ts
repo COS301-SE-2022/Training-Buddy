@@ -6,6 +6,7 @@ import { LoginGuard } from './login.guard';
 import { JwtStrategy } from './jwt-strategy';
 import { JwtAuthGuard} from './jwt-auth.guard';
 import { JwtModule } from '@nestjs/jwt';
+
 @Module({
   controllers: [],
   imports: [PassportModule, JwtModule.register({
@@ -13,6 +14,9 @@ import { JwtModule } from '@nestjs/jwt';
     secret:"hide"//TODO hide this 
   }),], 
   providers: [TrainingBuddyServiceService, LocalStrategy, LoginGuard , JwtStrategy , JwtAuthGuard],
-  exports: [TrainingBuddyServiceService],
+  exports: [TrainingBuddyServiceService,JwtModule.register({
+    signOptions: { expiresIn: '600s'},
+    secret:"hide"//TODO hide this 
+  }),],
 })
 export class ApiInternalApiServiceTrainingBuddyServiceModule {}

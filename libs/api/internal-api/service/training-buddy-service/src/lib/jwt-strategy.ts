@@ -10,6 +10,11 @@ export class JwtStrategy extends PassportStrategy (Strategy) {
             secretOrKey: 'hide', //TODO hide this in evn secrets
         });
     }
+    /**
+     * 
+     * @param payload 
+     * @returns 
+     */
     async validate(payload : any){ 
         return { email: payload.email, username: payload.username};
     }
