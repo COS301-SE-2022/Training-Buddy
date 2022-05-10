@@ -39,6 +39,12 @@
       "@training-buddy/api/internal-api/api/training-buddy-api": [
         "libs/api/internal-api/api/training-buddy-api/src/index.ts"
       ],
+      "@training-buddy/api/internal-api/repository/data-access": [
+        "libs/api/internal-api/repository/data-access/src/index.ts"
+      ],
+      "@training-buddy/api/internal-api/repository/shared/interfaces/data-access": [
+        "libs/api/internal-api/repository/shared/interfaces/data-access/src/index.ts"
+      ],
       "@training-buddy/api/internal-api/service/shared/interfaces/data-access": [
         "libs/api/internal-api/service/shared/interfaces/data-access/src/index.ts"
       ],
