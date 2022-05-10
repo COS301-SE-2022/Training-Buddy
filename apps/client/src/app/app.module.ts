@@ -7,6 +7,9 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import {AgmCoreModule} from '@agm/core';
+import {MatGoogleMapsAutocompleteModule} from '@angular-material-extensions/google-maps-autocomplete';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -19,9 +22,13 @@ import { AppComponent } from './app.component';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     ClientShellFeatureModule,
-
-    AppRoutingModule
-
+    AppRoutingModule,
+    //imports for google maps geo-encoding:
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBxYaJFWxO0y8YjqvG8OOGuwqvDPwDaSMY',
+      libraries: ['places']
+    }),
+    MatGoogleMapsAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent],
