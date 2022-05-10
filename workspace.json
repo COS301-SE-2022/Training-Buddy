@@ -14,6 +14,7 @@
     "api-internal-api-repository-shared-interfaces-data-access": "libs/api/internal-api/repository/shared/interfaces/data-access",
     "api-internal-api-service-shared-interfaces-data-access": "libs/api/internal-api/service/shared/interfaces/data-access",
     "api-internal-api-service-training-buddy-service": "libs/api/internal-api/service/training-buddy-service",
+    "api-shared-services-prisma--data-access": "libs/api/shared/services/prisma/data-access",
     "api-shell-feature": "libs/api/shell/feature",
     "client": "apps/client",
     "client-e2e": "apps/client-e2e",
