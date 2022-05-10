@@ -10,6 +10,8 @@
     "api-example-service-shared-interfaces-data-access": "libs/api/example/service/shared/interfaces/data-access",
     "api-internal-api-api-shared-interfaces-data-access": "libs/api/internal-api/api/shared/interfaces/data-access",
     "api-internal-api-api-training-buddy-api": "libs/api/internal-api/api/training-buddy-api",
+    "api-internal-api-repository-data-access": "libs/api/internal-api/repository/data-access",
+    "api-internal-api-repository-shared-interfaces-data-access": "libs/api/internal-api/repository/shared/interfaces/data-access",
     "api-internal-api-service-shared-interfaces-data-access": "libs/api/internal-api/service/shared/interfaces/data-access",
     "api-internal-api-service-training-buddy-service": "libs/api/internal-api/service/training-buddy-service",
     "api-shell-feature": "libs/api/shell/feature",
