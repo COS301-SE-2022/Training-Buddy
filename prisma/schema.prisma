@@ -15,7 +15,7 @@ model activityStatistic {
   experienceLevel              String       @db.VarChar(50)
   insight                      String?      @db.VarChar(125)
   activityType                 activityType @relation(fields: [activity], references: [activityName], onDelete: Cascade, map: "activityStatisticForeignKeyActivityType")
-  user_activityStatisticTouser user         @relation(fields: [user], references: [username], onDelete: Cascade, map: "activityStatisticForeignKeyUser")
+  user_activityStatisticTouser user         @relation(fields: [user], references: [email], onDelete: Cascade, map: "activityStatisticForeignKeyUser")
 
   @@id([activity, user], map: "activityStatisticPrimaryKey")
 }
@@ -27,10 +27,9 @@ model activityType {
 }
 
 model user {
-  username          String              @id(map: "userPrimaryKey") @db.VarChar(25)
+  email             String              @id(map: "userPrimaryKey") @db.VarChar(25)
   firsName          String              @db.VarChar(50)
   lastName          String              @db.VarChar(50)
-  emailAddress      String              @db.VarChar(62)
   contactNumber     Decimal             @db.Decimal(10, 0)
   dateOfBirth       DateTime            @db.Date
   gender            String              @db.VarChar(20)
