@@ -4,6 +4,10 @@ import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 @Injectable()
 export class TrainingBuddyServiceService {
+    /**
+     * 
+     * @param jwtService 
+     */
     constructor(private jwtService : JwtService){}
     private readonly users = [
         {
@@ -25,6 +29,12 @@ export class TrainingBuddyServiceService {
             password: 'hello177'
         }
     ]
+    /**
+     * 
+     * @param email 
+     * @param password 
+     * @returns null || UserEntity
+     */
     async validateUser(email: string , password: string):Promise<any> {
         const user = await this.findOne(email);
         const valid = await bcrypt.compare(password, user?.password)
@@ -35,6 +45,11 @@ export class TrainingBuddyServiceService {
         }
         return null;
     }
+    /**
+     * 
+     * @param email 
+     * @returns Promise UserEntity
+     */
     async findOne(email: string): Promise<any>{
         return await this.users.find((user) => user.email === email)
     }
@@ -52,12 +67,26 @@ export class TrainingBuddyServiceService {
             return user;
         }
     }
+    /**
+     * 
+     * @param username 
+     * @returns UserEntity
+     */
     finduser(username:string){
         return this.users.find((user)=>user.userName === username);
     }
+    /**
+     * 
+     * @returns Array Of UserEntity
+     */
     findAll(){
         return this.users;
     }
+    /**
+     * 
+     * @param user 
+     * @returns 
+     */
     async login( user: UserEntity){
         const {...result}=user
         {
