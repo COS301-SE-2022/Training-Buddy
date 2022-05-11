@@ -4,6 +4,7 @@ import { LoginpageComponent } from './loginpage/loginpage.component';
 import { LoginRoutingModule } from './login-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginpageComponent,
   ],
   providers: [
-    FormBuilder
+    FormBuilder, Apollo
   ]
 })
 export class ClientLoginFeatureModule {}

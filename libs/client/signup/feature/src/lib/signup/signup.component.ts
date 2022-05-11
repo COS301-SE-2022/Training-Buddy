@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { throwServerError } from '@apollo/client/core';
+import { Apollo, gql } from 'apollo-angular';
+
 
 @Component({
   selector: 'training-buddy-signup',
@@ -16,8 +19,9 @@ export class SignupComponent implements OnInit {
 
   latitude : number;
   longitude : number;
+  vicinity : string;
 
-  constructor(private frm : FormBuilder) {
+  constructor(private frm : FormBuilder, private apollo: Apollo) {
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     
     //injections
@@ -27,6 +31,7 @@ export class SignupComponent implements OnInit {
     this.hide = true;
     this.latitude = 0;
     this.longitude = 0;
+    this.vicinity = "";
   }
 
   ngOnInit(): void {
@@ -68,31 +73,71 @@ export class SignupComponent implements OnInit {
 
     ////////////////
     //testing values
-    console.log(userNameSurname);
-    console.log(userEmail);
-    console.log(userPassword);
-    console.log(userDOB );
-    console.log(userCellNumber);
-    console.log(userGender);
-    console.log(this.latitude);
-    console.log(this.longitude);
+    // console.log(userNameSurname);
+    // console.log(userEmail);
+    // console.log(userPassword);
+    // console.log(userDOB );
+    // console.log(userCellNumber);
+    // console.log(userGender);
+    // console.log(this.latitude);
+    // console.log(this.longitude);
     ////////////////
 
     ///////////////////////
     //API CALL HERE........
+    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity).then(res => {
+      console.log(res);
+    });
     ///////////////////////
 
   }
 
+  ///////////////////////
+  //API CALL RETURN PROMISE
+  querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string) {
+    const userName = userNameSurname.split(' ')[0];
+    const userSurname = userNameSurname.split(' ')[1];
+    return new Promise((resolve, _) => {
+      if (!(this.apollo.client === undefined))
+      this.apollo
+        .mutate ({
+          mutation: gql`
+            mutation{
+              signup(userDto: {
+                userName: "${userName}",
+                userSurname: "${userSurname}",
+                location: "${location}",
+                gender: "${userGender}",
+                email: "${userEmail}",
+                cellNumber: "${userCellNumber}",
+                password: "${userPassword}",
+                dob: "${userDOB}"
+              }){
+                userName
+              }
+            }
+          `,
+        })
+        .subscribe ((result) => {
+          resolve(result);
+        });
+    })
+  }
+  ///////////////////////
+
   /////////////////////////////////////////////////////////////////
   //Google geocoding functions
+  onAutocompleteSelected(event : any) {
+    this.vicinity = event.vicinity;
+  }
 
-  //this function will just recieve the long and lat of the search query result.
   onLocationSelected(event: any) {
-    if (event != null) {
-      this.latitude = event.latitude;
-      this.longitude = event.longitude;
-    }
+    //TO be used when moving to co-ordinate based location system.
+    // console.log(event);
+    // if (event != null) {
+    //   this.latitude = event.latitude;
+    //   this.longitude = event.longitude;
+    // }
   }
 
   /////////////////////////////////////////////////////////////////
