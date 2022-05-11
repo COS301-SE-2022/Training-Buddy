@@ -5,6 +5,7 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoginpageComponent } from './loginpage.component';
+import { Apollo } from 'apollo-angular';
 
 describe('LoginpageComponent', () => {
   let component: LoginpageComponent;
@@ -17,6 +18,9 @@ describe('LoginpageComponent', () => {
         ReactiveFormsModule,
         UiModule,
         BrowserAnimationsModule
+      ],
+      providers: [
+        Apollo
       ]
     })
     .compileComponents();
