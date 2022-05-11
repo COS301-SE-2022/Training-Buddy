@@ -2,7 +2,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-//hello there testing
 datasource db {
   provider = "postgresql"
   url      = "postgresql://postgres:mydogRubi@localhost:5432/postgres?schema=TrainingBuddy"
@@ -28,12 +27,12 @@ model activityType {
 
 model user {
   email             String              @id(map: "userPrimaryKey") @db.VarChar(25)
-  firsName          String              @db.VarChar(50)
+  firstName         String              @db.VarChar(50)
   lastName          String              @db.VarChar(50)
   contactNumber     Decimal             @db.Decimal(10, 0)
-  dateOfBirth       DateTime            @db.Date
   gender            String              @db.VarChar(20)
   location          String              @db.VarChar(100)
   password          String              @db.VarChar(50)
+  dateOfBirth       String              @db.VarChar
   activityStatistic activityStatistic[]
 }
