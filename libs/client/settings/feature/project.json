@@ -1,14 +1,14 @@
 {
   "projectType": "library",
-  "root": "libs/client/login/feature",
-  "sourceRoot": "libs/client/login/feature/src",
+  "root": "libs/client/settings/feature",
+  "sourceRoot": "libs/client/settings/feature/src",
   "prefix": "training-buddy",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/client/login/feature"],
+      "outputs": ["coverage/libs/client/settings/feature"],
       "options": {
-        "jestConfig": "libs/client/login/feature/jest.config.js",
+        "jestConfig": "libs/client/settings/feature/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/client/login/feature/src/**/*.ts",
-          "libs/client/login/feature/src/**/*.html"
+          "libs/client/settings/feature/src/**/*.ts",
+          "libs/client/settings/feature/src/**/*.html"
         ]
       }
     }
