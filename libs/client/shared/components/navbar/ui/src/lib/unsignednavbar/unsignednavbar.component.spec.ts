@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UiModule } from '../ui.module';
 
 import { UnsignednavbarComponent } from './unsignednavbar.component';
 
@@ -8,7 +9,10 @@ describe('UnsignednavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnsignednavbarComponent ]
+      declarations: [ UnsignednavbarComponent ],
+      imports: [
+        UiModule
+      ]
     })
     .compileComponents();
   });

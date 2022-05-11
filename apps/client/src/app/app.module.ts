@@ -28,7 +28,7 @@ import {MatGoogleMapsAutocompleteModule} from '@angular-material-extensions/goog
       apiKey: 'AIzaSyBxYaJFWxO0y8YjqvG8OOGuwqvDPwDaSMY',
       libraries: ['places']
     }),
-    MatGoogleMapsAutocompleteModule
+    MatGoogleMapsAutocompleteModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
