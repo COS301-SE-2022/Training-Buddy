@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SignupComponent } from './signup.component';
 
@@ -8,7 +11,12 @@ describe('SignupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SignupComponent ]
+      declarations: [ SignupComponent ],
+      imports: [
+        ReactiveFormsModule,
+        UiModule,
+        BrowserAnimationsModule
+      ]
     })
     .compileComponents();
   });
