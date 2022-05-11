@@ -17,6 +17,7 @@
     "api-shared-services-prisma--data-access": "libs/api/shared/services/prisma/data-access",
     "api-shell-feature": "libs/api/shell/feature",
     "client": "apps/client",
+    "client-dashboard-feature": "libs/client/dashboard/feature",
     "client-e2e": "apps/client-e2e",
     "client-example-feature": "libs/client/example/feature",
     "client-login-feature": "libs/client/login/feature",

@@ -27,6 +27,14 @@ const routes: Routes = [
       ),
   },
 
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('@training-buddy/client/dashboard/feature').then(
+        m => m.ClientDashboardFeatureModule
+      ),
+  },
+
 ];
 
 @NgModule({

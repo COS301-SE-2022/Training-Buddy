@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Apollo, gql} from 'apollo-angular';
 
 @Component({
   selector: 'training-buddy-loginpage',
@@ -14,7 +15,7 @@ export class LoginpageComponent implements OnInit {
   loginFrm! : FormGroup;
   frmBuilder! : FormBuilder;
 
-  constructor(private frm : FormBuilder) {
+  constructor(private frm : FormBuilder, private apollo : Apollo) {
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
   
     //injections
@@ -46,14 +47,44 @@ export class LoginpageComponent implements OnInit {
 
     ////////////////
     //testing values
-    console.log(userEmail);
-    console.log(userPassword);
+    // console.log(userEmail);
+    // console.log(userPassword);
     ////////////////
 
     ///////////////////////
     //API CALL AND LOGIN...
+    this.queryLogin(userEmail, userPassword).then(res => {
+      //after queryLogin(...)
+      console.log(res);
+    });
     ///////////////////////
 
   }
+
+  ///////////////////////
+  //API CALL RETURN PROMISE
+  queryLogin(userEmail : string, userPassword : string) {
+    return new Promise((resolve, reject) => {
+      if (!(this.apollo.client === undefined))
+      this.apollo
+        .mutate ({
+          mutation: gql`
+            mutation{
+              login(loginInput:{
+                username: "${userEmail}",
+                password: "${userPassword}"
+              }){
+                accessToken,
+                user
+              }
+            }
+          `,
+        })
+        .subscribe ((result) => {
+          resolve(result);
+        });
+    })
+  }
+  ///////////////////////
 
 }
