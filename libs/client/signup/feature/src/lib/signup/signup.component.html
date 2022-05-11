@@ -85,6 +85,7 @@
                     <mat-label>Location</mat-label>
                     <input formControlName="userLocation" matInput
                            matGoogleMapsAutocomplete
+                           (onAutocompleteSelected)="onAutocompleteSelected($event)"
                            (onLocationSelected)="onLocationSelected($event)">
                     <mat-error *ngIf="signupFrm.controls['userLocation'].errors">
                         {{ signupFrm.controls['userLocation'].errors!['error_msg'] }}
