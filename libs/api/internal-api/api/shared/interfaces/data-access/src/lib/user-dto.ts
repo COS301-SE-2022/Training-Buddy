@@ -10,6 +10,8 @@ export class UserDto {
     @Field()
     gender:string
     @Field()
+    dob:string
+    @Field()
     email: string
     @Field(()=>Int)
     cellNumber: number 
