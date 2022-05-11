@@ -1,0 +1,43 @@
+name: "Build & Deploy"
+
+on:
+  pull_request:
+    branches: [ main ]
+
+  # Run workflow
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+      - name: install depedencies
+        run: yarn install
+      - name: Build depedencies
+        run: yarn run build
+      - name: Archive production artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: dist/apps/client
+          path: dist/apps/client
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+      - name: Download artifact
+        uses: actions/download-artifact@main
+        with:
+          name: dist/apps/client
+          path: dist/apps/client
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
