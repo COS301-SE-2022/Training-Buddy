@@ -14,7 +14,7 @@ mat-card {
     text-align: center;
 }
 
-.submitbutton {
+.submitButton {
     text-align: center;
     width: 100%;
 }
@@ -78,4 +78,12 @@ p {
     height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+mat-error {
+    text-align: right;
+}
+
+mat-hint {
+    text-align: right !important;
 }

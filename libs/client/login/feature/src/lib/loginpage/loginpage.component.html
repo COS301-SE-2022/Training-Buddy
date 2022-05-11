@@ -13,30 +13,31 @@
 
         <mat-card-content>
 
-          <form>
+          <form [formGroup]="loginFrm">
 
             <h1 class="text-center">Log In</h1>
-            <!-- <h2 class="text-center"te>Log In</h2> -->
 
-            <!-- <mat-error>
-              The username and password were not recognized
-            </mat-error> -->
+            <!-- email -->
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input formControlName="userEmail" id="userEmail" matInput type="email" placeholder="user@domain.com" name="userEmail">
+              <mat-error  *ngIf="loginFrm.controls['userEmail'].errors">
+                  Email is required
+              </mat-error>
+            </mat-form-field>
 
             <mat-form-field appearance="outline">
-              <input id="email" matInput type="email" placeholder="Email" name="email" required>
-              <!-- <mat-error>
-                Please provide a valid email address
-              </mat-error> -->
+              <mat-label>Password</mat-label>
+              <input formControlName="userPassword" id="userPassword" matInput [type]="hide ? 'password' : 'text'" name="userPassword">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginFrm.controls['userPassword'].errors">
+                  Password is required
+              </mat-error>
             </mat-form-field>
 
-            <mat-form-field id="passwordFormField" appearance="outline">
-              <input id="password" matInput type="password" placeholder="Password" name="password" required>
-              <!-- <mat-error>
-                Please provide a valid password
-              </mat-error> -->
-            </mat-form-field>
-
-            <div class="submitbutton mt-3">
+            <div class="submitButton mt-3">
                 <!-- <button routerLink="/signup" type="button" class="text-center mr-1" mat-raised-button color="primary">Register</button> -->
                 <button id="login" (click)="login()" class="text-center ml-1" mat-raised-button color="primary">Login</button>
                 <div class="signUp"><p>No Account?</p><p routerLink="/signup" class="signUpLink">Sign Up</p></div>
