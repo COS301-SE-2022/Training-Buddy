@@ -1,5 +1,5 @@
 import { ObjectType , Field} from "@nestjs/graphql";
-import {UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { UserEntity } from "./user.entity";
 
 @ObjectType()
 export class LoginResponse {
