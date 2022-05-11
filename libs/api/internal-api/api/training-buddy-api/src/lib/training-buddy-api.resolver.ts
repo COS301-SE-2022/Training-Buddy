@@ -34,13 +34,13 @@ export class TrainingBuddyApiResolver {
     }
     /**
      * 
-     * @returns Array of Users
+     * @param Location 
+     * @returns Array of UserEntity
      */
     @Query(() => [UserEntity] )
     @UseGuards(JwtAuthGuard)
-    findAll(){
-        return this.trainingBuddyService.findAll();
+    findAll(@Args('location')Location:string){
+        return this.trainingBuddyService.getAll(Location);
     }
-
-
 }
+
