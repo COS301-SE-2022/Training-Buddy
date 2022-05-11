@@ -27,6 +27,22 @@ const routes: Routes = [
       ),
   },
 
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('@training-buddy/client/settings/feature').then(
+        m => m.ClientSettingsFeatureModule
+      ),
+  },
+
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('@training-buddy/client/profile/feature').then(
+        m => m.ClientProfileFeatureModule
+      ),
+  },
+
 ];
 
 @NgModule({
