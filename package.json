@@ -12,7 +12,7 @@
     "prisma:migrate:dev": "yarn prisma migrate dev",
     "build": "nx build",
     "test": "nx test",
-    "lint" : "nx lint",
+    "lint": "nx lint",
     "reset": "nx reset",
     "postinstall": "ngcc --properties es2015 browser module main"
   },
