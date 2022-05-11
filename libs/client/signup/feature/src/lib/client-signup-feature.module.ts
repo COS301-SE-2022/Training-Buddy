@@ -4,8 +4,8 @@ import { SignupComponent } from './signup/signup.component';
 import { SignupRoutingModule } from './signup-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
-import { DataAccessModule } from '@training-buddy/client/shared/interfaces/user/data-access';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
     SignupComponent,
   ],
   providers: [
-    FormBuilder
+    FormBuilder, Apollo
   ]
 })
 export class ClientSignupFeatureModule {}
