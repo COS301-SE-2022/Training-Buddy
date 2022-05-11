@@ -79,3 +79,11 @@ p {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+mat-error {
+    text-align: right;
+}
+
+mat-hint {
+    text-align: right !important;
+}
