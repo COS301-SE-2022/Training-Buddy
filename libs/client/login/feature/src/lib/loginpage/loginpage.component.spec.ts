@@ -1,4 +1,8 @@
+import { NoopAnimationPlayer } from '@angular/animations';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoginpageComponent } from './loginpage.component';
 
@@ -8,7 +12,12 @@ describe('LoginpageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginpageComponent ]
+      declarations: [ LoginpageComponent ],
+      imports: [
+        ReactiveFormsModule,
+        UiModule,
+        BrowserAnimationsModule
+      ]
     })
     .compileComponents();
   });
