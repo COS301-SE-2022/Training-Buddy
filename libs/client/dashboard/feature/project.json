@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/dashboard/feature",
+  "sourceRoot": "libs/client/dashboard/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/dashboard/feature"],
+      "options": {
+        "jestConfig": "libs/client/dashboard/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/dashboard/feature/src/**/*.ts",
+          "libs/client/dashboard/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["training-buddy-dashboard"]
+}
