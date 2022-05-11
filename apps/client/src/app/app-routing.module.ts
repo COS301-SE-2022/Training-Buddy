@@ -4,14 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
 
   {
-    path: '',
-    loadChildren: () =>
-      import('@training-buddy/client/login/feature').then(
-        m => m.ClientLoginFeatureModule
-      ),
-  },
-
-  {
     path: 'login',
     loadChildren: () =>
       import('@training-buddy/client/login/feature').then(
@@ -32,6 +24,22 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/dashboard/feature').then(
         m => m.ClientDashboardFeatureModule
+      ),
+  },
+
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('@training-buddy/client/settings/feature').then(
+        m => m.ClientSettingsFeatureModule
+      ),
+  },
+
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('@training-buddy/client/profile/feature').then(
+        m => m.ClientProfileFeatureModule
       ),
   },
 
