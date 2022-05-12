@@ -43,6 +43,14 @@ const routes: Routes = [
       ),
   },
 
+  {
+    path: 'configureprofile',
+    loadChildren: () =>
+      import('@training-buddy/client/athlete-profile/feature').then(
+        m => m.ClientAthleteProfileFeatureModule
+      ),
+  },
+
 ];
 
 @NgModule({
