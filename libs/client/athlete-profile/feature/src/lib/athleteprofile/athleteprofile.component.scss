@@ -101,3 +101,8 @@ mat-hint {
 textarea {
     max-height: 12vh !important;
 }
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element .checkActivity {
+    opacity: 0.03 !important;
+    background-color: #005691!important;
+}
