@@ -1,36 +1,33 @@
-.text-center {
-    text-align: center;
+.mainCard {
+  max-width: 400px;
+  width: 90vw;
+  margin: 2em auto;
+  padding: 2em auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -0%);
+  background-color: rgba(255, 255, 255, 1);
 }
-/* editHeader needed to position the button. Adjust the width as needed */
-.editHeader {
-    position: relative;
-    width: 100%;
-  }
-  
-  /* Make the image responsive */
-  .editHeader img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* Style the button and place it in the middle of the editHeader/image */
-  .editHeader .btn {
-    position: absolute;
-    top: 90%;
-    left: 90%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    background-color: #555;
-    color: white;
-    border: none;
-    height: 60px;
-    width: 60px;
-    line-height: 60px;  
-    cursor: pointer;
-    border-radius: 50%;
-    text-align: center;
-  }
-  
-  .editHeader .btn:hover {
-    background-color: black;
-  }
+
+#background {
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.changePassword{
+    text-decoration: underline;
+    color: #4350af;
+    margin-left: 1%;
+}
+
+.changePassword:hover{
+  cursor:pointer;
+}
+mat-form-field {
+  display: block;
+}
+
+#save {
+  width: 100%;
+  background-color: #1b1a1b !important;
+}
