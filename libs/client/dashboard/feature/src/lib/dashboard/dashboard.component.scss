@@ -1,0 +1,24 @@
+#background {
+    background-color: #f1f2f5;
+    height : 100vh;
+    width: 100vw;
+}
+
+.request-card {
+    max-width: 400px;
+    margin-bottom: 8px;
+}
+
+.rightcontent {
+    width: 100%;
+}
+
+.imagecontent {
+    width: 100%;
+}
+
+.imagecontent > img {
+    border-radius: 10%;
+    max-width: 100% !important;
+    margin: 15px !important;
+}
