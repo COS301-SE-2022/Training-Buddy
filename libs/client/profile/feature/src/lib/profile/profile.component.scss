@@ -1,0 +1,36 @@
+.text-center {
+    text-align: center;
+}
+/* editHeader needed to position the button. Adjust the width as needed */
+.editHeader {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* Make the image responsive */
+  .editHeader img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Style the button and place it in the middle of the editHeader/image */
+  .editHeader .btn {
+    position: absolute;
+    top: 90%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: white;
+    border: none;
+    height: 60px;
+    width: 60px;
+    line-height: 60px;  
+    cursor: pointer;
+    border-radius: 50%;
+    text-align: center;
+  }
+  
+  .editHeader .btn:hover {
+    background-color: black;
+  }

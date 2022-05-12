@@ -1,45 +1,59 @@
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 <training-buddy-signed-navbar></training-buddy-signed-navbar>
-<div class="main">
     <mat-card class="mainCard">
-        <mat-card-header>
-          <div mat-card-avatar class="profilePhoto"></div>
-          <mat-card-title>Taku Muguti</mat-card-title>
-          <mat-card-subtitle>takumuguti@gmail.com</mat-card-subtitle>
-        <button  id="editProfile" (click)="editProfile()" mat-raised-button color="primary"> Edit Profile</button>
-        </mat-card-header>
+       
+        <figure class="relative flex flex-col-reverse bg-zinc-900 rounded-lg p-6 darkbg-zinc-900 dark:highlight-white/5">
+            <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
+                <p>Running is life.</p>
+            </blockquote>
+            <figcaption class="flex items-center space-x-4">
+                <img src="https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?cs=srgb&dl=pexels-asim-alnamat-343717.jpg&fm=jpg" alt="not working" class="flex-none w-20 h-20 rounded-full object-cover">
+                <div class="flex-auto">
+                    <div class="text-base text-slate-900 font-semibold dark:text-slate-300">
+                        <span class="absolute inset-0"></span>Ryan Florence
+                </div>
+                <div class="mt-0.5 text-slate-700 dark:text-slate-300"> <mat-icon> location_on</mat-icon>Hatfield, Pretoria.</div>
+            </div>
+            </figcaption>
+        </figure>
       
         <mat-card-content>
             <section>
-                
-                <mat-card (click)='nextPage("notifications")' class="option">
+                <mat-card (click)='nextPage("edit")' class="option my-3">
+                    <mat-icon>edit</mat-icon>
+                    Edit Profile
+                </mat-card>
+            </section>
+            <section>
+                <mat-card (click)='nextPage("notifications")' class="option my-3">
                     <mat-icon>notifications</mat-icon>
                     Notification 
                 </mat-card>
             </section>
      
             <section>
-                <mat-card (click)='nextPage("privacy")' class="option">
+                <mat-card (click)='nextPage("privacy")' class="option my-3">
                     <mat-icon>lock</mat-icon>
                     Privacy
                 </mat-card>
             </section>
      
             <section>
-                <mat-card (click)='nextPage("security")' class="option">
+                <mat-card (click)='nextPage("security")' class="option my-3">
                     <mat-icon>security</mat-icon>
                     Security
                 </mat-card>
             </section>
      
             <section>
-                <mat-card (click)='nextPage("help")' class="option">
+                <mat-card (click)='nextPage("help")' class="option my-3">
                     <mat-icon>help_outline</mat-icon>
                     Help
                 </mat-card>
             </section>
      
             <section>
-                <mat-card (click)='nextPage("about")' class="option">
+                <mat-card (click)='nextPage("about")' class="option my-3">
                     <mat-icon>info</mat-icon>
                     About
                 </mat-card>
@@ -47,7 +61,7 @@
      
             <section>
                 
-                <mat-card (click)='nextPage("logout")' class="option">
+                <mat-card (click)='nextPage("logout")' class="option my-3">
                     <mat-icon>exit_to_app</mat-icon>
                     Log Out
                 </mat-card>
