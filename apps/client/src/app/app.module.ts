@@ -10,6 +10,8 @@ import { NgxsModule } from '@ngxs/store';
 import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
 import {HttpLink} from 'apollo-angular/http';
 import {InMemoryCache} from '@apollo/client/core';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { AgmCoreModule } from '@agm/core';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,6 +27,11 @@ import {InMemoryCache} from '@apollo/client/core';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBxYaJFWxO0y8YjqvG8OOGuwqvDPwDaSMY',
+      libraries: ['places']
+    }),
+    MatGoogleMapsAutocompleteModule,
     NgxsModule.forRoot([])
   ],
   providers: [
@@ -34,7 +41,7 @@ import {InMemoryCache} from '@apollo/client/core';
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'https://localhost:3333/graphql',
+            uri: 'http://localhost:3333/graphql',
           }),
         };
       },
