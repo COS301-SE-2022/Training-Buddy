@@ -11,35 +11,35 @@
         <mat-card-content>
             <section>
                 
-                <mat-card class="option">
+                <mat-card (click)='nextPage("notifications")' class="option">
                     <mat-icon>notifications</mat-icon>
                     Notification 
                 </mat-card>
             </section>
      
             <section>
-                <mat-card class="option">
+                <mat-card (click)='nextPage("privacy")' class="option">
                     <mat-icon>lock</mat-icon>
                     Privacy
                 </mat-card>
             </section>
      
             <section>
-                <mat-card class="option">
+                <mat-card (click)='nextPage("security")' class="option">
                     <mat-icon>security</mat-icon>
                     Security
                 </mat-card>
             </section>
      
             <section>
-                <mat-card class="option">
+                <mat-card (click)='nextPage("help")' class="option">
                     <mat-icon>help_outline</mat-icon>
                     Help
                 </mat-card>
             </section>
      
             <section>
-                <mat-card class="option">
+                <mat-card (click)='nextPage("about")' class="option">
                     <mat-icon>info</mat-icon>
                     About
                 </mat-card>
@@ -47,7 +47,7 @@
      
             <section>
                 
-                <mat-card class="option">
+                <mat-card (click)='nextPage("logout")' class="option">
                     <mat-icon>exit_to_app</mat-icon>
                     Log Out
                 </mat-card>

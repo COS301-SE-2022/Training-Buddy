@@ -15,4 +15,8 @@ export class SettingsComponent implements OnInit {
   editProfile(){
     console.log('take the user to the edit profile page')
   }
+  nextPage(page:string){
+    console.log('take the user to',page)
+    
+  }
 }
