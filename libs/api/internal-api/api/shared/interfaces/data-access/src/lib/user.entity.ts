@@ -1,18 +1,20 @@
-import {ObjectType , Field , Int} from '@nestjs/graphql'
+import {ObjectType , Field } from '@nestjs/graphql'
 
 
 @ObjectType()
 export class UserEntity {
-    @Field()
+    @Field({nullable:true})
     userName: string
-    @Field()
+    @Field({nullable:true})
     userSurname: string
-    @Field()
+    @Field({nullable:true})
     location:string
-    @Field()
+    @Field({nullable:true})
+    dob:string
+    @Field({nullable:true})
     gender:string
-    @Field()
+    @Field({nullable:true})
     email: string
-    @Field()
+    @Field({nullable:true})
     cellNumber: string 
 }

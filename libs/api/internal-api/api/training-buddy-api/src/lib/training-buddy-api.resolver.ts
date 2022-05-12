@@ -1,6 +1,6 @@
 import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
-import {UserDto , UserEntity , LoginResponse, LoginInput} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity , LoginResponse, LoginInput, ErrorMessage} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver()
@@ -16,7 +16,7 @@ export class TrainingBuddyApiResolver {
      * @param userDTO 
      * @returns UserEntity
      */
-    @Mutation(()=> UserEntity)
+    @Mutation(()=> UserEntity||ErrorMessage)
     signup(@Args('userDto')userDTO : UserDto){
         return this.trainingBuddyService.signup(userDTO);
     }
@@ -37,11 +37,11 @@ export class TrainingBuddyApiResolver {
      * @param Location 
      * @returns Array of UserEntity
      */
-    @Query(() => [UserEntity] )
+    @Query(() => [UserEntity])
     @UseGuards(JwtAuthGuard)
     findAll(@Args('location')Location:string){
         return this.trainingBuddyService.getAll(Location);
     }
-    
+
 }
 
