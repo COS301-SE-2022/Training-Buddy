@@ -32,6 +32,7 @@ import { AgmCoreModule } from '@agm/core';
       libraries: ['places']
     }),
     MatGoogleMapsAutocompleteModule,
+    AppRoutingModule,
     NgxsModule.forRoot([])
   ],
   providers: [
