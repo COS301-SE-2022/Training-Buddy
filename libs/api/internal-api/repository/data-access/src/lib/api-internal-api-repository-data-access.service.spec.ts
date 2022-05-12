@@ -6,11 +6,13 @@ import {
   UserEntity,
   UserDto,
   LoginInput,
+  ActivityStat,
 
 } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 
+const ActivityStatMock: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat
 const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
 // const UserDtoMock: jest.Mocked<UserDto> = {
 //   email:'tester@gmail.com',
@@ -69,5 +71,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
           }
         });
       })
+
 
 });
