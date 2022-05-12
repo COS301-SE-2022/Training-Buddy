@@ -62,6 +62,7 @@ export class TrainingBuddyServiceService {
      * @returns 
      */
     async login( user:any){
+        
         {
             return {
                 accessToken: this.jwtService.sign({user: user.userName , email: user.email}),
@@ -81,6 +82,7 @@ export class TrainingBuddyServiceService {
            const item = await this.repoService.createActivityStatistic(act);
            if(item){
                response.message = "Activity Successfully added";
+               return response;
            }else{
                response.message= "Activity Addition Failed ";
                return response;
@@ -119,7 +121,7 @@ export class TrainingBuddyServiceService {
                 response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
             }
             if(user.email){
-                response = this.repoService.updateEmail(user.email, user.oldemail);
+                response = await this.repoService.updateEmail(user.email, user.oldemail);
             }
             if(user.location){
                 response = await this.repoService.updateLocation(user.location, user.oldemail);
