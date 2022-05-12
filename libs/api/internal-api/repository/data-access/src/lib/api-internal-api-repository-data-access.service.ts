@@ -28,7 +28,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         await this.prisma.user.findUnique({
             where: {email:email}
         }).then(async(value)=>{
-            console.log(value);
+            return value;
         })
     }
     async findAll(@Param()location: string){

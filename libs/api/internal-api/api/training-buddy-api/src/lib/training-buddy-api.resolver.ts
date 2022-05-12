@@ -42,5 +42,6 @@ export class TrainingBuddyApiResolver {
     findAll(@Args('location')Location:string){
         return this.trainingBuddyService.getAll(Location);
     }
+    
 }
 
