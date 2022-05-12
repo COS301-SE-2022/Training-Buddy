@@ -1,1 +1,59 @@
 <training-buddy-signed-navbar></training-buddy-signed-navbar>
+<div class="main">
+    <mat-card class="mainCard">
+        <mat-card-header>
+          <div mat-card-avatar class="profilePhoto"></div>
+          <mat-card-title>Taku Muguti</mat-card-title>
+          <mat-card-subtitle>takumuguti@gmail.com</mat-card-subtitle>
+        <button  id="editProfile" (click)="editProfile()" mat-raised-button color="primary"> Edit Profile</button>
+        </mat-card-header>
+      
+        <mat-card-content>
+            <section>
+                
+                <mat-card (click)='nextPage("notifications")' class="option">
+                    <mat-icon>notifications</mat-icon>
+                    Notification 
+                </mat-card>
+            </section>
+     
+            <section>
+                <mat-card (click)='nextPage("privacy")' class="option">
+                    <mat-icon>lock</mat-icon>
+                    Privacy
+                </mat-card>
+            </section>
+     
+            <section>
+                <mat-card (click)='nextPage("security")' class="option">
+                    <mat-icon>security</mat-icon>
+                    Security
+                </mat-card>
+            </section>
+     
+            <section>
+                <mat-card (click)='nextPage("help")' class="option">
+                    <mat-icon>help_outline</mat-icon>
+                    Help
+                </mat-card>
+            </section>
+     
+            <section>
+                <mat-card (click)='nextPage("about")' class="option">
+                    <mat-icon>info</mat-icon>
+                    About
+                </mat-card>
+            </section>
+     
+            <section>
+                
+                <mat-card (click)='nextPage("logout")' class="option">
+                    <mat-icon>exit_to_app</mat-icon>
+                    Log Out
+                </mat-card>
+            </section>
+     
+        </mat-card-content>
+      </mat-card>
+    
+</div>

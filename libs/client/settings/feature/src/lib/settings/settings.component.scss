@@ -1,0 +1,24 @@
+.mainCard {
+    max-width: 400px;
+    width: 90vw;
+    margin: 2em auto;
+    padding: 2em auto;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    background-color: rgba(255, 255, 255, 1);
+}
+  
+.profilePhoto {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+.label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+}
+.option :hover{
+    background-color: rgba(255, 255, 255, 0.562);
+}
