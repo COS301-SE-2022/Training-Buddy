@@ -1,7 +1,9 @@
 #background {
-    background-color: #f1f2f5;
-    height : 100vh;
-    width: 100vw;
+    // height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 99;
 }
 
 .request-card {
@@ -21,4 +23,8 @@
     border-radius: 10%;
     max-width: 100% !important;
     margin: 15px !important;
+}
+
+body {
+    height: fit-content;
 }
