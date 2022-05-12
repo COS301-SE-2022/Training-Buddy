@@ -101,7 +101,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
-    async updateCellNumber(@Param() cellNumber: Decimal, @Param() email: string){
+    async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
         return await this.prisma.user.update({
             where: {
                 email: email
