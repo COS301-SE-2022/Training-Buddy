@@ -32,7 +32,7 @@ model user {
   contactNumber     Decimal             @db.Decimal(10, 0)
   gender            String              @db.VarChar(20)
   location          String              @db.VarChar(100)
-  password          String              @db.VarChar(50)
+  password          String              @db.Text
   dateOfBirth       String              @db.VarChar
   activityStatistic activityStatistic[]
 }

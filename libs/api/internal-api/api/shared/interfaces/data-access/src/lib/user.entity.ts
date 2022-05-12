@@ -10,6 +10,8 @@ export class UserEntity {
     @Field()
     location:string
     @Field()
+    dob:string
+    @Field()
     gender:string
     @Field()
     email: string
