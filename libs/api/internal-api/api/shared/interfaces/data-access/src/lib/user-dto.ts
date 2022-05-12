@@ -13,8 +13,8 @@ export class UserDto {
     dob:string
     @Field()
     email: string
-    @Field(()=>Int)
-    cellNumber: number 
+    @Field()
+    cellNumber: string
     @Field()
     password: string
 }
