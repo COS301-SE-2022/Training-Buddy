@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { AthleteprofileComponent } from './athleteprofile.component';
 
 describe('AthleteprofileComponent', () => {
@@ -16,7 +16,8 @@ describe('AthleteprofileComponent', () => {
       imports: [
         ReactiveFormsModule,
         UiModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        RouterTestingModule
       ],
       providers: [
         Apollo,

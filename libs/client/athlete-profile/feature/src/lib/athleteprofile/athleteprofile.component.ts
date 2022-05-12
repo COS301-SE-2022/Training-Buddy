@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 

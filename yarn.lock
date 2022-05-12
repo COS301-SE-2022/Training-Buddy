@@ -350,10 +350,10 @@
     "@schematics/angular" "13.2.4"
     parse5-html-rewriting-stream "6.0.1"
 
-"@angular/router@~13.2.0":
-  version "13.2.3"
-  resolved "https://registry.npmjs.org/@angular/router/-/router-13.2.3.tgz"
-  integrity sha512-niU8/19wmPSeuvKCHfaDbw+DPfE9gI0divcnwqGEB8tSbs7VNIaTmhLs9yMU+pD6puUYk3gUFTXLBl+g3qwOpg==
+"@angular/router@^13.3.7":
+  version "13.3.7"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-13.3.7.tgz#76ee2c8bc4135540c557947c81b8f93650d2f8b4"
+  integrity sha512-Im2xPKpCDSQLNB1cxYXCq8ffdTMY4teSfPQWWesguCEU1R6OLeTPJ8K1PbX5LSSvs4rDU8ZQdeglnrGGs8qeuw==
   dependencies:
     tslib "^2.3.0"
 
