@@ -1,11 +1,10 @@
-<training-buddy-signed-navbar></training-buddy-signed-navbar>
+<div id="background">
 
-<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
-</div>
+    <training-buddy-signed-navbar></training-buddy-signed-navbar>
 
-
-        <div class="contentpage">
+        <mat-grid-list cols="1" rows="1" rowHeight="2:1">
             <mat-card>
+
                 <!-- <mat-grid-list cols="2" rows="1" rowHeight="1:1" *ngFor="let req of requests">
                
                     <mat-grid-tile>
@@ -27,12 +26,14 @@
         
                 </mat-grid-list> -->
     
-                <mat-card-content>
+                <mat-card-content *ngFor="let p of requests">
                     here
                 </mat-card-content>
                 
             </mat-card>
-        </div>
 
+        </mat-grid-list>
 
-<training-buddy-navbar></training-buddy-navbar>
+    <training-buddy-navbar></training-buddy-navbar>
+
+</div>
