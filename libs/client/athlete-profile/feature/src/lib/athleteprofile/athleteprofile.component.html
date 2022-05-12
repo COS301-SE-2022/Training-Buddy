@@ -1,0 +1,168 @@
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+
+  <training-buddy-signed-navbar></training-buddy-signed-navbar>
+  
+  <mat-grid-list cols="1" rows="1" rowHeight="2:1">
+  
+      <mat-card>
+  
+          <mat-card-content>
+  
+            <form [formGroup]="prefFrm">
+  
+              <h1 class="text-center">Let's get to know you!</h1>
+  
+              <mat-accordion>
+
+                <!-- running form -->
+                <mat-expansion-panel [(expanded)]="running" (closed)="running = false">
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Running
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <!-- running choose -->
+                  <div>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Experience</mat-label>
+                      <select formControlName="runningLevel" matNativeControl (ngModelChange)="showRunning($event)">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="hideRun" class="example-full-width" appearance="outline">
+                      <mat-label>Tell us about your running</mat-label>
+                      <textarea formControlName="runningBio" [maxLength]="150" matInput placeholder="I enjoy road, trail and everything in between..."></textarea>
+                    </mat-form-field>
+
+                    <mat-error *ngIf="errRunning">Bio is required</mat-error>
+
+                  </div>
+
+                </mat-expansion-panel>
+
+                <!-- riding form -->
+                <mat-expansion-panel [(expanded)]="riding">
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Riding
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <!-- riding choose -->
+                  <div>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Experience</mat-label>
+                      <select formControlName="ridingLevel" matNativeControl (ngModelChange)="showRiding($event)">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="hideRide" class="example-full-width" appearance="outline">
+                      <mat-label>Tell us about your riding</mat-label>
+                      <textarea formControlName="ridingBio" [maxLength]="150" matInput placeholder="I enjoy road, trail and everything in between..."></textarea>
+                    </mat-form-field>
+                    
+                  </div>
+
+                  <mat-error *ngIf="errRiding">Bio is required</mat-error>
+
+                </mat-expansion-panel>
+
+                <!-- swimming form -->
+                <mat-expansion-panel [(expanded)]="swimming">
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Swimming
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <!-- swiming choose -->
+                  <div>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Experience</mat-label>
+                      <select formControlName="swimmingLevel" matNativeControl (ngModelChange)="showSwim($event)">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="hideSwim" class="example-full-width" appearance="outline">
+                      <mat-label>Tell us about your swimming</mat-label>
+                      <textarea formControlName="swimmingBio" [maxLength]="150" matInput placeholder="I enjoy indoor, outdoor and everything in between..."></textarea>
+                    </mat-form-field>
+                    
+                  </div>
+
+                  <mat-error *ngIf="errSwim">Bio is required</mat-error>
+
+                </mat-expansion-panel>
+
+                <!-- weight training -->
+                <mat-expansion-panel [(expanded)]="weights">
+
+                  <mat-expansion-panel-header  (opened)="weights = true" (closed)="weights = false">
+                    <mat-panel-title>
+                      Weight Training
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <!-- weight training choose -->
+                  <div>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Experience</mat-label>
+                      <select formControlName="weightLevel" matNativeControl (ngModelChange)="showWeights($event)">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="hideWeights" class="example-full-width" appearance="outline">
+                      <mat-label>Tell us about your weight training</mat-label>
+                      <textarea formControlName="weightBio" [maxLength]="150" matInput placeholder="I enjoy powerlifting and light cardio..."></textarea>
+                    </mat-form-field>
+                    
+                  </div>
+
+                  <mat-error *ngIf="errWeight">Bio is required</mat-error>
+
+                </mat-expansion-panel>
+
+              </mat-accordion>
+
+              <mat-error *ngIf="errChooseSport" class="mr-3 mt-3">At least one activity is required</mat-error>
+              <mat-hint class="fullhint">
+                <div *ngIf="!errChooseSport" class="mt-2 mr-2">
+                  At least one activity is required
+                </div>
+              </mat-hint>
+
+
+              <!--Submit button-->
+              <div class="submitButton mt-3">
+                  <button (click)="save()" id="signup" class="text-center ml-1" mat-raised-button color="primary">Save</button>
+              </div>
+  
+            </form>
+  
+          </mat-card-content>
+  
+        </mat-card>
+
+  </mat-grid-list>
+ 
+</div>
