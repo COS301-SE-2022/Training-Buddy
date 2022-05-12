@@ -121,6 +121,11 @@ export class AthleteprofileComponent implements OnInit {
     let retFlag = false;
     this.errChooseSport = false;
 
+    this.errRunning = false;
+    this.errRiding = false;
+    this.errSwim = false;
+    this.errWeight = false;
+
     //validate form:
     if (runningLevel != null) {
       if (runningBio == null) {

@@ -1,0 +1,17 @@
+mat-toolbar {  
+    position: fixed;
+    bottom: 0; 
+    z-index: 99;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100vw;
+    background-color: #1b1a1b;
+}
+
+mat-icon {
+    color : white;
+}
+
+mat-icon:hover {
+    cursor: pointer;
+}
