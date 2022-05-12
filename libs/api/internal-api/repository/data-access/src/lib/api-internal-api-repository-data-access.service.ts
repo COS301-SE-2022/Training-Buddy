@@ -1,6 +1,5 @@
 import { Injectable, Param } from '@nestjs/common';
-import { activityStatistic } from '@prisma/client';
-import { UserDto } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { UserDto, ActivityStat } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { PrismaService } from '@training-buddy/api/shared/services/prisma//data-access' ;
 import { emit } from 'process';
 
@@ -13,10 +12,10 @@ export class ApiInternalApiRepositoryDataAccessService {
        return  await this.prisma.user.create({
             data: {
                 email: user.email,
-                firstName: user.userName,
-                lastName: user.userSurname,
-                contactNumber: user.cellNumber,
-                dateOfBirth: user.dob,
+                userName: user.userName,
+                userSurname: user.userSurname,
+                cellNumber: user.cellNumber,
+                dob: user.dob,
                 gender: user.gender,
                 location: user.location,
                 password: user.password
@@ -45,12 +44,12 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //used to add an activity statistic for a specific user
-    async createActivityStatistic(@Param() stat:ActivityStatistic){
+    async createActivityStatistic(@Param() stat:ActivityStat){
         await this.prisma.activityStatistic.create({
             data: {
                 activity: stat.activity ,
-                user: stat.email ,
-                experienceLevel: stat.XP ,
+                email: stat.email ,
+                XP: stat.XP ,
                 insight: stat.insight
             }
         }).then(async (value) => {
@@ -62,10 +61,21 @@ export class ApiInternalApiRepositoryDataAccessService {
     //retrieve all activity statistics for a user
     async getAllActivityStatistics(@Param() userEmail: string){
         await this.prisma.activityStatistic.findMany({
-            where:{user: userEmail}
+            where:{email: userEmail}
         }).then(async (value) => {
             console.log(value) ;
             return value ;
         })
     }
+
+    // async updateSurname(@Param() userSurname: String, @Param() email: String @unique){
+    //     return await this.prisma.activityStatistic.update({
+    //         where:{
+    //             email: email,
+    //         },
+    //         data: {
+    //             userSurname: userSurname
+    //         },
+    //     })
+    // }
 }
