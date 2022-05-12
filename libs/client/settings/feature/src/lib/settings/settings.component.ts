@@ -13,6 +13,6 @@ export class SettingsComponent implements OnInit {
     console.log('')
   }
   editProfile(){
-    console.log('edit profile')
+    console.log('take the user to the edit profile page')
   }
 }

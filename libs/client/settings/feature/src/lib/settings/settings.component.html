@@ -1,38 +1,58 @@
 <training-buddy-signed-navbar></training-buddy-signed-navbar>
 <div class="main">
-    <mat-card class="example-card">
+    <mat-card class="mainCard">
         <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
+          <div mat-card-avatar class="profilePhoto"></div>
           <mat-card-title>Taku Muguti</mat-card-title>
           <mat-card-subtitle>takumuguti@gmail.com</mat-card-subtitle>
-        <button mat-raised-button color="primary"> Edit Profile</button>
+        <button  id="editProfile" (click)="editProfile()" mat-raised-button color="primary"> Edit Profile</button>
         </mat-card-header>
       
         <mat-card-content>
             <section>
-                <div class="example-label">Notification</div>
+                
+                <mat-card class="option">
+                    <mat-icon>notifications</mat-icon>
+                    Notification 
+                </mat-card>
             </section>
-            <mat-divider></mat-divider>
+     
             <section>
-                <div class="example-label">Privacy</div>
+                <mat-card class="option">
+                    <mat-icon>lock</mat-icon>
+                    Privacy
+                </mat-card>
             </section>
-            <mat-divider></mat-divider>
+     
             <section>
-                <div class="example-label">Security</div>
+                <mat-card class="option">
+                    <mat-icon>security</mat-icon>
+                    Security
+                </mat-card>
             </section>
-            <mat-divider></mat-divider>
+     
             <section>
-                <div class="example-label">Help</div>
+                <mat-card class="option">
+                    <mat-icon>help_outline</mat-icon>
+                    Help
+                </mat-card>
             </section>
-            <mat-divider></mat-divider>
+     
             <section>
-                <div class="example-label">About</div>
+                <mat-card class="option">
+                    <mat-icon>info</mat-icon>
+                    About
+                </mat-card>
             </section>
-            <mat-divider></mat-divider>
+     
             <section>
-                <div class="example-label">Log Out</div>
+                
+                <mat-card class="option">
+                    <mat-icon>exit_to_app</mat-icon>
+                    Log Out
+                </mat-card>
             </section>
-            <mat-divider></mat-divider>
+     
         </mat-card-content>
       </mat-card>
     
