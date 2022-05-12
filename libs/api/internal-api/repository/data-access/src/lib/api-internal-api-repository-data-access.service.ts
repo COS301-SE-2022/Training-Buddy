@@ -1,4 +1,5 @@
 import { Injectable, Param } from '@nestjs/common';
+import { Decimal } from '@prisma/client/runtime';
 import { UserDto, ActivityStat } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { PrismaService } from '@training-buddy/api/shared/services/prisma//data-access' ;
 import { emit } from 'process';
@@ -56,14 +57,82 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
-    // async updateSurname(@Param() userSurname: String, @Param() email: String @unique){
-    //     return await this.prisma.activityStatistic.update({
-    //         where:{
-    //             email: email,
-    //         },
-    //         data: {
-    //             userSurname: userSurname
-    //         },
-    //     })
-    // }
+    async updateUserSurname(@Param() userSurname: string, @Param() email: string){
+        return await this.prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                userSurname: userSurname
+            }
+        })
+    }
+
+    async updateUserName(@Param() userName: string, @Param() email: string){
+        return await this.prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                userSurname: userName
+            }
+        })
+    }
+
+    async updateEmail(@Param() newEmail: string, @Param() oldEmail: string){
+        return await this.prisma.user.update({
+            where: {
+                email: oldEmail
+            },
+            data: {
+                email: newEmail
+            }
+        })
+    }
+
+    async updateGender(@Param() gender: string, @Param() email: string){
+        return await this.prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                gender: gender
+            }
+        })
+    }
+
+    async updateCellNumber(@Param() cellNumber: Decimal, @Param() email: string){
+        return await this.prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                cellNumber: cellNumber
+            }
+        })
+    }
+
+    async updateLocation(@Param() location: string, @Param() email: string){
+        return await this.prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                location: location
+            }
+        })
+    }
+
+    async updatePassword(@Param() password: string, @Param() email: string){
+        return await this.prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                password: password
+            }
+        })
+    }
+
+
 }
