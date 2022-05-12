@@ -8,10 +8,14 @@
     transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
 }
-  
-.profilePhoto {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+
+#background {
+    height: 100vh;
     background-size: cover;
+    background-repeat: no-repeat;
+}
+#editProfile{
+    background-color: #1b1a1b !important;
 }
 .label {
     display: table-cell;
@@ -19,6 +23,4 @@
     margin-left: 8px;
     min-width: 120px;
 }
-.option :hover{
-    background-color: rgba(255, 255, 255, 0.562);
-}
+
