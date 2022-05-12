@@ -22,8 +22,8 @@ model user {
   email             String              @id(map: "userPrimaryKey") @unique @db.VarChar(25)
   gender            String              @db.VarChar(20)
   location          String              @db.VarChar(100)
-  password          String
-  cellNumber        Decimal             @db.Decimal(10, 0)
+  password          String              @db.Text
+  cellNumber        String             @db.VarChar(100)
   userName          String              @db.VarChar(50)
   userSurname       String              @db.VarChar(50)
   dob               String              @db.VarChar
