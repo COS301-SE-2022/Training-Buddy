@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';
-import { Router } from 'express';
 
 @Component({
   selector: 'training-buddy-athlete-profile',
@@ -23,7 +22,7 @@ export class AthleteprofileComponent implements OnInit {
   prefFrm! : FormGroup;
   frmBuilder! : FormBuilder;
 
-  constructor(private frm : FormBuilder, private apollo : Apollo, private router : Router) { 
+  constructor(private frm : FormBuilder, private apollo : Apollo) { 
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     setTimeout(() => {
       this.running = true;
