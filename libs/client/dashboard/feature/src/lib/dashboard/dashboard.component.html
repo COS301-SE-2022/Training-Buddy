@@ -2,6 +2,30 @@
 <div id="background">
 
     <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
-    dashboard
+
+
+    <div class="request-card">
+        <mat-grid-list cols="2" rows="1" rowHeight="1:1" *ngFor="let req of requests">
+           
+            <mat-grid-tile>
+                <div class="imagecontent">
+                    <img mat-card-xxs-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+                </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+
+                <div class="rightcontent">
+                    <mat-card-title-group>
+                        <mat-card-title>{{ req.name }} {{ req.surname }}</mat-card-title>
+                        <mat-card-subtitle>{{ req.location }}</mat-card-subtitle>
+                    </mat-card-title-group>
+                </div>
+                
+            </mat-grid-tile>
+
+        </mat-grid-list>
+
+    </div>
     
 </div>
