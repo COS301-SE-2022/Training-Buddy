@@ -75,7 +75,10 @@ export class LoginpageComponent implements OnInit {
                 password: "${userPassword}"
               }){
                 accessToken,
-                user
+                user{
+                  userName,
+                  userSurname
+                }
               }
             }
           `,
