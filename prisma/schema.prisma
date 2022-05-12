@@ -9,23 +9,23 @@ datasource db {
 
 model activityStatistic {
   activity                     String  @db.VarChar(50)
-  user                         String  @db.VarChar(50)
   timeSpent                    Decimal @default(0) @db.Decimal(10, 0)
-  experienceLevel              String  @db.VarChar(50)
   insight                      String? @db.VarChar(125)
-  user_activityStatisticTouser user    @relation(fields: [user], references: [email], onDelete: Cascade, map: "activityStatisticForeignKeyUser")
+  XP                           String  @db.VarChar(50)
+  email                        String  @db.VarChar(50)
+  user_activityStatisticTouser user    @relation(fields: [email], references: [email], onDelete: Cascade, map: "activityStatisticForeignKeyUser")
 
-  @@id([activity, user], map: "activityStatisticPrimaryKey")
+  @@id([activity, email], map: "activityStatisticPrimaryKey")
 }
 
 model user {
-  email             String              @id(map: "userPrimaryKey") @db.VarChar(25)
-  firstName         String              @db.VarChar(50)
-  lastName          String              @db.VarChar(50)
-  contactNumber     Decimal             @db.Decimal(10, 0)
+  email             String              @id(map: "userPrimaryKey") @unique @db.VarChar(25)
   gender            String              @db.VarChar(20)
   location          String              @db.VarChar(100)
   password          String
-  dateOfBirth       String              @db.VarChar
+  cellNumber        Decimal             @db.Decimal(10, 0)
+  userName          String              @db.VarChar(50)
+  userSurname       String              @db.VarChar(50)
+  dob               String              @db.VarChar
   activityStatistic activityStatistic[]
 }
