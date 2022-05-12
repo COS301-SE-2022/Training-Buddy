@@ -4,6 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
 
   {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  
+  {
     path: 'login',
     loadChildren: () =>
       import('@training-buddy/client/login/feature').then(
