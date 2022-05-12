@@ -1,9 +1,13 @@
 #background {
-    // height: 100vh;
+    height: 100vh;
+    width: 100vw;
+
     background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    z-index: 99;
+    // background-attachment: fixed;
+    background-attachment: scroll;
+    background-position: center;
+    // position: sticky;
+    z-index: 1000;
 }
 
 .request-card {
@@ -27,4 +31,8 @@
 
 body {
     height: fit-content;
+}
+
+.contentpage {
+    position: relative;
 }
