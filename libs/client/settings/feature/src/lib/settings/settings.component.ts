@@ -12,5 +12,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     console.log('')
   }
-
+  editProfile(){
+    console.log('edit profile')
+  }
 }
