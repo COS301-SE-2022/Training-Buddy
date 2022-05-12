@@ -13,6 +13,6 @@ export class UserEntity {
     gender:string
     @Field()
     email: string
-    @Field(()=>Int)
-    cellNumber: number 
+    @Field()
+    cellNumber: string 
 }
