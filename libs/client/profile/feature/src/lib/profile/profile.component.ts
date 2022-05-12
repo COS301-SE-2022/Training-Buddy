@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   vicinity : string;
 
   constructor(private frm : FormBuilder) {
-    this.theUser= new user("Taku", "Muguti", "taku@gmail.com", "0817653456" ,"Hatfield, Pretoria", "https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?cs=srgb&dl=pexels-asim-alnamat-343717.jpg&fm=jpg","Male");
+    this.theUser= new user("Taku", "Muguti", "taku@gmail.com", "0817653456" ,"Hatfield, Pretoria", "https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?cs=srgb&dl=pexels-asim-alnamat-343717.jpg&fm=jpg","M");
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.latitude = 0;
     this.longitude = 0;
@@ -27,8 +27,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     //construction of the form
     this.updateForm= this.frmBuilder.group({
-      userName: [this.theUser.name , this.validateNameSurname],
-      userSurname: [this.theUser.surname , this.validateNameSurname],
+      userName: [this.theUser.name , this.validateName],
+      userSurname: [this.theUser.surname , this.validateSurname],
       userEmail: [this.theUser.email, this.validateEmail],
       userCellNumber: [this.theUser.cell, this.validateCellNumber],
       userGender: [this.theUser.gender, this.validateGender],
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
     });
   
   }
-     /////////////////////////////////////////////////////////////////
+  
   //Google geocoding functions
   onAutocompleteSelected(event : any) {
     this.vicinity = event.vicinity;
@@ -44,20 +44,27 @@ export class ProfileComponent implements OnInit {
 
   onLocationSelected(event: any) {
     //TO be used when moving to co-ordinate based location system.
-    // console.log(event);
-    // if (event != null) {
-    //   this.latitude = event.latitude;
-    //   this.longitude = event.longitude;
-    // }
+  
   }
 
-  validateNameSurname(input : FormControl) : {[valtype : string] : string} | null {
+  validateName(input : FormControl) : {[valtype : string] : string} | null {
     const userNameSurname = input.value;
     //regex for a length of 3 and a space
     const re = /(([A-Z]|[a-z]))+ ([A-Z]|([a-z]))+/;
     if (!re.test(userNameSurname)) {
       //return error
-      return {'error_msg' : 'Name and surname is required'}
+      return {'error_msg' : 'Name is required'}
+    }
+    //no error
+    return null;
+  }
+  validateSurname(input : FormControl) : {[valtype : string] : string} | null {
+    const userNameSurname = input.value;
+    //regex for a length of 3 and a space
+    const re = /(([A-Z]|[a-z]))+ ([A-Z]|([a-z]))+/;
+    if (!re.test(userNameSurname)) {
+      //return error
+      return {'error_msg' : 'Surname is required'}
     }
     //no error
     return null;
@@ -110,6 +117,9 @@ export class ProfileComponent implements OnInit {
     }
     //no error
     return null;
+  }
+  save(){
+    console.log('save')
   }
 }
 
