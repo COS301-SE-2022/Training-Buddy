@@ -31,7 +31,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/pwa": "^13.2.4",
-    "@angular/router": "~13.2.0",
+    "@angular/router": "^13.3.7",
     "@angular/service-worker": "~13.2.0",
     "@apollo/client": "^3.6.2",
     "@nestjs/apollo": "^10.0.11",
@@ -111,7 +111,7 @@
     "jest-preset-angular": "11.1.1",
     "postcss": "^8.4.13",
     "prettier": "^2.5.1",
-    "prisma": "^3.10.0",
+    "prisma": "^3.14.0",
     "tailwindcss": "^3.0.24",
     "ts-jest": "27.0.5",
     "typescript": "~4.5.2"
