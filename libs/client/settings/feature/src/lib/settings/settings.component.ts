@@ -12,5 +12,11 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     console.log('')
   }
-
+  editProfile(){
+    console.log('take the user to the edit profile page')
+  }
+  nextPage(page:string){
+    console.log('take the user to',page)
+    
+  }
 }
