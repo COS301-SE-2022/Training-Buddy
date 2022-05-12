@@ -9,27 +9,7 @@ export class TrainingBuddyServiceService {
      * 
      * @param jwtService 
      */
-    constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService){}
-    private readonly users = [
-        {
-            userName: 'Muzi',
-            userSurname: 'Ndlovu',
-            location:'Pretoria',
-            gender: 'Male',
-            email: 'muzi@gmail.com',
-            cellNumber: 434434444343,
-            password: 'hello123'
-        },
-        {
-            userName: 'Taku',
-            userSurname: 'Muguti',
-            location:'Pretoria',
-            gender: 'Male',
-            email: 'Taku@gmail.com',
-            cellNumber: 3443443443434,
-            password: 'hello177'
-        }
-    ]
+    constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
     /**
      * 
      * @param email 
@@ -38,7 +18,9 @@ export class TrainingBuddyServiceService {
      */
     async validateUser(email: string , password: string):Promise<any> {
         const user = await this.findOne(email);
-        const valid = await bcrypt.compare(password, user?.password)
+        let valid = false;
+        if(user)
+            valid = await bcrypt.compare(password, user?.password)
         if(user && valid){ 
             const{password , ...result} = user;
             return result;
@@ -51,7 +33,7 @@ export class TrainingBuddyServiceService {
      * @returns Promise UserEntity
      */
     async findOne(email: string): Promise<any>{
-        return await this.repoService.login(email);
+        return await this.repoService.login(email)
     }
     async signup(userdto : UserDto){
         let user = await this.findOne(userdto.email);
@@ -60,8 +42,8 @@ export class TrainingBuddyServiceService {
         }}
         else{
             const password = await bcrypt.hash(userdto.password, 10)
-            user = {...userdto,password };
-            this.repoService.createUser(userdto);
+            user = {...userdto, password };
+            this.repoService.createUser(user);
             return user;
         }
     }
@@ -77,12 +59,19 @@ export class TrainingBuddyServiceService {
      * @param user 
      * @returns 
      */
-    async login( user: UserEntity){
+    async login( user:any){
         const {...result}=user
+        this.user.email = user.email
+        this.user.cellNumber = user.contactNumber
+        this.user.location = user.location
+        this.user.gender=user.gender
+        this.user.dob = user.dateOfBirth
+        this.user.userName = user.firstName
+        this.user.userSurname = user.lastName
         {
             return {
-                accessToken: this.jwtService.sign({user: user.userName , email: user.email}),
-                user: result
+                accessToken: this.jwtService.sign({user: user.firstName , email: user.email}),
+                user: this.user
             }
         }
 
