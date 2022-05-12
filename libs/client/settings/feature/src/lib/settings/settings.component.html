@@ -20,49 +20,71 @@
         <mat-card-content>
             <section>
                 <mat-card routerLink="/profile" class="option my-3">
-                    <mat-icon>edit</mat-icon>
-                    Edit Profile
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile><mat-icon>edit</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">Edit Profile</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
+                </mat-card>
+            </section>
+            <section>
+                <mat-card routerLink="/configureprofile"   class="option my-3">
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile><mat-icon> directions_bike</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">Activities</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
                 </mat-card>
             </section>
             <section>
                 <mat-card routerLink="/#"  class="option my-3">
-                    <mat-icon>notifications</mat-icon>
-                    Notification 
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile><mat-icon>notifications</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">Notifications</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
                 </mat-card>
             </section>
      
             <section>
                 <mat-card routerLink="/#"  class="option my-3">
-                    <mat-icon>lock</mat-icon>
-                    Privacy
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile> <mat-icon>lock</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">Privacy</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
                 </mat-card>
             </section>
      
+     
             <section>
-                <mat-card routerLink="/#"   class="option my-3">
-                    <mat-icon>security</mat-icon>
-                    Security
+                <mat-card routerLink="/#"  class="option my-3">
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile><mat-icon>help_outline</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">Help</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
                 </mat-card>
             </section>
      
             <section>
                 <mat-card routerLink="/#"  class="option my-3">
-                    <mat-icon>help_outline</mat-icon>
-                    Help
-                </mat-card>
-            </section>
-     
-            <section>
-                <mat-card routerLink="/#"  class="option my-3">
-                    <mat-icon>info</mat-icon>
-                    About
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile><mat-icon>info</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">About</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
                 </mat-card>
             </section>
      
             <section>
                 <mat-card routerLink="/login" class="option my-3">
-                    <mat-icon>exit_to_app</mat-icon>
-                    Log Out
+                
+                    <mat-grid-list cols="5" rowHeight="2:1">
+                        <mat-grid-tile><mat-icon>exit_to_app</mat-icon></mat-grid-tile>
+                        <mat-grid-tile [colspan]="3">Log out</mat-grid-tile>
+                        <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
                 </mat-card>
             </section>
      
