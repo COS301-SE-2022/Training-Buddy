@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import {UserDto , UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { Injectable} from '@nestjs/common';
+import {UserDto , UserEntity,  ErrorMessage} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -38,7 +38,9 @@ export class TrainingBuddyServiceService {
     async signup(userdto : UserDto){
         let user = await this.findOne(userdto.email);
         if(user){{
-            throw new Error("User Exixts");
+            const item = new ErrorMessage;
+            item.message = "User Already Exists";
+            return item;
         }}
         else{
             const password = await bcrypt.hash(userdto.password, 10)
@@ -60,18 +62,18 @@ export class TrainingBuddyServiceService {
      * @returns 
      */
     async login( user:any){
-        const {...result}=user
-        this.user.email = user.email
-        this.user.cellNumber = user.contactNumber
-        this.user.location = user.location
-        this.user.gender=user.gender
-        this.user.dob = user.dateOfBirth
-        this.user.userName = user.firstName
-        this.user.userSurname = user.lastName
+        const userr = new UserEntity;
+        userr.email = user.email
+        userr.cellNumber = user.contactNumber
+        userr.location = user.location
+        userr.gender=user.gender
+        userr.dob = user.dateOfBirth
+        userr.userName = user.firstName
+       
         {
             return {
                 accessToken: this.jwtService.sign({user: user.firstName , email: user.email}),
-                user: this.user
+                user: userr
             }
         }
 

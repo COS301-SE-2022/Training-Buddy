@@ -12,7 +12,7 @@ describe('TrainingBuddyApiResolver', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [TrainingBuddyApiResolver,JwtModule, TrainingBuddyServiceService,UserEntity, ApiInternalApiRepositoryDataAccessService,PrismaService],
       imports: [JwtModule.register({
-        signOptions: { expiresIn: '600s'},
+        signOptions: { expiresIn: '86400s'},
         secret:"hide"//TODO hide this 
       })]
     }).compile();
