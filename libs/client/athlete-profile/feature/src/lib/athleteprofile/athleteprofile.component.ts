@@ -1,3 +1,4 @@
+import { trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';

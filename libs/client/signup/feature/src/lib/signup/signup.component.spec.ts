@@ -16,7 +16,7 @@ describe('SignupComponent', () => {
       imports: [
         ReactiveFormsModule,
         UiModule,
-        BrowserAnimationsModule,
+        BrowserAnimationsModule
       ],
       providers: [
         Apollo

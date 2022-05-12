@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { AthleteprofileComponent } from './athleteprofile/athleteprofile.component';
 import { athleteProfileRoutingModule } from './dashboard-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -11,10 +13,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     athleteProfileRoutingModule,
     UiModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AthleteprofileComponent
   ],
+  providers: [
+    FormBuilder, Apollo
+  ]
 })
 export class ClientAthleteProfileFeatureModule {}
