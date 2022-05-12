@@ -1,6 +1,7 @@
 <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 <training-buddy-signed-navbar></training-buddy-signed-navbar>
-    <mat-card class="mainCard">
+<mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    <mat-card >
        
         <!-- <figure class="relative flex flex-col-reverse bg-zinc-900 rounded-lg p-6 darkbg-zinc-900 dark:highlight-white/5">
             <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
@@ -31,26 +32,44 @@
           <mat-form-field appearance="outline">
               <mat-label>Name</mat-label>
               <input formControlName="userName" id="userName" matInput type="text" placeholder="{{theUser.name}}" name="name">
+              <mat-error *ngIf="updateForm.controls['userName'].errors">
+                {{ updateForm.controls['userName'].errors!['error_msg'] }}
+            </mat-error>
           </mat-form-field>
            <!-- Surname -->
            <mat-form-field appearance="outline">
             <mat-label>Surname</mat-label>
-            <input formControlName="userSuraname" id="userSurname" matInput type="text" placeholder="{{theUser.surname}}" name="surname">
+            <input formControlName="userSurname" id="userSurname" matInput type="text" placeholder="{{theUser.surname}}" name="surname">
+            <mat-error *ngIf="updateForm.controls['userSurname'].errors">
+              {{ updateForm.controls['userSurname'].errors!['error_msg'] }}
+          </mat-error>
           </mat-form-field>
           <!-- Email -->
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <input formControlName="userEmail" id="userEmail" matInput type="text" placeholder="{{theUser.email}}" name="email">
+            <mat-error *ngIf="updateForm.controls['userEmail'].errors">
+              {{ updateForm.controls['userEmail'].errors!['error_msg'] }}
+          </mat-error>
           </mat-form-field>
             <!-- Cell Number -->
           <mat-form-field appearance="outline">
             <mat-label>Cell Number</mat-label>
             <input formControlName="userCellNumber" id="userCellNumber" matInput type="text" placeholder="{{theUser.cell}}" name="cell">
+            <mat-error *ngIf="updateForm.controls['userCellNumber'].errors">
+              {{ updateForm.controls['userCellNumber'].errors!['error_msg'] }}
+          </mat-error>
           </mat-form-field>
             <!-- Gender -->
           <mat-form-field appearance="outline">
             <mat-label>Gender</mat-label>
-            <input formControlName="userGender" id="userGender" matInput type="text" placeholder="{{theUser.gender}}" name="gender">
+            <mat-select formControlName="userGender" id="userGender" name="userGender">
+              <mat-option value="M">Male</mat-option>
+              <mat-option value="F">Female</mat-option>
+          </mat-select>
+          <mat-error *ngIf="updateForm.controls['userGender'].errors">
+            {{ updateForm.controls['userGender'].errors!['error_msg'] }}
+          </mat-error>
           </mat-form-field>
             <!-- Location -->
           <mat-form-field appearance="outline">
@@ -58,8 +77,7 @@
             <input formControlName="userLocation" matInput
                     matGoogleMapsAutocomplete
                     (onAutocompleteSelected)="onAutocompleteSelected($event)"
-                    (onLocationSelected)="onLocationSelected($event)"
-                    placeholder="{{theUser.location}}">
+                    (onLocationSelected)="onLocationSelected($event)">
             <mat-error *ngIf="updateForm.controls['userLocation'].errors">
                 {{ updateForm.controls['userLocation'].errors!['error_msg'] }}
             </mat-error>
@@ -71,7 +89,7 @@
           </mat-form-field>
           <!--Submit button-->
           <div class="submitButton mt-3">
-              <button id="save" class="text-center ml-1" mat-raised-button color="primary">Save</button>
+              <button id="save" (click)="save()" class="text-center ml-1" mat-raised-button color="primary">Save</button>
               <div class="Change"><p routerLink="/#" class="changePassword">Change password</p></div>
           </div>
 
@@ -80,5 +98,5 @@
       </mat-card-content>
 
       </mat-card>
-    
+    </mat-grid-list>  
 </div>
