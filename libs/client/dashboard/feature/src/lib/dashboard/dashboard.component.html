@@ -4,42 +4,92 @@
 
         <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="py-12">
 
-            <div id="incomingRequests" class="m-5">
+            <div id="incomingRequests" class="m-8">
     
                 <h1 class="text-center">Buddy Requests</h1>
-
                 <ng-container>
-                    
                     <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-
                         <div class="md:flex">
-
                             <div class="md:shrink-0">
-                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/4.jpg?raw=true" alt="Man looking at item at a store">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
                             </div>
-
-                            <div class="p-4">
-
+                            <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
-
-                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Sarah King <mat-icon class="mt-5"> directions_run</mat-icon>	<mat-icon class="mt-5"> directions_bike</mat-icon></p> 
-
-                                    <div class="mr-4 mt-2">
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Sarah King</p> 
+                                    <div class="mr-4">
                                         <mat-icon class="mr-1" id="accept">done</mat-icon>
                                         <mat-icon id="reject">close</mat-icon>
                                     </div>
-                                    
                                 </div> 
-
                                 <div class="tracking-wide text-xs font-semibold">Hatfield, Pretoria</div>
-
-                                <p class="mt-2 text-slate-500">I have a passion for outdoor swimming and running. There is nothing better than a long run ended off with a quick swim!</p>
-
+                                <p class="mt-2 text-slate-500">I'm an avid cyclist - I especially enjoy long distance mountain biking. Looking for friends to join an adventurous cycling group.</p>
+                                <mat-icon> directions_run</mat-icon><mat-icon> directions_bike</mat-icon>
                             </div>
-
                         </div>
                     </div>
+                </ng-container>
+                
+            </div>
 
+            <div id="recBuddies" class="m-8 mt-2">
+    
+                <h1 class="text-center">Recommended</h1>
+                <ng-container>
+                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                        <div class="md:flex">
+                            <div class="md:shrink-0">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/1.jpg?raw=true">
+                            </div>
+                            <div class="mx-4 mb-3 mt-2">
+                                <div class="acceptTitle">
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Matthew Gotte</p> 
+                                    <div>
+                                        <button mat-raised-button disabled>Pending</button>
+                                    </div>
+                                </div> 
+                                <div class="tracking-wide text-xs font-semibold">Brooklyn, Pretoria</div>
+                                <p class="mt-2 text-slate-500">A pure roadie at heart Long distance, big hills and lots of coffee along the way!</p>
+                                <mat-icon> directions_bike</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
+                        <div class="md:flex">
+                            <div class="md:shrink-0">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/6.jpg?raw=true">
+                            </div>
+                            <div class="mx-4 mb-3 mt-2">
+                                <div class="acceptTitle">
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Jane Wright</p> 
+                                    <div>
+                                        <button mat-raised-button>Request</button>
+                                    </div>
+                                </div> 
+                                <div class="tracking-wide text-xs font-semibold">Menlyn, Pretoria</div>
+                                <p class="mt-2 text-slate-500">Avid gym junkie - I enjoy powerlifting and a bit of cardio on the odd occasion.</p>
+                                <mat-icon> directions_run</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
+                        <div class="md:flex">
+                            <div class="md:shrink-0">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/3.jpg?raw=true">
+                            </div>
+                            <div class="mx-4 mb-3 mt-2">
+                                <div class="acceptTitle">
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Taku Muguti</p> 
+                                    <div>
+                                        <button mat-raised-button >Request</button>
+                                    </div>
+                                </div> 
+                                <div class="tracking-wide text-xs font-semibold">Groenkloof, Pretoria</div>
+                                <p class="mt-2 text-slate-500">I'm training for triathlon and need more experience running. Looking for a buddy to do medium-long distance road running with me, especially early morning runs!</p>
+                                <mat-icon> directions_bike</mat-icon>
+                                <mat-icon> directions_run</mat-icon>
+                            </div>
+                        </div>
+                    </div>
                 </ng-container>
                 
             </div>
