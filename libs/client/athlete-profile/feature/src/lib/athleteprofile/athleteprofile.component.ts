@@ -121,6 +121,11 @@ export class AthleteprofileComponent implements OnInit {
     let retFlag = false;
     this.errChooseSport = false;
 
+    this.errRunning = false;
+    this.errRiding = false;
+    this.errSwim = false;
+    this.errWeight = false;
+
     //validate form:
     if (runningLevel != null) {
       if (runningBio == null) {
@@ -173,11 +178,10 @@ export class AthleteprofileComponent implements OnInit {
 
     //TODO: Complete API call
     this.router.navigate(['/dashboard']); //for testing flow
-    return;
 
     ///////////////////////
     //API CALL HERE........
-    this.querySignup(runningLevel, runningBio, ridingLevel, ridingBio, swimmingLevel, swimmingBio, weightLevel, weightBio).then(res => {
+    this.querySignup("email",runningLevel, runningBio, ridingLevel, ridingBio, swimmingLevel, swimmingBio, weightLevel, weightBio).then(res => {
       console.log(res);
       //route user to the dashboard
       this.router.navigate(['/dashboard']);
@@ -188,13 +192,56 @@ export class AthleteprofileComponent implements OnInit {
 
   ///////////////////////
   //API CALL RETURN PROMISE
-  querySignup(runLevel : string, runBio : string, rideLevel : string, rideBio : string, swimLevel : string, swimBio : string, weightLevel : string, weightBio : string) {
+  querySignup(email: string, runLevel : string, runBio : string, rideLevel : string, rideBio : string, swimLevel : string, swimBio : string, weightLevel : string, weightBio : string) {
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
         .mutate ({
           mutation: gql`
-            query needs to be written here
+            mutation{
+              activityStat(
+                activityStat:{
+                XP:"${runLevel}",
+                email:"${email}" , 
+                activity:"running" ,
+                insight:"${runBio}"},
+                ){
+                message
+              }
+            }
+            mutation{
+              activityStat(
+                activityStat:{
+                XP:"${rideLevel}",
+                email:"${email}" , 
+                activity:"riding" ,
+                insight:"${rideBio}"},
+                ){
+                message
+              }
+            }
+            mutation{
+              activityStat(
+                activityStat:{
+                XP:"${swimLevel}",
+                email:"${email}" , 
+                activity:"swimming" ,
+                insight:"${swimBio}"},
+                ){
+                message
+              }
+            }
+            mutation{
+              activityStat(
+                activityStat:{
+                XP:"${weightLevel}",
+                email:"${email}" , 
+                activity:"weightLifting" ,
+                insight:"${weightBio}"},
+                ){
+                message
+              }
+            }
           `,
         })
         .subscribe ((result) => {

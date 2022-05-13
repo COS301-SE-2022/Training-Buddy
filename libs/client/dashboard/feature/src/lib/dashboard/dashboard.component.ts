@@ -12,9 +12,12 @@ export class DashboardComponent implements OnInit {
   requests : request[] = [];
   buddies : buddy[] = [];
 
+  img : string;
+
   constructor() { 
+    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     //mock requests:
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 2; i++) {
       this.requests.push(new request('111', 'John', 'Smith', 'Hatfield'));
     }
     //mock buddies:
@@ -29,7 +32,7 @@ export class DashboardComponent implements OnInit {
 
 }
 
-//for testing with mock data...
+//FOR MOCKING
 export class request {
 
   fromid: string | undefined;
@@ -63,3 +66,4 @@ export class buddy {
   }
 
 }
+
