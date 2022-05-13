@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { SignupComponent } from './signup.component';
 import { Apollo } from 'apollo-angular';
 
@@ -16,7 +16,8 @@ describe('SignupComponent', () => {
       imports: [
         ReactiveFormsModule,
         UiModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterTestingModule
       ],
       providers: [
         Apollo
