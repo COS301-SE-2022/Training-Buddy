@@ -49,10 +49,10 @@ export class ProfileComponent implements OnInit {
   }
 
   validateName(input : FormControl) : {[valtype : string] : string} | null {
-    const userNameSurname = input.value;
+    const userName = input.value;
     //regex for a length of 3 and a space
-    const re = /(([A-Z]|[a-z]))+ ([A-Z]|([a-z]))+/;
-    if (!re.test(userNameSurname)) {
+    const re = /(([A-Z]|[a-z]))/;
+    if (!re.test(userName)) {
       //return error
       return {'error_msg' : 'Name is required'}
     }
@@ -60,10 +60,10 @@ export class ProfileComponent implements OnInit {
     return null;
   }
   validateSurname(input : FormControl) : {[valtype : string] : string} | null {
-    const userNameSurname = input.value;
+    const userSurname = input.value;
     //regex for a length of 3 and a space
-    const re = /(([A-Z]|[a-z]))+ ([A-Z]|([a-z]))+/;
-    if (!re.test(userNameSurname)) {
+    const re = /(([A-Z]|[a-z]))/;
+    if (!re.test(userSurname)) {
       //return error
       return {'error_msg' : 'Surname is required'}
     }
