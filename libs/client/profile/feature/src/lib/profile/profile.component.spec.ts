@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { Apollo } from 'apollo-angular';
 
 import { ProfileComponent } from './profile.component';
 
@@ -8,7 +12,15 @@ describe('ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ]
+      declarations: [ ProfileComponent ],
+      imports: [
+        ReactiveFormsModule,
+        UiModule,
+        NoopAnimationsModule
+      ],
+      providers: [
+        Apollo
+      ]
     })
     .compileComponents();
   });
