@@ -2,35 +2,47 @@
 
     <training-buddy-signed-navbar></training-buddy-signed-navbar>
 
-        <mat-grid-list cols="1" rows="1" rowHeight="2:1">
-            <mat-card>
+        <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="py-12">
 
-                <!-- <mat-grid-list cols="2" rows="1" rowHeight="1:1" *ngFor="let req of requests">
-               
-                    <mat-grid-tile>
-                        <div class="imagecontent">
-                            <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
-                        </div>
-                    </mat-grid-tile>
-        
-                    <mat-grid-tile>
-        
-                        <div class="rightcontent">
-                            <mat-card-title-group>
-                                <mat-card-title>{{ req.name }} {{ req.surname }}</mat-card-title>
-                                <mat-card-subtitle>{{ req.location }}</mat-card-subtitle>
-                            </mat-card-title-group>
-                        </div>
-                        
-                    </mat-grid-tile>
-        
-                </mat-grid-list> -->
+            <div id="incomingRequests" class="m-5">
     
-                <mat-card-content *ngFor="let p of requests">
-                    here
-                </mat-card-content>
+                <h1 class="text-center">Buddy Requests</h1>
+
+                <ng-container>
+                    
+                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+
+                        <div class="md:flex">
+
+                            <div class="md:shrink-0">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/4.jpg?raw=true" alt="Man looking at item at a store">
+                            </div>
+
+                            <div class="p-4">
+
+                                <div class="acceptTitle">
+
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Sarah King <mat-icon class="mt-5"> directions_run</mat-icon>	<mat-icon class="mt-5"> directions_bike</mat-icon></p> 
+
+                                    <div class="mr-4 mt-2">
+                                        <mat-icon class="mr-1" id="accept">done</mat-icon>
+                                        <mat-icon id="reject">close</mat-icon>
+                                    </div>
+                                    
+                                </div> 
+
+                                <div class="tracking-wide text-xs font-semibold">Hatfield, Pretoria</div>
+
+                                <p class="mt-2 text-slate-500">I have a passion for outdoor swimming and running. There is nothing better than a long run ended off with a quick swim!</p>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </ng-container>
                 
-            </mat-card>
+            </div>
 
         </mat-grid-list>
 
