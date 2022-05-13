@@ -33,12 +33,11 @@ Firebase
 ```
 
 ## Project Description:
-short description here
-
+Training Buddy has the vision of providing a secure and user-friendly way for exercise enthusiasts of all levels to be able to enhance their fitness journeys by connecting with like-minded users with similar training interests and scheduling workouts together.
 
 ## Video Demo Links:
 
-## SRS Documentation: [click here](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
+## SRS Documentation: [click here](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation)
 
 ## Project Board: [click here](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
 
