@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'training-buddy-navbar',
@@ -7,13 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(Router) private router : Router) { }
 
   ngOnInit(): void {
+    console.log();
   }
 
   route(path : string) {
-    alert();
+    this.router.navigate([path]);
   }
 
 }
