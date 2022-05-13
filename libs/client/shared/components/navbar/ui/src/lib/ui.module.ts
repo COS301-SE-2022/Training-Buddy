@@ -8,7 +8,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
   ],
   declarations: [
     UnsignednavbarComponent,
