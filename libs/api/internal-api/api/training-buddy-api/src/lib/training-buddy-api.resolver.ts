@@ -37,7 +37,7 @@ export class TrainingBuddyApiResolver {
      * @returns Array of UserEntity
      */
     @Query(() => [UserEntity])
-    @UseGuards(JwtAuthGuard)
+    //@UseGuards(JwtAuthGuard)
     findAll(@Args('location')Location:string){
         return this.trainingBuddyService.getAll(Location);
     }
@@ -47,7 +47,7 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    @UseGuards(JwtAuthGuard)
+    //@UseGuards(JwtAuthGuard)
     activityStat(@Args('activityStat')activityStat: ActivityStat){
         return this.trainingBuddyService.createActivityStat(activityStat)
     }
@@ -57,7 +57,7 @@ export class TrainingBuddyApiResolver {
      * @returns userStatRes
      */
     @Query(()=>[UserStatRes])
-    @UseGuards(JwtAuthGuard)
+    //@UseGuards(JwtAuthGuard)
     fetchUserStats(@Args('email')email:string){
         return this.trainingBuddyService.fetchUserStat(email);
     }
@@ -67,7 +67,7 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    @UseGuards(JwtAuthGuard)
+    //@UseGuards(JwtAuthGuard)
     updateProfile(@Args('updates')update: UpdateUser){
         return this.trainingBuddyService.updateUser(update)
     }
