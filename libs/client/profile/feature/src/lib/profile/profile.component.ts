@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Apollo, gql } from 'apollo-angular';
 
 @Component({
   selector: 'training-buddy-profile',
@@ -16,7 +17,7 @@ export class ProfileComponent implements OnInit {
   longitude : number;
   vicinity : string;
 
-  constructor(private frm : FormBuilder) {
+  constructor(private frm : FormBuilder, private apollo: Apollo) {
     this.theUser= new user("Taku", "Muguti", "taku@gmail.com", "0817653456" ,"Hatfield, Pretoria", "https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?cs=srgb&dl=pexels-asim-alnamat-343717.jpg&fm=jpg","M");
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.latitude = 0;
@@ -120,6 +121,44 @@ export class ProfileComponent implements OnInit {
   }
   save(){
     console.log('save')
+    const oldEmail = this.theUser.email;
+    const userName = this.updateForm.controls['userName'].value;
+    const userSurname = this.updateForm.controls['userSurname'].value;
+    const userEmail = this.updateForm.controls['userEmail'].value;
+    const userCellNumber = this.updateForm.controls['userCellNumber'].value;
+    const userGender = this.updateForm.controls['userGender'].value;
+    const userLocation = this.updateForm.controls['userLocation'].value;
+
+    this.queryAPI(oldEmail,userName,userSurname,userEmail,userCellNumber,userLocation,userGender).then(res=>{
+      console.log(res);
+    });
+  }
+  queryAPI(oldemail: string, name: string, surname: string, email: string, cell: string, location: string,  gender: string){
+    return new Promise((resolve, )=>{
+      if(!this.apollo.client === undefined){
+        this.apollo
+          .mutate({
+            mutation: gql`
+                mutation{
+                updateProfile(userDto: {
+                  oldemail: "${oldemail}",
+                  userName: "${name}",
+                  userSurname: "${surname}",
+                  location: "${location}",
+                  gender: "${gender}",
+                  email: "${email}",
+                  cellNumber: "${cell}",
+              }){
+                message
+              }
+            }
+          `,
+          })
+          .subscribe ((result) => {
+            resolve(result);
+          });
+      }
+    })
   }
 }
 
