@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { StravaexchangetokenComponent } from './stravaexchangetoken/stravaexchangetoken.component';
 import { StravalinkComponent } from './stravalink/stravalink.component';
+import { StravaRoutingModule } from './signup-routing.module';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 
 @NgModule({
   imports: [
     CommonModule,
-
-    RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
-    ]),
+    StravaRoutingModule,
+    UiModule
   ],
   declarations: [
     StravaexchangetokenComponent,
