@@ -12,11 +12,27 @@
   
               <h1 class="text-center">LOGO HERE</h1>
 
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Tell us about yourself</mat-label>
-                <textarea formControlName="bio" [maxLength]="150" matInput placeholder="I love the outdoors and going on adventures..."></textarea>
-              </mat-form-field>
+              <mat-label>Add activities: </mat-label>
+              <br />
+              <mat-hint>These will be updated as you do activities later</mat-hint>
+              <br />
 
+              <mat-checkbox (change)="updateError()" class="mt-2" formControlName="running">Running</mat-checkbox>
+              <br />
+              <mat-checkbox (change)="updateError()" formControlName="riding">Riding</mat-checkbox>
+              <br />
+              <mat-checkbox (change)="updateError()" formControlName="swimming">Swimming</mat-checkbox>
+              <br />
+              <mat-checkbox (change)="updateError()" formControlName="weightLifting">Weight Lifting</mat-checkbox>
+
+              <mat-error *ngIf="noActivityChosen">At least one activity is required</mat-error>
+
+              <mat-form-field class="example-full-width mt-4" appearance="outline">
+                <mat-label>Athlete Bio</mat-label>
+                <textarea formControlName="bio" [maxLength]="150" matInput placeholder="I love the outdoors and going on adventures..."></textarea>
+                <mat-hint [align]="'end'">30 characters minimum</mat-hint>
+                <mat-error>Bio must be at least 30 characters long</mat-error>
+              </mat-form-field>
 
               <!--Submit button-->
               <div class="submitButton mt-3">

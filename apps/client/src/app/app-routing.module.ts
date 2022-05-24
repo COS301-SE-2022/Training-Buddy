@@ -65,6 +65,14 @@ const routes: Routes = [
       ),
   },
 
+  {
+    path: 'exchange_token',
+    loadChildren: () =>
+      import('@training-buddy/client/strava/feature').then(
+        m => m.ClientStravaFeatureModule
+      ),
+  }
+
 ];
 
 @NgModule({

@@ -107,7 +107,12 @@ textarea {
     max-height: 12vh !important;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element .checkActivity {
-    opacity: 0.03 !important;
-    background-color: #005691!important;
+// ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element .checkActivity {
+//     opacity: 0.03 !important;
+//     background-color: #005691!important;
+// }
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background, 
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: #1b1A1b !important;
 }
