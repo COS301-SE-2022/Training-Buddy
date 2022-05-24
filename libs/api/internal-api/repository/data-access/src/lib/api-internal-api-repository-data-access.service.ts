@@ -15,7 +15,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 email: user.email,
                 userName: user.userName,
                 userSurname: user.userSurname,
-                cellNumber: user.cellNumber,
+                //cellNumber: user.cellNumber,
                 dob: user.dob,
                 gender: user.gender,
                 location: user.location,
@@ -107,7 +107,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 email: email
             },
             data: {
-                cellNumber: cellNumber
+                //cellNumber: cellNumber
             }
         })
     }

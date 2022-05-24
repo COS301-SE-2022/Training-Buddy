@@ -1,5 +1,5 @@
 import { Injectable} from '@nestjs/common';
-import {UserDto , UserEntity,  ErrorMessage, ActivityStat,UpdateUser} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,  ErrorMessage, ActivityStat,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -146,4 +146,7 @@ export class TrainingBuddyServiceService {
         }
 
     }
+    async userConfig(config: Userconfig){
+        //TODO add the code to call the repo layer of Creating a user config 
+    } 
 }
