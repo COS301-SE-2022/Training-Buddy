@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/strava/feature",
+  "sourceRoot": "libs/client/strava/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/strava/feature"],
+      "options": {
+        "jestConfig": "libs/client/strava/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/strava/feature/src/**/*.ts",
+          "libs/client/strava/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["training-buddy-strava-link"]
+}

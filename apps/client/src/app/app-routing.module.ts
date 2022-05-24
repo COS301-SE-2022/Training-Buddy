@@ -57,6 +57,14 @@ const routes: Routes = [
       ),
   },
 
+  {
+    path: 'strava',
+    loadChildren: () =>
+      import('@training-buddy/client/strava/feature').then(
+        m => m.ClientStravaFeatureModule
+      ),
+  },
+
 ];
 
 @NgModule({
