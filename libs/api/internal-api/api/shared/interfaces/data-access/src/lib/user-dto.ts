@@ -7,6 +7,12 @@ export class UserDto {
     userSurname: string
     @Field()
     location:string
+    @Field({nullable:true})
+    longitude:number
+    @Field({nullable:true})
+    latitude:number
+    @Field({nullable:true})
+    stravaToken:string
     @Field()
     gender:string
     @Field()
