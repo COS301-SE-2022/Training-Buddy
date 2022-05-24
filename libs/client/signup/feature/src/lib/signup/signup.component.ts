@@ -98,6 +98,9 @@ export class SignupComponent implements OnInit {
   ///////////////////////
   //API CALL RETURN PROMISE
   querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string) {
+
+    //TODO: Update the mutation to send through user location as GPS points
+
     const userName = userNameSurname.split(' ')[0];
     const userSurname = userNameSurname.split(' ')[1];
     return new Promise((resolve, _) => {
@@ -136,11 +139,10 @@ export class SignupComponent implements OnInit {
 
   onLocationSelected(event: any) {
     //TO be used when moving to co-ordinate based location system.
-    // console.log(event);
-    // if (event != null) {
-    //   this.latitude = event.latitude;
-    //   this.longitude = event.longitude;
-    // }
+    if (event != null) {
+      this.latitude = event.latitude;
+      this.longitude = event.longitude;
+    }
   }
 
   /////////////////////////////////////////////////////////////////
