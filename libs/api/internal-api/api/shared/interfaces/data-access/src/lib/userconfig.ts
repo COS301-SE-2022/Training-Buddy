@@ -4,7 +4,7 @@ import { Field , InputType} from '@nestjs/graphql'
 @InputType()
 export class Userconfig {
     @Field()
-    runnuing: boolean
+    running: boolean
     @Field()
     riding: boolean
     @Field()
