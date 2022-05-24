@@ -10,18 +10,18 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //used for signing up
     async createUser(@Param() user:UserDto){
-       return await this.prisma.user.create({
-            data: {
-                email: user.email,
-                userName: user.userName,
-                userSurname: user.userSurname,
-                //cellNumber: user.cellNumber,
-                dob: user.dob,
-                gender: user.gender,
-                location: user.location,
-                password: user.password
-            }
-        })
+    //    return await this.prisma.user.create({
+    //         data: {
+    //             email: user.email,
+    //             userName: user.userName,
+    //             userSurname: user.userSurname,
+    //             cellNumber: user.cellNumber,
+    //             dob: user.dob,
+    //             gender: user.gender,
+    //             location: user.location,
+    //             password: user.password
+    //         }
+    //     })
     }
 
     //used for logging in
@@ -101,16 +101,16 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
-    async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
-        return await this.prisma.user.update({
-            where: {
-                email: email
-            },
-            data: {
-                //cellNumber: cellNumber
-            }
-        })
-    }
+    // async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
+    //     return await this.prisma.user.update({
+    //         where: {
+    //             email: email
+    //         },
+    //         data: {
+    //             //cellNumber: cellNumber
+    //         }
+    //     })
+    // }
 
     async updateLocation(@Param() location: string, @Param() email: string){
         return await this.prisma.user.update({
