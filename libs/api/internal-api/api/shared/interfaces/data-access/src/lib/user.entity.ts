@@ -10,6 +10,12 @@ export class UserEntity {
     @Field({nullable:true})
     location:string
     @Field({nullable:true})
+    longitude:number
+    @Field({nullable:true})
+    latitude:number
+    @Field({nullable:true})
+    stravaToken:string
+    @Field({nullable:true})
     dob:string
     @Field({nullable:true})
     gender:string
