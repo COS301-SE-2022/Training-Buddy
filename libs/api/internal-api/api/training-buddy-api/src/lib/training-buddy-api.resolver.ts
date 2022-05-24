@@ -38,8 +38,8 @@ export class TrainingBuddyApiResolver {
      */
     @Query(() => [UserEntity])
     //@UseGuards(JwtAuthGuard)
-    findAll(@Args('location')Location:string){
-        return this.trainingBuddyService.getAll(Location);
+    findAll(@Args('email')email:string){
+        return this.trainingBuddyService.getAll(email);
     }
     /**
      * 
