@@ -1,6 +1,6 @@
 import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
-import {UserDto , UserEntity , LoginResponse, LoginInput, ErrorMessage, ActivityStat, UpdateUser, UserStatRes} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity , LoginResponse, LoginInput, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver()
@@ -38,8 +38,8 @@ export class TrainingBuddyApiResolver {
      */
     @Query(() => [UserEntity])
     //@UseGuards(JwtAuthGuard)
-    findAll(@Args('location')Location:string){
-        return this.trainingBuddyService.getAll(Location);
+    findAll(@Args('email')email:string){
+        return this.trainingBuddyService.getAll(email);
     }
     /**
      * 
@@ -71,6 +71,16 @@ export class TrainingBuddyApiResolver {
     updateProfile(@Args('updates')update: UpdateUser){
         return this.trainingBuddyService.updateUser(update)
     }
+    /**
+     * 
+     * @param userconfig
+     * @returns ErrorMessage
+     *  */ 
+    @Mutation(()=>ErrorMessage)
+    userConfig(@Args('userConfig')userconfig: Userconfig){
+        return this.trainingBuddyService.userConfig(userconfig)
+    }
+
 
 }
 

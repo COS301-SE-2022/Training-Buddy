@@ -1,5 +1,5 @@
 import { Injectable} from '@nestjs/common';
-import {UserDto , UserEntity,  ErrorMessage, ActivityStat,UpdateUser} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,  ErrorMessage, ActivityStat,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -53,8 +53,11 @@ export class TrainingBuddyServiceService {
      * @param string
      * @returns Array Of UserEntity
      */
-    getAll(Location:string ){
-        return this.repoService.findAll(Location)
+    getAll(email:string ){
+
+        //get the users coordinates 
+        //get all the users a certain radius from him/her 
+        //return that array of users that are that distance to them
     }
     /**
      * 
@@ -113,37 +116,58 @@ export class TrainingBuddyServiceService {
      * @returns Response
      */
     async updateUser(user:UpdateUser){
-        const users = await this.findOne(user.oldemail)
-        const item = new ErrorMessage;
-        let response; 
-        if(users){
-            if(user.cellNumber){
-                response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
-            }
-            if(user.email){
-                response = await this.repoService.updateEmail(user.email, user.oldemail);
-            }
-            if(user.location){
-                response = await this.repoService.updateLocation(user.location, user.oldemail);
-            }
-            if(user.password){
-                const password = await bcrypt.hash(user.password, 10)
-                response = await this.repoService.updatePassword(password, user.oldemail);
-            }
-            if(user.userName){
-                response = await this.repoService.updateUserName(user.userName, user.oldemail);
-            }
-            if(user.userSurname){
-                response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
-            }
-            if(response){
-                item.message ="Successful";
-                return item;
-            }
-        }else{
-            item.message = "Failure"
-            return item;
-        }
+        // const users = await this.findOne(user.oldemail)
+        // const item = new ErrorMessage;
+        // let response; 
+        // if(users){
+        //     if(user.cellNumber){
+        //         response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
+        //     }
+        //     if(user.email){
+        //         response = await this.repoService.updateEmail(user.email, user.oldemail);
+        //     }
+        //     if(user.location){
+        //         response = await this.repoService.updateLocation(user.location, user.oldemail);
+        //     }
+        //     if(user.password){
+        //         const password = await bcrypt.hash(user.password, 10)
+        //         response = await this.repoService.updatePassword(password, user.oldemail);
+        //     }
+        //     if(user.userName){
+        //         response = await this.repoService.updateUserName(user.userName, user.oldemail);
+        //     }
+        //     if(user.userSurname){
+        //         response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
+        //     }
+        //     if(response){
+        //         item.message ="Successful";
+        //         return item;
+        //     }
+        // }else{
+        //     item.message = "Failure"
+        //     return item;
+        // }
 
+    }
+    async userConfig(config: Userconfig){
+        //TODO add the code to call the repo layer of Creating a user config 
+    } 
+    async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
+        const  R = 6371; // km
+        const dLat = this.toRad(lat2-lat1);
+        const  dLon = this.toRad(lon2-lon1);
+        const  latone = this.toRad(lat1);
+        const  lattwo = this.toRad(lat2);
+  
+        const  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
+        const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        const  d = R * c;
+        return d;
+
+    }
+    toRad(Value):number
+    {
+        return Value * Math.PI / 180;
     }
 }
