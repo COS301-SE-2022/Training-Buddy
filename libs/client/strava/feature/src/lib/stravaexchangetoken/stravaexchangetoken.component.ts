@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StravaAPIService } from '../services/strava-api.service';
 
 @Component({
   selector: 'training-buddy-strava-exchangetoken',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StravaexchangetokenComponent implements OnInit {
 
-  constructor() { }
+  constructor(private strava : StravaAPIService, private activeRoute : ActivatedRoute, private router : Router) { }
 
   ngOnInit(): void {
+    this.activeRoute.queryParams.subscribe(params => {
+      this.strava.setOAuthResponse(params);
+      this.router.navigate(['strava/link']);
+    });
   }
 
 }
