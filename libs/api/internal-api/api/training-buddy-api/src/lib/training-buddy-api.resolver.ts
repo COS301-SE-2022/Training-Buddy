@@ -71,6 +71,16 @@ export class TrainingBuddyApiResolver {
     updateProfile(@Args('updates')update: UpdateUser){
         return this.trainingBuddyService.updateUser(update)
     }
+    /**
+     * 
+     * @param userconfig
+     * @returns ErrorMessage
+     *  */ 
+    @Mutation(()=>ErrorMessage)
+    userConfig(@Args('userConfig')userconfig: UserConfig){
+        return this.trainingBuddyService.userConfig(userConfig)
+    }
+
 
 }
 
