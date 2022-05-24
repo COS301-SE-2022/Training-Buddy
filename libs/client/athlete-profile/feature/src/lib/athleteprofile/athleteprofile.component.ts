@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 
@@ -12,6 +12,9 @@ export class AthleteprofileComponent implements OnInit {
 
   img : string;
 
+  //error flags:
+  noActivityChosen : boolean;
+
   //form
   prefFrm! : FormGroup;
   frmBuilder! : FormBuilder;
@@ -21,6 +24,7 @@ export class AthleteprofileComponent implements OnInit {
 
     //initializations:
     this.frmBuilder = frm;
+    this.noActivityChosen = false;
   }
 
   ngOnInit(): void {
@@ -28,20 +32,23 @@ export class AthleteprofileComponent implements OnInit {
       running: [''],
       riding: [''],
       swimming: [''],
-      weightLifiting: [''],
-      bio: ['', [Validators.required]]
+      weightLifting: [''],
+      bio: ['', [Validators.required, Validators.minLength(30)]]
     });
   }
 
-  // nullValidator() : null {
-  //   return null;
-  // }
+  updateError() {
+    const running = this.prefFrm.controls['running'].value || false;
+    const riding = this.prefFrm.controls['riding'].value || false;
+    const swimming = this.prefFrm.controls['swimming'].value || false;
+    const weightLifting = this.prefFrm.controls['weightLifting'].value || false;
+    this.noActivityChosen = false;
+    if (!(running || riding || swimming || weightLifting)) {
+      this.noActivityChosen = true;
+    }
+  }
 
   save() {
-
-    if (this.prefFrm.invalid) {
-      return;
-    }
 
     const running = this.prefFrm.controls['running'].value || false;
     const riding = this.prefFrm.controls['riding'].value || false;
@@ -49,12 +56,19 @@ export class AthleteprofileComponent implements OnInit {
     const weightLifting = this.prefFrm.controls['weightLifting'].value || false;
     const bio = this.prefFrm.controls['bio'].value;
 
+    this.noActivityChosen = false;
+    if (!(running || riding || swimming || weightLifting) || this.prefFrm.invalid) {
+      this.noActivityChosen = true;
+      return;
+    }
+
     //////////////////
     //TESTING VALUES
-    console.log(running);
-    console.log(riding);
-    console.log(swimming);
-    console.log(weightLifting);
+    // console.log(running);
+    // console.log(riding);
+    // console.log(swimming);
+    // console.log(weightLifting);
+    // console.log(bio);
     //////////////////
 
     //form is valid here
@@ -67,7 +81,9 @@ export class AthleteprofileComponent implements OnInit {
     this.querySignup("email", running, riding, swimming, weightLifting, bio).then(res => {
       console.log(res);
       //route user to the dashboard
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/strava']);
+    }).catch(rej => {
+      console.log(rej);
     });
     ///////////////////////
 
@@ -81,11 +97,16 @@ export class AthleteprofileComponent implements OnInit {
       this.apollo
         .mutate ({
           mutation: gql`
-            COMPLETE THIS NEW MUTATION
+            
           `,
         })
-        .subscribe ((result) => {
-          resolve(result);
+        .subscribe ({
+          next: data => {
+            resolve(data);
+          },
+          error: err => {
+            _(err);
+          }
         });
     })
   }
