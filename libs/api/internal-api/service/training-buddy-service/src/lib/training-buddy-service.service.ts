@@ -149,4 +149,22 @@ export class TrainingBuddyServiceService {
     async userConfig(config: Userconfig){
         //TODO add the code to call the repo layer of Creating a user config 
     } 
+    async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
+        const  R = 6371; // km
+        const dLat = this.toRad(lat2-lat1);
+        const  dLon = this.toRad(lon2-lon1);
+        const  latone = this.toRad(lat1);
+        const  lattwo = this.toRad(lat2);
+  
+        const  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
+        const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        const  d = R * c;
+        return d;
+
+    }
+    toRad(Value):number
+    {
+        return Value * Math.PI / 180;
+    }
 }
