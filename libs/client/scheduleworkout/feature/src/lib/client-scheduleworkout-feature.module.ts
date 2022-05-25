@@ -6,7 +6,7 @@ import { ScheduleWorkoutRoutingModule } from './scheduleworkout-routing.module';
 @NgModule({
   imports: [
     CommonModule,
-    ScheduleWorkoutRoutingModule
+    ScheduleWorkoutRoutingModule,
   ],
   declarations: [
     ScheduleworkoutComponent

@@ -19,12 +19,20 @@ export class AthleteprofileComponent implements OnInit {
   prefFrm! : FormGroup;
   frmBuilder! : FormBuilder;
 
+  //trainig radius
+  radius : number;
+
+  sliderMove(value: any) {
+    this.radius = value;
+  }
+
   constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router) { 
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
 
     //initializations:
     this.frmBuilder = frm;
     this.noActivityChosen = false;
+    this.radius = 2
   }
 
   ngOnInit(): void {
@@ -57,8 +65,11 @@ export class AthleteprofileComponent implements OnInit {
     const bio = this.prefFrm.controls['bio'].value;
 
     this.noActivityChosen = false;
-    if (!(running || riding || swimming || weightLifting) || this.prefFrm.invalid) {
+    if (!(running || riding || swimming || weightLifting)) {
       this.noActivityChosen = true;
+    }
+
+    if (this.prefFrm.invalid) {
       return;
     }
 
