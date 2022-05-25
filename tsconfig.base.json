@@ -72,6 +72,9 @@
       "@training-buddy/client/profile/feature": [
         "libs/client/profile/feature/src/index.ts"
       ],
+      "@training-buddy/client/scheduleworkout/feature": [
+        "libs/client/scheduleworkout/feature/src/index.ts"
+      ],
       "@training-buddy/client/settings/feature": [
         "libs/client/settings/feature/src/index.ts"
       ],
