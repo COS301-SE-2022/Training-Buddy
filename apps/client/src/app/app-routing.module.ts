@@ -71,6 +71,14 @@ const routes: Routes = [
       import('@training-buddy/client/strava/feature').then(
         m => m.ClientStravaFeatureModule
       ),
+  },
+
+  {
+    path: 'scheduleworkout',
+    loadChildren: () =>
+      import ('@training-buddy/client/scheduleworkout/feature').then(
+        m => m.ClientScheduleworkoutFeatureModule
+      ),
   }
 
 ];
