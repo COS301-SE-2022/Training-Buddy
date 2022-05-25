@@ -80,6 +80,11 @@ export class TrainingBuddyApiResolver {
     userConfig(@Args('userConfig')userconfig: Userconfig){
         return this.trainingBuddyService.userConfig(userconfig)
     }
+    /**
+     * 
+     * @param activityLog 
+     * @returns ErrorMessage 
+     */
     @Mutation(()=> ErrorMessage)
     activityLog(@Args('Activitylog')activityLog: ActivityLog){
         return this.trainingBuddyService.activityLog(activityLog)
