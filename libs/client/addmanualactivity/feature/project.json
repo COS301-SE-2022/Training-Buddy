@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/addmanualactivity/feature",
+  "sourceRoot": "libs/client/addmanualactivity/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/addmanualactivity/feature"],
+      "options": {
+        "jestConfig": "libs/client/addmanualactivity/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/addmanualactivity/feature/src/**/*.ts",
+          "libs/client/addmanualactivity/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
