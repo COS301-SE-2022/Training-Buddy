@@ -1,5 +1,5 @@
 import { Injectable} from '@nestjs/common';
-import {UserDto , UserEntity,  ErrorMessage, ActivityStat,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -169,5 +169,8 @@ export class TrainingBuddyServiceService {
     toRad(Value):number
     {
         return Value * Math.PI / 180;
+    }
+    async activityLog(actLog :ActivityLog ){
+        //TODO add the functionality for the add activity log 
     }
 }
