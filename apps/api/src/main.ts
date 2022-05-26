@@ -10,9 +10,9 @@ import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   
-  var admin = require("firebase-admin");
+  const admin = require("firebase-admin");
 
-  var serviceAccount = require("\training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json");
+  const serviceAccount = require("\training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json");
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
