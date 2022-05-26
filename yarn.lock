@@ -8394,7 +8394,7 @@ fined@^1.0.1:
 
 firebase-admin@^10.2.0:
   version "10.2.0"
-  resolved "https://registry.npmjs.org/firebase-admin/-/firebase-admin-10.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-10.2.0.tgz#e5a97d35819b5872e3e29384b48f67dab59ede04"
   integrity sha512-6ehn5J9UEFgi4+naqYvozmGpnZae3cJLdwSkSsDc8/Y0eTBjVMFdf9N2ft7N81UNHA0N5DknOyXhlsdAdyBLCA==
   dependencies:
     "@firebase/database-compat" "^0.1.8"
