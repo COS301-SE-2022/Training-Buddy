@@ -9,6 +9,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
+  
+  var admin = require("firebase-admin");
+
+  var serviceAccount = require("\training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json");
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://training-buddy-2022-default-rtdb.firebaseio.com"
+  });
+
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
