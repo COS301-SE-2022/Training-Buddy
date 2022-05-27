@@ -12,6 +12,8 @@ export class Userconfig {
     @Field()
     weightLifting: boolean
     @Field()
+    distance:number
+    @Field()
     bio: string
 
 }
