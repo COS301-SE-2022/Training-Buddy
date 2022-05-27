@@ -86,7 +86,7 @@ export class StravaAPIService {
           //data to be sent to api:
           console.log(data);
 
-          ////////////
+          ///////////
           //
           //  API call to add users latest activities to the database go here
           //

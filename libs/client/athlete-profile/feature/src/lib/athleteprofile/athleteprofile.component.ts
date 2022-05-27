@@ -85,14 +85,14 @@ export class AthleteprofileComponent implements OnInit {
     //form is valid here
 
     //TODO: Complete API call
-    this.router.navigate(['/dashboard']); //for testing flow
+    this.router.navigate(['/strava/link']); //for testing flow
 
     ///////////////////////
     //API CALL HERE........
-    this.querySignup("email", running, riding, swimming, weightLifting, bio).then(res => {
+    this.queryProfile("email", running, riding, swimming, weightLifting, bio).then(res => {
       console.log(res);
       //route user to the dashboard
-      this.router.navigate(['/strava']);
+      this.router.navigate(['/strava/link']);
     }).catch(rej => {
       console.log(rej);
     });
@@ -102,7 +102,7 @@ export class AthleteprofileComponent implements OnInit {
 
   ///////////////////////
   //API CALL RETURN PROMISE
-  querySignup(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string) {
+  queryProfile(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string) {
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo

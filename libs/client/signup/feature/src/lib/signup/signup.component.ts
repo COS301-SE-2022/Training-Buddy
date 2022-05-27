@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { throwServerError } from '@apollo/client/core';
 import { Apollo, gql } from 'apollo-angular';
 
 
@@ -127,7 +126,7 @@ export class SignupComponent implements OnInit {
         .subscribe ((result) => {
           resolve(result);
         });
-    })
+    });
   }
   ///////////////////////
 
