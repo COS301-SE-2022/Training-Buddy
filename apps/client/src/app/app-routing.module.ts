@@ -79,6 +79,14 @@ const routes: Routes = [
       import ('@training-buddy/client/scheduleworkout/feature').then(
         m => m.ClientScheduleworkoutFeatureModule
       ),
+  },
+
+  {
+    path: 'addactivity',
+    loadChildren: () =>
+      import ('@training-buddy/client/addmanualactivity/feature').then(
+        m => m.ClientAddmanualactivityFeatureModule
+      )
   }
 
 ];
