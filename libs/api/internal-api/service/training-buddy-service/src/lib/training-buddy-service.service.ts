@@ -1,5 +1,5 @@
 import { Injectable} from '@nestjs/common';
-import {UserDto , UserEntity,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -53,7 +53,7 @@ export class TrainingBuddyServiceService {
      * @param string
      * @returns Array Of UserEntity
      */
-    getAll(email:string ){
+    async getAll(email:string ){
 
         //get the users coordinates 
         //get all the users a certain radius from him/her 
@@ -172,5 +172,8 @@ export class TrainingBuddyServiceService {
     }
     async activityLog(actLog :ActivityLog ){
         //TODO add the functionality for the add activity log 
+    }
+    async activitySchedule(actSchedule:ActivitySchedule){
+        //TODO add the functionality for the activitySchedule
     }
 }
