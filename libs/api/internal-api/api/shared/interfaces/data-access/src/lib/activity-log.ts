@@ -5,6 +5,8 @@ import { Field , Int, InputType} from '@nestjs/graphql'
 @InputType()
 export class ActivityLog {
     @Field()
+    email: string
+    @Field()
     activityType:string
     @Field()
     dateCompleted:string
