@@ -3,6 +3,8 @@ import { Field , Int, InputType} from '@nestjs/graphql'
 @InputType()
 export class ActivitySchedule {
     @Field()
+    email: string
+    @Field()
     time:string
     @Field()
     activity:string
