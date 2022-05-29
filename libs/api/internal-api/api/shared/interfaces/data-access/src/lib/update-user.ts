@@ -17,4 +17,7 @@ export class UpdateUser {
     cellNumber: string
     @Field({nullable:true})
     password: string
+    @Field ({nullable:true})
+    distance: number
+    
 }
