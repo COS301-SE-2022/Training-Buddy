@@ -3,6 +3,7 @@ import { Field } from '@nestjs/graphql';
 import { Decimal } from '@prisma/client/runtime';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
+import { use } from 'passport';
 import passport = require('passport');
 import { emit } from 'process';
 import internal = require('stream');
@@ -42,7 +43,42 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //Configure User
     async userConfig(@Param() userConfig: Userconfig){
-        //implement
+        var runM, swimM, rideM, weightLiftM ;
+        runM = 0 ;
+        swimM = 0 ;
+        rideM = 0 ;
+        weightLiftM = 0 ;
+
+        if(userConfig.running == true){
+            runM = 1 ;
+        }
+        if(userConfig.riding == true){
+            rideM = 1 ;
+        }
+        if(userConfig.swimming == true){
+            swimM = 1 ;
+        }
+        if(userConfig.weightLifting == true){
+            weightLiftM = 1 ;
+        }
+
+        const data = {
+            bio: userConfig.bio,
+            mentrics: {
+                run: runM ,
+                ride : rideM,
+                swim : swimM,
+                weightLift : weightLiftM
+            },
+            locationRange : userConfig.distance //is this right?
+        }
+
+        var user = this.usersCollection.where('email','==', userConfig.email).get()[0] ;
+        await this.usersCollection.doc(user).set(data, {merge: true})
+        .then(results =>{
+            return true ;
+        });
+        return false ;
     }
 
     //Log in
