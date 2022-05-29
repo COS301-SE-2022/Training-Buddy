@@ -1,138 +1,79 @@
 import { Injectable, Param } from '@nestjs/common';
+import { Field } from '@nestjs/graphql';
 import { Decimal } from '@prisma/client/runtime';
-import { UserDto, ActivityStat } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { PrismaService } from '@training-buddy/api/shared/services/prisma//data-access' ;
+import { UserDto, ActivityStat, Userconfig } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import * as admin from 'firebase-admin'
+import passport = require('passport');
 import { emit } from 'process';
+import internal = require('stream');
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
-    constructor(private prisma: PrismaService) {}
+    
+    firestore = new admin.firestore.Firestore() ;
+    usersCollection = this.firestore.collection('/Users') ;
+    activityLogsCollection = this.firestore.collection('/ActivityLogs') ;
+    buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
+    buddyRequestsCollection = this.firestore.collection('/BuddyRequests') ;
+    scheduledWorkout = this.firestore.collection('/ScheduledWorkouts') ;
 
-    //used for signing up
-    async createUser(@Param() user:UserDto){
-    //    return await this.prisma.user.create({
-    //         data: {
-    //             email: user.email,
-    //             userName: user.userName,
-    //             userSurname: user.userSurname,
-    //             cellNumber: user.cellNumber,
-    //             dob: user.dob,
-    //             gender: user.gender,
-    //             location: user.location,
-    //             password: user.password
-    //         }
-    //     })
+    //Sign Up
+    async createUser(@Param() user: UserDto){
+        const data = {
+            userName : user.userName,
+            userSurname : user.userSurname,
+            email : user.email,
+            cellNumber : user.cellNumber,
+            dob : user.dob,
+            gender : user.gender,
+            longitude : user.longitude,
+            latitude : user.latitude,
+            locationRange : user.location,
+            password : user.password,
+            stravaToken : user.stravaToken
+        }
+
+        await this.usersCollection.doc().set(data)
+        .then(results =>{
+            return true ;
+        });
+        return false ;
     }
 
-    //used for logging in
-    async login(@Param() email:string){
-        return await this.prisma.user.findUnique({
-            where: {email:email}
-        })
+    //Configure User
+    async userConfig(@Param() userConfig: Userconfig){
+        //implement
     }
 
-    //used to filter users by location
-    async findAll(@Param() location: string){
-        return await this.prisma.user.findMany({
-            where:{location: location}
-        })
+    //Log in
+    async login(@Param() email: string){
+        return this.usersCollection.where('email', '==', email).get();
     }
 
-    //used to add an activity statistic for a specific user
-    async createActivityStatistic(@Param() stat:ActivityStat){
-        return await this.prisma.activityStatistic.create({
-            data: {
-                activity: stat.activity ,
-                email: stat.email ,
-                XP: stat.XP ,
-                insight: stat.insight
-            }
-        })
+    //Find one user
+    async findOne(@Param() email: string){
+        return this.usersCollection.where('email', '==', email).get();
     }
 
-    //retrieve all activity statistics for a user
-    async getAllActivityStatistics(@Param() userEmail: string){
-        return await this.prisma.activityStatistic.findMany({
-            where:{email: userEmail}
-        })
+    //Get All Users
+    async findAll(){
+        return this.usersCollection.get() ;
     }
 
-    async updateUserSurname(@Param() userSurname: string, @Param() email: string){
-        return await this.prisma.user.update({
-            where: {
-                email: email
-            },
-            data: {
-                userSurname: userSurname
-            }
-        })
+    //Get All Users within a range
+    //Pass in email and locationRange
+    //Return users within that range
+
+    //REDUNDANT
+    async createActivityStatistic(@Param() activity: ActivityStat){
+        //Update to activity logs
+        return false;
     }
 
-    async updateUserName(@Param() userName: string, @Param() email: string){
-        return await this.prisma.user.update({
-            where: {
-                email: email
-            },
-            data: {
-                userSurname: userName
-            }
-        })
+    async getAllActivityStatistics(@Param() email: string){
+        //redundant
     }
 
-    async updateEmail(@Param() newEmail: string, @Param() oldEmail: string){
-        return await this.prisma.user.update({
-            where: {
-                email: oldEmail
-            },
-            data: {
-                email: newEmail
-            }
-        })
-    }
-
-    async updateGender(@Param() gender: string, @Param() email: string){
-        return await this.prisma.user.update({
-            where: {
-                email: email
-            },
-            data: {
-                gender: gender
-            }
-        })
-    }
-
-    // async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
-    //     return await this.prisma.user.update({
-    //         where: {
-    //             email: email
-    //         },
-    //         data: {
-    //             //cellNumber: cellNumber
-    //         }
-    //     })
-    // }
-
-    async updateLocation(@Param() location: string, @Param() email: string){
-        return await this.prisma.user.update({
-            where: {
-                email: email
-            },
-            data: {
-                location: location
-            }
-        })
-    }
-
-    async updatePassword(@Param() password: string, @Param() email: string){
-        return await this.prisma.user.update({
-            where: {
-                email: email
-            },
-            data: {
-                password: password
-            }
-        })
-    }
 
 
 }
