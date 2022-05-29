@@ -1,7 +1,7 @@
 import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { Decimal } from '@prisma/client/runtime';
-import { UserDto, ActivityStat, Userconfig } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
 import passport = require('passport');
 import { emit } from 'process';
@@ -55,14 +55,60 @@ export class ApiInternalApiRepositoryDataAccessService {
         return this.usersCollection.where('email', '==', email).get();
     }
 
-    //Get All Users
-    async findAll(){
-        return this.usersCollection.get() ;
+    //Find all users except current
+    async findAll(@Param() email:string){
+        return this.usersCollection.where('email', '!=', email).get() ;
     }
 
-    //Get All Users within a range
-    //Pass in email and locationRange
-    //Return users within that range
+    //activity logs
+    async logActivity(@Param() actLog: ActivityLog){
+        const data = {
+            activityType : actLog.activityType,
+            dateComplete : actLog.dateCompleted,
+            distance : actLog.distance,
+            title : actLog.name,
+            speed : actLog.speed,
+            time : actLog.time,
+            user : actLog.email
+        }
+
+        await this.activityLogsCollection.doc().set(data)
+        .then(results =>{
+            return true ;
+        });
+        return false ;
+    }
+
+    async getUserLogs(@Param() email:string){
+        return this.activityLogsCollection.where('user', '==', email).get() ;
+    }
+
+    //activitySchedules
+
+    async scheduleActivity(@Param() actSchedule: ActivitySchedule){
+        const data = {
+            activityType : actSchedule.activity,
+            organiser : actSchedule.email,
+            distance : actSchedule.distance,
+            duration : actSchedule.duration,
+            location : actSchedule.location,
+            startTime : actSchedule.time
+        }
+
+        await this.scheduledWorkout.doc().set(data)
+        .then(results =>{
+            return true ;
+        });
+        return false ;
+    }
+
+    //invite user to scheduled activity
+
+    //buddy connections
+    
+    //create request
+
+    //updateRequest
 
     //REDUNDANT
     async createActivityStatistic(@Param() activity: ActivityStat){
@@ -73,7 +119,4 @@ export class ApiInternalApiRepositoryDataAccessService {
     async getAllActivityStatistics(@Param() email: string){
         //redundant
     }
-
-
-
 }
