@@ -19,7 +19,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //Sign Up
     async createUser(@Param() user: UserDto){
-        let data = {
+        const data = {
             userName : user.userName,
             userSurname : user.userSurname,
             email : user.email,
