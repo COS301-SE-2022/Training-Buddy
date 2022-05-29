@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScheduleworkoutComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+    return;
+  }
 
   ngOnInit(): void {
+    return;
   }
 
 }

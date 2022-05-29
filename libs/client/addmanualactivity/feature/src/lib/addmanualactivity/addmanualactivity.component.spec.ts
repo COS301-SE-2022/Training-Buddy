@@ -1,6 +1,12 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { Apollo } from 'apollo-angular';
 import { AddmanualactivityComponent } from './addmanualactivity.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddmanualactivityComponent', () => {
   let component: AddmanualactivityComponent;
@@ -9,7 +15,14 @@ describe('AddmanualactivityComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        UiModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        Apollo,
       ],
       declarations: [ AddmanualactivityComponent ]
     })
