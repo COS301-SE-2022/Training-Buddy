@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * This is not a production server yet!
  * This is only a minimal backend to get started.
@@ -5,12 +6,11 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
 import { AppModule } from './app/app.module';
 import admin = require("firebase-admin");
-
+var serviceAccount = require("training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json") ;
 async function bootstrap() {
-  var serviceAccount = require("training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json");
+
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://training-buddy-2022-default-rtdb.firebaseio.com"
