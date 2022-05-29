@@ -1,4 +1,6 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StravaexchangetokenComponent } from './stravaexchangetoken.component';
 
@@ -8,7 +10,14 @@ describe('StravaexchangetokenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StravaexchangetokenComponent ]
+      declarations: [ StravaexchangetokenComponent ],
+      imports: [
+        HttpClientModule,
+        RouterTestingModule
+      ],
+      providers: [
+        HttpClient
+      ]
     })
     .compileComponents();
   });

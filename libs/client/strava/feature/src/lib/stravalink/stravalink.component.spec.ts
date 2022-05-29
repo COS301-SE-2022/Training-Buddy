@@ -1,5 +1,7 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { StravalinkComponent } from './stravalink.component';
 
 describe('StravalinkComponent', () => {
@@ -8,7 +10,15 @@ describe('StravalinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StravalinkComponent ]
+      declarations: [ StravalinkComponent ],
+      imports: [
+        HttpClientModule,
+        RouterTestingModule,
+        UiModule
+      ],
+      providers: [
+        HttpClient
+      ]
     })
     .compileComponents();
   });
