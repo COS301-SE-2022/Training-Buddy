@@ -86,11 +86,6 @@ export class ApiInternalApiRepositoryDataAccessService {
         return this.usersCollection.where('email', '==', email).get();
     }
 
-    //Find one user
-    async findOne(@Param() email: string){
-        return this.usersCollection.where('email', '==', email).get();
-    }
-
     //Find all users except current
     async findAll(@Param() email:string){
         return this.usersCollection.where('email', '!=', email).get() ;
@@ -128,7 +123,8 @@ export class ApiInternalApiRepositoryDataAccessService {
             distance : actSchedule.distance,
             duration : actSchedule.duration,
             location : actSchedule.location,
-            startTime : actSchedule.time
+            startTime : actSchedule.time,
+            participants : {}
         }
 
         await this.scheduledWorkout.doc().set(data)
@@ -136,6 +132,11 @@ export class ApiInternalApiRepositoryDataAccessService {
             return true ;
         });
         return false ;
+    }
+
+    async getUsersScheduledActivities(@Param() email: string){
+        var organised = this.scheduledWorkout.where('organiser', '==', email) ;
+        var participating = this.scheduledWorkout.where('participants', 'array-contains', email) ;
     }
 
     //invite user to scheduled activity
