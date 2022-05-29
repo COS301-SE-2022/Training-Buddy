@@ -60,17 +60,17 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       });
 
       /* Testing FindAll function - by location*/
-      describe('findAll', () => {
-        const locationResult = UserEntityMock.location;
-        it('should find all users location', async () => {
-          try{
-            expect(service.findAll(locationResult)).toHaveReturned;
+      // describe('findAll', () => {
+      //   const locationResult = UserEntityMock.location;
+      //   it('should find all users location', async () => {
+      //     try{
+      //       expect(service.findAll(locationResult)).toHaveReturned;
 
-          } catch(error) {
-            fail(error);
-          }
-        });
-      })
+      //     } catch(error) {
+      //       fail(error);
+      //     }
+      //   });
+      // })
 
 
 });
