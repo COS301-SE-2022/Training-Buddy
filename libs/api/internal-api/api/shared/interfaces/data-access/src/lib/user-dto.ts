@@ -16,8 +16,6 @@ export class UserDto {
     @Field()
     gender:string
     @Field()
-    distance:number
-    @Field()
     dob:string
     @Field()
     email: string
