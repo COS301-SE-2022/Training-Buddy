@@ -8,7 +8,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import admin = require("firebase-admin");
-var serviceAccount = require("training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json") ;
+const serviceAccount = require("./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json") ;
 async function bootstrap() {
 
   admin.initializeApp({
