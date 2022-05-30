@@ -2,10 +2,9 @@ mat-card {
     max-width: 400px;
     width: 90vw;
     margin: 2em auto;
-    margin-top: 8em;
     padding: 2em auto;
     position: absolute;
-    top: 100%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
@@ -29,18 +28,8 @@ mat-form-field {
     display: block;
 }
 
-.rightShift {
-    display: flex;
-    justify-content: flex-end;
-}
-
 #signup {
     width: 100%;
-    background-color: #1b1a1b !important;
-}
-
-.nextButton {
-    width: 30%;
     background-color: #1b1a1b !important;
 }
 
@@ -72,6 +61,11 @@ mat-form-field {
     justify-content: flex-end;
 }
 
+.b { color: #4285F4; }
+.r { color: #EA4335; }
+.y { color: #FBBC05; }
+.g { color: #34A853; }
+
 p {
     font-size: 12px !important;
 }
@@ -81,7 +75,7 @@ p {
 }
 
 #background {
-    height: 100vh;
+    height: 100vh !important;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -92,33 +86,4 @@ mat-error {
 
 mat-hint {
     text-align: right !important;
-}
-
-#center {
-    text-align: center;
-}
-
-textarea {
-    max-height: 12vh !important;
-}
-
-::ng-deep .mat-checkbox-checked .mat-checkbox-background, 
-.mat-checkbox-indeterminate .mat-checkbox-background {
-  background-color: #1b1A1b !important;
-}
-
-::ng-deep .mat-slider-thumb {
-	background-color: #1b1A1b !important;
-}
-
-::ng-deep .mat-slider-thumb-label {
-	background-color: #1b1A1b !important;
-}
-
-::ng-deep .mat-slider-track-fill {
-	background-color: #1b1A1b !important;
-}
-
-mat-slider {
-    width: 100%;
 }

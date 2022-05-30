@@ -57,6 +57,38 @@ const routes: Routes = [
       ),
   },
 
+  {
+    path: 'strava',
+    loadChildren: () =>
+      import('@training-buddy/client/strava/feature').then(
+        m => m.ClientStravaFeatureModule
+      ),
+  },
+
+  {
+    path: 'exchange_token',
+    loadChildren: () =>
+      import('@training-buddy/client/strava/feature').then(
+        m => m.ClientStravaFeatureModule
+      ),
+  },
+
+  {
+    path: 'scheduleworkout',
+    loadChildren: () =>
+      import ('@training-buddy/client/scheduleworkout/feature').then(
+        m => m.ClientScheduleworkoutFeatureModule
+      ),
+  },
+
+  {
+    path: 'addactivity',
+    loadChildren: () =>
+      import ('@training-buddy/client/addmanualactivity/feature').then(
+        m => m.ClientAddmanualactivityFeatureModule
+      )
+  }
+
 ];
 
 @NgModule({
