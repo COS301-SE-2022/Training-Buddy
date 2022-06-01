@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "user" ALTER COLUMN "cellNumber" SET DATA TYPE VARCHAR(100);

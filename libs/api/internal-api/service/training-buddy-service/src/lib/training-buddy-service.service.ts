@@ -54,12 +54,9 @@ export class TrainingBuddyServiceService {
      * @returns Array Of UserEntity
      */
     async getAll(email:string ){
-
-        //get the users coordinates - repoService.login(email)
-            //get current users locationRange from what is returned
-        //get all the users a certain radius from him/her:
-            //repo service findAll(email) returns all users BESIDES the email passed in
-            //get their longitude and latitude from this array, make necessary calculations with current users locationRange
+        
+        //get the users coordinates 
+        //get all the users a certain radius from him/her 
         //return that array of users that are that distance to them
     }
     /**

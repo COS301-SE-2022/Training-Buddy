@@ -7,13 +7,17 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import admin = require("firebase-admin");
-const serviceAccount = require("./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json") ;
+import * as admin from "firebase-admin"
+import * as dotenv from "dotenv";
 async function bootstrap() {
 
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://training-buddy-2022-default-rtdb.firebaseio.com"
+    credential: admin.credential.cert({
+      private_key: process.env.PRIVATE_KEY,
+      client_email: process.env.CLIENT_EMAIL,
+      project_id:process.env.PROJECT_ID
+    }as Partial<admin.ServiceAccount>),
+    databaseURL: process.env.DATABASE_URL
   });
 
   const app = await NestFactory.create(AppModule);
