@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve --port 80",
-    "start:client": "yarn start client",
+    "start": "nx serve",
+    "start:client": "yarn start client --port 80",
     "start:api": "yarn start api",
     "start:db": "docker compose up -d",
     "prisma:studio": "yarn prisma studio",
