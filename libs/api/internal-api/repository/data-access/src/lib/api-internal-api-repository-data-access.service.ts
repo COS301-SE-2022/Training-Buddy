@@ -72,7 +72,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             locationRange : userConfig.distance //is this right?
         }
 
-        let user = this.usersCollection.where('email','==', userConfig.email).get()[0] ;
+        const user = this.usersCollection.where('email','==', userConfig.email).get()[0] ;
         await this.usersCollection.doc(user).set(data, {merge: true})
         .then(results =>{
             return true ;
@@ -134,8 +134,8 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     async getUsersScheduledActivities(@Param() email: string){
-        let organised = this.scheduledWorkout.where('organiser', '==', email) ;
-        let participating = this.scheduledWorkout.where('participants', 'array-contains', email) ;
+        const organised = this.scheduledWorkout.where('organiser', '==', email) ;
+        const participating = this.scheduledWorkout.where('participants', 'array-contains', email) ;
     }
 
     //invite user to scheduled activity
