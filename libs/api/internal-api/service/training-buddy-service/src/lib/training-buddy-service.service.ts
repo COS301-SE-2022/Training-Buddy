@@ -54,7 +54,7 @@ export class TrainingBuddyServiceService {
      * @returns Array Of UserEntity
      */
     async getAll(email:string ){
-
+        
         //get the users coordinates 
         //get all the users a certain radius from him/her 
         //return that array of users that are that distance to them

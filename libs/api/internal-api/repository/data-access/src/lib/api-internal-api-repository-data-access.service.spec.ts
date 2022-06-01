@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
 import { ApiInternalApiRepositoryDataAccessService } from './api-internal-api-repository-data-access.service';
-import { PrismaService } from '@training-buddy/api/shared/services/prisma//data-access';
 
 import {
   UserEntity,
@@ -28,7 +27,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [ApiInternalApiRepositoryDataAccessService, PrismaService],
+      providers: [ApiInternalApiRepositoryDataAccessService],
     }).compile();
 
     service = module.get(ApiInternalApiRepositoryDataAccessService);
