@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 
@@ -12,179 +12,89 @@ export class AthleteprofileComponent implements OnInit {
 
   img : string;
 
-  //pref droppers
-  defaultBeginner = "Beginner";
-  running = false;
-  riding = false;
-  swimming = false;
-  weights = false;
-
-  hideRun = false;
-  hideRide = false;
-  hideSwim = false;
-  hideWeights = false;
-
-  //pref droppers hide error
-  errRunning : boolean;
-  errRiding : boolean;
-  errSwim : boolean;
-  errWeight : boolean;
-  errChooseSport : boolean;
+  //error flags:
+  noActivityChosen : boolean;
 
   //form
   prefFrm! : FormGroup;
   frmBuilder! : FormBuilder;
 
+  //trainig radius
+  radius : number;
+
+  sliderMove(value: any) {
+    this.radius = value;
+  }
+
   constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router) { 
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
-    this.errRunning = false;
-    this.errRiding = false;
-    this.errSwim = false;
-    this.errWeight = false;
-    this.errChooseSport = false;
-    setTimeout(() => {
-      this.running = true;
-    }, 1000)
+
     //initializations:
     this.frmBuilder = frm;
+    this.noActivityChosen = false;
+    this.radius = 2
   }
 
   ngOnInit(): void {
     this.prefFrm = this.frmBuilder.group({
-      runningLevel: ['', this.nullValidator],
-      runningBio: ['', this.nullValidator],
-      ridingLevel: ['', this.nullValidator],
-      ridingBio: ['', this.nullValidator],
-      swimmingLevel: ['', this.nullValidator],
-      swimmingBio: ['', this.nullValidator],
-      weightLevel: ['', this.nullValidator],
-      weightBio: ['', this.nullValidator]
+      running: [''],
+      riding: [''],
+      swimming: [''],
+      weightLifting: [''],
+      bio: ['', [Validators.required, Validators.minLength(30)]]
     });
   }
 
-  showRunning(e : string) {
-    this.hideRun = false;
-    if (e != 'None') {
-      this.hideRun = true;
+  updateError() {
+    const running = this.prefFrm.controls['running'].value || false;
+    const riding = this.prefFrm.controls['riding'].value || false;
+    const swimming = this.prefFrm.controls['swimming'].value || false;
+    const weightLifting = this.prefFrm.controls['weightLifting'].value || false;
+    this.noActivityChosen = false;
+    if (!(running || riding || swimming || weightLifting)) {
+      this.noActivityChosen = true;
     }
-  }
-
-  showRiding(e : string) {
-    this.hideRide = false;
-    if (e != 'None') {
-      this.hideRide = true;
-    }
-  }
-
-  showSwim(e : string) {
-    this.hideSwim = false;
-    if (e != 'None') {
-      this.hideSwim = true;
-    }
-  }
-
-  showWeights(e : string) {
-    this.hideWeights = false;
-    if (e != 'None') {
-      this.hideWeights = true;
-    }
-  }
-
-  nullValidator() : null {
-    return null;
   }
 
   save() {
 
-    const runningLevel = this.prefFrm.controls['runningLevel'].value || null;
-    const runningBio = this.prefFrm.controls['runningBio'].value || null;
-    const ridingLevel = this.prefFrm.controls['ridingLevel'].value || null;
-    const ridingBio = this.prefFrm.controls['ridingBio'].value || null;
-    const swimmingLevel = this.prefFrm.controls['swimmingLevel'].value || null;
-    const swimmingBio = this.prefFrm.controls['swimmingBio'].value || null;
-    const weightLevel = this.prefFrm.controls['weightLevel'].value || null;
-    const weightBio = this.prefFrm.controls['weightBio'].value || null;
+    const running = this.prefFrm.controls['running'].value || false;
+    const riding = this.prefFrm.controls['riding'].value || false;
+    const swimming = this.prefFrm.controls['swimming'].value || false;
+    const weightLifting = this.prefFrm.controls['weightLifting'].value || false;
+    const bio = this.prefFrm.controls['bio'].value;
+
+    this.noActivityChosen = false;
+    if (!(running || riding || swimming || weightLifting)) {
+      this.noActivityChosen = true;
+    }
+
+    if (this.prefFrm.invalid) {
+      return;
+    }
 
     //////////////////
     //TESTING VALUES
-    console.log(runningLevel);
-    console.log(runningBio);
-    console.log(ridingLevel);
-    console.log(ridingBio);
-    console.log(swimmingLevel);
-    console.log(swimmingBio);
-    console.log(weightLevel);
-    console.log(weightBio);
+    // console.log(running);
+    // console.log(riding);
+    // console.log(swimming);
+    // console.log(weightLifting);
+    // console.log(bio);
     //////////////////
-
-    let sportCounter = 0;
-    let retFlag = false;
-    this.errChooseSport = false;
-
-    this.errRunning = false;
-    this.errRiding = false;
-    this.errSwim = false;
-    this.errWeight = false;
-
-    //validate form:
-    if (runningLevel != null) {
-      if (runningBio == null) {
-        this.running = true;
-        this.errRunning = true;
-        retFlag = true;
-      }
-      sportCounter++;
-    }
-
-    if (ridingLevel != null) {
-      if (ridingBio == null) {
-        this.riding = true;
-        this.errRiding = true;
-        retFlag = true;
-      }
-      sportCounter++;
-    }
-
-    if (swimmingLevel != null) {
-      if (swimmingBio == null) {
-        this.swimming = true;
-        this.errSwim = true;
-        retFlag = true;
-      }
-      sportCounter++;
-    }
-
-    if (weightLevel != null) {
-      if (weightLevel == null) {
-        this.weights = true;
-        this.errWeight = true;
-      }
-      sportCounter++;
-    }
-
-    if (retFlag) {
-      return;
-    }
-
-    //check for at least on sport
-    if (sportCounter == 0) {
-      this.errChooseSport = true;
-      this.running = true;
-      return;
-    }
 
     //form is valid here
 
-
     //TODO: Complete API call
-    this.router.navigate(['/dashboard']); //for testing flow
+    this.router.navigate(['/strava/link']); //for testing flow
 
     ///////////////////////
     //API CALL HERE........
-    this.querySignup("email",runningLevel, runningBio, ridingLevel, ridingBio, swimmingLevel, swimmingBio, weightLevel, weightBio).then(res => {
+    this.queryProfile("email", running, riding, swimming, weightLifting, bio).then(res => {
       console.log(res);
       //route user to the dashboard
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/strava/link']);
+    }).catch(rej => {
+      console.log(rej);
     });
     ///////////////////////
 
@@ -192,60 +102,22 @@ export class AthleteprofileComponent implements OnInit {
 
   ///////////////////////
   //API CALL RETURN PROMISE
-  querySignup(email: string, runLevel : string, runBio : string, rideLevel : string, rideBio : string, swimLevel : string, swimBio : string, weightLevel : string, weightBio : string) {
+  queryProfile(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string) {
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
         .mutate ({
           mutation: gql`
-            mutation{
-              activityStat(
-                activityStat:{
-                XP:"${runLevel}",
-                email:"${email}" , 
-                activity:"running" ,
-                insight:"${runBio}"},
-                ){
-                message
-              }
-            }
-            mutation{
-              activityStat(
-                activityStat:{
-                XP:"${rideLevel}",
-                email:"${email}" , 
-                activity:"riding" ,
-                insight:"${rideBio}"},
-                ){
-                message
-              }
-            }
-            mutation{
-              activityStat(
-                activityStat:{
-                XP:"${swimLevel}",
-                email:"${email}" , 
-                activity:"swimming" ,
-                insight:"${swimBio}"},
-                ){
-                message
-              }
-            }
-            mutation{
-              activityStat(
-                activityStat:{
-                XP:"${weightLevel}",
-                email:"${email}" , 
-                activity:"weightLifting" ,
-                insight:"${weightBio}"},
-                ){
-                message
-              }
-            }
+            
           `,
         })
-        .subscribe ((result) => {
-          resolve(result);
+        .subscribe ({
+          next: data => {
+            resolve(data);
+          },
+          error: err => {
+            _(err);
+          }
         });
     })
   }
