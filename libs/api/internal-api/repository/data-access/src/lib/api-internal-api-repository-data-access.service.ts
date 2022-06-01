@@ -43,11 +43,10 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //Configure User
     async userConfig(@Param() userConfig: Userconfig){
-        var runM, swimM, rideM, weightLiftM ;
-        runM = 0 ;
-        swimM = 0 ;
-        rideM = 0 ;
-        weightLiftM = 0 ;
+        let runM = 0 ;
+        let swimM = 0 ;
+        let rideM = 0 ;
+        let weightLiftM = 0 ;
 
         if(userConfig.running == true){
             runM = 1 ;
@@ -73,7 +72,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             locationRange : userConfig.distance //is this right?
         }
 
-        var user = this.usersCollection.where('email','==', userConfig.email).get()[0] ;
+        let user = this.usersCollection.where('email','==', userConfig.email).get()[0] ;
         await this.usersCollection.doc(user).set(data, {merge: true})
         .then(results =>{
             return true ;
@@ -135,8 +134,8 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     async getUsersScheduledActivities(@Param() email: string){
-        var organised = this.scheduledWorkout.where('organiser', '==', email) ;
-        var participating = this.scheduledWorkout.where('participants', 'array-contains', email) ;
+        let organised = this.scheduledWorkout.where('organiser', '==', email) ;
+        let participating = this.scheduledWorkout.where('participants', 'array-contains', email) ;
     }
 
     //invite user to scheduled activity
