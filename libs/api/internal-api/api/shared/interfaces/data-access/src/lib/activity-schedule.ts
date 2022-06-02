@@ -4,7 +4,7 @@ import { Field , Int, InputType} from '@nestjs/graphql'
 export class ActivitySchedule {
 
     @Field()
-    title:string
+    name:string
 
     @Field()
     description:string
@@ -26,5 +26,5 @@ export class ActivitySchedule {
 
     @Field()
     speed:number
-    
+
 }

@@ -25,7 +25,13 @@ export class ScheduleworkoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.scheduleWorkout = this.frmBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['Training Activity', [Validators.required]],
+      type: ['Running', [Validators.required]],
+      hours: ['00', [Validators.required]],
+      minutes: ['30', [Validators.required]],
+      seconds: ['00', [Validators.required]],
+      distance: ['', [Validators.required]],
+      date: [new Date(), [Validators.required]]
     });
   }
 

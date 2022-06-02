@@ -10,12 +10,12 @@
     
               <form [formGroup]="scheduleWorkout">
     
-                <h1 class="text-center">Add Activity Entry</h1>
+                <h1 class="text-center">Schedule Workout</h1>
 
                 <!-- activity name -->
                 <mat-form-field appearance="outline">
                     <mat-label>Activity Name</mat-label>
-                    <input formControlName="name" id="name" matInput type="text" placeholder="Afternoon Run" name="name">
+                    <input formControlName="name" id="name" matInput type="text" placeholder="Training Activity" name="name">
                     <mat-error>
                         Name is required
                     </mat-error>
@@ -34,6 +34,54 @@
                     </mat-select>
 
                 </mat-form-field>
+
+                <!-- date performed -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Activity Date</mat-label>
+                    <input formControlName="date" id="date" matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>
+                        Date is requied
+                    </mat-error>
+                    <mat-hint [align]="'end'">MM/DD/YYYY</mat-hint>
+                </mat-form-field>
+
+                <!-- time inputs -->
+                <mat-label>Activity Duration:</mat-label>
+
+                <div class="grid grid-flow-row-dense grid-cols-3 mt-2">
+
+                    <mat-form-field appearance="outline" class="col-span-1 mr-1">
+                        <mat-label>Hours</mat-label>
+                        <input formControlName="hours" id="hours" matInput type="number" name="hours">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="col-span-1">
+                        <mat-label>Minutes</mat-label>
+                        <input formControlName="minutes" id="minutes" matInput type="number"name="minutes">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="col-span-1 ml-1">
+                        <mat-label>Secs</mat-label>
+                        <input formControlName="seconds" id="seconds" matInput type="number"name="seconds">
+                    </mat-form-field>
+
+                </div>
+
+                <div *ngIf="!isWeightLifting">
+                    <!-- not weight lifting -->
+
+                    <!-- distance -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Activity Distance (km)</mat-label>
+                        <input formControlName="distance" id="distance" matInput type="number" placeholder="10" name="distance">
+                        <mat-error *ngIf="scheduleWorkout.controls['distance'].errors">
+                            Distance is required
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
 
                 <div class="submitButton mt-3">
                     <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add Activity</button>
