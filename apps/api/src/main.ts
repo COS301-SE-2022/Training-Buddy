@@ -10,14 +10,16 @@ import { AppModule } from './app/app.module';
 import * as admin from "firebase-admin"
 import * as dotenv from "dotenv";
 async function bootstrap() {
+  const serviceAccount = require('./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json')
 
   admin.initializeApp({
     credential: admin.credential.cert({
-      private_key: process.env.PRIVATE_KEY,
-      client_email: process.env.CLIENT_EMAIL,
-      project_id:process.env.PROJECT_ID
-    }as Partial<admin.ServiceAccount>),
-    databaseURL: process.env.DATABASE_URL
+      projectId:process.env.PROJECT_ID,
+      privateKey: process.env.PRIVATE_KEY,
+      clientEmail: process.env.CLIENT_MAIL
+      
+    }),
+    databaseURL: process.env.DATABASE_URL,
   });
 
   const app = await NestFactory.create(AppModule);
