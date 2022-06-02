@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "start": "nx serve",
-        "start:client": "yarn start client --80",
+        "start:client": "yarn start client --port 80",
         "start:api": "yarn start api",
         "build": "nx build",
         "test": "nx test",

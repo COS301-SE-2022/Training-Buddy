@@ -1,3 +1,52 @@
-<training-buddy-signed-navbar></training-buddy-signed-navbar>
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 
-<training-buddy-navbar></training-buddy-navbar>
+    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+    
+    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    
+        <mat-card>
+    
+            <mat-card-content>
+    
+              <form [formGroup]="scheduleWorkout">
+    
+                <h1 class="text-center">Add Activity Entry</h1>
+
+                <!-- activity name -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Activity Name</mat-label>
+                    <input formControlName="name" id="name" matInput type="text" placeholder="Afternoon Run" name="name">
+                    <mat-error>
+                        Name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- activity type -->
+                <mat-form-field appearance="outline">
+
+                    <mat-label>Activity Type</mat-label>
+
+                    <mat-select #toggle (selectionChange)="activityToggle(toggle.value)" formControlName="type" id="type" name="type">
+                        <mat-option value="Running" default>Running</mat-option>
+                        <mat-option value="Riding">Riding</mat-option>
+                        <mat-option value="Swimming">Swimming</mat-option>
+                        <mat-option value="WeightLifting">Weight Lifting</mat-option>
+                    </mat-select>
+
+                </mat-form-field>
+
+                <div class="submitButton mt-3">
+                    <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add Activity</button>
+                </div>
+    
+              </form>
+    
+            </mat-card-content>
+    
+          </mat-card>
+    
+    </mat-grid-list>
+
+    <training-buddy-navbar></training-buddy-navbar>
+    
+</div>
