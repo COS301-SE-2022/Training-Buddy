@@ -1,6 +1,6 @@
 import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
-import { UserDto, ActivityStat, Userconfig } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
 import { use } from 'passport';
 import passport = require('passport');
