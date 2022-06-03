@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/scheduleworkout/feature",
+  "sourceRoot": "libs/client/scheduleworkout/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/scheduleworkout/feature"],
+      "options": {
+        "jestConfig": "libs/client/scheduleworkout/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/scheduleworkout/feature/src/**/*.ts",
+          "libs/client/scheduleworkout/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,124 @@
+mat-card {
+    max-width: 400px;
+    width: 90vw;
+    margin: 2em auto;
+    margin-top: 8em;
+    padding: 2em auto;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.submitButton {
+    text-align: center;
+    width: 100%;
+}
+
+.forgotpassword {
+    text-align: right;
+    text-decoration: underline;
+}
+
+mat-form-field {
+    display: block;
+}
+
+.rightShift {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#signup {
+    width: 100%;
+    background-color: #1b1a1b !important;
+}
+
+.nextButton {
+    width: 30%;
+    background-color: #1b1a1b !important;
+}
+
+.logIn {
+    text-align: right;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.logInLink {
+    text-decoration: underline;
+    color: #4350af;
+    margin-left: 1%;
+}
+
+.logInLink:hover {
+    cursor: pointer;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    margin-bottom: -1.25em;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+p {
+    font-size: 12px !important;
+}
+
+.fullhint {
+    width: 100% !important;
+}
+
+#background {
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+mat-error {
+    text-align: right;
+}
+
+mat-hint {
+    text-align: right !important;
+}
+
+#center {
+    text-align: center;
+}
+
+textarea {
+    max-height: 12vh !important;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background, 
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: #1b1A1b !important;
+}
+
+::ng-deep .mat-slider-thumb {
+	background-color: #1b1A1b !important;
+}
+
+::ng-deep .mat-slider-thumb-label {
+	background-color: #1b1A1b !important;
+}
+
+::ng-deep .mat-slider-track-fill {
+	background-color: #1b1A1b !important;
+}
+
+mat-slider {
+    width: 100%;
+}
