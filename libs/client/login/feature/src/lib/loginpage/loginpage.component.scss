@@ -1,0 +1,62 @@
+mat-card {
+    max-width: 400px;
+    width: 90vw;
+    margin: 2em auto;
+    padding: 2em auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.submitButton {
+    text-align: center;
+    width: 100%;
+}
+
+.forgotpassword {
+    text-align: right;
+    text-decoration: underline;
+}
+
+mat-form-field {
+    display: block;
+}
+
+#login {
+    width: 100%;
+    background-color: #1b1a1b !important;
+}
+
+.signUp {
+    text-align: right;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.signUpLink {
+    text-decoration: underline;
+    color: #4350af;
+    margin-left: 1%;
+}
+
+.signUpLink:hover {
+    cursor: pointer;
+}
+
+#background {
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+mat-error {
+    text-align: right;
+}

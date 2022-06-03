@@ -1,0 +1,27 @@
+{
+  "root": "libs/api/internal-api/service/training-buddy-service",
+  "sourceRoot": "libs/api/internal-api/service/training-buddy-service/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/api/internal-api/service/training-buddy-service/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/api/internal-api/service/training-buddy-service"
+      ],
+      "options": {
+        "jestConfig": "libs/api/internal-api/service/training-buddy-service/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

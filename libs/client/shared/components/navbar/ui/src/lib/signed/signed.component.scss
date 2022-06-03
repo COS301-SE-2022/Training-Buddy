@@ -1,0 +1,22 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+mat-toolbar {
+    background-color: rgba(255, 255, 255, 0.90);
+}
+
+#bar {
+    background-color: #1b1a1b !important;
+}
+
+span {
+    color : white;
+}
+
+p {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100vw;
+}

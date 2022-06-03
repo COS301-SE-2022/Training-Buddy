@@ -1,0 +1,54 @@
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+
+<training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+
+<!-- <picture>
+  <source media='(min-width:0px)' srcset="https://material.angular.io/assets/img/examples/shiba2.jpg">
+  <img mat-card-image src="" alt="Photo of a Shiba Inu">
+</picture> -->
+
+<mat-grid-list cols="1" rows="1" rowHeight="2:1">
+
+    <mat-card>
+
+        <mat-card-content>
+
+          <form [formGroup]="loginFrm">
+
+            <h1 class="text-center">Log In</h1>
+
+            <!-- email -->
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input formControlName="userEmail" id="userEmail" matInput type="email" placeholder="user@domain.com" name="userEmail">
+              <mat-error  *ngIf="loginFrm.controls['userEmail'].errors">
+                  Email is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input formControlName="userPassword" id="userPassword" matInput [type]="hide ? 'password' : 'text'" name="userPassword">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginFrm.controls['userPassword'].errors">
+                  Password is required
+              </mat-error>
+            </mat-form-field>
+
+            <div class="submitButton mt-3">
+                <!-- <button routerLink="/signup" type="button" class="text-center mr-1" mat-raised-button color="primary">Register</button> -->
+                <button id="login" (click)="login()" class="text-center ml-1" mat-raised-button color="primary">Login</button>
+                <div class="signUp"><p>No Account?</p><p routerLink="/signup" class="signUpLink">Sign Up</p></div>
+            </div>
+
+          </form>
+
+        </mat-card-content>
+
+      </mat-card>
+
+</mat-grid-list>
+
+</div>

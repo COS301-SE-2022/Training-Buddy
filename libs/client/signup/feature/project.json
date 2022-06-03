@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/signup/feature",
+  "sourceRoot": "libs/client/signup/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/signup/feature"],
+      "options": {
+        "jestConfig": "libs/client/signup/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/signup/feature/src/**/*.ts",
+          "libs/client/signup/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
