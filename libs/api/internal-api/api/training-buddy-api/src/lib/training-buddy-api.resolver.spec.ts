@@ -78,5 +78,20 @@ describe('TrainingBuddyApiResolver', () => {
 
     });
   });
+
+  /**
+   * Test findAll Function
+   */
+  describe('findAll', () => {
+
+    it('should return an array of user enitities [email]',async () => {
+        jest.spyOn(resolver, 'findAll')
+        .mockImplementation(resolver.findAll);
+
+        expect(resolver.findAll(mockUserDto.email)).toReturn;
+    });
+
+  })
+
   
 });
