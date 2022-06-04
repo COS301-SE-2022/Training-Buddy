@@ -9,8 +9,6 @@ import {
   LoginInput,
   UserDto
 } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { Context } from '@nestjs/graphql';
-
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockLoginResponse: jest.Mocked<LoginResponse> = new LoginResponse() as LoginResponse;
@@ -88,7 +86,7 @@ describe('TrainingBuddyApiResolver', () => {
         jest.spyOn(resolver, 'findAll')
         .mockImplementation(resolver.findAll);
 
-        expect(resolver.findAll(mockUserDto.email)).toReturn;
+        expect(resolver.findAll).toReturn;
     });
 
   })
