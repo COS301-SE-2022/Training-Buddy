@@ -9,8 +9,6 @@ import {
   LoginInput,
   UserDto
 } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { Context } from '@nestjs/graphql';
-
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockLoginResponse: jest.Mocked<LoginResponse> = new LoginResponse() as LoginResponse;
@@ -78,5 +76,20 @@ describe('TrainingBuddyApiResolver', () => {
 
     });
   });
+
+  /**
+   * Test findAll Function
+   */
+  describe('findAll', () => {
+
+    it('should return an array of user enitities [email]',async () => {
+        jest.spyOn(resolver, 'findAll')
+        .mockImplementation(resolver.findAll);
+
+        expect(resolver.findAll).toReturn;
+    });
+
+  })
+
   
 });
