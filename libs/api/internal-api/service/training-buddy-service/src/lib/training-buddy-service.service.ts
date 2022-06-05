@@ -44,6 +44,7 @@ export class TrainingBuddyServiceService {
         }}
         else{
             const password = await bcrypt.hash(userdto.password, 10)
+
             user = {...userdto, password };
             await this.repoService.createUser(user);
             return user;
@@ -54,6 +55,7 @@ export class TrainingBuddyServiceService {
      * @returns Array Of UserEntity
      */
     async getAll(email:string ){
+        
         
         //get the users coordinates 
         //get all the users a certain radius from him/her 
