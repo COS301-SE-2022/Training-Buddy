@@ -93,8 +93,5 @@ export class TrainingBuddyApiResolver {
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
         return this.trainingBuddyService.activitySchedule(activitySchedule)
     }
-
-
-
 }
 
