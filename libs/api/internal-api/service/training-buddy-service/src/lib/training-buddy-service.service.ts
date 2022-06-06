@@ -64,7 +64,7 @@ export class TrainingBuddyServiceService {
         let distance = 0;
         let longitude = 0;
         let latitude = 0;
-        let people = [];
+        const people = [];
         for(let i = 0; i < arr.length; i){
             if(arr[i].email=== email){
                distance=  arr[i].distance
