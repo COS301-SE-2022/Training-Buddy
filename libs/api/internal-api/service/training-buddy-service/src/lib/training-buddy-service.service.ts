@@ -289,6 +289,15 @@ export class TrainingBuddyServiceService {
     //     }
     }
     sendRequest(userEmail: string, otherEmail: string) {
-        
+    //     let res =  await this.repoService.createConnectionRequest(userEmail, otherEmail);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure to connect request"
+    //         return item;
+    //     }
+    //     else{
+    //         item.message = "Success User Connection Sent"
+    //         return item;
+    //     }
     }
 }
