@@ -59,11 +59,25 @@ export class TrainingBuddyServiceService {
     async getAll(email:string ){
         
         const arr = await this.repoService.findAll(email)
-        console.log(arr) ;
-        return arr ;
-        //get the users coordinates 
-        //get all the users a certain radius from him/her 
-        //return that array of users that are that distance to them
+        let distance = 0;
+        let longitude = 0;
+        let latitude = 0;
+        let people = [];
+        for(let i = 0; i < arr.length; i){
+            if(arr[i].email=== email){
+               distance=  arr[i].distance
+               longitude = arr[i].longitude
+               latitude = arr[i].latitude
+            }
+        }
+        for(let i = 0; i < arr.length; i){
+            if(arr[i].email!=email){
+                if(await this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)<= distance){
+                    people.push(arr[i]);
+                }
+            }
+        }
+        return people ;
     }
     /**
      * 
@@ -156,7 +170,7 @@ export class TrainingBuddyServiceService {
 
     }
     async userConfig(config: Userconfig){
-        //TODO add the code to call the repo layer of Creating a user config 
+    
     } 
     async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
         const  R = 6371; // km
