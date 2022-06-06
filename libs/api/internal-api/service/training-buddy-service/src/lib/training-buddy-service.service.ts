@@ -46,10 +46,11 @@ export class TrainingBuddyServiceService {
         }
         else{
             const password = await bcrypt.hash(userdto.password, 10)
-           
             user = {...userdto, password };
             await this.repoService.createUser(user);
-            return user;
+            const item = new ErrorMessage;
+            item.message = "User has Successfully Signed";
+            return item;
         }
     }
     /**
@@ -85,7 +86,6 @@ export class TrainingBuddyServiceService {
      * @returns 
      */
     async login( user:any){
-        
         {
             return {
                 accessToken: this.jwtService.sign({user: user.userName , email: user.email}),
@@ -170,7 +170,17 @@ export class TrainingBuddyServiceService {
 
     }
     async userConfig(config: Userconfig){
-    
+        // let val =  await this.repoService.userConfig(config);
+        // const item = new ErrorMessage;
+        // if(val === false){
+        //     item.message = "failure"
+        //     return item;
+
+        // }
+        // else{
+        //     item.message = "success"
+        //     return item;
+        // }
     } 
     async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
         const  R = 6371; // km
