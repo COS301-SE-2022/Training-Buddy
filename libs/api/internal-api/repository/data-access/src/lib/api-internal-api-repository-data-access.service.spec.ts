@@ -1,18 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { ApiInternalApiRepositoryDataAccessService } from './api-internal-api-repository-data-access.service';
 
-import {
-  UserEntity,
-  UserDto,
-  LoginInput,
-  ActivityStat,
-
-} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+//Import Testing Modules
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 
-const ActivityStatMock: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat
-const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
 // const UserDtoMock: jest.Mocked<UserDto> = {
 //   email:'tester@gmail.com',
 //   gender: 'Male',
