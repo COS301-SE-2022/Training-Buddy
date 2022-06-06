@@ -58,7 +58,7 @@ export class TrainingBuddyServiceService {
      */
     async getAll(email:string ){
         
-        let arr = await this.repoService.findAll(email)
+        const arr = await this.repoService.findAll(email)
         console.log(arr) ;
         return arr ;
         //get the users coordinates 
