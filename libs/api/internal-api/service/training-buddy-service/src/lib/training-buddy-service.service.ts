@@ -201,7 +201,17 @@ export class TrainingBuddyServiceService {
         return Value * Math.PI / 180;
     }
     async activityLog(actLog :ActivityLog ){
-        //TODO add the functionality for the add activity log 
+    //    let res =  await this.repoService.userConfig(actLog);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure"
+    //         return item;
+
+    //     }
+    //     else{
+    //         item.message = "success"
+    //         return item;
+    //     }
     }
     async activitySchedule(actSchedule:ActivitySchedule){
         //TODO add the functionality for the activitySchedule
