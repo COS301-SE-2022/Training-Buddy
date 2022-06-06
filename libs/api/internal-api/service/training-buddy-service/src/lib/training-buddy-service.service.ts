@@ -122,37 +122,37 @@ export class TrainingBuddyServiceService {
      * @returns Response
      */
     async updateUser(user:UpdateUser){
-        // const users = await this.findOne(user.oldemail)
-        // const item = new ErrorMessage;
-        // let response; 
-        // if(users){
-        //     if(user.cellNumber){
-        //         response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
-        //     }
-        //     if(user.email){
-        //         response = await this.repoService.updateEmail(user.email, user.oldemail);
-        //     }
-        //     if(user.location){
-        //         response = await this.repoService.updateLocation(user.location, user.oldemail);
-        //     }
-        //     if(user.password){
-        //         const password = await bcrypt.hash(user.password, 10)
-        //         response = await this.repoService.updatePassword(password, user.oldemail);
-        //     }
-        //     if(user.userName){
-        //         response = await this.repoService.updateUserName(user.userName, user.oldemail);
-        //     }
-        //     if(user.userSurname){
-        //         response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
-        //     }
-        //     if(response){
-        //         item.message ="Successful";
-        //         return item;
-        //     }
-        // }else{
-        //     item.message = "Failure"
-        //     return item;
-        // }
+        const users = await this.findOne(user.oldemail)
+        const item = new ErrorMessage;
+        let response; 
+        if(users){
+            if(user.cellNumber){
+                response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
+            }
+            if(user.email){
+                response = await this.repoService.updateEmail(user.email, user.oldemail);
+            }
+            if(user.location){
+                response = await this.repoService.updateLocation(user.location, user.oldemail);
+            }
+            if(user.password){
+                const password = await bcrypt.hash(user.password, 10)
+                response = await this.repoService.updatePassword(password, user.oldemail);
+            }
+            if(user.userName){
+                response = await this.repoService.updateUserName(user.userName, user.oldemail);
+            }
+            if(user.userSurname){
+                response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
+            }
+            if(response){
+                item.message ="Successful";
+                return item;
+            }
+        }else{
+            item.message = "Failure"
+            return item;
+        }
 
     }
     async userConfig(config: Userconfig){
