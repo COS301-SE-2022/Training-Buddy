@@ -89,9 +89,45 @@ export class TrainingBuddyApiResolver {
     activityLog(@Args('Activitylog')activityLog: ActivityLog){
         return this.trainingBuddyService.activityLog(activityLog)
     }
+    /**
+     * 
+     * @param activitySchedule 
+     * @returns 
+     */
     @Mutation(()=> ErrorMessage)
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
         return this.trainingBuddyService.activitySchedule(activitySchedule)
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    sendRequest(@Args('sendRequest')userEmail: string , otherEmail: string){
+        return this.trainingBuddyService.sendRequest(userEmail, otherEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    reject(@Args('reject')userEmail: string , otherEmail: string){
+        return this.trainingBuddyService.reject(userEmail, otherEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    accept(@Args('accept')userEmail: string , otherEmail: string){
+        return this.trainingBuddyService.accept(userEmail, otherEmail);
+    }
 }
+
 

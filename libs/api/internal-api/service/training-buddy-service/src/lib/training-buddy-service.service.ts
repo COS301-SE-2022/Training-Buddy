@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+  
     /**
      * 
      * @param jwtService 
@@ -41,7 +42,7 @@ export class TrainingBuddyServiceService {
         console.log(user)
         if(await user){
             const item = new ErrorMessage;
-            item.message = "User Already Exists";
+            item.message = "User Already Exists failure";
             return item;
         }
         else{
@@ -107,11 +108,11 @@ export class TrainingBuddyServiceService {
                response.message = "Activity Successfully added";
                return response;
            }else{
-               response.message= "Activity Addition Failed ";
+               response.message= "Activity Addition failure";
                return response;
            }
         }else{
-            response.message = "Could not find The user"
+            response.message = "Could not find The user failure"
             return response;
         }
     }
@@ -164,7 +165,7 @@ export class TrainingBuddyServiceService {
                 return item;
             }
         }else{
-            item.message = "Failure"
+            item.message = "failure"
             return item;
         }
 
@@ -255,5 +256,66 @@ export class TrainingBuddyServiceService {
     //         return item;
     //     }
         
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @return ErrorMessage
+     */
+    accept(userEmail: string, otherEmail: string) {
+    //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure to deleteConnectionRequest"
+    //         return item;
+    //     }
+    //     else{
+    //         res =  await this.repoService.makeConnection(userEmail, otherEmail);
+    //         if(res === false){
+    //             item.message = "failure to make Connection"
+    //             return item;
+    //         }else{
+    //             item.message = "Success Connection made"
+    //             return item;
+    //         }
+           
+    //     }
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @return ErrorMessage
+     */
+    reject(userEmail: string, otherEmail: string) {
+    //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure to deleteConnectionRequest"
+    //         return item;
+    //     }
+    //     else{
+    //         item.message = "Success User Rejected"
+    //         return item;
+    //     }
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail
+     * @return ErrorMessage 
+     */
+    sendRequest(userEmail: string, otherEmail: string) {
+    //     let res =  await this.repoService.createConnectionRequest(userEmail, otherEmail);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure to connect request"
+    //         return item;
+    //     }
+    //     else{
+    //         item.message = "Success User Connection Sent"
+    //         return item;
+    //     }
     }
 }
