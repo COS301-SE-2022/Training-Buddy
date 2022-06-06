@@ -214,6 +214,18 @@ export class TrainingBuddyServiceService {
     //     }
     }
     async activitySchedule(actSchedule:ActivitySchedule){
-        //TODO add the functionality for the activitySchedule
+    //     let res =  await this.repoService.activitySchedule(actScheduleactLog);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure"
+    //         return item;
+
+    //     }
+    //     else{
+    //         item.message = "success"
+    //         //TODO broadcast to all buddies 
+    //         return item;
+    //     }
+        
     }
 }
