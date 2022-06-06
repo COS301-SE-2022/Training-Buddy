@@ -257,6 +257,12 @@ export class TrainingBuddyServiceService {
     //     }
         
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @return ErrorMessage
+     */
     accept(userEmail: string, otherEmail: string) {
     //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
     //    const item = new ErrorMessage;
@@ -276,6 +282,12 @@ export class TrainingBuddyServiceService {
            
     //     }
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @return ErrorMessage
+     */
     reject(userEmail: string, otherEmail: string) {
     //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
     //    const item = new ErrorMessage;
@@ -288,6 +300,12 @@ export class TrainingBuddyServiceService {
     //         return item;
     //     }
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail
+     * @return ErrorMessage 
+     */
     sendRequest(userEmail: string, otherEmail: string) {
     //     let res =  await this.repoService.createConnectionRequest(userEmail, otherEmail);
     //    const item = new ErrorMessage;
