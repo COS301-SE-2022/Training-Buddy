@@ -169,6 +169,11 @@ export class TrainingBuddyServiceService {
         }
 
     }
+    /**
+     * 
+     * @param config 
+     * @return ErrorMessage
+     */
     async userConfig(config: Userconfig){
         // let val =  await this.repoService.userConfig(config);
         // const item = new ErrorMessage;
@@ -182,6 +187,14 @@ export class TrainingBuddyServiceService {
         //     return item;
         // }
     } 
+    /**
+     * 
+     * @param lat1 
+     * @param lon1 
+     * @param lat2 
+     * @param lon2 
+     * @returns distance 
+     */
     async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
         const  R = 6371; // km
         const dLat = this.toRad(lat2-lat1);
@@ -196,10 +209,20 @@ export class TrainingBuddyServiceService {
         return d;
 
     }
+    /**
+     * 
+     * @param Value 
+     * @returns radians
+     */
     toRad(Value):number
     {
         return Value * Math.PI / 180;
     }
+    /**
+     * 
+     * @param actLog 
+     * @return ErrorMessage
+     */
     async activityLog(actLog :ActivityLog ){
     //    let res =  await this.repoService.userConfig(actLog);
     //    const item = new ErrorMessage;
@@ -213,6 +236,11 @@ export class TrainingBuddyServiceService {
     //         return item;
     //     }
     }
+    /**
+     * 
+     * @param actSchedule 
+     * @return ErrorMessage
+     */
     async activitySchedule(actSchedule:ActivitySchedule){
     //     let res =  await this.repoService.activitySchedule(actScheduleactLog);
     //    const item = new ErrorMessage;
