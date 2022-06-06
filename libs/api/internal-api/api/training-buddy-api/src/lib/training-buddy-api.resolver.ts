@@ -16,7 +16,7 @@ export class TrainingBuddyApiResolver {
      * @param userDTO 
      * @returns UserEntity
      */
-    @Mutation(()=> UserEntity||ErrorMessage)
+    @Mutation(()=>ErrorMessage)
     signup(@Args('userDto')userDTO : UserDto){
         return this.trainingBuddyService.signup(userDTO);
     }
