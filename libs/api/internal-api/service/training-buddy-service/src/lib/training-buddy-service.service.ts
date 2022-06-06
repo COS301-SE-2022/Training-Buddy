@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+  
     /**
      * 
      * @param jwtService 
@@ -255,5 +256,14 @@ export class TrainingBuddyServiceService {
     //         return item;
     //     }
         
+    }
+    accept(userEmail: string, otherEmail: string) {
+        throw new Error('Method not implemented.');
+    }
+    reject(userEmail: string, otherEmail: string) {
+        throw new Error('Method not implemented.');
+    }
+    sendRequest(userEmail: string, otherEmail: string) {
+        throw new Error('Method not implemented.');
     }
 }
