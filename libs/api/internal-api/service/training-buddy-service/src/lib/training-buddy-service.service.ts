@@ -46,10 +46,11 @@ export class TrainingBuddyServiceService {
         }
         else{
             const password = await bcrypt.hash(userdto.password, 10)
-           
             user = {...userdto, password };
             await this.repoService.createUser(user);
-            return user;
+            const item = new ErrorMessage;
+            item.message = "User has Successfully Signed";
+            return item;
         }
     }
     /**
@@ -59,11 +60,25 @@ export class TrainingBuddyServiceService {
     async getAll(email:string ){
         
         const arr = await this.repoService.findAll(email)
-        console.log(arr) ;
-        return arr ;
-        //get the users coordinates 
-        //get all the users a certain radius from him/her 
-        //return that array of users that are that distance to them
+        let distance = 0;
+        let longitude = 0;
+        let latitude = 0;
+        const people = [];
+        for(let i = 0; i < arr.length; i){
+            if(arr[i].email=== email){
+               distance=  arr[i].distance
+               longitude = arr[i].longitude
+               latitude = arr[i].latitude
+            }
+        }
+        for(let i = 0; i < arr.length; i){
+            if(arr[i].email!=email){
+                if(await this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)<= distance){
+                    people.push(arr[i]);
+                }
+            }
+        }
+        return people ;
     }
     /**
      * 
@@ -71,7 +86,6 @@ export class TrainingBuddyServiceService {
      * @returns 
      */
     async login( user:any){
-        
         {
             return {
                 accessToken: this.jwtService.sign({user: user.userName , email: user.email}),
@@ -122,42 +136,65 @@ export class TrainingBuddyServiceService {
      * @returns Response
      */
     async updateUser(user:UpdateUser){
-        // const users = await this.findOne(user.oldemail)
-        // const item = new ErrorMessage;
-        // let response; 
-        // if(users){
-        //     if(user.cellNumber){
-        //         response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
-        //     }
-        //     if(user.email){
-        //         response = await this.repoService.updateEmail(user.email, user.oldemail);
-        //     }
-        //     if(user.location){
-        //         response = await this.repoService.updateLocation(user.location, user.oldemail);
-        //     }
-        //     if(user.password){
-        //         const password = await bcrypt.hash(user.password, 10)
-        //         response = await this.repoService.updatePassword(password, user.oldemail);
-        //     }
-        //     if(user.userName){
-        //         response = await this.repoService.updateUserName(user.userName, user.oldemail);
-        //     }
-        //     if(user.userSurname){
-        //         response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
-        //     }
-        //     if(response){
-        //         item.message ="Successful";
-        //         return item;
-        //     }
-        // }else{
-        //     item.message = "Failure"
-        //     return item;
-        // }
+        const users = await this.findOne(user.oldemail)
+        const item = new ErrorMessage;
+        let response; 
+        if(users){
+            if(user.cellNumber){
+                response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
+            }
+            if(user.email){
+                response = await this.repoService.updateEmail(user.email, user.oldemail);
+            }
+            if(user.location){
+                response = await this.repoService.updateLocation(user.location, user.oldemail);
+            }
+            if(user.password){
+                const password = await bcrypt.hash(user.password, 10)
+                response = await this.repoService.updatePassword(password, user.oldemail);
+            }
+            if(user.userName){
+                response = await this.repoService.updateUserName(user.userName, user.oldemail);
+            }
+            if(user.userSurname){
+                response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
+            }
+            if(response){
+                item.message ="Successful";
+                return item;
+            }
+        }else{
+            item.message = "Failure"
+            return item;
+        }
 
     }
+    /**
+     * 
+     * @param config 
+     * @return ErrorMessage
+     */
     async userConfig(config: Userconfig){
-        //TODO add the code to call the repo layer of Creating a user config 
+        // let val =  await this.repoService.userConfig(config);
+        // const item = new ErrorMessage;
+        // if(val === false){
+        //     item.message = "failure"
+        //     return item;
+
+        // }
+        // else{
+        //     item.message = "success"
+        //     return item;
+        // }
     } 
+    /**
+     * 
+     * @param lat1 
+     * @param lon1 
+     * @param lat2 
+     * @param lon2 
+     * @returns distance 
+     */
     async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
         const  R = 6371; // km
         const dLat = this.toRad(lat2-lat1);
@@ -172,14 +209,51 @@ export class TrainingBuddyServiceService {
         return d;
 
     }
+    /**
+     * 
+     * @param Value 
+     * @returns radians
+     */
     toRad(Value):number
     {
         return Value * Math.PI / 180;
     }
+    /**
+     * 
+     * @param actLog 
+     * @return ErrorMessage
+     */
     async activityLog(actLog :ActivityLog ){
-        //TODO add the functionality for the add activity log 
+    //    let res =  await this.repoService.userConfig(actLog);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure"
+    //         return item;
+
+    //     }
+    //     else{
+    //         item.message = "success"
+    //         return item;
+    //     }
     }
+    /**
+     * 
+     * @param actSchedule 
+     * @return ErrorMessage
+     */
     async activitySchedule(actSchedule:ActivitySchedule){
-        //TODO add the functionality for the activitySchedule
+    //     let res =  await this.repoService.activitySchedule(actScheduleactLog);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure"
+    //         return item;
+
+    //     }
+    //     else{
+    //         item.message = "success"
+    //         //TODO broadcast to all buddies 
+    //         return item;
+    //     }
+        
     }
 }
