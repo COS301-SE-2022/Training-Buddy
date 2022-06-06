@@ -168,5 +168,20 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test activitySchedule Function
+   */
+
+  describe('activitySchedule', () => {
+    
+    it('should return from activity log', async () => {
+      jest.spyOn(resolver, 'activitySchedule')
+      .mockImplementation(resolver.activitySchedule);
+
+      expect(resolver.activitySchedule).toReturn;
+
+    });
+  });
+
 
 });
