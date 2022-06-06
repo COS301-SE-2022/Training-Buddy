@@ -58,7 +58,9 @@ export class TrainingBuddyServiceService {
      */
     async getAll(email:string ){
         
-        
+        let arr = await this.repoService.findAll(email)
+        console.log(arr) ;
+        return arr ;
         //get the users coordinates 
         //get all the users a certain radius from him/her 
         //return that array of users that are that distance to them
