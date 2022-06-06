@@ -93,5 +93,9 @@ export class TrainingBuddyApiResolver {
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
         return this.trainingBuddyService.activitySchedule(activitySchedule)
     }
+    @Mutation(()=>ErrorMessage)
+    reject(@Args('reject')userEmail: string , otherEmail: string){
+        return this.trainingBuddyService.reject(userEmail, otherEmail);
+    }
 }
 
