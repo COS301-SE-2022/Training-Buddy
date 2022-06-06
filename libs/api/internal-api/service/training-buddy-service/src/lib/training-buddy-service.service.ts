@@ -176,17 +176,17 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async userConfig(config: Userconfig){
-        // let val =  await this.repoService.userConfig(config);
-        // const item = new ErrorMessage;
-        // if(val === false){
-        //     item.message = "failure"
-        //     return item;
+        let val =  await this.repoService.userConfig(config);
+        const item = new ErrorMessage;
+        if(val === false){
+            item.message = "failure"
+            return item;
 
-        // }
-        // else{
-        //     item.message = "success"
-        //     return item;
-        // }
+        }
+        else{
+            item.message = "success"
+            return item;
+        }
     } 
     /**
      * 
@@ -225,17 +225,17 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activityLog(actLog :ActivityLog ){
-    //    let res =  await this.repoService.userConfig(actLog);
-    //    const item = new ErrorMessage;
-    //    if(res === false){
-    //         item.message = "failure"
-    //         return item;
+       let res =  await this.repoService.logActivity(actLog);
+       const item = new ErrorMessage;
+       if(res === false){
+            item.message = "failure"
+            return item;
 
-    //     }
-    //     else{
-    //         item.message = "success"
-    //         return item;
-    //     }
+        }
+        else{
+            item.message = "success"
+            return item;
+        }
     }
     /**
      * 
@@ -243,18 +243,18 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activitySchedule(actSchedule:ActivitySchedule){
-    //     let res =  await this.repoService.activitySchedule(actScheduleactLog);
-    //    const item = new ErrorMessage;
-    //    if(res === false){
-    //         item.message = "failure"
-    //         return item;
+        let res =  await this.repoService.scheduleWorkout(actSchedule);
+       const item = new ErrorMessage;
+       if(res === false){
+            item.message = "failure"
+            return item;
 
-    //     }
-    //     else{
-    //         item.message = "success"
-    //         //TODO broadcast to all buddies 
-    //         return item;
-    //     }
+        }
+        else{
+            item.message = "success"
+            //TODO broadcast to all buddies 
+            return item;
+        }
         
     }
     /**
@@ -263,24 +263,24 @@ export class TrainingBuddyServiceService {
      * @param otherEmail 
      * @return ErrorMessage
      */
-    accept(userEmail: string, otherEmail: string) {
-    //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
-    //    const item = new ErrorMessage;
-    //    if(res === false){
-    //         item.message = "failure to deleteConnectionRequest"
-    //         return item;
-    //     }
-    //     else{
-    //         res =  await this.repoService.makeConnection(userEmail, otherEmail);
-    //         if(res === false){
-    //             item.message = "failure to make Connection"
-    //             return item;
-    //         }else{
-    //             item.message = "Success Connection made"
-    //             return item;
-    //         }
+    async accept(userEmail: string, otherEmail: string) {
+        let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
+       const item = new ErrorMessage;
+       if(res === false){
+            item.message = "failure to deleteConnectionRequest"
+            return item;
+        }
+        else{
+            res =  await this.repoService.makeConnection(userEmail, otherEmail);
+            if(res === false){
+                item.message = "failure to make Connection"
+                return item;
+            }else{
+                item.message = "Success Connection made"
+                return item;
+            }
            
-    //     }
+        }
     }
     /**
      * 
@@ -288,17 +288,17 @@ export class TrainingBuddyServiceService {
      * @param otherEmail 
      * @return ErrorMessage
      */
-    reject(userEmail: string, otherEmail: string) {
-    //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
-    //    const item = new ErrorMessage;
-    //    if(res === false){
-    //         item.message = "failure to deleteConnectionRequest"
-    //         return item;
-    //     }
-    //     else{
-    //         item.message = "Success User Rejected"
-    //         return item;
-    //     }
+    async reject(userEmail: string, otherEmail: string) {
+        let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
+       const item = new ErrorMessage;
+       if(res === false){
+            item.message = "failure to deleteConnectionRequest"
+            return item;
+        }
+        else{
+            item.message = "Success User Rejected"
+            return item;
+        }
     }
     /**
      * 
@@ -306,16 +306,16 @@ export class TrainingBuddyServiceService {
      * @param otherEmail
      * @return ErrorMessage 
      */
-    sendRequest(userEmail: string, otherEmail: string) {
-    //     let res =  await this.repoService.createConnectionRequest(userEmail, otherEmail);
-    //    const item = new ErrorMessage;
-    //    if(res === false){
-    //         item.message = "failure to connect request"
-    //         return item;
-    //     }
-    //     else{
-    //         item.message = "Success User Connection Sent"
-    //         return item;
-    //     }
+    async sendRequest(userEmail: string, otherEmail: string) {
+        let res =  await this.repoService.makeConnectionRequest(userEmail, otherEmail);
+       const item = new ErrorMessage;
+       if(res === false){
+            item.message = "failure to connect request"
+            return item;
+        }
+        else{
+            item.message = "Success User Connection Sent"
+            return item;
+        }
     }
 }
