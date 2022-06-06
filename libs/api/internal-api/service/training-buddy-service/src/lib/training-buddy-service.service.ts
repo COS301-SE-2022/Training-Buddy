@@ -277,7 +277,16 @@ export class TrainingBuddyServiceService {
     //     }
     }
     reject(userEmail: string, otherEmail: string) {
-        throw new Error('Method not implemented.');
+    //     let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
+    //    const item = new ErrorMessage;
+    //    if(res === false){
+    //         item.message = "failure to deleteConnectionRequest"
+    //         return item;
+    //     }
+    //     else{
+    //         item.message = "Success User Rejected"
+    //         return item;
+    //     }
     }
     sendRequest(userEmail: string, otherEmail: string) {
         
