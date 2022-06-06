@@ -11,6 +11,8 @@ import {
   ActivityStat
 
 } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { resourceLimits } from 'worker_threads';
+import { resolve } from 'path';
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockLoginResponse: jest.Mocked<LoginResponse> = new LoginResponse() as LoginResponse;
@@ -78,7 +80,7 @@ describe('TrainingBuddyApiResolver', () => {
     it('should return a user entity [No mock Implemetation]', async () => {
       jest.spyOn(resolver, 'signup')
       .mockImplementation(resolver.signup);
-      
+
       expect(resolver.signup).toHaveReturned;
 
     });
@@ -102,7 +104,7 @@ describe('TrainingBuddyApiResolver', () => {
    * Test activityStat function
    */
   describe('activityStat', () => {
-    it('should return an error', async () => {
+    it('should return an error from activityStat', async () => {
       jest.spyOn(resolver, 'activityStat')
       .mockImplementation(resolver.activityStat);
 
@@ -110,5 +112,61 @@ describe('TrainingBuddyApiResolver', () => {
 
     });
   });
+
+  /**
+   * Test fetchUserStat function
+   */
+
+  describe('fetchUserStat', () => {
+    it('should return userStatRes',async () => {
+      jest.spyOn(resolver, 'fetchUserStats')
+      .mockImplementation(resolver.fetchUserStats);
+
+      expect(resolver.fetchUserStats).toReturn;
+
+    });
+  });
+
+  /**
+   * Test updateProfile function
+   */
+  describe('updateProfile', () => {
+    it('should return error message from updateProfile', async () => {
+      jest.spyOn(resolver, 'updateProfile')
+      .mockImplementation(resolver.updateProfile);
+
+      expect(resolver.updateProfile).toReturn;
+
+    });
+  });
+
+  /**
+   * Test userConfig function
+   */
+  describe('userConfig', () => {
+    it('should return error message from userConfig', async () => {
+      jest.spyOn(resolver, 'userConfig')
+      .mockImplementation(resolver.userConfig);
+
+      expect(resolver.userConfig).toReturn;
+
+    });
+  });
   
+
+  /**
+   * Test activityLog function
+   */
+  describe('activityLog', () => {
+    
+    it('should return from activity log',async () => {
+      jest.spyOn(resolver, 'activityLog')
+      .mockImplementation(resolver.activityLog);
+
+      expect(resolver.activityLog).toReturn;
+
+    });
+  });
+
+
 });
