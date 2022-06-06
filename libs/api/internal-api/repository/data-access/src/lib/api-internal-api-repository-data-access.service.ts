@@ -45,12 +45,25 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //Log in
-    async login(@Param() email: string){
-        return this.usersCollection.where('email', '==', email).get();
+    async login(@Param() email: string):Promise<any>{
+        await this.usersCollection.where('email', '==', email).get().then(async (result) =>{
+            //console.log((await (await Promise.resolve( result.docs[0])).get));
+            Promise.resolve(result.docs[0]).then(async (result) =>{
+                if(await result){
+                    console.log("here")
+                    return result.data;
+                }
+                else{
+                    return null;
+                }
+               
+        })
+        })
     }
 
     //Find one user
     async findOne(@Param() email: string){
+        
         return this.usersCollection.where('email', '==', email).get();
     }
 
