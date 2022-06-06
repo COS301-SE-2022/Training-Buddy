@@ -7,18 +7,23 @@ import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/i
 import {
   LoginResponse,
   LoginInput,
-  UserDto
+  UserDto,
+  ActivityStat
+
 } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockLoginResponse: jest.Mocked<LoginResponse> = new LoginResponse() as LoginResponse;
 
 
-jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access')
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockUserDto: jest.Mocked<UserDto> = new UserDto() as UserDto;
 
 const mockInput: jest.Mocked<LoginInput> = new LoginInput() as LoginInput;
 const mockContext = jest.mock;
+
+const mockActivityStat: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat;
+
 
 
 describe('TrainingBuddyApiResolver', () => {
@@ -71,7 +76,9 @@ describe('TrainingBuddyApiResolver', () => {
 
     //Passing Test
     it('should return a user entity [No mock Implemetation]', async () => {
-  
+      jest.spyOn(resolver, 'signup')
+      .mockImplementation(resolver.signup);
+      
       expect(resolver.signup).toHaveReturned;
 
     });
@@ -89,7 +96,19 @@ describe('TrainingBuddyApiResolver', () => {
         expect(resolver.findAll).toReturn;
     });
 
-  })
+  });
 
+  /**
+   * Test activityStat function
+   */
+  describe('activityStat', () => {
+    it('should return an error', async () => {
+      jest.spyOn(resolver, 'activityStat')
+      .mockImplementation(resolver.activityStat);
+
+      expect(resolver.activityStat).toReturn;
+
+    });
+  });
   
 });
