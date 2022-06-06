@@ -114,52 +114,52 @@ export class ApiInternalApiRepositoryDataAccessService {
     //TODO: implement
 
 
-    //ACTIVITY LOGS
+    // //ACTIVITY LOGS
 
-    //activity logs - CREATE
-    async logActivity(@Param() log: ActivityLog){
+    // //activity logs - CREATE
+    // async logActivity(@Param() log: ActivityLog){
 
-    }
+    // }
 
-    //activity logs - DELETE
+    // //activity logs - DELETE
     
-    //TODO: implement
+    // //TODO: implement
 
-    //REQUESTS
+    // //REQUESTS
 
-    //requests - CREATE
-    async makeConnectionRequest(@Param() sender: string, @Param() reciever: string){
+    // //requests - CREATE
+    // async makeConnectionRequest(@Param() sender: string, @Param() reciever: string){
 
-    }
+    // }
 
-    //requests - DELETE
-    async deleteConnectionRequest(@Param() sender: string, @Param() reciever: string){
+    // //requests - DELETE
+    // async deleteConnectionRequest(@Param() sender: string, @Param() reciever: string){
 
-    }
+    // }
 
-    //CONNECTIONS
+    // //CONNECTIONS
 
-    //connections - CREATE
-    async makeConnection(@Param() user1: string, @Param() user2: string){
+    // //connections - CREATE
+    // async makeConnection(@Param() user1: string, @Param() user2: string){
 
-    }
+    // }
 
-    //connections - UPDATE
-    async updateConnectionMetric(@Param() user1: string, @Param() user2: string, @Param() metric: number){
+    // //connections - UPDATE
+    // async updateConnectionMetric(@Param() user1: string, @Param() user2: string, @Param() metric: number){
 
-    }
+    // }
 
-    //connections - DELETE 
-    async deleteConnection(@Param() user1: string, @Param() user2: string){
+    // //connections - DELETE 
+    // async deleteConnection(@Param() user1: string, @Param() user2: string){
 
-    }
+    // }
 
-    //SCHEDULED WORKOUTS
+    // //SCHEDULED WORKOUTS
 
-    //scheduled workouts - CREATE
-    async scheduleWorkout(@Param() workout : ActivitySchedule){
+    // //scheduled workouts - CREATE
+    // async scheduleWorkout(@Param() workout : ActivitySchedule){
 
-    }
+    // }
 
     //scheduled workouts - UPDATE
     //TODO: implement
