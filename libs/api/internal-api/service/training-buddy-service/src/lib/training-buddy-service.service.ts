@@ -36,15 +36,17 @@ export class TrainingBuddyServiceService {
         return await this.repoService.login(email)
     }
     async signup(userdto : UserDto){
+       
         let user = await this.findOne(userdto.email);
-        if(user){{
+        console.log(user)
+        if(await user){
             const item = new ErrorMessage;
             item.message = "User Already Exists";
             return item;
-        }}
+        }
         else{
             const password = await bcrypt.hash(userdto.password, 10)
-
+           
             user = {...userdto, password };
             await this.repoService.createUser(user);
             return user;
@@ -56,7 +58,9 @@ export class TrainingBuddyServiceService {
      */
     async getAll(email:string ){
         
-        
+        const arr = await this.repoService.findAll(email)
+        console.log(arr) ;
+        return arr ;
         //get the users coordinates 
         //get all the users a certain radius from him/her 
         //return that array of users that are that distance to them
