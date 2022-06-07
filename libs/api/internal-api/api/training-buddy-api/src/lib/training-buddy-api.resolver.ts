@@ -15,6 +15,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userDTO 
      * @returns UserEntity
+     * tested
      */
     @Mutation(()=>ErrorMessage)
     signup(@Args('userDto')userDTO : UserDto){
@@ -25,6 +26,7 @@ export class TrainingBuddyApiResolver {
      * @param loginInput 
      * @param context 
      * @returns LoginResponse
+     * tested
      */
     @Mutation(()=>LoginResponse)
     @UseGuards(LoginGuard)
@@ -35,6 +37,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param Location 
      * @returns Array of UserEntity
+     * tested
      */
     @Query(() => [UserEntity])
     //@UseGuards(JwtAuthGuard)
@@ -75,6 +78,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userconfig
      * @returns ErrorMessage
+     * tested
      *  */ 
     @Mutation(()=>ErrorMessage)
     userConfig(@Args('userConfig')userconfig: Userconfig){
