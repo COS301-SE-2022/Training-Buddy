@@ -53,7 +53,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async findAll(@Param() email: string){
         const users = [] ;
-        await this.usersCollection.where('email', '!=', email).get().then(async (querySnapshot) =>{
+        await this.usersCollection.get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
                 users.push(doc.data());
             });
