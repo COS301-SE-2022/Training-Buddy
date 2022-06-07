@@ -206,12 +206,12 @@ export class ApiInternalApiRepositoryDataAccessService {
     //REQUESTS
 
     //requests - CREATE
-    async makeConnectionRequest(@Param() sender: string, @Param() reciever: string){
+    async makeConnectionRequest(@Param() sender: string, @Param() receiver: string){
         
         const now = new Date() ;
         const data = {
             sender: sender,
-            reciever: reciever,
+            receiver: receiver,
             time: now
         }
 
