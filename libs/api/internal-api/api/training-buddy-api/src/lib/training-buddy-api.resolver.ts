@@ -87,7 +87,8 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param activityLog 
-     * @returns ErrorMessage 
+     * @returns ErrorMessage
+     * tested  
      */
     @Mutation(()=> ErrorMessage)
     activityLog(@Args('Activitylog')activityLog: ActivityLog){
@@ -97,6 +98,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param activitySchedule 
      * @returns 
+     * tested
      */
     @Mutation(()=> ErrorMessage)
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
@@ -109,7 +111,7 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    sendRequest(@Args('sendRequest')userEmail: string , otherEmail: string){
+    sendRequest(@Args('Sender')userEmail: string , @Args('Receiver')otherEmail: string){
         return this.trainingBuddyService.sendRequest(userEmail, otherEmail);
     }
     /**
@@ -119,7 +121,7 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    reject(@Args('reject')userEmail: string , otherEmail: string){
+    reject(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
         return this.trainingBuddyService.reject(userEmail, otherEmail);
     }
     /**
@@ -129,7 +131,7 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    accept(@Args('accept')userEmail: string , otherEmail: string){
+    accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
         return this.trainingBuddyService.accept(userEmail, otherEmail);
     }
 }
