@@ -62,18 +62,19 @@ export class TrainingBuddyServiceService {
     async getAll(email:string ){
         
         const arr = await this.repoService.findAll(email)
+        console.log(arr)
         let distance = 0;
         let longitude = 0;
         let latitude = 0;
         const people = [];
-        for(let i = 0; i < arr.length; i){
+        for(let i = 0; i < arr.length; i++){
             if(arr[i].email=== email){
                distance=  arr[i].distance
                longitude = arr[i].longitude
                latitude = arr[i].latitude
             }
         }
-        for(let i = 0; i < arr.length; i){
+        for(let i = 0; i < arr.length; i++){
             if(arr[i].email!=email){
                 if(await this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)<= distance){
                     people.push(arr[i]);
@@ -147,6 +148,7 @@ export class TrainingBuddyServiceService {
             }
             if(user.email){
                 response = await this.repoService.updateEmail(user.email, user.oldemail);
+                console.log(response);
             }
             if(user.location){
                 response = await this.repoService.updateLocation(user.location, user.oldemail);
@@ -161,10 +163,16 @@ export class TrainingBuddyServiceService {
             if(user.userSurname){
                 response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
             }
+            if(user.distance){
+               // response = await this.repoService.updateUserDistance(user.userSurname, user.distance);
+            }
             if(response){
                 item.message ="Successful";
                 return item;
             }
+            item.message ="failure";
+            return item;
+        
         }else{
             item.message = "failure"
             return item;
@@ -209,6 +217,7 @@ export class TrainingBuddyServiceService {
           Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
         const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const  d = R * c;
+        console.log(d);
         return d;
 
     }
@@ -227,14 +236,15 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activityLog(actLog :ActivityLog ){
-       const res =  await this.repoService.logActivity(actLog);
+        const user = await this.findOne(actLog.email);
+      
        const item = new ErrorMessage;
-       if(res === false){
+       if(!user){
             item.message = "failure"
             return item;
 
-        }
-        else{
+        }else{
+            await this.repoService.logActivity(actLog);
             item.message = "success"
             return item;
         }
@@ -245,14 +255,13 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activitySchedule(actSchedule:ActivitySchedule){
-        const res =  await this.repoService.scheduleWorkout(actSchedule);
+        const user = await this.findOne(actSchedule.email);
        const item = new ErrorMessage;
-       if(res === false){
+       if(!user){
             item.message = "failure"
             return item;
-
-        }
-        else{
+        }else{
+            await this.repoService.scheduleWorkout(actSchedule);
             item.message = "success"
             //TODO broadcast to all buddies 
             return item;
@@ -309,13 +318,15 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage 
      */
     async sendRequest(userEmail: string, otherEmail: string) {
-        const res =  await this.repoService.makeConnectionRequest(userEmail, otherEmail);
+        const user1 = await this.findOne(userEmail);
+        const user2 = await this.findOne(otherEmail);
        const item = new ErrorMessage;
-       if(res === false){
+       if(!user1 && !user2){
             item.message = "failure to connect request"
             return item;
         }
         else{
+            await this.repoService.makeConnectionRequest(userEmail, otherEmail);
             item.message = "Success User Connection Sent"
             return item;
         }
