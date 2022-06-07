@@ -26,7 +26,7 @@ export class TrainingBuddyApiResolver {
      * @param context 
      * @returns LoginResponse
      */
-    @Mutation(()=>Boolean)
+    @Mutation(()=>LoginResponse)
     @UseGuards(LoginGuard)
     login(@Args('loginInput')loginInput:LoginInput, @Context() context){
         return this.trainingBuddyService.login(context.user);
