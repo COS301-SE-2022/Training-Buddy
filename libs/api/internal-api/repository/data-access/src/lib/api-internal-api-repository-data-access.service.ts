@@ -53,7 +53,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async findAll(@Param() email: string){
         const users = [] ;
-        await this.usersCollection.where('email', '!=', email).get().then(async (querySnapshot) =>{
+        await this.usersCollection.get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
                 users.push(doc.data());
             });
@@ -82,83 +82,84 @@ export class ApiInternalApiRepositoryDataAccessService {
         
         const data = {
             metrics: {
-                run : userConfig.running,
-                ride : userConfig.riding, 
-                swim : userConfig.swimming,
-                lift : userConfig.weightLifting
+                run : run,
+                ride : ride, 
+                swim : swim,
+                lift : lift
             },
             distance : userConfig.distance,
             bio : userConfig.bio 
         }
 
-        await this.usersCollection.where('email', '==', userConfig.email).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
+        return this.usersCollection.where('email', '==', userConfig.email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
                 return true ;
             }) ;
-            return true ;
-           
+            return false ; 
         })
-        return false; 
     }
 
     async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
-        await this.usersCollection.where('email', '==', email).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).update({cellNumber: cellNumber}).then(results => {
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({cellNumber: cellNumber}).then(results => {
                 return true ;
             }) ;
             return false ;
-        })
-        return false ;        
+        })      
+    }
+
+    async updateDistance(@Param() distance: number, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({distance: distance}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })      
     }
 
     async updateEmail(@Param() email: string, @Param() oldEmail: string){
-        await this.usersCollection.where('email', '==', oldEmail).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).update({email: email}).then(results => {
+        return this.usersCollection.where('email', '==', oldEmail).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({email: email}).then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     async updateLocation(@Param() location: string, @Param() email: string){
-        await this.usersCollection.where('email', '==', email).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).update({location: location}).then(results => {
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({location: location}).then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     async updatePassword(@Param() password: string, @Param() email: string){
-        await this.usersCollection.where('email', '==', email).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).update({password: password}).then(results => {
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({password: password}).then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     async updateUserName(@Param() userName: string, @Param() email: string){
-        await this.usersCollection.where('email', '==', email).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).update({userName: userName}).then(results => {
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({userName: userName}).then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     async updateUserSurname(@Param() userSurname: string, @Param() email: string){
-        await this.usersCollection.where('email', '==', email).get().then(async (result) => {
-            await this.usersCollection.doc(result.docs[0].id).update({userSurname: userSurname}).then(results => {
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({userSurname: userSurname}).then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     //user - DELETE
@@ -247,13 +248,12 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //requests - DELETE
     async deleteConnectionRequest(@Param() sender: string, @Param() receiver: string){
-        await this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
-            await this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
+        return this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
+            if(result.docs[0]) return this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     //CONNECTIONS
@@ -293,13 +293,12 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //connections - DELETE 
     async deleteConnection(@Param() user1: string, @Param() user2: string){
-        await this.buddyConnectionsCollection.where('user1', '==', user1).where('user2','==',user2).get().then(async (result) => {
-            await this.buddyConnectionsCollection.doc(result.docs[0].id).delete().then(results => {
+        return this.buddyConnectionsCollection.where('user1', '==', user1).where('user2','==',user2).get().then(async (result) => {
+            if(result.docs[0]) return this.buddyConnectionsCollection.doc(result.docs[0].id).delete().then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     //SCHEDULED WORKOUTS
