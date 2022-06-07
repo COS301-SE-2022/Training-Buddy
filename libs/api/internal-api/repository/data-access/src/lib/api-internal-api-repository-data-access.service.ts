@@ -262,10 +262,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async makeConnection(@Param() user1: string, @Param() user2: string){
         const now = new Date() ;
         const data = {
-            users: {
-                user1: user1,
-                user2: user2
-            },
+            users: [user1,user2],
             time: now,
             metric: 0
         }
@@ -307,6 +304,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async scheduleWorkout(@Param() workout : ActivitySchedule){
         const data = {
             organiser: workout.email,
+            participants: [workout.email],
             startTime: workout.time,
             activityType: workout.activity,
             startPoint: workout.location,
@@ -321,6 +319,15 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
+    async getScheduledWorkouts(@Param() email: string){
+        const workouts = [] ;
+        await this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then(async (querySnapshot) =>{
+            querySnapshot.docs.forEach((doc) => {
+                workouts.push(doc.data());
+            });
+        });
+        return workouts ;
+    }
     //scheduled workouts - UPDATE
     //TODO: implement
 
