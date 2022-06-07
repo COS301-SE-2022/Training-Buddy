@@ -37,8 +37,9 @@ export class TrainingBuddyServiceService {
         return await this.repoService.login(email)
     }
     async signup(userdto : UserDto){
-       
+      
         let user = await this.findOne(userdto.email);
+
         console.log(user)
         if(await user){
             const item = new ErrorMessage;
@@ -178,7 +179,8 @@ export class TrainingBuddyServiceService {
     async userConfig(config: Userconfig){
         const val =  await this.repoService.userConfig(config);
         const item = new ErrorMessage;
-        if(val === false){
+        console.log(val)
+        if(val == false){
             item.message = "failure"
             return item;
 

@@ -46,8 +46,8 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async login(@Param() email: string):Promise<any>{
         return this.usersCollection.where('email', '==', email).get().then(async (result) =>{
-            if(result) return result.docs[0].data() ;
-            return Promise.reject("No such document") ;
+            if(result.docs[0]) return result.docs[0].data() ;
+            return false ;
         });
     }
 
@@ -65,6 +65,21 @@ export class ApiInternalApiRepositoryDataAccessService {
     //user - UPDATE
 
     async userConfig(@Param() userConfig: Userconfig){
+        
+        let run = 0 ;
+        let ride = 0; 
+        let swim = 0; 
+        let lift = 0 ;
+
+        if(userConfig.riding)
+            ride = 1 ;
+        if(userConfig.running)
+            run = 1 ;
+        if(userConfig.swimming)
+            swim = 1 ;
+        if(userConfig.weightLifting)
+            lift = 1 ;
+        
         const data = {
             metrics: {
                 run : userConfig.running,
@@ -80,10 +95,10 @@ export class ApiInternalApiRepositoryDataAccessService {
             await this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
                 return true ;
             }) ;
-            return false; 
+            return true ;
+           
         })
-
-        return false ;
+        return false; 
     }
 
     async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
