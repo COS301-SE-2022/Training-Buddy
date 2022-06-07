@@ -237,14 +237,14 @@ export class TrainingBuddyServiceService {
      */
     async activityLog(actLog :ActivityLog ){
         const user = await this.findOne(actLog.email);
-       await this.repoService.logActivity(actLog);
+      
        const item = new ErrorMessage;
        if(!user){
             item.message = "failure"
             return item;
 
-        }
-        else{
+        }else{
+            await this.repoService.logActivity(actLog);
             item.message = "success"
             return item;
         }
@@ -255,14 +255,13 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activitySchedule(actSchedule:ActivitySchedule){
-        const res =  await this.repoService.scheduleWorkout(actSchedule);
+        const user = await this.findOne(actSchedule.email);
        const item = new ErrorMessage;
-       if(res === false){
+       if(!user){
             item.message = "failure"
             return item;
-
-        }
-        else{
+        }else{
+            await this.repoService.scheduleWorkout(actSchedule);
             item.message = "success"
             //TODO broadcast to all buddies 
             return item;
@@ -319,13 +318,15 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage 
      */
     async sendRequest(userEmail: string, otherEmail: string) {
-        const res =  await this.repoService.makeConnectionRequest(userEmail, otherEmail);
+        const user1 = await this.findOne(userEmail);
+        const user2 = await this.findOne(otherEmail);
        const item = new ErrorMessage;
-       if(res === false){
+       if(!user1 && !user2){
             item.message = "failure to connect request"
             return item;
         }
         else{
+            await this.repoService.makeConnectionRequest(userEmail, otherEmail);
             item.message = "Success User Connection Sent"
             return item;
         }
