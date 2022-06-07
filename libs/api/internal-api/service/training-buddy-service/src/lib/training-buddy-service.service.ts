@@ -282,16 +282,12 @@ export class TrainingBuddyServiceService {
             return item;
         }
         else{
-            res =  await this.repoService.makeConnection(userEmail, otherEmail);
-            if(res === false){
-                item.message = "failure to make Connection"
-                return item;
-            }else{
+                res =  await this.repoService.makeConnection(userEmail, otherEmail);
                 item.message = "Success Connection made"
                 return item;
             }
            
-        }
+    
     }
     /**
      * 
