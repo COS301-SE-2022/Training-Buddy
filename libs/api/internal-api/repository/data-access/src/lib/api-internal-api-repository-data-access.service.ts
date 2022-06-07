@@ -108,6 +108,15 @@ export class ApiInternalApiRepositoryDataAccessService {
         })      
     }
 
+    async updateDistance(@Param() distance: number, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({distance: distance}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })      
+    }
+
     async updateEmail(@Param() email: string, @Param() oldEmail: string){
         return this.usersCollection.where('email', '==', oldEmail).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({email: email}).then(results => {
