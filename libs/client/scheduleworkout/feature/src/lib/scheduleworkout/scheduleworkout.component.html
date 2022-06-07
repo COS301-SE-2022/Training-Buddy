@@ -35,52 +35,77 @@
 
                 </mat-form-field>
 
-                <!-- date performed -->
+                <!-- date and time to be performed -->
                 <mat-form-field appearance="outline">
-                    <mat-label>Activity Date</mat-label>
-                    <input formControlName="date" id="date" matInput [matDatepicker]="picker">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-label>Activity Start</mat-label>
+                    <!-- <input formControlName="date" id="date" matInput [matDatepicker]="picker"> -->
+                    <input formControlName="date" id="date" matInput type="datetime-local">
+                    <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                    <!-- <mat-datepicker #picker></mat-datepicker> -->
                     <mat-error>
                         Date is requied
                     </mat-error>
                     <mat-hint [align]="'end'">MM/DD/YYYY</mat-hint>
                 </mat-form-field>
 
-                <!-- time inputs -->
-                <mat-label>Activity Duration:</mat-label>
-
-                <div class="grid grid-flow-row-dense grid-cols-3 mt-2">
-
-                    <mat-form-field appearance="outline" class="col-span-1 mr-1">
-                        <mat-label>Hours</mat-label>
-                        <input formControlName="hours" id="hours" matInput type="number" name="hours">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="col-span-1">
-                        <mat-label>Minutes</mat-label>
-                        <input formControlName="minutes" id="minutes" matInput type="number"name="minutes">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="col-span-1 ml-1">
-                        <mat-label>Secs</mat-label>
-                        <input formControlName="seconds" id="seconds" matInput type="number"name="seconds">
-                    </mat-form-field>
-
-                </div>
-
+                <!-- show distance if not weight lifting -->
                 <div *ngIf="!isWeightLifting">
-                    <!-- not weight lifting -->
-
                     <!-- distance -->
                     <mat-form-field appearance="outline">
-                        <mat-label>Activity Distance (km)</mat-label>
-                        <input formControlName="distance" id="distance" matInput type="number" placeholder="10" name="distance">
+                        <mat-label>Distance (km)</mat-label>
+                        <input (change)="calculateDuration()" formControlName="distance" id="distance" matInput type="number" placeholder="5" name="distance">
                         <mat-error *ngIf="scheduleWorkout.controls['distance'].errors">
                             Distance is required
                         </mat-error>
                     </mat-form-field>
+                </div>
 
+                <!-- running or swimming is selected -->
+                <div *ngIf="isRunning || isSwimming">
+                    <!-- running measured with distance and min/km -->
+                    <!-- time inputs -->
+
+                    <mat-label *ngIf="isRunning">Pace (min/km):</mat-label>
+                    <mat-label *ngIf="isSwimming">Pace (min/100m):</mat-label>
+
+                    <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
+                        <mat-form-field appearance="outline" class="col-span-1">
+                            <mat-label>Minutes</mat-label>
+                            <input (change)="calculateDuration()" [(ngModel)]="mins" formControlName="minutes" id="minutes" matInput type="number" name="minutes">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-span-1 ml-1">
+                            <mat-label>Secs</mat-label>
+                            <input (change)="calculateDuration()" [(ngModel)]="secs" formControlName="seconds" id="seconds" matInput type="number" name="seconds">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <!-- riding is selected -->
+                <div *ngIf="isRiding">
+                    <!-- riding measured with distance and km/h -->
+                    <mat-form-field appearance="outline" class="col-span-1">
+                        <mat-label>Speed</mat-label>
+                        <input formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
+                    </mat-form-field>
+                </div>
+
+                <!-- weight lifting is selected -->
+                <div *ngIf="isWeightLifting">
+                    <!-- weight lifiting measured with a duration -->
+                    <!-- time inputs -->
+                    <mat-label>Activity Duration:</mat-label>
+                    <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
+                        <mat-form-field appearance="outline" class="col-span-1 mr-1">
+                            <mat-label>Hours</mat-label>
+                            <input formControlName="hours" id="hours" matInput type="number" name="hours">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col-span-1">
+                            <mat-label>Minutes</mat-label>
+                            <input formControlName="minutes" id="minutes" matInput type="number" name="minutes">
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div class="submitButton mt-3">

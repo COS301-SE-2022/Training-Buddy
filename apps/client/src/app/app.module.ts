@@ -12,8 +12,9 @@ import {HttpLink} from 'apollo-angular/http';
 import {InMemoryCache} from '@apollo/client/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -33,7 +34,7 @@ import { AgmCoreModule } from '@agm/core';
     }),
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
-    NgxsModule.forRoot([])
+    NgxsModule.forRoot([]),
   ],
   providers: [
     {

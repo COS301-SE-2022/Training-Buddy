@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ScheduleWorkoutRoutingModule,
     UiModule,
-    ReactiveFormsModule
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
   ],
   declarations: [
     ScheduleworkoutComponent

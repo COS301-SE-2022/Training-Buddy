@@ -15,31 +15,59 @@ export class ScheduleworkoutComponent implements OnInit {
   scheduleWorkout! : FormGroup;
   frmBuilder : FormBuilder;
 
-  isWeightLifting : boolean;
+  isWeightLifting! : boolean;
+  isRunning! : boolean;
+  isSwimming! : boolean;
+  isRiding! : boolean;
+
+  mins = '5';
+  secs = '30';
 
   constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar) {
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.frmBuilder = builder;
+    this.setAllFalse();
+    this.isRunning = true;
+  }
+
+  setAllFalse() {
     this.isWeightLifting = false;
+    this.isRunning = false;
+    this.isSwimming = false;
+    this.isRiding = false;
   }
 
   ngOnInit(): void {
     this.scheduleWorkout = this.frmBuilder.group({
       name: ['Training Activity', [Validators.required]],
       type: ['Running', [Validators.required]],
-      hours: ['00', [Validators.required]],
-      minutes: ['30', [Validators.required]],
-      seconds: ['00', [Validators.required]],
+      hours: ['1', [Validators.required]],
+      minutes: ['00', [Validators.required, Validators.max(59)]],
+      seconds: ['', [Validators.required, Validators.max(59)]],
       distance: ['', [Validators.required]],
-      date: [new Date(), [Validators.required]]
+      date: [new Date(), [Validators.required]],
+      kmph: ['', [Validators.required]],
+      mp100m: ['', [Validators.required]]
     });
   }
 
   activityToggle(value : string) {
-    this.isWeightLifting = true;
-    if (value != "WeightLifting") {
-      this.isWeightLifting = false;
+    this.setAllFalse();
+    if (value == 'Running') {
+      this.isRunning = true;
+      this.mins = '5';
+      this.secs = '30';
     }
+    if (value == 'Riding')
+      this.isRiding = true;
+    if (value == 'Swimming') {
+      this.isSwimming = true;
+      this.mins = '2';
+      this.secs = '00';
+    }
+      
+    if (value == 'WeightLifting')
+      this.isWeightLifting = true;
   }
 
   add() {
@@ -137,6 +165,10 @@ export class ScheduleworkoutComponent implements OnInit {
 
   calculateSpeed(time : number, distance : number) : number {
     return distance / time; //returns m/s^-1
+  }
+
+  calculateDuration() {
+    console.log('calc duration');
   }
 
 }
