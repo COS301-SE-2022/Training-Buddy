@@ -177,7 +177,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async userConfig(config: Userconfig){
-        let val =  await this.repoService.userConfig(config);
+        const val =  await this.repoService.userConfig(config);
         const item = new ErrorMessage;
         console.log(val)
         if(val == false){
@@ -227,7 +227,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activityLog(actLog :ActivityLog ){
-       let res =  await this.repoService.logActivity(actLog);
+       const res =  await this.repoService.logActivity(actLog);
        const item = new ErrorMessage;
        if(res === false){
             item.message = "failure"
@@ -245,7 +245,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activitySchedule(actSchedule:ActivitySchedule){
-        let res =  await this.repoService.scheduleWorkout(actSchedule);
+        const res =  await this.repoService.scheduleWorkout(actSchedule);
        const item = new ErrorMessage;
        if(res === false){
             item.message = "failure"
@@ -291,7 +291,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async reject(userEmail: string, otherEmail: string) {
-        let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
+        const res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){
             item.message = "failure to deleteConnectionRequest"
@@ -309,7 +309,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage 
      */
     async sendRequest(userEmail: string, otherEmail: string) {
-        let res =  await this.repoService.makeConnectionRequest(userEmail, otherEmail);
+        const res =  await this.repoService.makeConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){
             item.message = "failure to connect request"
