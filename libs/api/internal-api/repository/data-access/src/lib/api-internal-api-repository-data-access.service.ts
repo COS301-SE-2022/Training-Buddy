@@ -239,13 +239,12 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //requests - DELETE
     async deleteConnectionRequest(@Param() sender: string, @Param() receiver: string){
-        await this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
-            await this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
+        return this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
+            if(result.docs[0]) return this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     //CONNECTIONS
@@ -285,13 +284,12 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //connections - DELETE 
     async deleteConnection(@Param() user1: string, @Param() user2: string){
-        await this.buddyConnectionsCollection.where('user1', '==', user1).where('user2','==',user2).get().then(async (result) => {
-            await this.buddyConnectionsCollection.doc(result.docs[0].id).delete().then(results => {
+        return this.buddyConnectionsCollection.where('user1', '==', user1).where('user2','==',user2).get().then(async (result) => {
+            if(result.docs[0]) return this.buddyConnectionsCollection.doc(result.docs[0].id).delete().then(results => {
                 return true ;
             }) ;
             return false ;
         })
-        return false ;
     }
 
     //SCHEDULED WORKOUTS
