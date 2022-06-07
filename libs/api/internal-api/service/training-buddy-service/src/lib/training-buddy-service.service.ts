@@ -62,18 +62,19 @@ export class TrainingBuddyServiceService {
     async getAll(email:string ){
         
         const arr = await this.repoService.findAll(email)
+        console.log(arr)
         let distance = 0;
         let longitude = 0;
         let latitude = 0;
         const people = [];
-        for(let i = 0; i < arr.length; i){
+        for(let i = 0; i < arr.length; i++){
             if(arr[i].email=== email){
                distance=  arr[i].distance
                longitude = arr[i].longitude
                latitude = arr[i].latitude
             }
         }
-        for(let i = 0; i < arr.length; i){
+        for(let i = 0; i < arr.length; i++){
             if(arr[i].email!=email){
                 if(await this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)<= distance){
                     people.push(arr[i]);
@@ -147,6 +148,7 @@ export class TrainingBuddyServiceService {
             }
             if(user.email){
                 response = await this.repoService.updateEmail(user.email, user.oldemail);
+                console.log(response);
             }
             if(user.location){
                 response = await this.repoService.updateLocation(user.location, user.oldemail);
@@ -161,10 +163,16 @@ export class TrainingBuddyServiceService {
             if(user.userSurname){
                 response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
             }
+            if(user.distance){
+               // response = await this.repoService.updateUserDistance(user.userSurname, user.distance);
+            }
             if(response){
                 item.message ="Successful";
                 return item;
             }
+            item.message ="failure";
+            return item;
+        
         }else{
             item.message = "failure"
             return item;
@@ -209,6 +217,7 @@ export class TrainingBuddyServiceService {
           Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
         const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const  d = R * c;
+        console.log(d);
         return d;
 
     }
