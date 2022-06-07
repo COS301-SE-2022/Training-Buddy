@@ -236,9 +236,10 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activityLog(actLog :ActivityLog ){
-       const res =  await this.repoService.logActivity(actLog);
+        const user = await this.findOne(actLog.email);
+       await this.repoService.logActivity(actLog);
        const item = new ErrorMessage;
-       if(res === false){
+       if(!user){
             item.message = "failure"
             return item;
 
