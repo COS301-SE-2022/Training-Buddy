@@ -1,6 +1,6 @@
 import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
-import {UserDto , UserEntity , LoginResponse, LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver()
@@ -139,7 +139,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns 
      */
-    @Query(()=>[RequestUsers])
+    @Query(()=>[UserEntity])
     getIncoming(@Args("email")userEmail:string){
         return this.trainingBuddyService.getIncoming(userEmail);
     }
@@ -148,7 +148,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns 
      */
-    @Query(()=>[RequestUsers])
+    @Query(()=>[UserEntity])
     getOutgoing(@Args("email")userEmail:string){
         return this.trainingBuddyService.getOutgoing(userEmail);
     }
@@ -157,7 +157,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns 
      */
-    @Query(()=>[RequestUsers])
+    @Query(()=>[UserEntity])
     getConnections(@Args("email")userEmail:string){
         return this.trainingBuddyService.getConnections(userEmail);
     }
@@ -166,7 +166,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns 
      */
-    @Query(()=>[responseWorkout])
+    @Query(()=>[ResponseWorkout])
     getScheduleWorkout(@Args("email")userEmail:string){
         return this.trainingBuddyService.getScheduleWorkout(userEmail);
     }
@@ -175,7 +175,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns 
      */
-    @Query(()=>[responseLogs])
+    @Query(()=>[ResponseLogs])
     getLogs(@Args("email")userEmail:string){
         return this.trainingBuddyService.getLogs(userEmail);
     }
