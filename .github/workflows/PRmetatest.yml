@@ -41,11 +41,6 @@ jobs:
           mode: minimum
           count: 1
           labels: 'scope:api,scope:cicd,scope:client,scope:db,scope:design,scope:ui,scope:repository,scope:documentation'
-      
-      - name: Codecov
-        uses: codecov/codecov-action@v3.1.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   milestone-check:
     name: Checks if milestone is used
