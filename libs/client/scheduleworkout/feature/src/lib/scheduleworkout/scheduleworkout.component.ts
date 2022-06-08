@@ -80,6 +80,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
   add() {
 
+    //use the appropriate variable in the API call
     const type = this.scheduleWorkout.controls['type'].value || false;
     const name = this.scheduleWorkout.controls['name'].value || false;
     const hours = this.scheduleWorkout.controls['hours'].value || false;
@@ -177,7 +178,7 @@ export class ScheduleworkoutComponent implements OnInit {
       //calculate duration string here:
       const speed = this.scheduleWorkout.controls['kmph'].value;
       const distance = this.scheduleWorkout.controls['distance'].value;
-      let duration = speed * distance;
+      let duration = distance * 60 / speed;
       let hours = 0;
       while (duration >= 60) {
         hours++;
@@ -216,7 +217,7 @@ export class ScheduleworkoutComponent implements OnInit {
       }
       const outputMins = durationSeconds;
       if (hours == 0) {
-        this.calculatedDuration = `${mins} mins`;
+        this.calculatedDuration = `${outputMins} mins`;
       } else this.calculatedDuration = `${hours} hours ${Math.round(outputMins)} mins`;
     }
     //check swimming for calulation

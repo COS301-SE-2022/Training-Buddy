@@ -109,9 +109,9 @@
                 </div>
 
                 <!-- calculated activity duration -->
-                <div *ngIf="!isWeightLifting && showCalculatedDuration">
+                <div *ngIf="!isWeightLifting && showCalculatedDuration" class="text-center">
                     <!-- display the activity duration calculation -->
-                    <h3>Approximate Duration: {{ calculatedDuration }}</h3>
+                    <mat-hint>Approximate Duration: {{ calculatedDuration }}</mat-hint>
                 </div>
 
                 <div class="submitButton mt-3">
