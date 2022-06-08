@@ -10,7 +10,7 @@ import internal = require('stream');
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
     
-    const arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
+    readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
     usersCollection = this.firestore.collection('/Users') ;
     activityLogsCollection = this.firestore.collection('/ActivityLogs') ;
