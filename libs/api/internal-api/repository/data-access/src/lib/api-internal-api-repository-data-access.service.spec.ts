@@ -20,6 +20,9 @@ const mockUserConfig: jest.Mocked<Userconfig> = new Userconfig() as Userconfig;
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockActivityLog: jest.Mocked<ActivityLog> = new ActivityLog() as ActivityLog;
 
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const mockActivityStat: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat;
+
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
   
@@ -375,6 +378,51 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         }
       });
 
-      
+      /**
+       * Tested scheduleWorkout functionality
+       */
+      describe('scheduleWorkout', () => {
+        try {
+          it('should allow user scheduleWorkout',async () => {
+            const spyScheduleWorkout = jest.spyOn(service, 'scheduleWorkout');
+
+            spyScheduleWorkout.mockImplementation(service.scheduleWorkout);
+            
+            expect(service.scheduleWorkout).toReturn;
+
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Tested getScheduledWorkouts functionality 
+       */
+      describe('getScheduledWorkouts', () => {
+        try {
+          it('should allow user to get schedule workouts',async () => {
+            const spyGetScheduleWorkout = jest.spyOn(service, 'getScheduledWorkouts');
+
+            spyGetScheduleWorkout.mockImplementation(service.getScheduledWorkouts);
+
+            expect(service.getScheduledWorkouts).toReturn;
+
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test createActivityStatistic functionality
+       */
+      describe('createActivityStatistic', () => {
+        it('should return false', async () => {
+          
+          expect(service.createActivityStatistic(mockActivityStat)).toReturn;
+ 
+        });
+      });
 
 });
