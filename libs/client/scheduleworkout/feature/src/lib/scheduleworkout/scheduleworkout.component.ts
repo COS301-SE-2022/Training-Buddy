@@ -88,6 +88,7 @@ export class ScheduleworkoutComponent implements OnInit {
     const date = this.scheduleWorkout.controls['date'].value || false;
     const kmph = this .scheduleWorkout.controls['kmph'].value || false;
     const mp100m = this.scheduleWorkout.controls['mp100m'].value || false;
+    const distance = this.scheduleWorkout.controls['distance'].value || false;
 
     //base validation:
     if (!(name && type && date))
@@ -98,23 +99,47 @@ export class ScheduleworkoutComponent implements OnInit {
       if (!(hours || minutes))
         return;
 
-      //schedule weight lifting workout
+      //schedule weight lifting workout API call
       //TODO(1):
 
+      this.resetForm();
       return;
     }
 
+    //distance is required for riding, running & swimming:
+    if (!distance)
+      return;
+
     if (this.isRiding) {
       //riding - distance, speed
+      if (!kmph)
+        return;
+
+      //schedule riding workout API call
+      //TODO(2):
+
+      this.resetForm();
+      return;
     }
 
+    if (!(minutes || seconds))
+      return;
+
     if (this.isRunning) {
+
+      //schedule running workout API call
+      //TODO(3):
 
     }
 
     if (this.isSwimming) {
 
+      //schedule swimming workout API call
+      //TODO(4):  
+
     }
+
+    this.resetForm();
 
   }
 
@@ -123,23 +148,6 @@ export class ScheduleworkoutComponent implements OnInit {
     for (const obj in this.scheduleWorkout.controls) {
       this.scheduleWorkout.controls[obj].setErrors(null);
     }
-  }
-
-  schedule(type : string, date : string, distance : any, name : string, speed : any, time : number) {
-    return new Promise((resolve, _) => {
-      if (!(this.apollo.client === undefined))
-      this.apollo
-        .mutate ({
-          mutation: gql`
-            mutation{
-              
-            }
-          `,
-        })
-        .subscribe ((result) => {
-          resolve(result);
-        });
-    });
   }
 
   calulateSeconds(hours : number, minutes : number, seconds : number) : number {
