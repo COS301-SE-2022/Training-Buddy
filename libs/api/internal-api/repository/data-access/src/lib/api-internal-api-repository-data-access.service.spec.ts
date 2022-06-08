@@ -17,6 +17,9 @@ const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockUserConfig: jest.Mocked<Userconfig> = new Userconfig() as Userconfig;
 
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const mockActivityLog: jest.Mocked<ActivityLog> = new ActivityLog() as ActivityLog;
+
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
   
@@ -38,8 +41,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
      * Testing createUser
      */
     describe('createUser', () => {
-      it('should allow user to create profile', () => {
-        
+      it('should allow user to create profile', () => {  
         try {
 
             const spyMock = jest.spyOn(service, 'createUser');
@@ -110,7 +112,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       describe('userConfig', () =>{
 
         it('should configure a users profile', async () => {
-
           try {
 
             const spyUserConfig = jest.spyOn(service,'userConfig');
@@ -147,10 +148,8 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
             expect(service.userConfig).toReturn;
 
           });
-        } catch (error) {
-          
+        } catch (error) {  
           fail(error);
-
         }
 
       });
@@ -160,7 +159,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
        */
 
       describe('updateDistance', () => {
-
         try{
           it('should allow user to update distance', async () => {
 
@@ -185,7 +183,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
        */
 
       describe('updateEmail', () => {
-
         try{
           it('should allow user to update email', async () => {
             const spyUpdateEmail = jest.spyOn(service, 'updateEmail');
@@ -249,7 +246,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
        */
 
       describe('updateUserName', () => {
-
         try {
           it('should allow user to update location',async () => {
             const spyUserName = jest.spyOn(service, 'updateUserName');
@@ -260,9 +256,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
           })
         } catch (error) {
-          
           fail(error);
-        
         }
 
       });  
@@ -274,17 +268,35 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
       describe('updateUserSurname', () => {
         try {
-          const spyUserSurname = jest.spyOn(service, 'updateUserSurname');
+          it('should allow user to update surname', async () => {
+            const spyUserSurname = jest.spyOn(service, 'updateUserSurname');
 
-          spyUserSurname.mockImplementation(service.updateUserSurname);
-
-          expect(service.updateUserSurname).toReturn;
-
+            spyUserSurname.mockImplementation(service.updateUserSurname);
+  
+            expect(service.updateUserSurname).toReturn;
+          });
 
         } catch (error) {
-          
-          // fail(error);
-        
+          fail(error);
+        }
+      });
+
+      /**
+       * Test logActivity functionality
+       */
+      describe('logActivity', () => {
+        try {
+          it('should allow users to create activity logs', async () => {
+            const spyLogActivity = jest.spyOn(service, 'logActivity');
+
+            spyLogActivity.mockImplementation(service.logActivity);
+
+            expect(service.logActivity).toReturn; 
+
+          });
+
+        } catch (error) {
+          fail(error);
         }
       });
 
