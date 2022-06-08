@@ -355,6 +355,7 @@ export class TrainingBuddyServiceService {
             return arr;
         }else{
             arr = await this.repoService.getScheduledWorkouts(userEmail);
+            console.log(arr);
             return arr;
         }
 
@@ -370,6 +371,9 @@ export class TrainingBuddyServiceService {
         const user = await this.findOne(userEmail);
         const arr=[];
         if(user){
+            if(!user.buddies){
+                return arr;
+            }
             for(let i = 0; i < user.buddies.length; i++){
                 arr.push(await this.findOne(user.buddies[i]))
             }
@@ -387,6 +391,9 @@ export class TrainingBuddyServiceService {
         const outgoing =[]
         if(user){
             const arr= await this.repoService.getOutgoingRequests(userEmail)
+            if(arr.length<=0){
+                return arr;
+            }
             for(let i = 0; i < arr.length; i++){
                 outgoing.push(await this.findOne(arr[i].receiver))
             }
@@ -405,6 +412,9 @@ export class TrainingBuddyServiceService {
         const outgoing =[]
         if(user){
             const arr= await this.repoService.getIncomingRequests(userEmail)
+            if(arr.length<=0){
+                return arr;
+            }
             for(let i = 0; i < arr.length; i++){
                 outgoing.push(await this.findOne(arr[i].sender))
             }

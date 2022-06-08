@@ -2,11 +2,11 @@ import { ObjectType , Field} from "@nestjs/graphql";
 @ObjectType()
 export class ResponseLogs {
     @Field()
-    email: string
+    user: string
     @Field()
     activityType:string
     @Field()
-    dateCompleted:string
+    dateComplete:string
     @Field()
     distance:number
     @Field() 
