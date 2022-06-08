@@ -5,8 +5,6 @@ import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
-
-  
     /**
      * 
      * @param jwtService 
@@ -37,11 +35,13 @@ export class TrainingBuddyServiceService {
     async findOne(email: string): Promise<any>{
         return await this.repoService.login(email)
     }
+    /**
+     * 
+     * @param userdto 
+     * @returns ErrorMessage
+     */
     async signup(userdto : UserDto){
-      
         let user = await this.findOne(userdto.email);
-
-        console.log(user)
         if(await user){
             const item = new ErrorMessage;
             item.message = "User Already Exists failure";
@@ -218,7 +218,6 @@ export class TrainingBuddyServiceService {
           Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
         const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const  d = R * c;
-        console.log(d);
         return d;
 
     }
@@ -355,7 +354,6 @@ export class TrainingBuddyServiceService {
             return arr;
         }else{
             arr = await this.repoService.getScheduledWorkouts(userEmail);
-            console.log(arr);
             return arr;
         }
 
