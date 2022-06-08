@@ -11,9 +11,12 @@ import { UserDto,
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockUserDto: jest.Mocked<UserDto> = new UserDto() as UserDto;
 
-
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
+
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const mockUserConfig: jest.Mocked<Userconfig> = new Userconfig() as Userconfig;
+
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
   
@@ -95,9 +98,63 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
           } catch(error) {
 
             fail(error);
-            
+
           }
         });
+      });
+
+      /**
+       * Test userConfig
+       */
+
+      describe('userConfig', () =>{
+
+        it('should configure a users profile', async () => {
+
+          try {
+
+            const spyUserConfig = jest.spyOn(service,'userConfig');
+
+            spyUserConfig.mockImplementation(service.userConfig);
+
+            expect(service.userConfig).toBeDefined;
+            
+          } catch (error) {
+
+            fail(error);
+          
+          }
+          
+        });
+      });
+
+      /**
+       * Test UpdateCellNumber function
+       */
+
+      describe('updateCellNumber', () => {
+        const mockCellNumber = mockUserDto.cellNumber;
+        const mockEmail = mockUserDto.email;
+
+        try {
+
+          it('should allow user to update cellNumber and email',async () => {
+
+            const spyUpdateCellNumber = jest.spyOn(service, 'updateCellNumber');
+
+            spyUpdateCellNumber.mockImplementation(service.updateCellNumber);
+
+            expect(service.userConfig).toBeDefined;
+
+            expect(service.updateCellNumber(mockCellNumber, mockEmail)).toBeCalled;
+
+          })
+        } catch (error) {
+          
+          fail(error);
+
+        }
+
       });
 
 });
