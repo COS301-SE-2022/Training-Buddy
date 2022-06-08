@@ -134,6 +134,17 @@ export class TrainingBuddyApiResolver {
     accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
         return this.trainingBuddyService.accept(userEmail, otherEmail);
     }
+    @Query(()=>[RequestUsers])
+    getIncoming(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getIncoming(userEmail);
+    }
+    //TODO: implement get schedule workout 
+    //TODO: implement get connections 
+    //TODO: implement get outgoing requests
+    //TODO: implement get logs
+
+
+
 }
 
 
