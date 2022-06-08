@@ -20,7 +20,7 @@ export class ScheduleworkoutComponent implements OnInit {
   isSwimming! : boolean;
   isRiding! : boolean;
 
-  calculatedDuration : number;
+  calculatedDuration : string;
   showCalculatedDuration : boolean;
 
   mins = '5';
@@ -31,7 +31,7 @@ export class ScheduleworkoutComponent implements OnInit {
     this.frmBuilder = builder;
     this.setAllFalse();
     this.isRunning = true;
-    this.calculatedDuration = 0;
+    this.calculatedDuration = '';
     this.showCalculatedDuration = false;
   }
 
@@ -51,9 +51,8 @@ export class ScheduleworkoutComponent implements OnInit {
       minutes: ['00', [Validators.required, Validators.max(59)]],
       seconds: ['', [Validators.required, Validators.max(59)]],
       distance: ['', [Validators.required]],
-      date: [, [Validators.required]],
+      date: ['', [Validators.required]],
       kmph: ['', [Validators.required]],
-      mp100m: ['', [Validators.required]]
     });
   }
 
@@ -87,7 +86,6 @@ export class ScheduleworkoutComponent implements OnInit {
     const seconds = this.scheduleWorkout.controls['seconds'].value || false;
     const date = this.scheduleWorkout.controls['date'].value || false;
     const kmph = this .scheduleWorkout.controls['kmph'].value || false;
-    const mp100m = this.scheduleWorkout.controls['mp100m'].value || false;
     const distance = this.scheduleWorkout.controls['distance'].value || false;
 
     //base validation:
@@ -161,32 +159,52 @@ export class ScheduleworkoutComponent implements OnInit {
   }
 
   calculateDuration() {
-    // console.log('calc duration');
-
     this.showCalculatedDuration = false;
     //return if weight lifting
     if (this.isWeightLifting) {
-      this.calculatedDuration = 0;
+      this.calculatedDuration = '';
       this.showCalculatedDuration = false;
       return;
     }
+    
     //not weight lifting - distance is a requirement
-    if (this.scheduleWorkout.controls['distance'].value == null)
+    if (this.scheduleWorkout.controls['distance'].value == '')
         return;
+
     //check riding - calculate and return
     if (this.isRiding) {
-      if (this.scheduleWorkout.controls['kmph'].value == null)
+
+      if (this.scheduleWorkout.controls['kmph'].value == '')
         return;
+      
       //calculate duration string here:
 
       //TODO(1):
+      const speed = this.scheduleWorkout.controls['kmph'].value;
+      const distance = this.scheduleWorkout.controls['distance'].value;
+      console.log('speed = ' + speed);
+      console.log('distance = ' + distance);
+      let duration = speed * distance;
+      console.log('duration = ' + duration);
+
+      let hours = 0;
+
+      while (duration >= 60) {
+        hours++;
+        duration-=60;
+      }
+      const mins = duration;
+
+      if (hours == 0) {
+        this.calculatedDuration = `${mins} mins`;
+      } else this.calculatedDuration = `${hours} hours ${mins} mins`;
 
       //show and return
       this.showCalculatedDuration = true;
       return;
     }
     //running or swimming - mins and secs is a requirement
-    if (this.scheduleWorkout.controls['minutes'].value == null)
+    if (this.scheduleWorkout.controls['minutes'].value == '')
         return;
       if (this.scheduleWorkout.controls['seconds'].value == null)
         return;
