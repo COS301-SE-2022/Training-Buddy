@@ -134,20 +134,44 @@ export class TrainingBuddyApiResolver {
     accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
         return this.trainingBuddyService.accept(userEmail, otherEmail);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
     @Query(()=>[RequestUsers])
     getIncoming(@Args("email")userEmail:string){
         return this.trainingBuddyService.getIncoming(userEmail);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
     @Query(()=>[RequestUsers])
     getOutgoing(@Args("email")userEmail:string){
         return this.trainingBuddyService.getOutgoing(userEmail);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
     @Query(()=>[RequestUsers])
     getConnections(@Args("email")userEmail:string){
         return this.trainingBuddyService.getConnections(userEmail);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[responseWorkout])
+    getScheduleWorkout(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getScheduleWorkout(userEmail);
+    }
 
-    //TODO: implement get schedule workout 
+ 
     //TODO: implement get logs
 
 
