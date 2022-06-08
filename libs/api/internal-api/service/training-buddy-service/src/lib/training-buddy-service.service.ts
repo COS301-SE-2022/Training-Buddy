@@ -349,7 +349,7 @@ export class TrainingBuddyServiceService {
      * @return [ResponseWorkout]
      */
     async getScheduleWorkout(userEmail: string) {
-        let arr ;
+        let arr =[];
         const user = await this.findOne(userEmail);
        if(!user){
             return arr;
@@ -357,27 +357,59 @@ export class TrainingBuddyServiceService {
             arr = await this.repoService.getScheduledWorkouts(userEmail);
             return arr;
         }
+
+
+       
     }
     /**
      * 
      * @param userEmail 
-     * 
+     * @return [userEntities]
      */
     async getConnections(userEmail: string) {
-        throw new Error('Method not implemented.');
+        const user = await this.findOne(userEmail);
+        let arr=[];
+        if(user){
+            for(let i = 0; i < user.buddies.length; i++){
+                arr.push(user.buddies[i])
+            }
+            return arr;
+        }
+        else return arr;
     }
     /**
      * 
      * @param userEmail 
+     * [userEntities]
      */
     async getOutgoing(userEmail: string) {
-        throw new Error('Method not implemented.');
+        const user = await this.findOne(userEmail);
+        let outgoing =[]
+        if(user){
+            const arr= await this.repoService.getOutgoingRequests(userEmail)
+            for(let i = 0; i < arr.length; i++){
+                outgoing.push(await this.findOne(arr[i].receiver))
+            }
+            return outgoing;
+        }
+        else return outgoing;
+
+       
     }
     /**
      * 
      * @param userEmail 
      */
     async getIncoming(userEmail: string) {
-        throw new Error('Method not implemented.');
+        const user = await this.findOne(userEmail);
+        let outgoing =[]
+        if(user){
+            const arr= await this.repoService.getIncomingRequests(userEmail)
+            for(let i = 0; i < arr.length; i++){
+                outgoing.push(await this.findOne(arr[i].sender))
+            }
+            return outgoing;
+        }
+        else return outgoing;
     }
 }
