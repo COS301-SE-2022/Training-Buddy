@@ -170,9 +170,15 @@ export class TrainingBuddyApiResolver {
     getScheduleWorkout(@Args("email")userEmail:string){
         return this.trainingBuddyService.getScheduleWorkout(userEmail);
     }
-
- 
-    //TODO: implement get logs
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[responseLogs])
+    getLogs(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getLogs(userEmail);
+    }
 
 
 
