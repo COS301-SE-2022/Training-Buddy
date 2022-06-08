@@ -20,6 +20,9 @@ const mockUserConfig: jest.Mocked<Userconfig> = new Userconfig() as Userconfig;
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockActivityLog: jest.Mocked<ActivityLog> = new ActivityLog() as ActivityLog;
 
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const mockActivityStat: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat;
+
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
   
@@ -300,6 +303,126 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         }
       });
 
+      
+      /**
+       * Test getLogs functionality
+       */
+      describe('getLogs', () => {
+        try{
+          it('should return user logs', async () => {
+            const spyGetLogs = jest.spyOn(service, 'getLogs');
 
+            spyGetLogs.mockImplementation(service.getLogs);
+
+            expect(service.getLogs).toReturn;
+
+          });
+        } catch(error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test makeConnectionRequest functionality
+       */
+      describe('makeConnectionRequest', () =>{
+        try{
+          it('should allow user to make connection request', async () => {
+            const spyMakeConnection = jest.spyOn(service, 'makeConnectionRequest');
+
+            spyMakeConnection.mockImplementation(service.makeConnectionRequest);
+
+            expect(service.makeConnectionRequest).toReturn;
+
+          });
+        } catch(error) {
+          fail(error);
+        } 
+
+      });
+
+      /**
+       * Test getConnections functionality
+       */
+      describe('getConnection', () => {
+        try {
+          it('should get users connections',async () => {
+            const spyGetConnection = jest.spyOn(service, 'getConnections');
+
+            spyGetConnection.mockImplementation(service.getConnections);
+
+            expect(service.getConnections).toReturn;
+
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test deleteConnection functionality
+       */
+      describe('deleteConnection', () => {
+        try {
+          it('should delete users connections',async () => {
+            const spyDeleteConnection = jest.spyOn(service, 'deleteConnection');
+
+            spyDeleteConnection.mockImplementation(service.deleteConnection);
+
+            expect(service.deleteConnection).toReturn;
+
+
+          });
+        } catch (error) {
+          fail(error)
+        }
+      });
+
+      /**
+       * Tested scheduleWorkout functionality
+       */
+      describe('scheduleWorkout', () => {
+        try {
+          it('should allow user scheduleWorkout',async () => {
+            const spyScheduleWorkout = jest.spyOn(service, 'scheduleWorkout');
+
+            spyScheduleWorkout.mockImplementation(service.scheduleWorkout);
+            
+            expect(service.scheduleWorkout).toReturn;
+
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Tested getScheduledWorkouts functionality 
+       */
+      describe('getScheduledWorkouts', () => {
+        try {
+          it('should allow user to get schedule workouts',async () => {
+            const spyGetScheduleWorkout = jest.spyOn(service, 'getScheduledWorkouts');
+
+            spyGetScheduleWorkout.mockImplementation(service.getScheduledWorkouts);
+
+            expect(service.getScheduledWorkouts).toReturn;
+
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test createActivityStatistic functionality
+       */
+      describe('createActivityStatistic', () => {
+        it('should return false', async () => {
+          
+          expect(service.createActivityStatistic(mockActivityStat)).toReturn;
+ 
+        });
+      });
 
 });
