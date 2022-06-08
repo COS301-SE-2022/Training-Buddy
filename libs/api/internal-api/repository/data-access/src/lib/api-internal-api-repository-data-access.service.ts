@@ -2,6 +2,7 @@ import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
+import { firestore } from 'firebase-admin';
 import passport = require('passport');
 import { emit, send } from 'process';
 import { async } from 'rxjs';
@@ -10,7 +11,9 @@ import internal = require('stream');
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
     
+    //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
+    readonly arrayUnion = firestore.FieldValue.arrayUnion ;
     usersCollection = this.firestore.collection('/Users') ;
     activityLogsCollection = this.firestore.collection('/ActivityLogs') ;
     buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
@@ -32,7 +35,8 @@ export class ApiInternalApiRepositoryDataAccessService {
             latitude : user.latitude,
             location : user.location,
             password : user.password,
-            stravaToken : user.stravaToken
+            stravaToken : user.stravaToken,
+            buddies: []
         }
 
         await this.usersCollection.doc().set(data)
@@ -260,18 +264,18 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //connections - CREATE
     async makeConnection(@Param() user1: string, @Param() user2: string){
-        const now = new Date() ;
-        const data = {
-            users: [user1,user2],
-            time: now,
-            metric: 0
-        }
 
-        await this.buddyConnectionsCollection.doc().set(data)
-        .then(results =>{
-            return true ;
-        });
-        return false ;
+    
+        return this.usersCollection.where('email', '==', user1).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({buddies: this.arrayUnion(user2)}).then(results => {
+                return this.usersCollection.where('email', '==', user2).get().then(async (result1) =>{
+                    if(result1.docs[0]) return this.usersCollection.doc(result1.docs[0].id).update({buddies: this.arrayUnion(user1)}).then(results =>{
+                        return true ;
+                    })
+                });
+            }) ;
+            return false ;
+        })  
     }
 
     //connections - READ
