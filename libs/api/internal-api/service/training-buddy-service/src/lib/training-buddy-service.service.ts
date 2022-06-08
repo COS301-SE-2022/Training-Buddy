@@ -5,8 +5,6 @@ import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
-
-  
     /**
      * 
      * @param jwtService 
@@ -37,11 +35,13 @@ export class TrainingBuddyServiceService {
     async findOne(email: string): Promise<any>{
         return await this.repoService.login(email)
     }
+    /**
+     * 
+     * @param userdto 
+     * @returns ErrorMessage
+     */
     async signup(userdto : UserDto){
-      
         let user = await this.findOne(userdto.email);
-
-        console.log(user)
         if(await user){
             const item = new ErrorMessage;
             item.message = "User Already Exists failure";
@@ -218,7 +218,6 @@ export class TrainingBuddyServiceService {
           Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
         const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         const  d = R * c;
-        console.log(d);
         return d;
 
     }
@@ -370,6 +369,9 @@ export class TrainingBuddyServiceService {
         const user = await this.findOne(userEmail);
         const arr=[];
         if(user){
+            if(!user.buddies){
+                return arr;
+            }
             for(let i = 0; i < user.buddies.length; i++){
                 arr.push(await this.findOne(user.buddies[i]))
             }
@@ -387,6 +389,9 @@ export class TrainingBuddyServiceService {
         const outgoing =[]
         if(user){
             const arr= await this.repoService.getOutgoingRequests(userEmail)
+            if(arr.length<=0){
+                return arr;
+            }
             for(let i = 0; i < arr.length; i++){
                 outgoing.push(await this.findOne(arr[i].receiver))
             }
@@ -405,6 +410,9 @@ export class TrainingBuddyServiceService {
         const outgoing =[]
         if(user){
             const arr= await this.repoService.getIncomingRequests(userEmail)
+            if(arr.length<=0){
+                return arr;
+            }
             for(let i = 0; i < arr.length; i++){
                 outgoing.push(await this.findOne(arr[i].sender))
             }

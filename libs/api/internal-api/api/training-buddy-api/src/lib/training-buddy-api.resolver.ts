@@ -109,6 +109,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @param otherEmail 
      * @returns ErrorMessage
+     * tested 
      */
     @Mutation(()=>ErrorMessage)
     sendRequest(@Args('Sender')userEmail: string , @Args('Receiver')otherEmail: string){
@@ -119,6 +120,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @param otherEmail 
      * @returns ErrorMessage
+     * tested
      */
     @Mutation(()=>ErrorMessage)
     reject(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
@@ -129,6 +131,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @param otherEmail 
      * @returns ErrorMessage
+     * tested
      */
     @Mutation(()=>ErrorMessage)
     accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
@@ -138,6 +141,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userEmail 
      * @returns 
+     * tested
      */
     @Query(()=>[UserEntity])
     getIncoming(@Args("email")userEmail:string){
@@ -146,7 +150,8 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param userEmail 
-     * @returns 
+     * @returns [userEntities]
+     * tested
      */
     @Query(()=>[UserEntity])
     getOutgoing(@Args("email")userEmail:string){
@@ -155,7 +160,8 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param userEmail 
-     * @returns 
+     * @returns  [userEntities]
+     * tested
      */
     @Query(()=>[UserEntity])
     getConnections(@Args("email")userEmail:string){
@@ -164,7 +170,8 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param userEmail 
-     * @returns 
+     * @returns
+     * tested 
      */
     @Query(()=>[ResponseWorkout])
     getScheduleWorkout(@Args("email")userEmail:string){
@@ -174,6 +181,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userEmail 
      * @returns 
+     * tested
      */
     @Query(()=>[ResponseLogs])
     getLogs(@Args("email")userEmail:string){
