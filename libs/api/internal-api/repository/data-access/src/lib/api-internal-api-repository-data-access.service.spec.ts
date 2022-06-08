@@ -57,51 +57,51 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       /**
        * Test Login Function
        */
-      describe('login', () => {
-        it('should allow user to login', async () => {
-          try{
-            const spyLogin = jest.spyOn(service, 'login');
+      // describe('login', () => {
+      //   it('should allow user to login', async () => {
+      //     try{
+      //       const spyLogin = jest.spyOn(service, 'login');
 
-            spyLogin.mockImplementation(service.login);
+      //       spyLogin.mockImplementation(service.login);
 
-            expect(service.login).toReturn;
+      //       expect(service.login).toReturn;
 
-            expect(service.login('tester@gmail.com')).toHaveReturned;
+      //       expect(service.login('tester@gmail.com')).toHaveReturned;
 
-          } catch(error) {
+      //     } catch(error) {
 
-            fail(error);
+      //       fail(error);
           
-          }
-        });
-      });
+      //     }
+      //   });
+      // });
 
 
      /**
       * Test findAll Function - Location
       */
-      describe('findAll', () => {
-        const locationResult = UserEntityMock.location;
-        it('should find all users location', async () => {
-          try{
+      // describe('findAll', () => {
+      //   const locationResult = UserEntityMock.location;
+      //   it('should find all users location', async () => {
+      //     try{
 
-            const spyFindAll = jest.spyOn(service, 'findAll');
+      //       const spyFindAll = jest.spyOn(service, 'findAll');
 
-            spyFindAll.mockImplementation(service.findAll);
+      //       spyFindAll.mockImplementation(service.findAll);
 
             
-            expect(service.findAll(locationResult)).toHaveBeenCalled;
+      //       expect(service.findAll(locationResult)).toHaveBeenCalled;
 
-            expect(service.findAll).toReturn;
+      //       expect(service.findAll).toReturn;
 
 
-          } catch(error) {
+      //     } catch(error) {
 
-            fail(error);
+      //       fail(error);
 
-          }
-        });
-      });
+      //     }
+      //   });
+      // });
 
       /**
        * Test userConfig
@@ -132,30 +132,30 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
        * Test UpdateCellNumber function
        */
 
-      describe('updateCellNumber', () => {
-        const mockCellNumber = mockUserDto.cellNumber;
-        const mockEmail = mockUserDto.email;
+      // describe('updateCellNumber', () => {
+      //   const mockCellNumber = mockUserDto.cellNumber;
+      //   const mockEmail = mockUserDto.email;
 
-        try {
+      //   try {
 
-          it('should allow user to update cellNumber and email',async () => {
+      //     it('should allow user to update cellNumber and email',async () => {
 
-            const spyUpdateCellNumber = jest.spyOn(service, 'updateCellNumber');
+      //       const spyUpdateCellNumber = jest.spyOn(service, 'updateCellNumber');
 
-            spyUpdateCellNumber.mockImplementation(service.updateCellNumber);
+      //       spyUpdateCellNumber.mockImplementation(service.updateCellNumber);
 
-            expect(service.userConfig).toBeDefined;
+      //       expect(service.userConfig).toBeDefined;
 
-            expect(service.updateCellNumber(mockCellNumber, mockEmail)).toBeCalled;
+      //       expect(service.updateCellNumber(mockCellNumber, mockEmail)).toBeCalled;
 
-          })
-        } catch (error) {
+      //     })
+      //   } catch (error) {
           
-          fail(error);
+      //     fail(error);
 
-        }
+      //   }
 
-      });
+      // });
 
       /**
        * Testing update distance function
@@ -183,7 +183,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       });
 
       /**
-       * Test updateEmail
+       * Test updateEmail functionality
        */
 
       describe('updateEmail', () => {
@@ -194,7 +194,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
             spyUpdateEmail.mockImplementation(service.updateEmail);
 
-            expect(service.updateEmail).toReturn;
+            expect(service.updateEmail).toBeDefined;
 
           });
         } catch (error){
@@ -202,5 +202,40 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         }
 
       });
+
+      /**
+       * Test updateLocation functionality
+       */
+
+      describe('updateLocation', () => {
+        try {
+          it('should allow the user to update location',async () => {
+            const spyUpdateLocation = jest.spyOn(service, 'updateLocation');
+
+            spyUpdateLocation.mockImplementation(service.updateLocation);
+
+            expect(service.updateLocation).toBeDefined;
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test updatePassword functionlity
+       */
+
+      describe('updatePassword', () => {
+        try {
+          it('should allow the user to update location', async () => {
+            const spyUpdatePassword = jest.spyOn(service, 'updatePassword');
+
+            // spyUpdatePassword.
+
+          })
+        } catch (error) {
+          fail(error);
+        }
+      })
 
 });
