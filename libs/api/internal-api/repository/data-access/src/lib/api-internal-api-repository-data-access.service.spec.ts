@@ -1,18 +1,19 @@
 import { Test } from '@nestjs/testing';
 import { ApiInternalApiRepositoryDataAccessService } from './api-internal-api-repository-data-access.service';
 import { UserDto, 
+  UserEntity,
   ActivityStat,
   Userconfig,
   ActivityLog,
   ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { resolve } from 'path';
-
 
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-
 const mockUserDto: jest.Mocked<UserDto> = new UserDto() as UserDto;
 
+
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
   
@@ -43,36 +44,60 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
             expect(spyMock.mockImplementation(service.createUser)).toHaveBeenCalled;
           
         } catch (error) {
+
             fail(error);
         }
 
      });
     });
     
-      // /* Testing the login function */
-      // describe('login', () => {
-      //   it('should allow user to login', () => {
-      //     try{
+      /**
+       * Test Login Function
+       */
+      describe('login', () => {
+        it('should allow user to login', async () => {
+          try{
+            const spyLogin = jest.spyOn(service, 'login');
 
-      //       expect(service.login('tester@gmail.com')).toHaveReturned;
+            spyLogin.mockImplementation(service.login);
 
-      //     } catch(error) {
-      //       fail(error);
-      //     }
-      //   });
-      // });
+            expect(service.login).toReturn;
 
-      /* Testing FindAll function - by location*/
-      // describe('findAll', () => {
-      //   const locationResult = UserEntityMock.location;
-      //   it('should find all users location', async () => {
-      //     try{
-      //       expect(service.findAll(locationResult)).toHaveReturned;
+            expect(service.login('tester@gmail.com')).toHaveReturned;
 
-      //     } catch(error) {
-      //       fail(error);
-      //     }
-      //   });
-      // })
+          } catch(error) {
+
+            fail(error);
+          
+          }
+        });
+      });
+
+
+     /**
+      * Test findAll Function - Location
+      */
+      describe('findAll', () => {
+        const locationResult = UserEntityMock.location;
+        it('should find all users location', async () => {
+          try{
+
+            const spyFindAll = jest.spyOn(service, 'findAll');
+
+            spyFindAll.mockImplementation(service.findAll);
+
+            
+            expect(service.findAll(locationResult)).toHaveBeenCalled;
+
+            expect(service.findAll).toReturn;
+
+
+          } catch(error) {
+
+            fail(error);
+            
+          }
+        });
+      });
 
 });
