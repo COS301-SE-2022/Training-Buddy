@@ -300,6 +300,45 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         }
       });
 
+      
+      /**
+       * Test getLogs functionality
+       */
+      describe('getLogs', () => {
+        try{
+          it('should return user logs', async () => {
+            const spyGetLogs = jest.spyOn(service, 'getLogs');
 
+            spyGetLogs.mockImplementation(service.getLogs);
+
+            expect(service.getLogs).toReturn;
+
+          });
+        } catch(error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test makeConnectionRequest functionality
+       */
+      describe('makeConnectionRequest', () =>{
+        try{
+          it('should allow user to make connection request', async () => {
+            const spyMakeConnection = jest.spyOn(service, 'makeConnectionRequest');
+
+            spyMakeConnection.mockImplementation(service.makeConnectionRequest);
+
+            expect(service.makeConnectionRequest).toReturn;
+
+          });
+        } catch(error) {
+          fail(error);
+        } 
+
+      });
+
+      
+      
 
 });
