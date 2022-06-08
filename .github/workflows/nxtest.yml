@@ -68,4 +68,9 @@ jobs:
         if: inputs.testtype == 'e2e' && inputs.test == 'affected'
         run: yarn nx affected:e2e --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
+     - name: Codecov
+       uses: codecov/codecov-action@v1
+       with: 
+          token: ${{ secrets.CODECOV_TOKEN }}
+
           
