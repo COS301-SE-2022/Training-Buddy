@@ -87,7 +87,15 @@ const routes: Routes = [
       import ('@training-buddy/client/addmanualactivity/feature').then(
         m => m.ClientAddmanualactivityFeatureModule
       )
-  }
+  },
+
+  {
+    path: 'uploadprofile',
+    loadChildren: () =>
+      import ('@training-buddy/client/profileimageupload').then(
+        m => m.ClientProfileimageuploadModule
+      )
+  },
 
 ];
 
