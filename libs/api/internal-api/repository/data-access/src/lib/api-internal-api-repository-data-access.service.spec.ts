@@ -157,4 +157,23 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
       });
 
+      describe('updateDistance', () => {
+
+        try{
+          it('should allow user to update distance', async () => {
+
+            const spyUpdateDistance = jest.spyOn(service,'updateDistance');
+
+            spyUpdateDistance.mockImplementation(service.updateDistance);
+
+            expect(service.updateDistance).toBeDefined;
+
+
+          });
+        } catch(error) {
+          fail(error);
+        }
+        
+      });
+
 });
