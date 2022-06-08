@@ -198,7 +198,9 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
           });
         } catch (error){
+
           fail(error);
+
         }
 
       });
@@ -217,7 +219,9 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
             expect(service.updateLocation).toBeDefined;
           });
         } catch (error) {
+          
           fail(error);
+        
         }
       });
 
@@ -230,12 +234,60 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
           it('should allow the user to update location', async () => {
             const spyUpdatePassword = jest.spyOn(service, 'updatePassword');
 
-            // spyUpdatePassword.
+            spyUpdatePassword.mockImplementation(service.updatePassword);
+
+            expect(service.updatePassword).toReturn;
 
           })
         } catch (error) {
+          
           fail(error);
+        
         }
-      })
+      });
+
+      /**
+       * Test updateUserName functionality
+       */
+
+      describe('updateUserName', () => {
+
+        try {
+          it('should allow user to update location',async () => {
+            const spyUserName = jest.spyOn(service, 'updateUserName');
+
+            spyUserName.mockImplementation(service.updateUserName);
+
+            expect(service.updateUserName).toReturn;
+
+          })
+        } catch (error) {
+          
+          fail(error);
+        
+        }
+
+      });  
+
+
+      /**
+       * Test updateUserSurname functionality
+       */
+
+      describe('updateUserSurname', () => {
+        try {
+          const spyUserSurname = jest.spyOn(service, 'updateUserSurname');
+
+          spyUserSurname.mockImplementation(service.updateUserSurname);
+
+          expect(service.updateUserSurname).toReturn;
+
+
+        } catch (error) {
+          
+          fail(error);
+        
+        }
+      });
 
 });
