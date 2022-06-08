@@ -51,7 +51,7 @@ export class ScheduleworkoutComponent implements OnInit {
       minutes: ['00', [Validators.required, Validators.max(59)]],
       seconds: ['', [Validators.required, Validators.max(59)]],
       distance: ['', [Validators.required]],
-      date: [new Date(), [Validators.required]],
+      date: [, [Validators.required]],
       kmph: ['', [Validators.required]],
       mp100m: ['', [Validators.required]]
     });
@@ -86,58 +86,35 @@ export class ScheduleworkoutComponent implements OnInit {
     const minutes = this.scheduleWorkout.controls['minutes'].value || false;
     const seconds = this.scheduleWorkout.controls['seconds'].value || false;
     const date = this.scheduleWorkout.controls['date'].value || false;
+    const kmph = this .scheduleWorkout.controls['kmph'].value || false;
+    const mp100m = this.scheduleWorkout.controls['mp100m'].value || false;
+
+    //base validation:
+    if (!(name && type && date))
+      return;
 
     if (this.isWeightLifting) {
-
-      //validate all except distance
-      if (name && hours && minutes && seconds && date) {
-
-      const time = this.calulateSeconds(hours, minutes, seconds);
-
-        //to be removed when moving to API call:
-        this.resetForm();
-        this.snackBar.open('Activity Added', '', {
-          duration: 2000
-        });
+      //weight lifting - duration
+      if (!(hours || minutes))
         return;
 
-        //API call for weight lifting:
-        this.addActivity(type, date, null, name, null, time).then(() => {
-          this.scheduleWorkout.reset();
-          this.snackBar.open('Activity Added', 'X', {
-            duration: 2000
-          });
-        });
+      //schedule weight lifting workout
+      //TODO(1):
 
-        return;
-      }      
-
-    }
-
-    //validate full form
-    if (this.scheduleWorkout.invalid) {
       return;
     }
 
-    const distance = this.scheduleWorkout.controls['distance'].value * 1000;
-    const time = this.calulateSeconds(hours, minutes, seconds);
-    const speed = this.calculateSpeed(time, distance);
+    if (this.isRiding) {
+      //riding - distance, speed
+    }
 
-    console.log(time);
-    console.log(speed);
-    //to be removed when moving to API call:
-    this.resetForm();
-    this.snackBar.open('Activity Added', '', {
-      duration: 3000
-    });
-    return;
+    if (this.isRunning) {
 
-    this.addActivity(type, date, distance, name, speed, time).then(() => {
-      this.scheduleWorkout.reset();
-      this.snackBar.open('Activity Added', 'X', {
-        duration: 3000
-      });
-    });
+    }
+
+    if (this.isSwimming) {
+
+    }
 
   }
 
@@ -148,7 +125,7 @@ export class ScheduleworkoutComponent implements OnInit {
     }
   }
 
-  addActivity(type : string, date : string, distance : any, name : string, speed : any, time : number) {
+  schedule(type : string, date : string, distance : any, name : string, speed : any, time : number) {
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
