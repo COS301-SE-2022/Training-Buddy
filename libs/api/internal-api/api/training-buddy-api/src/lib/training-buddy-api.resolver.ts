@@ -97,7 +97,7 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param activitySchedule 
-     * @returns 
+     * @returns ErrorMessage
      * tested
      */
     @Mutation(()=> ErrorMessage)
