@@ -53,7 +53,7 @@
                     <!-- distance -->
                     <mat-form-field appearance="outline">
                         <mat-label>Distance (km)</mat-label>
-                        <input (change)="calculateDuration()" formControlName="distance" id="distance" matInput type="number" placeholder="5" name="distance">
+                        <input (input)="calculateDuration()" formControlName="distance" id="distance" matInput type="number" placeholder="5" name="distance">
                         <mat-error *ngIf="scheduleWorkout.controls['distance'].errors">
                             Distance is required
                         </mat-error>
@@ -71,11 +71,11 @@
                     <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
                         <mat-form-field appearance="outline" class="col-span-1">
                             <mat-label>Minutes</mat-label>
-                            <input (change)="calculateDuration()" [(ngModel)]="mins" formControlName="minutes" id="minutes" matInput type="number" name="minutes">
+                            <input (input)="calculateDuration()" [(ngModel)]="mins" formControlName="minutes" id="minutes" matInput type="number" name="minutes">
                         </mat-form-field>
                         <mat-form-field appearance="outline" class="col-span-1 ml-1">
                             <mat-label>Secs</mat-label>
-                            <input (change)="calculateDuration()" [(ngModel)]="secs" formControlName="seconds" id="seconds" matInput type="number" name="seconds">
+                            <input (input)="calculateDuration()" [(ngModel)]="secs" formControlName="seconds" id="seconds" matInput type="number" name="seconds">
                         </mat-form-field>
                     </div>
 
@@ -86,7 +86,7 @@
                     <!-- riding measured with distance and km/h -->
                     <mat-form-field appearance="outline" class="col-span-1">
                         <mat-label>Speed</mat-label>
-                        <input (change)="calculateDuration()" formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
+                        <input (input)="calculateDuration()" formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
                     </mat-form-field>
                 </div>
 
