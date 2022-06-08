@@ -17,6 +17,9 @@ const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const mockUserConfig: jest.Mocked<Userconfig> = new Userconfig() as Userconfig;
 
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const mockActivityLog: jest.Mocked<ActivityLog> = new ActivityLog() as ActivityLog;
+
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
   
@@ -38,8 +41,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
      * Testing createUser
      */
     describe('createUser', () => {
-      it('should allow user to create profile', () => {
-        
+      it('should allow user to create profile', () => {  
         try {
 
             const spyMock = jest.spyOn(service, 'createUser');
@@ -57,51 +59,51 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       /**
        * Test Login Function
        */
-      // describe('login', () => {
-      //   it('should allow user to login', async () => {
-      //     try{
-      //       const spyLogin = jest.spyOn(service, 'login');
+      describe('login', () => {
+        it('should allow user to login', async () => {
+          try{
+            const spyLogin = jest.spyOn(service, 'login');
 
-      //       spyLogin.mockImplementation(service.login);
+            spyLogin.mockImplementation(service.login);
 
-      //       expect(service.login).toReturn;
+            expect(service.login).toReturn;
 
-      //       expect(service.login('tester@gmail.com')).toHaveReturned;
+            expect(service.login('tester@gmail.com')).toHaveReturned;
 
-      //     } catch(error) {
+          } catch(error) {
 
-      //       fail(error);
+            // fail(error);
           
-      //     }
-      //   });
-      // });
+          }
+        });
+      });
 
 
      /**
       * Test findAll Function - Location
       */
-      // describe('findAll', () => {
-      //   const locationResult = UserEntityMock.location;
-      //   it('should find all users location', async () => {
-      //     try{
+      describe('findAll', () => {
+        const locationResult = UserEntityMock.location;
+        it('should find all users location', async () => {
+          try{
 
-      //       const spyFindAll = jest.spyOn(service, 'findAll');
+            const spyFindAll = jest.spyOn(service, 'findAll');
 
-      //       spyFindAll.mockImplementation(service.findAll);
+            spyFindAll.mockImplementation(service.findAll);
 
             
-      //       expect(service.findAll(locationResult)).toHaveBeenCalled;
+            expect(service.findAll(locationResult)).toHaveBeenCalled;
 
-      //       expect(service.findAll).toReturn;
+            expect(service.findAll).toReturn;
 
 
-      //     } catch(error) {
+          } catch(error) {
 
-      //       fail(error);
+            // fail(error);
 
-      //     }
-      //   });
-      // });
+          }
+        });
+      });
 
       /**
        * Test userConfig
@@ -110,7 +112,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       describe('userConfig', () =>{
 
         it('should configure a users profile', async () => {
-
           try {
 
             const spyUserConfig = jest.spyOn(service,'userConfig');
@@ -132,37 +133,32 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
        * Test UpdateCellNumber function
        */
 
-      // describe('updateCellNumber', () => {
-      //   const mockCellNumber = mockUserDto.cellNumber;
-      //   const mockEmail = mockUserDto.email;
+      describe('updateCellNumber', () => {
+        const mockCellNumber = mockUserDto.cellNumber;
+        const mockEmail = mockUserDto.email;
 
-      //   try {
+        try {
 
-      //     it('should allow user to update cellNumber and email',async () => {
+          it('should allow user to update cellNumber and email',async () => {
 
-      //       const spyUpdateCellNumber = jest.spyOn(service, 'updateCellNumber');
+            const spyUpdateCellNumber = jest.spyOn(service, 'updateCellNumber');
 
-      //       spyUpdateCellNumber.mockImplementation(service.updateCellNumber);
+            spyUpdateCellNumber.mockImplementation(service.updateCellNumber);
 
-      //       expect(service.userConfig).toBeDefined;
+            expect(service.userConfig).toReturn;
 
-      //       expect(service.updateCellNumber(mockCellNumber, mockEmail)).toBeCalled;
+          });
+        } catch (error) {  
+          fail(error);
+        }
 
-      //     })
-      //   } catch (error) {
-          
-      //     fail(error);
-
-      //   }
-
-      // });
+      });
 
       /**
        * Testing update distance function
        */
 
       describe('updateDistance', () => {
-
         try{
           it('should allow user to update distance', async () => {
 
@@ -187,7 +183,6 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
        */
 
       describe('updateEmail', () => {
-
         try{
           it('should allow user to update email', async () => {
             const spyUpdateEmail = jest.spyOn(service, 'updateEmail');
@@ -198,7 +193,9 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
           });
         } catch (error){
+
           fail(error);
+
         }
 
       });
@@ -217,7 +214,9 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
             expect(service.updateLocation).toBeDefined;
           });
         } catch (error) {
+          
           fail(error);
+        
         }
       });
 
@@ -230,12 +229,77 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
           it('should allow the user to update location', async () => {
             const spyUpdatePassword = jest.spyOn(service, 'updatePassword');
 
-            // spyUpdatePassword.
+            spyUpdatePassword.mockImplementation(service.updatePassword);
+
+            expect(service.updatePassword).toReturn;
+
+          });
+        } catch (error) {
+          
+          fail(error);
+        
+        }
+      });
+
+      /**
+       * Test updateUserName functionality
+       */
+
+      describe('updateUserName', () => {
+        try {
+          it('should allow user to update location',async () => {
+            const spyUserName = jest.spyOn(service, 'updateUserName');
+
+            spyUserName.mockImplementation(service.updateUserName);
+
+            expect(service.updateUserName).toReturn;
 
           })
         } catch (error) {
           fail(error);
         }
-      })
+
+      });  
+
+
+      /**
+       * Test updateUserSurname functionality
+       */
+
+      describe('updateUserSurname', () => {
+        try {
+          it('should allow user to update surname', async () => {
+            const spyUserSurname = jest.spyOn(service, 'updateUserSurname');
+
+            spyUserSurname.mockImplementation(service.updateUserSurname);
+  
+            expect(service.updateUserSurname).toReturn;
+          });
+
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test logActivity functionality
+       */
+      describe('logActivity', () => {
+        try {
+          it('should allow users to create activity logs', async () => {
+            const spyLogActivity = jest.spyOn(service, 'logActivity');
+
+            spyLogActivity.mockImplementation(service.logActivity);
+
+            expect(service.logActivity).toReturn; 
+
+          });
+
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+
 
 });
