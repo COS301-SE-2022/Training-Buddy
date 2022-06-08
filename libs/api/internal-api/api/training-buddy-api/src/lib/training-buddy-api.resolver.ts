@@ -15,8 +15,9 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userDTO 
      * @returns UserEntity
+     * tested
      */
-    @Mutation(()=> UserEntity||ErrorMessage)
+    @Mutation(()=>ErrorMessage)
     signup(@Args('userDto')userDTO : UserDto){
         return this.trainingBuddyService.signup(userDTO);
     }
@@ -25,8 +26,9 @@ export class TrainingBuddyApiResolver {
      * @param loginInput 
      * @param context 
      * @returns LoginResponse
+     * tested
      */
-    @Mutation(()=>Boolean)
+    @Mutation(()=>LoginResponse)
     @UseGuards(LoginGuard)
     login(@Args('loginInput')loginInput:LoginInput, @Context() context){
         return this.trainingBuddyService.login(context.user);
@@ -35,6 +37,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param Location 
      * @returns Array of UserEntity
+     * tested
      */
     @Query(() => [UserEntity])
     //@UseGuards(JwtAuthGuard)
@@ -75,6 +78,7 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userconfig
      * @returns ErrorMessage
+     * tested
      *  */ 
     @Mutation(()=>ErrorMessage)
     userConfig(@Args('userConfig')userconfig: Userconfig){
@@ -83,15 +87,53 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param activityLog 
-     * @returns ErrorMessage 
+     * @returns ErrorMessage
+     * tested  
      */
     @Mutation(()=> ErrorMessage)
     activityLog(@Args('Activitylog')activityLog: ActivityLog){
         return this.trainingBuddyService.activityLog(activityLog)
     }
+    /**
+     * 
+     * @param activitySchedule 
+     * @returns 
+     * tested
+     */
     @Mutation(()=> ErrorMessage)
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
         return this.trainingBuddyService.activitySchedule(activitySchedule)
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    sendRequest(@Args('Sender')userEmail: string , @Args('Receiver')otherEmail: string){
+        return this.trainingBuddyService.sendRequest(userEmail, otherEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    reject(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
+        return this.trainingBuddyService.reject(userEmail, otherEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
+        return this.trainingBuddyService.accept(userEmail, otherEmail);
+    }
 }
+
 

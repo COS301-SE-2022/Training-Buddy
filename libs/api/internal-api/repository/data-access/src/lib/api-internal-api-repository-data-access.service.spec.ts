@@ -1,24 +1,17 @@
 import { Test } from '@nestjs/testing';
 import { ApiInternalApiRepositoryDataAccessService } from './api-internal-api-repository-data-access.service';
-
-import {
-  UserEntity,
-  UserDto,
-  LoginInput,
+import { UserDto, 
   ActivityStat,
+  Userconfig,
+  ActivityLog,
+  ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { resolve } from 'path';
 
-} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+
 
 jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 
-const ActivityStatMock: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat
-const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
-// const UserDtoMock: jest.Mocked<UserDto> = {
-//   email:'tester@gmail.com',
-//   gender: 'Male',
-//   location: 'Hatfield, Pretoria',
-//   password: 'password'
-// }
+const mockUserDto: jest.Mocked<UserDto> = new UserDto() as UserDto;
 
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
@@ -37,26 +30,37 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     expect(service).toBeTruthy();
   });
 
-    // /* Testing the creater user function */
-    // describe('createUser', () => {
-    //   const result = UserDtoMock;
-    //   it('should allow user to create profile', () => {
-    //     expect(service.createUser(UserDtoMock)).toEqual(result);
-    //   });
-    // });
-    
-      /* Testing the login function */
-      describe('login', () => {
-        it('should allow user to login', () => {
-          try{
+    /**
+     * Testing createUser
+     */
+    describe('createUser', () => {
+      it('should allow user to create profile', () => {
+        
+        try {
 
-            expect(service.login('tester@gmail.com')).toHaveReturned;
+            const spyMock = jest.spyOn(service, 'createUser');
 
-          } catch(error) {
+            expect(spyMock.mockImplementation(service.createUser)).toHaveBeenCalled;
+          
+        } catch (error) {
             fail(error);
-          }
-        });
-      });
+        }
+
+     });
+    });
+    
+      // /* Testing the login function */
+      // describe('login', () => {
+      //   it('should allow user to login', () => {
+      //     try{
+
+      //       expect(service.login('tester@gmail.com')).toHaveReturned;
+
+      //     } catch(error) {
+      //       fail(error);
+      //     }
+      //   });
+      // });
 
       /* Testing FindAll function - by location*/
       // describe('findAll', () => {
@@ -70,6 +74,5 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       //     }
       //   });
       // })
-
 
 });
