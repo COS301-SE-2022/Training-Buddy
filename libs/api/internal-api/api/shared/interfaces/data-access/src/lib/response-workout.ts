@@ -4,13 +4,17 @@ import { ObjectType , Field} from "@nestjs/graphql";
 @ObjectType()
 export class ResponseWorkout {
     @Field()
-    time:string
+    startTime:string
     @Field()
-    activity:string
+    organiser:string
+    @Field(type=> [String] , {nullable:true})
+    participants:string[]
     @Field()
-    location:string
+    activityType:string
     @Field()
-    distance:string
+    startPoint:string
     @Field()
-    duration:number
+    proposedDistance:string
+    @Field()
+    proposedDuration:number
 }
