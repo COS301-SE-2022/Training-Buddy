@@ -338,7 +338,43 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
       });
 
-      
+      /**
+       * Test getConnections functionality
+       */
+      describe('getConnection', () => {
+        try {
+          it('should get users connections',async () => {
+            const spyGetConnection = jest.spyOn(service, 'getConnections');
+
+            spyGetConnection.mockImplementation(service.getConnections);
+
+            expect(service.getConnections).toReturn;
+
+          });
+        } catch (error) {
+          fail(error);
+        }
+      });
+
+      /**
+       * Test deleteConnection functionality
+       */
+      describe('deleteConnection', () => {
+        try {
+          it('should delete users connections',async () => {
+            const spyDeleteConnection = jest.spyOn(service, 'deleteConnection');
+
+            spyDeleteConnection.mockImplementation(service.deleteConnection);
+
+            expect(service.deleteConnection).toReturn;
+
+
+          });
+        } catch (error) {
+          fail(error)
+        }
+      });
+
       
 
 });
