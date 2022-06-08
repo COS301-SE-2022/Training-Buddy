@@ -157,6 +157,10 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
       });
 
+      /**
+       * Testing update distance function
+       */
+
       describe('updateDistance', () => {
 
         try{
@@ -171,9 +175,32 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
           });
         } catch(error) {
+
+          fail(error);
+
+        }
+
+      });
+
+      /**
+       * Test updateEmail
+       */
+
+      describe('updateEmail', () => {
+
+        try{
+          it('should allow user to update email', async () => {
+            const spyUpdateEmail = jest.spyOn(service, 'updateEmail');
+
+            spyUpdateEmail.mockImplementation(service.updateEmail);
+
+            expect(service.updateEmail).toReturn;
+
+          });
+        } catch (error){
           fail(error);
         }
-        
+
       });
 
 });
