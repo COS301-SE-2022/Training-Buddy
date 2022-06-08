@@ -65,9 +65,11 @@ export class ScheduleworkoutComponent implements OnInit {
       this.mins = '2';
       this.secs = '00';
     }
-      
-    if (value == 'WeightLifting')
+    if (value == 'WeightLifting') {
       this.isWeightLifting = true;
+      this.mins = '1';
+      this.secs = '00';
+    }
   }
 
   add() {
