@@ -2,6 +2,7 @@ import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
+import { firestore } from 'firebase-admin';
 import passport = require('passport');
 import { emit, send } from 'process';
 import { async } from 'rxjs';
@@ -10,8 +11,9 @@ import internal = require('stream');
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
     
-    readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
+    //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
+    readonly arrayUnion = firestore.FieldValue.arrayUnion ;
     usersCollection = this.firestore.collection('/Users') ;
     activityLogsCollection = this.firestore.collection('/ActivityLogs') ;
     buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
