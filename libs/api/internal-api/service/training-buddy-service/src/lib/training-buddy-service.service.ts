@@ -5,6 +5,9 @@ import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+    getConnections(userEmail: string) {
+        throw new Error('Method not implemented.');
+    }
     getOutgoing(userEmail: string) {
         throw new Error('Method not implemented.');
     }

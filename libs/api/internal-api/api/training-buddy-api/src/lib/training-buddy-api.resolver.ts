@@ -142,9 +142,12 @@ export class TrainingBuddyApiResolver {
     getOutgoing(@Args("email")userEmail:string){
         return this.trainingBuddyService.getOutgoing(userEmail);
     }
+    @Query(()=>[RequestUsers])
+    getConnections(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getConnections(userEmail);
+    }
+
     //TODO: implement get schedule workout 
-    //TODO: implement get connections 
-    //TODO: implement get outgoing requests
     //TODO: implement get logs
 
 
