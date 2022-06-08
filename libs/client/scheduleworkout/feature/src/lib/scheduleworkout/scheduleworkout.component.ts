@@ -75,6 +75,7 @@ export class ScheduleworkoutComponent implements OnInit {
       this.mins = '1';
       this.secs = '00';
     }
+    this.calculateDuration();
   }
 
   add() {
@@ -138,7 +139,6 @@ export class ScheduleworkoutComponent implements OnInit {
     }
 
     this.resetForm();
-
   }
 
   resetForm() {
@@ -159,9 +159,6 @@ export class ScheduleworkoutComponent implements OnInit {
   }
 
   calculateDuration() {
-
-    console.log('calulating');
-
     this.showCalculatedDuration = false;
     //return if weight lifting
     if (this.isWeightLifting) {
@@ -169,26 +166,18 @@ export class ScheduleworkoutComponent implements OnInit {
       this.showCalculatedDuration = false;
       return;
     }
-    
     //not weight lifting - distance is a requirement
-    if (this.scheduleWorkout.controls['distance'].value == '')
-        return;
-
+    if (this.scheduleWorkout.controls['distance'].value == '' || this.scheduleWorkout.controls['distance'].value == null) {
+      return;
+    }
     //check riding - calculate and return
     if (this.isRiding) {
-
-      if (this.scheduleWorkout.controls['kmph'].value == '')
+      if (this.scheduleWorkout.controls['kmph'].value == '' || this.scheduleWorkout.controls['kmph'].value == null)
         return;
-      
       //calculate duration string here:
-
-      //TODO(1):
       const speed = this.scheduleWorkout.controls['kmph'].value;
       const distance = this.scheduleWorkout.controls['distance'].value;
-      console.log('speed = ' + speed);
-      console.log('distance = ' + distance);
       let duration = speed * distance;
-      console.log('duration = ' + duration);
       let hours = 0;
       while (duration >= 60) {
         hours++;
@@ -198,21 +187,22 @@ export class ScheduleworkoutComponent implements OnInit {
       if (hours == 0) {
         this.calculatedDuration = `${mins} mins`;
       } else this.calculatedDuration = `${hours} hours ${mins} mins`;
-
       //show and return
       this.showCalculatedDuration = true;
       return;
     }
     //running or swimming - mins and secs is a requirement
-    if (this.scheduleWorkout.controls['minutes'].value == '')
+    if (this.scheduleWorkout.controls['minutes'].value == '' || this.scheduleWorkout.controls['minutes'].value == null)
       return;
     if (this.scheduleWorkout.controls['seconds'].value == '' && this.scheduleWorkout.controls['seconds'].value != '00')
       return;
+    if (this.scheduleWorkout.controls['minutes'].value > 59)
+      this.mins = "59";
+    if (this.scheduleWorkout.controls['seconds'].value > 59)
+      this.secs = "59";
     //check running for calculation
     if (this.isRunning) {
       //calculate duration string here:
-
-      //TODO(2):
       const mins = this.scheduleWorkout.controls['minutes'].value;
       const secs = this.scheduleWorkout.controls['seconds'].value;
       const secsPerKm = Number((mins * 60)) + Number(secs);
@@ -232,11 +222,22 @@ export class ScheduleworkoutComponent implements OnInit {
     //check swimming for calulation
     if (this.isSwimming) {
       //calculate duration string here:
-
-      //TODO(3):
-
+      const mins = this.scheduleWorkout.controls['minutes'].value;
+      const secs = this.scheduleWorkout.controls['seconds'].value;
+      const distance = this.scheduleWorkout.controls['distance'].value;
+      const secsPerKm = (Number(mins * 60) + Number(secs)) * 10;
+      let durationSeconds = Number(secsPerKm) * Number(distance);
+      durationSeconds /= 60;
+      let hours = 0;
+      while (durationSeconds >= 60) {
+        hours++;
+        durationSeconds-=60;
+      }
+      const outputMins = durationSeconds;
+      if (hours == 0) {
+        this.calculatedDuration = `${outputMins} mins`;
+      } else this.calculatedDuration = `${hours} hours ${Math.round(outputMins)} mins`;
     }
-
     this.showCalculatedDuration = true;
   }
 
