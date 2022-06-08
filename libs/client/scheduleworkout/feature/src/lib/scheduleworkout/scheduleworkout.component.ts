@@ -20,6 +20,9 @@ export class ScheduleworkoutComponent implements OnInit {
   isSwimming! : boolean;
   isRiding! : boolean;
 
+  calculatedDuration : number;
+  showCalculatedDuration : boolean;
+
   mins = '5';
   secs = '30';
 
@@ -28,6 +31,8 @@ export class ScheduleworkoutComponent implements OnInit {
     this.frmBuilder = builder;
     this.setAllFalse();
     this.isRunning = true;
+    this.calculatedDuration = 0;
+    this.showCalculatedDuration = false;
   }
 
   setAllFalse() {
@@ -35,6 +40,7 @@ export class ScheduleworkoutComponent implements OnInit {
     this.isRunning = false;
     this.isSwimming = false;
     this.isRiding = false;
+    this.showCalculatedDuration = false;
   }
 
   ngOnInit(): void {
@@ -170,7 +176,51 @@ export class ScheduleworkoutComponent implements OnInit {
   }
 
   calculateDuration() {
-    console.log('calc duration');
+    // console.log('calc duration');
+
+    this.showCalculatedDuration = false;
+    //return if weight lifting
+    if (this.isWeightLifting) {
+      this.calculatedDuration = 0;
+      this.showCalculatedDuration = false;
+      return;
+    }
+    //not weight lifting - distance is a requirement
+    if (this.scheduleWorkout.controls['distance'].value == null)
+        return;
+    //check riding - calculate and return
+    if (this.isRiding) {
+      if (this.scheduleWorkout.controls['kmph'].value == null)
+        return;
+      //calculate duration string here:
+
+      //TODO(1):
+
+      //show and return
+      this.showCalculatedDuration = true;
+      return;
+    }
+    //running or swimming - mins and secs is a requirement
+    if (this.scheduleWorkout.controls['minutes'].value == null)
+        return;
+      if (this.scheduleWorkout.controls['seconds'].value == null)
+        return;
+    //check running for calculation
+    if (this.isRunning) {
+      //calculate duration string here:
+
+      //TODO(2):
+    
+    }
+    //check swimming for calulation
+    if (this.isSwimming) {
+      //calculate duration string here:
+
+      //TODO(3):
+
+    }
+
+    this.showCalculatedDuration = true;
   }
 
 }
