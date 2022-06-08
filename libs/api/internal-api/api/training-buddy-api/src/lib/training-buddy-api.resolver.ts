@@ -1,6 +1,6 @@
 import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
-import {UserDto , UserEntity , LoginResponse, LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver()
@@ -97,7 +97,7 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param activitySchedule 
-     * @returns 
+     * @returns ErrorMessage
      * tested
      */
     @Mutation(()=> ErrorMessage)
@@ -134,6 +134,54 @@ export class TrainingBuddyApiResolver {
     accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
         return this.trainingBuddyService.accept(userEmail, otherEmail);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[UserEntity])
+    getIncoming(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getIncoming(userEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[UserEntity])
+    getOutgoing(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getOutgoing(userEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[UserEntity])
+    getConnections(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getConnections(userEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[ResponseWorkout])
+    getScheduleWorkout(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getScheduleWorkout(userEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[ResponseLogs])
+    getLogs(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getLogs(userEmail);
+    }
+
+
+
 }
 
 

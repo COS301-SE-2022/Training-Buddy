@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+
   
     /**
      * 
@@ -197,7 +198,7 @@ export class TrainingBuddyServiceService {
             item.message = "success"
             return item;
         }
-    } 
+    }
     /**
      * 
      * @param lat1 
@@ -326,5 +327,89 @@ export class TrainingBuddyServiceService {
             item.message = "Success User Connection Sent"
             return item;
         }
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @return [ResponseLog]
+     */
+    async getLogs(userEmail: string) {
+        let arr ;
+        const user = await this.findOne(userEmail);
+       if(!user){
+            return arr;
+        }else{
+            arr = await this.repoService.getLogs(userEmail);
+            return arr;
+        }
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @return [ResponseWorkout]
+     */
+    async getScheduleWorkout(userEmail: string) {
+        let arr =[];
+        const user = await this.findOne(userEmail);
+       if(!user){
+            return arr;
+        }else{
+            arr = await this.repoService.getScheduledWorkouts(userEmail);
+            return arr;
+        }
+
+
+       
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @return [userEntities]
+     */
+    async getConnections(userEmail: string) {
+        const user = await this.findOne(userEmail);
+        const arr=[];
+        if(user){
+            for(let i = 0; i < user.buddies.length; i++){
+                arr.push(await this.findOne(user.buddies[i]))
+            }
+            return arr;
+        }
+        else return arr;
+    }
+    /**
+     * 
+     * @param userEmail 
+     * [userEntities]
+     */
+    async getOutgoing(userEmail: string) {
+        const user = await this.findOne(userEmail);
+        const outgoing =[]
+        if(user){
+            const arr= await this.repoService.getOutgoingRequests(userEmail)
+            for(let i = 0; i < arr.length; i++){
+                outgoing.push(await this.findOne(arr[i].receiver))
+            }
+            return outgoing;
+        }
+        else return outgoing;
+
+       
+    }
+    /**
+     * 
+     * @param userEmail 
+     */
+    async getIncoming(userEmail: string) {
+        const user = await this.findOne(userEmail);
+        const outgoing =[]
+        if(user){
+            const arr= await this.repoService.getIncomingRequests(userEmail)
+            for(let i = 0; i < arr.length; i++){
+                outgoing.push(await this.findOne(arr[i].sender))
+            }
+            return outgoing;
+        }
+        else return outgoing;
     }
 }
