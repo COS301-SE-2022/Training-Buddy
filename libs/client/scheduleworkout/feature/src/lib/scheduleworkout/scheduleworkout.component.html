@@ -86,7 +86,7 @@
                     <!-- riding measured with distance and km/h -->
                     <mat-form-field appearance="outline" class="col-span-1">
                         <mat-label>Speed</mat-label>
-                        <input (click)="calculateDuration()" formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
+                        <input (change)="calculateDuration()" formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
                     </mat-form-field>
                 </div>
 
@@ -109,8 +109,9 @@
                 </div>
 
                 <!-- calculated activity duration -->
-                <div *ngIf="!isWeightLifting">
-                    
+                <div *ngIf="!isWeightLifting && showCalculatedDuration">
+                    <!-- display the activity duration calculation -->
+                    <h3>Approximate Duration: {{ calculatedDuration }}</h3>
                 </div>
 
                 <div class="submitButton mt-3">
