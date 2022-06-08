@@ -159,6 +159,9 @@ export class ScheduleworkoutComponent implements OnInit {
   }
 
   calculateDuration() {
+
+    console.log('calulating');
+
     this.showCalculatedDuration = false;
     //return if weight lifting
     if (this.isWeightLifting) {
@@ -186,15 +189,12 @@ export class ScheduleworkoutComponent implements OnInit {
       console.log('distance = ' + distance);
       let duration = speed * distance;
       console.log('duration = ' + duration);
-
       let hours = 0;
-
       while (duration >= 60) {
         hours++;
         duration-=60;
       }
       const mins = duration;
-
       if (hours == 0) {
         this.calculatedDuration = `${mins} mins`;
       } else this.calculatedDuration = `${hours} hours ${mins} mins`;
@@ -205,15 +205,29 @@ export class ScheduleworkoutComponent implements OnInit {
     }
     //running or swimming - mins and secs is a requirement
     if (this.scheduleWorkout.controls['minutes'].value == '')
-        return;
-      if (this.scheduleWorkout.controls['seconds'].value == null)
-        return;
+      return;
+    if (this.scheduleWorkout.controls['seconds'].value == '' && this.scheduleWorkout.controls['seconds'].value != '00')
+      return;
     //check running for calculation
     if (this.isRunning) {
       //calculate duration string here:
 
       //TODO(2):
-    
+      const mins = this.scheduleWorkout.controls['minutes'].value;
+      const secs = this.scheduleWorkout.controls['seconds'].value;
+      const secsPerKm = Number((mins * 60)) + Number(secs);
+      const distance = this.scheduleWorkout.controls['distance'].value;
+      let durationSeconds = Number(distance) * Number(secsPerKm);
+      durationSeconds /= 60;
+      let hours = 0;
+      while (durationSeconds >= 60) {
+        hours++;
+        durationSeconds-=60;
+      }
+      const outputMins = durationSeconds;
+      if (hours == 0) {
+        this.calculatedDuration = `${mins} mins`;
+      } else this.calculatedDuration = `${hours} hours ${Math.round(outputMins)} mins`;
     }
     //check swimming for calulation
     if (this.isSwimming) {
