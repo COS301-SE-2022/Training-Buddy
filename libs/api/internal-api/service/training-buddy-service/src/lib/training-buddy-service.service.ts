@@ -368,10 +368,10 @@ export class TrainingBuddyServiceService {
      */
     async getConnections(userEmail: string) {
         const user = await this.findOne(userEmail);
-        let arr=[];
+        const arr=[];
         if(user){
             for(let i = 0; i < user.buddies.length; i++){
-                arr.push(user.buddies[i])
+                arr.push(await this.findOne(user.buddies[i]))
             }
             return arr;
         }
@@ -384,7 +384,7 @@ export class TrainingBuddyServiceService {
      */
     async getOutgoing(userEmail: string) {
         const user = await this.findOne(userEmail);
-        let outgoing =[]
+        const outgoing =[]
         if(user){
             const arr= await this.repoService.getOutgoingRequests(userEmail)
             for(let i = 0; i < arr.length; i++){
@@ -402,7 +402,7 @@ export class TrainingBuddyServiceService {
      */
     async getIncoming(userEmail: string) {
         const user = await this.findOne(userEmail);
-        let outgoing =[]
+        const outgoing =[]
         if(user){
             const arr= await this.repoService.getIncomingRequests(userEmail)
             for(let i = 0; i < arr.length; i++){
