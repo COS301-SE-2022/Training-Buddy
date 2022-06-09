@@ -17,17 +17,21 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   getActivityLogs() {
+    const email = "";
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
-        .mutate ({
-          mutation: gql`
-            for muzi
+        .query ({
+          query: gql`query{getLogs(
+            email:"${email}" 
+          )
+          }
+            
           `,
         })
         .subscribe ((result) => {
          const res: any  = result
-          resolve(res.data.signup.message);
+          resolve(res.data.getLog);
         });
     });
   }

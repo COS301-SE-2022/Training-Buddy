@@ -66,6 +66,9 @@
       "@training-buddy/client/dashboard/feature": [
         "libs/client/dashboard/feature/src/index.ts"
       ],
+      "@training-buddy/client/editprofile/feature": [
+        "libs/client/editprofile/feature/src/index.ts"
+      ],
       "@training-buddy/client/example/feature": [
         "libs/client/example/feature/src/index.ts"
       ],
