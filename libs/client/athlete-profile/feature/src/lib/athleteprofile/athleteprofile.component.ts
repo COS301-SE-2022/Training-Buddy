@@ -63,7 +63,6 @@ export class AthleteprofileComponent implements OnInit {
     const swimming = this.prefFrm.controls['swimming'].value || false;
     const weightLifting = this.prefFrm.controls['weightLifting'].value || false;
     const bio = this.prefFrm.controls['bio'].value;
-
     this.noActivityChosen = false;
     if (!(running || riding || swimming || weightLifting)) {
       this.noActivityChosen = true;
@@ -89,10 +88,13 @@ export class AthleteprofileComponent implements OnInit {
 
     ///////////////////////
     //API CALL HERE........
-    this.queryProfile("email", running, riding, swimming, weightLifting, bio).then(res => {
+    this.queryProfile("email", running, riding, swimming, weightLifting, bio , this.radius).then(res => {
       console.log(res);
+      if(res != "failure"){
+        this.router.navigate(['/strava/link']);
+      }
       //route user to the dashboard
-      this.router.navigate(['/strava/link']);
+     
     }).catch(rej => {
       console.log(rej);
     });
@@ -102,25 +104,37 @@ export class AthleteprofileComponent implements OnInit {
 
   ///////////////////////
   //API CALL RETURN PROMISE
-  queryProfile(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string) {
+  queryProfile(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string , distance: number ) {
+    
+    console.log(running)
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
         .mutate ({
-          mutation: gql`
+          mutation: gql`mutation{
+          userConfig(userConfig:{
+            email : "${email}",
+            distance : ${distance},
+            riding: ${riding},
+            running: ${running},
+            swimming: ${swimming},
+            weightLifting: ${weightLifiting},
+            bio: "${bio}",
+          }){
+            message
+          }
+        }
+
             
           `,
         })
-        .subscribe ({
-          next: data => {
-            resolve(data);
-          },
-          error: err => {
-            _(err);
-          }
-        });
-    })
-  }
+        .subscribe ((result) => {
+          const res: any  = result
+          console.log("here")
+           resolve(res.data.userConfig.message);
+         });
+     });
+   }
   ///////////////////////
 
 }
