@@ -80,7 +80,7 @@ jobs:
       
       - name: Merge coverage reports
         if: inputs.test == 'all'   
-        run: node ./tools/scripts/merge-reports.js
+        run: node merge-reports.js
 
       - uses: codecov/codecov-action@v2
         if: inputs.test == 'all' 
