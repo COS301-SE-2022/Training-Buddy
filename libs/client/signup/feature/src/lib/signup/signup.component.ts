@@ -86,10 +86,8 @@ export class SignupComponent implements OnInit {
     ///////////////////////
     //API CALL HERE........
     this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude).then(res => {
-      if(res === "User Already Exists failure"){
+      if(res != "User Already Exists failure"){
         //TODO Pop up that the email already exists
-      }
-      else{
          this.router.navigate(['/configureprofile']);
       }
     });
@@ -133,7 +131,7 @@ export class SignupComponent implements OnInit {
           `,
         })
         .subscribe ((result) => {
-         let res: any  = result
+         const res: any  = result
           resolve(res.data.signup.message);
         });
     });
