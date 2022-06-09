@@ -1,1 +1,1 @@
-export * from './lib/client-profile-feature.module';
+export * from './lib/client-editprofile-feature.module';
