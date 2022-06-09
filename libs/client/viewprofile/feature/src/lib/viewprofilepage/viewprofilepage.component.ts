@@ -22,7 +22,7 @@ export class ViewprofilepageComponent implements OnInit {
       this.apollo
         .mutate ({
           mutation: gql`
-            
+            for muzi
           `,
         })
         .subscribe ((result) => {

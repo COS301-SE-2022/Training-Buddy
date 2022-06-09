@@ -23,7 +23,6 @@
     "client-e2e": "apps/client-e2e",
     "client-example-feature": "libs/client/example/feature",
     "client-login-feature": "libs/client/login/feature",
-    "client-editprofile-feature": "libs/client/editprofile/feature",
     "client-profileimageupload": "libs/client/profileimageupload",
     "client-scheduleworkout-feature": "libs/client/scheduleworkout/feature",
     "client-settings-feature": "libs/client/settings/feature",
