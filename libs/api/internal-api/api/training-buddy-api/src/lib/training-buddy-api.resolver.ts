@@ -187,7 +187,7 @@ export class TrainingBuddyApiResolver {
     getLogs(@Args("email")userEmail:string){
         return this.trainingBuddyService.getLogs(userEmail);
     }
-
+ 
 
 
 }

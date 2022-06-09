@@ -85,10 +85,11 @@ export class SignupComponent implements OnInit {
 
     ///////////////////////
     //API CALL HERE........
-    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity).then(res => {
-      // console.log(res);
-      //send to configureprofile
-      this.router.navigate(['/configureprofile']);
+    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude).then(res => {
+      if(res != "User Already Exists failure"){
+        //TODO Pop up that the email already exists
+         this.router.navigate(['/configureprofile']);
+      }
     });
     ///////////////////////
 
@@ -96,12 +97,15 @@ export class SignupComponent implements OnInit {
 
   ///////////////////////
   //API CALL RETURN PROMISE
-  querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string) {
+  querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string, longitude :number , latitude :number ) {
 
     //TODO: Update the mutation to send through user location as GPS points
 
     const userName = userNameSurname.split(' ')[0];
     const userSurname = userNameSurname.split(' ')[1];
+    const stravatokenTest= "myToken"
+    console.log(longitude)
+    console.log(latitude)
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
@@ -117,14 +121,18 @@ export class SignupComponent implements OnInit {
                 cellNumber: "${userCellNumber}",
                 password: "${userPassword}",
                 dob: "${userDOB}"
+                longitude: ${longitude}
+                latitude: ${latitude}
+                stravaToken: "${stravatokenTest}"
               }){
-                userName
+                message
               }
             }
           `,
         })
         .subscribe ((result) => {
-          resolve(result);
+         const res: any  = result
+          resolve(res.data.signup.message);
         });
     });
   }
