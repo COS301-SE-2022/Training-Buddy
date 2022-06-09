@@ -90,9 +90,7 @@ export class AthleteprofileComponent implements OnInit {
     //API CALL HERE........
     this.queryProfile("email", running, riding, swimming, weightLifting, bio , this.radius).then(res => {
       console.log(res);
-      if(res ==="failure"){
-        
-      }else{
+      if(res != "failure"){
         this.router.navigate(['/strava/link']);
       }
       //route user to the dashboard
@@ -131,7 +129,7 @@ export class AthleteprofileComponent implements OnInit {
           `,
         })
         .subscribe ((result) => {
-          let res: any  = result
+          const res: any  = result
           console.log("here")
            resolve(res.data.userConfig.message);
          });
