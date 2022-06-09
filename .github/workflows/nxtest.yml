@@ -88,4 +88,4 @@ jobs:
           # Training-Buddy codecov token to be placed below
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
-          name: cypress-jest # optional
+          name: cypress-jest
