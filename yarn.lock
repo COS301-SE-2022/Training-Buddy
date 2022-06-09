@@ -14895,6 +14895,13 @@ next-tick@1, next-tick@^1.1.0:
   resolved "https://registry.npmjs.org/next-tick/-/next-tick-1.1.0.tgz"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
+ngx-cookie-service@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-14.0.0.tgz#c10735af0b646c52d09fa7e71ed788d8043aba35"
+  integrity sha512-Yur9aIrtcqkI40UgvIN8VLoOzxhI3o/yWc16Q/buvprapTQzYdplNZ5chjb50SYaREiJdXfj7Wc49YG+9ABX1A==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-material-timepicker@^5.5.3:
   version "5.5.3"
   resolved "https://registry.yarnpkg.com/ngx-material-timepicker/-/ngx-material-timepicker-5.5.3.tgz#9b65071e8f00477d37d1b0f825baf8fb5ea800db"
