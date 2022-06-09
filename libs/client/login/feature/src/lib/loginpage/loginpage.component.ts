@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {Apollo, gql} from 'apollo-angular';
 
+
 @Component({
   selector: 'training-buddy-loginpage',
   templateUrl: './loginpage.component.html',
@@ -12,7 +13,8 @@ export class LoginpageComponent implements OnInit {
 
   hide : boolean;
   img : string;
-
+  userEmail : string;
+  userPassword : string;
   loginFrm! : FormGroup;
   frmBuilder! : FormBuilder;
 
@@ -24,6 +26,9 @@ export class LoginpageComponent implements OnInit {
 
     //variable initalizations
     this.hide = true;
+    this.userEmail = "";
+    this.userPassword = "";
+  
   }
 
   ngOnInit(): void {
@@ -42,55 +47,74 @@ export class LoginpageComponent implements OnInit {
         return;
       }
     }
-
-    const userEmail = this.loginFrm.controls['userEmail'].value;
-    const userPassword = this.loginFrm.controls['userPassword'].value;
+    
+    this.userEmail = this.loginFrm.controls['userEmail'].value;
+    this.userPassword = this.loginFrm.controls['userPassword'].value;
 
     ////////////////
     //testing values
     // console.log(userEmail);
     // console.log(userPassword);
     ////////////////
-
+    
     ///////////////////////
     //API CALL AND LOGIN...
-    this.queryLogin(userEmail, userPassword).then(res => {
-      //after queryLogin(...)
-      // console.log(res);
-      //route to dash
-      this.router.navigate(['/dashboard']);
-    });
+    // this.queryLogin(userEmail, userPassword ).then(res => {
+    //   //after queryLogin(...)
+    //   // console.log(res);
+
+      
+    //   // console.log(res.userName);
+    //   // console.log(res.)
+    //   //route to dash
+    //   // this.router.navigate(['/dashboard']);
+    // });
+    this.queryLogin();
     ///////////////////////
 
   }
 
   ///////////////////////
   //API CALL RETURN PROMISE
-  queryLogin(userEmail : string, userPassword : string) {
-    return new Promise((resolve, reject) => {
-      if (!(this.apollo.client === undefined))
-      this.apollo
-        .mutate ({
-          mutation: gql`
-            mutation{
-              login(loginInput:{
-                username: "${userEmail}",
-                password: "${userPassword}"
-              }){
-                accessToken,
-                user{
-                  userName,
-                  userSurname
-                }
-              }
-            }
-          `,
-        })
-        .subscribe ((result) => {
-          resolve(result);
-        });
+  queryLogin(){
+    this.apollo.mutate<userData>({
+      mutation: gql`
+      mutation{
+        login(loginInput:{
+          username: "${this.userEmail}",
+          password: "${this.userPassword}"
+        }){
+          user{
+            userName,
+            userSurname,
+            email
+          }
+        }
+      }
+    `,
+    }).subscribe((response) =>{
+      console.log(response.data?.login.user.email);
+      if(response.data?.login.user.email == null){
+        //send snackbar
+        console.log("invalid credentials");
+        
+      }else{
+        //store cookies
+
+        //route.
+        this.router.navigate(['/dashboard']);
+      }
     })
   }
   ///////////////////////
 
+}
+export interface userData{
+  login:{
+    user:{
+      userName: string;
+      userSurname: string;
+      email: string;
+    }
+  }
 }
