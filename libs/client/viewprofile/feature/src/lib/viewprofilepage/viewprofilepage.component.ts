@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 
 @Component({
   selector: 'training-buddy-profile-page',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewprofilepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private apollo : Apollo) { }
 
   ngOnInit(): void {
+    this.getActivityLogs().then(res => {
+      console.log(res);
+    });
+  }
+
+  getActivityLogs() {
+    return new Promise((resolve, _) => {
+      if (!(this.apollo.client === undefined))
+      this.apollo
+        .mutate ({
+          mutation: gql`
+            
+          `,
+        })
+        .subscribe ((result) => {
+         const res: any  = result
+          resolve(res.data.signup.message);
+        });
+    });
   }
 
 }
