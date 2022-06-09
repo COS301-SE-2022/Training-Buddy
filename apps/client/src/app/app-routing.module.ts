@@ -44,7 +44,7 @@ const routes: Routes = [
   {
     path: 'editprofile',
     loadChildren: () =>
-      import('@training-buddy/client/profile/feature').then(
+      import('@training-buddy/client/editprofile/feature').then(
         m => m.ClientProfileFeatureModule
       ),
   },
@@ -94,6 +94,14 @@ const routes: Routes = [
     loadChildren: () =>
       import ('@training-buddy/client/profileimageupload').then(
         m => m.ClientProfileimageuploadModule
+      )
+  },
+
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('@training-buddy/client/viewprofile/feature').then(
+        m => m.ClientViewprofileFeatureModule
       )
   },
 
