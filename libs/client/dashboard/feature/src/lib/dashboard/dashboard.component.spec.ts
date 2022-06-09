@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DashboardComponent } from './dashboard.component';
+import { Apollo } from 'apollo-angular';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -11,6 +12,9 @@ describe('DashboardComponent', () => {
       declarations: [ DashboardComponent ],
       imports: [
         RouterTestingModule
+      ],
+      providers: [
+        Apollo
       ]
     })
     .compileComponents();
