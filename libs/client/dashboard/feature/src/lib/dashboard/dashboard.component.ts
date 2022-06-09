@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 
 @Component({
   selector: 'training-buddy-dashboard',
@@ -14,7 +15,9 @@ export class DashboardComponent implements OnInit {
 
   img : string;
 
-  constructor() { 
+  email = 'muziwandile@gmail.com';
+
+  constructor(private apollo : Apollo) { 
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     //mock requests:
     for (let i = 0; i < 2; i++) {
@@ -27,7 +30,81 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('');
+    
+    this.getBuddieRecommended().subscribe({
+      next: (data : any) => {
+        console.log(data);
+        data.data.findAll.map((el : any) => {
+          // this.buddies.push(new buddy(el.email, el.name, el.surname, ''))
+        });
+      }
+    });
+
+    this.getPendingRequests().subscribe({
+      next: (data: any) => {
+        // console.log(data);
+      }
+    })
+    
+
+  }
+
+  getBuddieRecommended() {
+
+    return this.apollo
+      .query({
+        query: gql`query{
+          findAll(
+            email: "${this.email}",
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metric,
+          buddies
+
+        }
+        }
+         
+        `,
+      });
+  }
+
+  getPendingRequests() {
+
+    return this.apollo
+      .query({
+        query: gql`query{
+          getIncoming(
+            email: "${this.email}",
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metric,
+          buddies
+        }
+        }
+         
+        `,
+      });
+
   }
 
 }
