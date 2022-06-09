@@ -42,7 +42,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'profile',
+    path: 'editprofile',
     loadChildren: () =>
       import('@training-buddy/client/profile/feature').then(
         m => m.ClientProfileFeatureModule

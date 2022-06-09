@@ -33,6 +33,7 @@
     "client-shared-stores-authentication-data-access": "libs/client/shared/stores/authentication/data-access",
     "client-shell-feature": "libs/client/shell/feature",
     "client-signup-feature": "libs/client/signup/feature",
-    "client-strava-feature": "libs/client/strava/feature"
+    "client-strava-feature": "libs/client/strava/feature",
+    "client-viewprofile-feature": "libs/client/viewprofile/feature"
   }
 }
