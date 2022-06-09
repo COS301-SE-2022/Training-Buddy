@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileuploadComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+    console.log("constructur")
+  }
 
   ngOnInit(): void {
+    console.log("constructur")
   }
 
 }
