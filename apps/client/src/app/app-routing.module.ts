@@ -41,13 +41,13 @@ const routes: Routes = [
       ),
   },
 
-  {
-    path: 'editprofile',
-    loadChildren: () =>
-      import('@training-buddy/client/editprofile/feature').then(
-        m => m.ClientProfileFeatureModule
-      ),
-  },
+  // {
+  //   path: 'editprofile',
+  //   loadChildren: () =>
+  //     import('@training-buddy/client/editprofile/feature').then(
+  //       m => m.ClientProfileFeatureModule
+  //     ),
+  // },
 
   {
     path: 'configureprofile',
