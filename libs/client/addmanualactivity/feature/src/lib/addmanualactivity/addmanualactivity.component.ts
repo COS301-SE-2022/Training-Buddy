@@ -57,7 +57,7 @@ export class AddmanualactivityComponent implements OnInit {
     const date = this.manualForm.controls['date'].value || false;
 
     if (this.isWeightLifting) {
-
+      const email = "get It from cookie" //TODO gt the email 
       //validate all except distance
       if (name && hours && minutes && seconds && date) {
 
@@ -71,7 +71,7 @@ export class AddmanualactivityComponent implements OnInit {
         return;
 
         //API call for weight lifting:
-        this.addActivity(type, date, null, name, null, time).then(() => {
+        this.addActivity(type, date, null, name, null, time, email).then(() => {
           this.manualForm.reset();
           this.snackBar.open('Activity Added', 'X', {
             duration: 2000
@@ -91,7 +91,7 @@ export class AddmanualactivityComponent implements OnInit {
     const distance = this.manualForm.controls['distance'].value * 1000;
     const time = this.calulateSeconds(hours, minutes, seconds);
     const speed = this.calculateSpeed(time, distance);
-
+    const email = "get It from cookie" //TODO gt the email 
     console.log(time);
     console.log(speed);
     //to be removed when moving to API call:
@@ -101,7 +101,7 @@ export class AddmanualactivityComponent implements OnInit {
     });
     return;
 
-    this.addActivity(type, date, distance, name, speed, time).then(() => {
+    this.addActivity(type, date, distance, name, speed, time, email).then(() => {
       this.manualForm.reset();
       this.snackBar.open('Activity Added', 'X', {
         duration: 3000
@@ -117,21 +117,34 @@ export class AddmanualactivityComponent implements OnInit {
     }
   }
 
-  addActivity(type : string, date : string, distance : any, name : string, speed : any, time : number) {
+  addActivity(type : string, date : string, distance : any, name : string, speed : any, time : number, email: string) {
     return new Promise((resolve, _) => {
       if (!(this.apollo.client === undefined))
       this.apollo
         .mutate ({
           mutation: gql`
             mutation{
+              activityLog(Activitylog:{
+                name : "${name}",
+                distance : ${distance}, 
+                speed: ${speed},
+                time : ${time},
+                dateCompleted: "${date}",
+                email: "${email}",
+                activityType: "${type}"
+              }){
+                message
+              }
               
             }
           `,
         })
         .subscribe ((result) => {
-          resolve(result);
-        });
-    });
+          let res: any  = result
+          console.log(res.data)
+           resolve(res.data);
+         });
+     });
   }
 
   calulateSeconds(hours : number, minutes : number, seconds : number) : number {
