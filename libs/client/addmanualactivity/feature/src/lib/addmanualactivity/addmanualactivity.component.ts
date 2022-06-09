@@ -138,7 +138,7 @@ export class AddmanualactivityComponent implements OnInit {
           `,
         })
         .subscribe ((result) => {
-          let res: any  = result
+          const res: any  = result
           console.log(res.data)
            resolve(res.data);
          });
