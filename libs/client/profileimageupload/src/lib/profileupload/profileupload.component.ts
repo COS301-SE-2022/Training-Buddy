@@ -8,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileuploadComponent implements OnInit {
 
   constructor() { 
-    console.log("constructur")
+    console.log()
   }
 
   ngOnInit(): void {
-    console.log("constructur")
+    console.log()
   }
 
 }
