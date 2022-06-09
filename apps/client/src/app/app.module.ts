@@ -6,14 +6,14 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgxsModule } from '@ngxs/store';
 import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
 import {HttpLink} from 'apollo-angular/http';
 import {InMemoryCache} from '@apollo/client/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -33,7 +33,6 @@ import { AgmCoreModule } from '@agm/core';
     }),
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
-    NgxsModule.forRoot([])
   ],
   providers: [
     {

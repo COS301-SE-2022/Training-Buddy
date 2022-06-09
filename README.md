@@ -3,7 +3,8 @@
 <a href= "https://github.com/COS301-SE-2022/Training-Buddy/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/COS301-SE-2022/Training-Buddy?style=plastic"></a>
 <a href = "https://github.com/COS301-SE-2022/Training-Buddy/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/COS301-SE-2022/Training-Buddy?style=plastic"></a>
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/COS301-SE-2022/Training-Buddy?style=plastic">
-<a href="https://codecov.io/gh/COS301-SE-2022/Training-Buddy"><img src="https://codecov.io/gh/COS301-SE-2022/Training-Buddy/branch/develop/graph/badge.svg?token=9XR7O7FKXM"/></a>
+
+[![codecov](https://codecov.io/gh/COS301-SE-2022/Training-Buddy/branch/develop/graph/badge.svg?token=9XR7O7FKXM)](https://codecov.io/gh/COS301-SE-2022/Training-Buddy)
     
 
 ## Project Technologies
@@ -35,7 +36,7 @@ Firebase
 ## Project Description:
 Training Buddy has the vision of providing a secure and user-friendly way for exercise enthusiasts of all levels to be able to enhance their fitness journeys by connecting with like-minded users with similar training interests and scheduling workouts together.
 
-## Video Demo Links: [click here]https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing)
+## Video Demo Links: [click here](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing)
 ## SRS Documentation: [click here](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation)
 
 ## Project Board: [click here](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
