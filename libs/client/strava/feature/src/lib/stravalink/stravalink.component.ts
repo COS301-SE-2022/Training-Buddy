@@ -29,11 +29,15 @@ export class StravalinkComponent implements OnInit {
 
   LinkToStrava() {
     //user wants to link strava now
+    if (this.loading)
+      return;
     this.strava.OAuthPage();
   }
 
   NoLinking() {
     //user does not want to link strava
+    if (this.loading)
+      return;
     this.router.navigate(['dashboard']);
   }
 

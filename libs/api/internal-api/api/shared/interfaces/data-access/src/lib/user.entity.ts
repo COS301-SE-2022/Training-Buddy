@@ -26,7 +26,7 @@ export class UserEntity {
     @Field({nullable:true})
     bio: string 
     @Field(()=>Metric, {nullable:true})
-    metric: Metric
+    metrics: Metric
     @Field(type=> [String] , {nullable:true})
     buddies: string[] 
 

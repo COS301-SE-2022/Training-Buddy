@@ -23,12 +23,12 @@
                  -->
 
                 <!-- strava logo 2 -->
-                <!-- <svg id="stravaLogo" xmlns="http://www.w3.org/2000/svg" aria-label="Strava" viewBox="0 0 512 512"><path fill="#FC4C02" d="M120 288L232 56l112 232h-72l-40-96-40 96z"/><path fill="#fda580" d="M280 288l32 72 32-72h48l-80 168-80-168z"/></svg>
+                <svg *ngIf="!loading" id="stravaLogo" xmlns="http://www.w3.org/2000/svg" aria-label="Strava" viewBox="0 0 512 512"><path fill="#FC4C02" d="M120 288L232 56l112 232h-72l-40-96-40 96z"/><path fill="#fda580" d="M280 288l32 72 32-72h48l-80 168-80-168z"/></svg>
+                <mat-spinner *ngIf="loading"></mat-spinner>
                 
                 <div id="center" class="mt-5">
                     <mat-hint>By not linking strava you will need to manually add activities for buddies to be suggested. <br /> (Strava can be linked later through your profile page)</mat-hint>
-                </div> -->
-                <mat-spinner></mat-spinner>
+                </div>
 
                 <br />
 
@@ -39,8 +39,8 @@
                     <button type="button" (click)="NoLinking()" id="linkLater" class="text-center ml-1" mat-raised-button color="primary">Add Manually/Link Later</button>
                 </div>
 
-                <mat-error *ngIf="OAuthError">OAuth failed</mat-error>
-                <mat-error *ngIf="loading">loading</mat-error>
+                <!-- <mat-error *ngIf="OAuthError">OAuth failed</mat-error> -->
+                <!-- <mat-error *ngIf="loading">loading</mat-error> -->
 
               </form>
     

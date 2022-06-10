@@ -81,7 +81,7 @@ export class StravaAPIService {
     //Api calls can be made for specific acitivity types in the future if required
     //to get after a date add ?after=x as a parameter where x=a epoch timestamp to return all activities after the date x.
 
-    this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=30&access_token=' + this.userToken.access_token).subscribe(
+    this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=10&access_token=' + this.userToken.access_token).subscribe(
       {
         next: (data : any) => {
 
