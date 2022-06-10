@@ -5,6 +5,8 @@
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/COS301-SE-2022/Training-Buddy?style=plastic">
 <a href="https://codecov.io/gh/COS301-SE-2022/Training-Buddy"><img src="https://codecov.io/gh/COS301-SE-2022/Training-Buddy/branch/develop/graph/badge.svg?token=9XR7O7FKXM"/></a>
 
+<a href="https://github.com/COS301-SE-2022/Training-Buddy/actions/workflows/index.yml"><img src="https://github.com/COS301-SE-2022/Training-Buddy/actions/workflows/index.yml/badge.svg"/></a>
+
 [![](https://github.com/COS301-SE-2022/Training-Buddy/actions/workflows/index.yml/badge.svg)](https://github.com/COS301-SE-2022/Training-Buddy/actions/workflows/index.yml)
 
 ## Project Description:
