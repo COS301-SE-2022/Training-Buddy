@@ -10,7 +10,10 @@ import {CookieService} from 'ngx-cookie-service';
 export class ViewprofilepageComponent implements OnInit {
 
   logList : any[] = [];
-  email : string;
+  email! : string;
+
+  displayUser! : any;
+
   constructor(private apollo : Apollo, private cookieService: CookieService){
     this.email = cookieService.get('email');
   } 
@@ -26,7 +29,32 @@ export class ViewprofilepageComponent implements OnInit {
           })
         },
       }
-    )
+    );
+
+    this.getCurrentUser().subscribe({
+      next: (data : any) => {
+        console.log(data);
+      }
+    })
+  }
+
+  getCurrentUser() {
+
+  }
+
+  getSportString(data : any) : string {
+    if (data.metrics == null) return '';
+    const output = [];
+    if (data.metrics.run) output.push('Run');
+    if (data.metrics.ride) output.push('Ride');
+    if (data.metrics.swim) output.push('Swim');
+    if (data.metrics.lift) output.push('Weights');
+    let retString = "";
+    for (let i = 0; i < output.length; i++) {
+      retString += output[i];
+      if (i < output.length - 1) retString += ', ';
+    }
+    return retString;
   }
 
   convertToCard(data : any) : any {
