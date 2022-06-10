@@ -27,13 +27,14 @@ export class AthleteprofileComponent implements OnInit {
     this.radius = value;
   }
 
-  constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router) { 
+  constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService) { 
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
 
     //initializations:
     this.frmBuilder = frm;
     this.noActivityChosen = false;
-    this.radius = 2
+    this.radius = 2;
+    this.email = this.cookieService.get('email');
   }
 
   ngOnInit(): void {
@@ -89,7 +90,7 @@ export class AthleteprofileComponent implements OnInit {
 
     ///////////////////////
     //API CALL HERE........
-    this.queryProfile("email", running, riding, swimming, weightLifting, bio , this.radius).then(res => {
+    this.queryProfile(this.email, running, riding, swimming, weightLifting, bio , this.radius).then(res => {
       console.log(res);
       if(res != "failure"){
         this.router.navigate(['/strava/link']);

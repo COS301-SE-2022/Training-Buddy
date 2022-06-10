@@ -101,6 +101,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getSportString(data : any) : string {
+    if (data.metrics == null) return '';
     const output = [];
     if (data.metrics.run) output.push('Run');
     if (data.metrics.ride) output.push('Ride');

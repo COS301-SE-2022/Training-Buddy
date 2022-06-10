@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo, gql } from 'apollo-angular';
-
+import {CookieService} from 'ngx-cookie-service';
 @Component({
   selector: 'training-buddy-schedule-workout',
   templateUrl: './scheduleworkout.component.html',
@@ -11,7 +11,7 @@ import { Apollo, gql } from 'apollo-angular';
 export class ScheduleworkoutComponent implements OnInit {
 
   img : string;
-
+  email: string;
   scheduleWorkout! : FormGroup;
   frmBuilder : FormBuilder;
 
@@ -26,13 +26,14 @@ export class ScheduleworkoutComponent implements OnInit {
   mins = '5';
   secs = '30';
 
-  constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar) {
+  constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar, private cookieService: CookieService) {
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.frmBuilder = builder;
     this.setAllFalse();
     this.isRunning = true;
     this.calculatedDuration = '';
     this.showCalculatedDuration = false;
+    this.email = cookieService.get('name');
   }
 
   setAllFalse() {
