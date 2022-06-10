@@ -34,12 +34,35 @@ export class ViewprofilepageComponent implements OnInit {
     this.getCurrentUser().subscribe({
       next: (data : any) => {
         console.log(data);
+        this.displayUser = data.data.getOne;
       }
     })
   }
 
   getCurrentUser() {
-
+    return this.apollo
+    .query ({
+      query: gql`query{getOne(
+        email:"${this.email}" 
+      ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+      }
+      }
+      `,
+    })
+    
   }
 
   getSportString(data : any) : string {

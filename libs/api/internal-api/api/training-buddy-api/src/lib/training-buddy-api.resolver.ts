@@ -55,7 +55,9 @@ export class TrainingBuddyApiResolver {
         return this.trainingBuddyService.createActivityStat(activityStat)
     }
     @Query(()=>UserEntity)
-    getOne(@Args("user")
+    getOne(@Args("email")email:string){
+        return this.trainingBuddyService.findOne(email);
+    }
     /**
      * 
      * @param email 

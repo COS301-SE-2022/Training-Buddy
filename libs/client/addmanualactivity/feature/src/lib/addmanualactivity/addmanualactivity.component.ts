@@ -64,15 +64,15 @@ export class AddmanualactivityComponent implements OnInit {
       const time = this.calulateSeconds(hours, minutes, seconds);
 
         //to be removed when moving to API call:
-        this.resetForm();
-        this.snackBar.open('Activity Added', '', {
-          duration: 2000
-        });
-        return;
+        // this.resetForm();
+        // this.snackBar.open('Activity Added', '', {
+        //   duration: 2000
+        // });
+        // return;
 
         //API call for weight lifting:
         this.addActivity(type, date, null, name, null, time, email).then(() => {
-          this.manualForm.reset();
+          this.resetForm();
           this.snackBar.open('Activity Added', 'X', {
             duration: 2000
           });
@@ -95,14 +95,14 @@ export class AddmanualactivityComponent implements OnInit {
     console.log(time);
     console.log(speed);
     //to be removed when moving to API call:
-    this.resetForm();
-    this.snackBar.open('Activity Added', '', {
-      duration: 3000
-    });
-    return;
+    // this.resetForm();
+    // this.snackBar.open('Activity Added', '', {
+    //   duration: 3000
+    // });
+    // return;
 
     this.addActivity(type, date, distance, name, speed, time, this.email).then(() => {
-      this.manualForm.reset();
+      this.resetForm();
       this.snackBar.open('Activity Added', 'X', {
         duration: 3000
       });
