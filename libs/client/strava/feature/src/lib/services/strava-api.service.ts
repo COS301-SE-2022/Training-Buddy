@@ -1,5 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Inject } from '@nestjs/common';
+import { Apollo, gql } from 'apollo-angular';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,7 @@ export class StravaAPIService {
 
   loading : boolean;
 
-  constructor(private http : HttpClient) { 
+  constructor(private http : HttpClient, private apollo : Apollo, private router : Router) { 
     this.OAuth = null;
     this.userToken = null;
     this.loading = false;
@@ -61,7 +64,6 @@ export class StravaAPIService {
           ///////////
 
           this.getActivities();
-
         },
         error: err => {
           this.userToken = null;
@@ -79,21 +81,22 @@ export class StravaAPIService {
     //Api calls can be made for specific acitivity types in the future if required
     //to get after a date add ?after=x as a parameter where x=a epoch timestamp to return all activities after the date x.
 
-    this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=200&access_token=' + this.userToken.access_token).subscribe(
+    this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=10&access_token=' + this.userToken.access_token).subscribe(
       {
-        next: data => {
+        next: (data : any) => {
 
-          //data to be sent to api:
-          console.log(data);
-
-          ///////////
-          //
-          //  API call to add users latest activities to the database go here
-          //
-          //
-          //  After: Redirection to the dashboard will occour here
-          //
-          ///////////
+          let count = 0;
+          data.map((el : any) => {
+            this.sendActivity(el).subscribe(
+              {
+                next: (data : any) => {
+                  count++;
+                  if (count == 30)
+                    this.router.navigate(['dashboard']);
+                }
+              }
+            )
+          })
 
         },
         error: err => {
@@ -129,6 +132,29 @@ export class StravaAPIService {
 
   isLoading() : boolean {
     return this.loading;
+  }
+
+  sendActivity(data : any) {
+
+    const email = 'muziwandile@gmail.com';
+    return this.apollo
+      .mutate({
+        mutation: gql`mutation{
+          activityLog(Activitylog: {
+            name: "${data.name}",
+            distance: ${data.distance},
+            speed: ${data.average_speed},
+            time: ${data.moving_time},
+            dateCompleted: "${data.start_date}",
+            activityType: "${data.sport_type}",
+            email: "${email}",
+        }){
+          message
+        }
+        }
+         
+        `,
+      });
   }
 
 }

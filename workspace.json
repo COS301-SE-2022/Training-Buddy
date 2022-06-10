@@ -21,9 +21,9 @@
     "client-athlete-profile-feature": "libs/client/athlete-profile/feature",
     "client-dashboard-feature": "libs/client/dashboard/feature",
     "client-e2e": "apps/client-e2e",
+    "client-editprofile-feature": "libs/client/editprofile/feature",
     "client-example-feature": "libs/client/example/feature",
     "client-login-feature": "libs/client/login/feature",
-    "client-profile-feature": "libs/client/profile/feature",
     "client-profileimageupload": "libs/client/profileimageupload",
     "client-scheduleworkout-feature": "libs/client/scheduleworkout/feature",
     "client-settings-feature": "libs/client/settings/feature",
@@ -33,6 +33,7 @@
     "client-shared-stores-authentication-data-access": "libs/client/shared/stores/authentication/data-access",
     "client-shell-feature": "libs/client/shell/feature",
     "client-signup-feature": "libs/client/signup/feature",
-    "client-strava-feature": "libs/client/strava/feature"
+    "client-strava-feature": "libs/client/strava/feature",
+    "client-viewprofile-feature": "libs/client/viewprofile/feature"
   }
 }
