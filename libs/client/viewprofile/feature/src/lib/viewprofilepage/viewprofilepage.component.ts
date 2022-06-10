@@ -16,7 +16,7 @@ export class ViewprofilepageComponent implements OnInit {
     this.getActivityLogs().subscribe(
       {
         next: (res : any) => {
-          console.log(res.data.getLogs);
+          // console.log(res.data.getLogs);
           res.data.getLogs.map((el : any) => {
             // console.log(this.convertToCard(el));
             this.logList.push(this.convertToCard(el));
