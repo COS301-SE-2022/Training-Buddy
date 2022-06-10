@@ -6,24 +6,25 @@
 
             <div id="incomingRequests" class="m-8">
     
-                <h1 class="text-center">Buddy Requests</h1>
+                <h1 *ngIf="ifPendingRequests()" class="text-center">Buddy Requests</h1>
                 <ng-container>
-                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                    <div *ngFor="let usr of requests" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div class="md:flex">
                             <div class="md:shrink-0">
                                 <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
                             </div>
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
-                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Sarah King</p> 
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">{{ usr.userName }} {{ usr.userSurname }}</p> 
                                     <div class="mr-4">
                                         <mat-icon class="mr-1" id="accept">done</mat-icon>
                                         <mat-icon id="reject">close</mat-icon>
                                     </div>
                                 </div> 
-                                <div class="tracking-wide text-xs font-semibold">Hatfield, Pretoria</div>
-                                <p class="mt-2 text-slate-500">I'm an avid cyclist - I especially enjoy long distance mountain biking. Looking for friends to join an adventurous cycling group.</p>
-                                <mat-icon> directions_run</mat-icon><mat-icon> directions_bike</mat-icon>
+                                <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
+                                <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
+                                <!-- <mat-icon> directions_run</mat-icon><mat-icon> directions_bike</mat-icon> -->
+                                <p class="mt-2 text-slate-500">{{ getSportString(usr) }}</p>
                             </div>
                         </div>
                     </div>
@@ -34,26 +35,46 @@
             <div id="recBuddies" class="m-8 mt-2">
     
                 <h1 class="text-center">Recommended</h1>
+
+                <mat-form-field id="filter" appearance="outline">
+                    <mat-label>Filter Sport Type</mat-label>
+                    <mat-select #toggle (selectionChange)="filter(toggle.value)" id="filter" name="filter">
+                        <mat-option value="None">None</mat-option>
+                        <mat-option value="Run">Run</mat-option>
+                        <mat-option value="Ride">Ride</mat-option>
+                        <mat-option value="Swim">Swim</mat-option>
+                        <mat-option value="Lift">Weights</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <div id="noresults">
+                    <mat-hint *ngIf="noBuddies" class="text-center">No Buddies</mat-hint>
+                    <br />
+                    <mat-hint *ngIf="noBuddies" class="text-center">Try another sport or increase your training radius</mat-hint>
+                </div>
+
                 <ng-container>
-                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+
+                    <div *ngFor="let usr of buddies" class="mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div class="md:flex">
                             <div class="md:shrink-0">
                                 <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/1.jpg?raw=true">
                             </div>
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
-                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">Matthew Gotte</p> 
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">{{ usr.userName }} {{ usr.userSurname }}</p> 
                                     <div>
                                         <button mat-raised-button disabled>Pending</button>
                                     </div>
                                 </div> 
-                                <div class="tracking-wide text-xs font-semibold">Brooklyn, Pretoria</div>
-                                <p class="mt-2 text-slate-500">A pure roadie at heart Long distance, big hills and lots of coffee along the way!</p>
-                                <mat-icon> directions_bike</mat-icon>
+                                <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
+                                <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
+                                <!-- <mat-icon> directions_bike</mat-icon> -->
+                                <p class="mt-2 text-slate-500">{{ getSportString(usr) }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
+                    <!-- <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
                         <div class="md:flex">
                             <div class="md:shrink-0">
                                 <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/6.jpg?raw=true">
@@ -89,7 +110,7 @@
                                 <mat-icon> directions_run</mat-icon>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </ng-container>
                 
             </div>
