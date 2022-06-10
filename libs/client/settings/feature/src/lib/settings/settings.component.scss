@@ -3,10 +3,10 @@
     width: 90vw;
     margin: 2em auto;
     padding: 2em auto;
-    position: absolute;
-    top: 0%;
-    left: 50%;
-    transform: translate(-50%, -0%);
+    // position: absolute;
+    // top: 0%;
+    // left: 50%;
+    // transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
 }
 
@@ -15,9 +15,11 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
 #editProfile{
     background-color: #1b1a1b !important;
 }
+
 .label {
     display: table-cell;
     font-size: 14px;
@@ -25,3 +27,7 @@
     min-width: 120px;
 }
 
+#title {
+    text-align: center;
+    padding-right: 6%;
+}

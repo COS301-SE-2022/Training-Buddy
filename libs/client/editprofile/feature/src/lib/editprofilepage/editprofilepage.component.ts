@@ -3,11 +3,11 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';
 
 @Component({
-  selector: 'training-buddy-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'training-buddy-edit-profile',
+  templateUrl: './editprofilepage.component.html',
+  styleUrls: ['./editprofilepage.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class EditprofilepageComponent implements OnInit {
   theUser: user;
   img: string;
   updateForm!: FormGroup;
@@ -182,6 +182,3 @@ export class user{
   }
 
 }
-
-
-

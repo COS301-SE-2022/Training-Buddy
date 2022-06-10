@@ -1,32 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
+import { ViewprofilepageComponent } from './viewprofilepage.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { ProfileComponent } from './profile.component';
 
-describe('ProfileComponent', () => {
-  let component: ProfileComponent;
-  let fixture: ComponentFixture<ProfileComponent>;
+describe('ViewprofilepageComponent', () => {
+  let component: ViewprofilepageComponent;
+  let fixture: ComponentFixture<ViewprofilepageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ],
       imports: [
-        ReactiveFormsModule,
         UiModule,
-        NoopAnimationsModule
+        RouterTestingModule
       ],
+      declarations: [ ViewprofilepageComponent ],
       providers: [
-        Apollo
-      ]
+        Apollo,
+      ],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileComponent);
+    fixture = TestBed.createComponent(ViewprofilepageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
