@@ -4,7 +4,7 @@ import { EditprofilepageComponent } from './editprofilepage/editprofilepage.comp
 import { EditProfileRoutingModule } from './editprofile-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {CookieService} from 'ngx-cookie-service';
 @NgModule({
   imports: [
     CommonModule,
@@ -13,7 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   declarations: [
-    EditprofilepageComponent
+    EditprofilepageComponent,
   ],
+  providers: [
+    CookieService
+  ]
 })
 export class ClientEditprofileFeatureModule {}
