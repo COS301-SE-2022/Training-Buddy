@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
           email,
           cellNumber,
           bio,
-          metric{lift , run , swim , ride},
+          metrics{lift , run , swim , ride},
           buddies
 
         }
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
           email,
           cellNumber,
           bio,
-          metric{lift , ride , run , swim},
+          metrics{lift , ride , run , swim},
           buddies
         }
         }
