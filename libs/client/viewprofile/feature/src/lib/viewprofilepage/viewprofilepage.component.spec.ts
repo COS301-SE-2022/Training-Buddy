@@ -3,7 +3,7 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
 import { ViewprofilepageComponent } from './viewprofilepage.component';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import {CookieService} from 'ngx-cookie-service';
 
 describe('ViewprofilepageComponent', () => {
   let component: ViewprofilepageComponent;
@@ -18,6 +18,7 @@ describe('ViewprofilepageComponent', () => {
       declarations: [ ViewprofilepageComponent ],
       providers: [
         Apollo,
+        CookieService
       ],
     })
     .compileComponents();

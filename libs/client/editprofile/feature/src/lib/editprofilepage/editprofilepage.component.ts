@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-edit-profile',
@@ -10,6 +11,7 @@ import { Apollo, gql } from 'apollo-angular';
 export class EditprofilepageComponent implements OnInit {
   theUser: user;
   img: string;
+  email: string;
   updateForm!: FormGroup;
   frmBuilder! : FormBuilder;
 
@@ -17,13 +19,14 @@ export class EditprofilepageComponent implements OnInit {
   longitude : number;
   vicinity : string;
 
-  constructor(private frm : FormBuilder, private apollo: Apollo) {
+  constructor(private frm : FormBuilder, private apollo: Apollo, private cookieService: CookieService) {
     this.theUser= new user("Taku", "Muguti", "taku@gmail.com", "0817653456" ,"Hatfield, Pretoria", "https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?cs=srgb&dl=pexels-asim-alnamat-343717.jpg&fm=jpg","M");
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.latitude = 0;
     this.longitude = 0;
     this.vicinity = "";
     this.frmBuilder = frm;
+    this.email = cookieService.get('email');
   }
   ngOnInit(): void {
     //construction of the form
@@ -121,7 +124,7 @@ export class EditprofilepageComponent implements OnInit {
   }
   save(){
     console.log('save')
-    const oldEmail = this.theUser.email;
+    const oldEmail = this.email;
     const userName = this.updateForm.controls['userName'].value;
     const userSurname = this.updateForm.controls['userSurname'].value;
     const userEmail = this.updateForm.controls['userEmail'].value;
@@ -129,7 +132,7 @@ export class EditprofilepageComponent implements OnInit {
     const userGender = this.updateForm.controls['userGender'].value;
     const userLocation = this.updateForm.controls['userLocation'].value;
 
-    this.queryAPI(oldEmail,userName,userSurname,userEmail,userCellNumber,userLocation,userGender).then(res=>{
+    this.queryAPI(this.email,userName,userSurname,userEmail,userCellNumber,userLocation,userGender).then(res=>{
       console.log(res);
     });
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-profile-page',
@@ -9,8 +10,10 @@ import { Apollo, gql } from 'apollo-angular';
 export class ViewprofilepageComponent implements OnInit {
 
   logList : any[] = [];
-
-  constructor(private apollo : Apollo) { }
+  email : string;
+  constructor(private apollo : Apollo, private cookieService: CookieService){
+    this.email = cookieService.get('email');
+  } 
 
   ngOnInit(): void {
     this.getActivityLogs().subscribe(
@@ -83,11 +86,11 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   getActivityLogs() {
-    const email = 'muziwandile@gmail.com';
+    
     return this.apollo
         .query ({
           query: gql`query{getLogs(
-            email:"${email}" 
+            email:"${this.email}" 
           ){
             user,
             activityType, 

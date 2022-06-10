@@ -91,7 +91,7 @@ export class StravaAPIService {
               {
                 next: (data : any) => {
                   count++;
-                  if (count == 30)
+                  if (count == 9)
                     this.router.navigate(['dashboard']);
                 }
               }

@@ -6,6 +6,7 @@ import { Apollo } from 'apollo-angular';
 import { ScheduleworkoutComponent } from './scheduleworkout.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {CookieService} from 'ngx-cookie-service';
 
 describe('ScheduleworkoutComponent', () => {
   let component: ScheduleworkoutComponent;
@@ -22,7 +23,8 @@ describe('ScheduleworkoutComponent', () => {
         BrowserAnimationsModule
       ],
       providers: [
-        Apollo
+        Apollo,
+        CookieService
       ]
     })
     .compileComponents();
