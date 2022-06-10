@@ -30,9 +30,7 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 
 ## Testing 
 [Testing Board](https://github.com/COS301-SE-2022/Training-Buddy/wiki/Testing)
-
 <br />
-<hr>
 ## Group Members
 
 <!-- -------------------------------------------------------------- -->
