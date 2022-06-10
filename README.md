@@ -12,11 +12,11 @@
 Training Buddy has the vision of providing a secure and user-friendly way for exercise enthusiasts of all levels to be able to enhance their fitness journeys by connecting with like-minded users with similar training interests and scheduling workouts together.
 
 ## Video Demo Links
-[Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing)
+[Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing) <br />
 [Demo 2 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing)
 
 ## SRS Documentation 
-[SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation)
+[SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation) <br />
 [SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view)
 
 ## Architectural Requirements Documentation
