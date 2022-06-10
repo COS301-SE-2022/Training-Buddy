@@ -8,8 +8,6 @@
 <a href="https://codecov.io/gh/COS301-SE-2022/Training-Buddy"><img src="https://codecov.io/gh/COS301-SE-2022/Training-Buddy/branch/develop/graph/badge.svg?token=9XR7O7FKXM"/></a>
 
 
-<!-- [![](https://github.com/COS301-SE-2022/Training-Buddy/actions/workflows/index.yml/badge.svg)](https://github.com/COS301-SE-2022/Training-Buddy/actions/workflows/index.yml) -->
-
 ## Project Description:
 Training Buddy has the vision of providing a secure and user-friendly way for exercise enthusiasts of all levels to be able to enhance their fitness journeys by connecting with like-minded users with similar training interests and scheduling workouts together.
 
