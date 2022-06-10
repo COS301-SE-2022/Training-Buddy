@@ -4,6 +4,7 @@ import { ScheduleworkoutComponent } from './scheduleworkout/scheduleworkout.comp
 import { ScheduleWorkoutRoutingModule } from './scheduleworkout-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { ReactiveFormsModule } from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -15,5 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     ScheduleworkoutComponent
   ],
+  providers:[
+    CookieService
+  ]
 })
 export class ClientScheduleworkoutFeatureModule {}

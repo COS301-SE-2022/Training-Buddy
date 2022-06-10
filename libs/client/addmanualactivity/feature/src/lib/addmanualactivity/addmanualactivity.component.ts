@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo, gql } from 'apollo-angular';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-add-manual-activity',
@@ -16,10 +17,11 @@ export class AddmanualactivityComponent implements OnInit {
   frmBuilder : FormBuilder;
 
   isWeightLifting : boolean;
+  email: string;
 
-  constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar) {
+  constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar, private cookieService:CookieService) {
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
-
+    this.email = this.cookieService.get('email');
     this.frmBuilder = builder;
     this.isWeightLifting = false;
   }
@@ -55,7 +57,7 @@ export class AddmanualactivityComponent implements OnInit {
     const date = this.manualForm.controls['date'].value || false;
 
     if (this.isWeightLifting) {
-      const email = "get It from cookie" //TODO gt the email 
+      const email = this.email
       //validate all except distance
       if (name && hours && minutes && seconds && date) {
 
@@ -89,7 +91,7 @@ export class AddmanualactivityComponent implements OnInit {
     const distance = this.manualForm.controls['distance'].value * 1000;
     const time = this.calulateSeconds(hours, minutes, seconds);
     const speed = this.calculateSpeed(time, distance);
-    const email = "get It from cookie" //TODO gt the email 
+    const email = this.email 
     console.log(time);
     console.log(speed);
     //to be removed when moving to API call:
@@ -99,7 +101,7 @@ export class AddmanualactivityComponent implements OnInit {
     });
     return;
 
-    this.addActivity(type, date, distance, name, speed, time, email).then(() => {
+    this.addActivity(type, date, distance, name, speed, time, this.email).then(() => {
       this.manualForm.reset();
       this.snackBar.open('Activity Added', 'X', {
         duration: 3000

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DashboardComponent } from './dashboard.component';
 import { Apollo } from 'apollo-angular';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -14,7 +15,8 @@ describe('DashboardComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        Apollo
+        Apollo,
+        CookieService
       ]
     })
     .compileComponents();
