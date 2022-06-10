@@ -20,7 +20,7 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 [SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view)
 
 ## Architectural Requirements Documentation
-[Architectural Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view)
+[Architectural Requirements Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view)
 
 ## Coding Standards
 [Coding Standards V1.0](https://drive.google.com/file/d/1g6UESbQdgPT59G09W2i9J_fzj0e0kqNq/view)
