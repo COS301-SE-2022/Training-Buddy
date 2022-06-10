@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-dashboard',
@@ -13,16 +14,18 @@ export class DashboardComponent implements OnInit {
   requests : any[] = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
+  outgoingRequests: any[] = [];
 
   img : string;
 
   noBuddies : boolean;
 
-  email = 'muziwandile@gmail.com';
+  email : string;
 
-  constructor(private apollo : Apollo) { 
+  constructor(private apollo : Apollo, private cookieService:CookieService ) { 
     this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.noBuddies = true;
+    this.email = this.cookieService.get('email');
   }
 
   ifPendingRequests() : boolean {
@@ -47,7 +50,53 @@ export class DashboardComponent implements OnInit {
           this.requests.push(el);
         })
       }
-    })
+    });
+
+    this.getOutgoing().subscribe({
+      next: (data: any) => {
+        data.data.getOutgoing.map((el : any) => {
+          this.outgoingRequests.push(el);
+        })
+      }
+    });
+
+  }
+
+  checkIfInOutgoing(email : string) : boolean {
+    let output = false;
+    for (let i = 0; i < this.outgoingRequests.length; i++) {
+      if (this.outgoingRequests[i].email)
+        output = true;
+    }
+    return output;
+  }
+
+  getOutgoing() {
+    return this.apollo
+      .query({
+        query: gql`query{
+          getOutgoing(
+            email: "${this.email}",
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+        }
+        }
+         
+        `,
+      });
+
 
   }
 
@@ -92,6 +141,66 @@ export class DashboardComponent implements OnInit {
          
         `,
       });
+  }
+
+  accept(email : string){
+    return this.apollo
+    .query({
+      query: gql`query{
+        accept(
+          Sender: "${this.email}",
+          Receiver: "${email}"
+      ){
+       message
+      }
+      }
+       
+      `,
+    });
+
+  }
+
+  reject(email : string){
+    return this.apollo
+    .query({
+      query: gql`query{
+        reject(
+          Sender: "${this.email}",
+          Receiver: "${email}"
+      ){
+       message
+      }
+      }
+       
+      `,
+    });
+  }
+  
+  getFriends(){
+    return this.apollo
+    .query({
+      query: gql`query{
+        getConnections(
+          email: "${this.email}",
+      ){
+        userName,
+        userSurname,
+        location,
+        longitude,
+        latitude,
+        stravaToken,
+        dob,
+        gender,
+        email,
+        cellNumber,
+        bio,
+        metrics{lift , ride , run , swim},
+        buddies
+      }
+      }
+       
+      `,
+    });
   }
 
   getPendingRequests() {

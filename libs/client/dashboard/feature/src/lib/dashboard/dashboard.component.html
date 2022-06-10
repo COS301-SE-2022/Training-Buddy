@@ -17,8 +17,8 @@
                                 <div class="acceptTitle">
                                     <p class="block mt-1 text-2xl leading-tight font-medium text-black">{{ usr.userName }} {{ usr.userSurname }}</p> 
                                     <div class="mr-4">
-                                        <mat-icon class="mr-1" id="accept">done</mat-icon>
-                                        <mat-icon id="reject">close</mat-icon>
+                                        <mat-icon (click)="accept(usr.email)" class="mr-1" id="accept">done</mat-icon>
+                                        <mat-icon (click)="reject(usr.email)" id="reject">close</mat-icon>
                                     </div>
                                 </div> 
                                 <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
@@ -64,7 +64,8 @@
                                 <div class="acceptTitle">
                                     <p class="block mt-1 text-2xl leading-tight font-medium text-black">{{ usr.userName }} {{ usr.userSurname }}</p> 
                                     <div>
-                                        <button mat-raised-button disabled>Pending</button>
+                                        <button *ngIf="!checkIfInOutgoing(usr.email)" mat-raised-button>Request</button>
+                                        <button *ngIf="checkIfInOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
                                     </div>
                                 </div> 
                                 <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>

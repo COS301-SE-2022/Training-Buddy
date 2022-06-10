@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-athlete-profile',
@@ -11,7 +12,7 @@ import { Apollo, gql } from 'apollo-angular';
 export class AthleteprofileComponent implements OnInit {
 
   img : string;
-
+  email : string;
   //error flags:
   noActivityChosen : boolean;
 
