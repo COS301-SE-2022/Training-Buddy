@@ -1,5 +1,5 @@
 import {ObjectType , Field } from '@nestjs/graphql'
-
+import { metric } from "./metric";
 
 @ObjectType()
 export class UserEntity {
@@ -23,4 +23,11 @@ export class UserEntity {
     email: string
     @Field({nullable:true})
     cellNumber: string 
+    @Field({nullable:true})
+    bio: string 
+    @Field(()=>metric)
+    metric: string 
+    @Field(type=> [String] , {nullable:true})
+    buddies: string[] 
+
 }

@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StravaAPIService } from './strava-api.service';
+import { Apollo } from 'apollo-angular';
 
 describe('StravaAPIService', () => {
   
@@ -15,7 +16,8 @@ describe('StravaAPIService', () => {
 
       ],
       providers: [
-        HttpClient
+        HttpClient,
+        Apollo
       ]
     });
     service = TestBed.inject(StravaAPIService);
