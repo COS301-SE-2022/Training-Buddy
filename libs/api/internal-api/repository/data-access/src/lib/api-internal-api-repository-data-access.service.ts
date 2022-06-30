@@ -35,7 +35,6 @@ export class ApiInternalApiRepositoryDataAccessService {
             latitude : user.latitude,
             location : user.location,
             password : user.password,
-            stravaToken : user.stravaToken,
             buddies: []
         }
 
@@ -65,6 +64,21 @@ export class ApiInternalApiRepositoryDataAccessService {
         return users ;
     }
 
+    //user - SAVE STRAVA TOKENS
+
+    async saveTokens(@Param() email: string, access: string, refresh: string){
+        const data = {
+            stravaAccess: access,
+            stravaRefresh: refresh
+        }
+
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
+                return true ;
+            }) ;
+            return false ; 
+        })
+    }
 
     //user - UPDATE
 

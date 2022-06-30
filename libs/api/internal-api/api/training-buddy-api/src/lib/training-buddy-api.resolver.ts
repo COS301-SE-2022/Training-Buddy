@@ -191,6 +191,7 @@ export class TrainingBuddyApiResolver {
     getLogs(@Args("email")userEmail:string){
         return this.trainingBuddyService.getLogs(userEmail);
     }
+
     @Mutation(()=>ErrorMessage)
     saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken:string ){
         return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken);
@@ -198,6 +199,7 @@ export class TrainingBuddyApiResolver {
     @Query(()=>Tokens)
     getTokens(@Args("email")userEmail:string){
         return this.trainingBuddyService.getToken(userEmail);
+
 
     }
     
