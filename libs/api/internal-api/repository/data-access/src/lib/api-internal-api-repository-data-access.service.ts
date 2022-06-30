@@ -80,6 +80,16 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
+    async getTokens(@Param() email: string){
+        const data = [] ;
+
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+                data.push(result.docs[0].data().stravaAccess) ;
+                data.push(result.docs[0].data().stravaRefresh) ;
+                return true ;
+        })
+    }
+
     //user - UPDATE
 
     async userConfig(@Param() userConfig: Userconfig){
