@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Inject } from '@nestjs/common';
 import { Apollo, gql } from 'apollo-angular';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class StravaAPIService {
 
   loading : boolean;
 
-  constructor(private http : HttpClient, private apollo : Apollo, private router : Router) { 
+  constructor(private http : HttpClient, private apollo : Apollo, private router : Router, private cookie : CookieService) { 
     this.OAuth = null;
     this.userToken = null;
     this.loading = false;
@@ -56,20 +57,37 @@ export class StravaAPIService {
         next: data => {
           this.userToken = data;
           console.log(data);
-
           ////////////
-          //API call to add users refresh token to the user goes here:
-          console.log('To store: ' + this.userToken.refresh_token);
-          //
+          const access = this.userToken.access_token; //used to query the API
+          const refresh = this.userToken.refresh_token; //used to get a access_token
+          this.sendTokens(access, refresh);
           ///////////
-
-          this.getActivities();
+          // this.getActivities();
         },
         error: err => {
           this.userToken = null;
         }
       }
     )
+
+  }
+
+  sendTokens(access: string, refresh: string) {
+
+    return this.apollo
+      .mutate({
+        mutation: gql`mutation{
+          saveTokens(
+            email: "${this.cookie.get('email')}",
+            access: "${access}",
+            refresh: "${refresh}"
+        ){
+          message
+        }
+        }
+         
+        `,
+      });
 
   }
 
@@ -86,6 +104,7 @@ export class StravaAPIService {
         next: (data : any) => {
 
           let count = 0;
+          
           data.map((el : any) => {
             this.sendActivity(el).subscribe(
               {
@@ -136,7 +155,8 @@ export class StravaAPIService {
 
   sendActivity(data : any) {
 
-    const email = 'muziwandile@gmail.com';
+    // const email = 'muziwandile@gmail.com';
+    const email = this.cookie.get('email');
     return this.apollo
       .mutate({
         mutation: gql`mutation{
