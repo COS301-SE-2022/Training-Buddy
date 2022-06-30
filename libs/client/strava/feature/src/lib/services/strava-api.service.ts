@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Inject } from '@nestjs/common';
 import { Apollo, gql } from 'apollo-angular';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -136,7 +137,7 @@ export class StravaAPIService {
 
   sendActivity(data : any) {
 
-    const email = 'muziwandile@gmail.com';
+    const email = "matthewgotte@gmail.com" ;
     return this.apollo
       .mutate({
         mutation: gql`mutation{
