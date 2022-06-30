@@ -1,0 +1,101 @@
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+<training-buddy-signed-navbar></training-buddy-signed-navbar>
+<mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    <mat-card >
+       
+        <!-- <figure class="relative flex flex-col-reverse bg-zinc-900 rounded-lg p-6 darkbg-zinc-900 dark:highlight-white/5">
+            <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
+                <p>{{theUser.status}}</p>
+            </blockquote>
+            <figcaption class="flex items-center space-x-4">
+                <img src="{{theUser.image}}" alt="not working" class="flex-none w-20 h-20 rounded-full object-cover">
+                <div class="flex-auto">
+                    <div class="text-base text-slate-900 font-semibold dark:text-slate-300">
+                        <span class="absolute inset-0"></span>{{theUser.name}} {{theUser.surname}}
+                </div>
+                <div class="mt-0.5 text-slate-700 dark:text-slate-300"> <mat-icon> location_on</mat-icon>{{theUser.location}}</div>
+            </div>
+            </figcaption>
+        </figure>
+       -->
+       <div class="relative">
+        <img class="w-full" src="{{theUser.image}}" alt="dummy-image">
+        <button class="absolute bottom-0  right-0 text-white bg-zinc-900 w-10 h-10 rounded-full" ><mat-icon>camera_alt</mat-icon></button>
+      </div>
+      <mat-card-content>
+    
+        <form [formGroup]="updateForm">
+
+          <h1 class="text-center">Edit Profile</h1>
+        <!-- Name -->
+          <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input formControlName="userName" id="userName" matInput type="text" placeholder="{{theUser.name}}" name="name">
+              <mat-error *ngIf="updateForm.controls['userName'].errors">
+                {{ updateForm.controls['userName'].errors!['error_msg'] }}
+            </mat-error>
+          </mat-form-field>
+           <!-- Surname -->
+           <mat-form-field appearance="outline">
+            <mat-label>Surname</mat-label>
+            <input formControlName="userSurname" id="userSurname" matInput type="text" placeholder="{{theUser.surname}}" name="surname">
+            <mat-error *ngIf="updateForm.controls['userSurname'].errors">
+              {{ updateForm.controls['userSurname'].errors!['error_msg'] }}
+          </mat-error>
+          </mat-form-field>
+          <!-- Email -->
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="userEmail" id="userEmail" matInput type="text" placeholder="{{theUser.email}}" name="email">
+            <mat-error *ngIf="updateForm.controls['userEmail'].errors">
+              {{ updateForm.controls['userEmail'].errors!['error_msg'] }}
+          </mat-error>
+          </mat-form-field>
+            <!-- Cell Number -->
+          <mat-form-field appearance="outline">
+            <mat-label>Cell Number</mat-label>
+            <input formControlName="userCellNumber" id="userCellNumber" matInput type="text" placeholder="{{theUser.cell}}" name="cell">
+            <mat-error *ngIf="updateForm.controls['userCellNumber'].errors">
+              {{ updateForm.controls['userCellNumber'].errors!['error_msg'] }}
+          </mat-error>
+          </mat-form-field>
+            <!-- Gender -->
+          <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="userGender" id="userGender" name="userGender">
+              <mat-option value="M">Male</mat-option>
+              <mat-option value="F">Female</mat-option>
+          </mat-select>
+          <mat-error *ngIf="updateForm.controls['userGender'].errors">
+            {{ updateForm.controls['userGender'].errors!['error_msg'] }}
+          </mat-error>
+          </mat-form-field>
+            <!-- Location -->
+          <mat-form-field appearance="outline">
+            <mat-label>location</mat-label>
+            <input formControlName="userLocation" matInput
+                    matGoogleMapsAutocomplete
+                    (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                    (onLocationSelected)="onLocationSelected($event)">
+            <mat-error *ngIf="updateForm.controls['userLocation'].errors">
+                {{ updateForm.controls['userLocation'].errors!['error_msg'] }}
+            </mat-error>
+            <mat-hint class="fullhint">
+                <div>
+                    <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
+                </div>
+            </mat-hint>
+          </mat-form-field>
+          <!--Submit button-->
+          <div class="submitButton mt-3">
+              <button id="save" (click)="save()" class="text-center ml-1" mat-raised-button color="primary">Save</button>
+              <div class="Change"><p routerLink="/#" class="changePassword">Change password</p></div>
+          </div>
+
+        </form>
+
+      </mat-card-content>
+
+      </mat-card>
+    </mat-grid-list>  
+</div>
