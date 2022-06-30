@@ -1,7 +1,7 @@
-<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+<!-- <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}"> -->
     <training-buddy-signed-navbar></training-buddy-signed-navbar>
     <mat-grid-list cols="1" rows="1" rowHeight="2:1">
-        <mat-card >
+        <mat-card>
            
             <!-- <figure class="relative flex flex-col-reverse bg-zinc-900 rounded-lg p-6 darkbg-zinc-900 dark:highlight-white/5">
                 <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
@@ -16,8 +16,8 @@
                     <div class="mt-0.5 text-slate-700 dark:text-slate-300"> <mat-icon> location_on</mat-icon>{{theUser.location}}</div>
                 </div>
                 </figcaption>
-            </figure>
-           -->
+            </figure> -->
+            
            <div class="relative">
             <img class="w-full" src="{{theUser.image}}" alt="dummy-image">
             <button class="absolute bottom-0  right-0 text-white bg-zinc-900 w-10 h-10 rounded-full" ><mat-icon>camera_alt</mat-icon></button>
@@ -89,7 +89,6 @@
               <!--Submit button-->
               <div class="submitButton mt-3">
                   <button id="save" (click)="save()" class="text-center ml-1" mat-raised-button color="primary">Save</button>
-                  <div class="Change"><p routerLink="/#" class="changePassword">Change password</p></div>
               </div>
     
             </form>
@@ -98,4 +97,6 @@
     
           </mat-card>
         </mat-grid-list>  
-    </div>
+        <training-buddy-navbar></training-buddy-navbar>
+
+    <!-- </div> -->
