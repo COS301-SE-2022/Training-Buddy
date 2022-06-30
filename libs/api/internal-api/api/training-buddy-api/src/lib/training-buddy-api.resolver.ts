@@ -1,6 +1,6 @@
 import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
-import {UserDto , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, Tokens , LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver()
@@ -191,8 +191,16 @@ export class TrainingBuddyApiResolver {
     getLogs(@Args("email")userEmail:string){
         return this.trainingBuddyService.getLogs(userEmail);
     }
- 
+    @Mutation(()=>ErrorMessage)
+    saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken:string ){
+        return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken);
+    }
+    @Query(()=>Tokens)
+    getTokens(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getToken(userEmail);
 
+    }
+    
 
 }
 
