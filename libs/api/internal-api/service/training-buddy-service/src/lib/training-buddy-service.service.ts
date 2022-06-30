@@ -420,4 +420,36 @@ export class TrainingBuddyServiceService {
         }
         else return outgoing;
     }
+    async saveTokens(email:string  , access:string , refresh:string ){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+        if(!user ){
+             item.message = "failure no user"
+             return item;
+         }
+         else{
+             await this.repoService.saveTokens(email , access , refresh)
+             item.message = "Success User Tokens Saved "
+             return item;
+         }
+        
+
+
+    }
+    async getToken(email:string){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+        if(!user ){
+             item.message = "failure no user"
+             return item;
+         }
+         else{
+             await this.repoService.getTokens(email)
+             item.message = "Success User Tokens Saved "
+             return item;
+         }
+
+
+    }
+
 }
