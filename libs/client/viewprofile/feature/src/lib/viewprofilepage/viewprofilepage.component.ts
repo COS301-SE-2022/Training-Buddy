@@ -11,7 +11,6 @@ export class ViewprofilepageComponent implements OnInit {
 
   logList : any[] = [];
   email! : string;
-
   displayUser! : any;
 
   constructor(private apollo : Apollo, private cookieService: CookieService){
