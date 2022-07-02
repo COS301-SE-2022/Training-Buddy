@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadprofileimageComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+    console.log();
+
+  }
 
   ngOnInit(): void {
+    console.log();
   }
 
 }
