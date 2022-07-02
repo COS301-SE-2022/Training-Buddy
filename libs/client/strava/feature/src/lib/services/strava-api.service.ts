@@ -60,7 +60,16 @@ export class StravaAPIService {
           ////////////
           const access = this.userToken.access_token; //used to query the API
           const refresh = this.userToken.refresh_token; //used to get a access_token
-          this.sendTokens(access, refresh);
+          this.sendTokens(access, refresh).subscribe({
+            next: data => {
+              // console.log(data);
+              //redirect to the login
+              this.router.navigate(['dashboard']);
+            },
+            error: err => {
+              //push error to page here
+            }
+          });
           ///////////
           // this.getActivities();
         },
@@ -73,7 +82,6 @@ export class StravaAPIService {
   }
 
   sendTokens(access: string, refresh: string) {
-
     return this.apollo
       .mutate({
         mutation: gql`mutation{
@@ -85,7 +93,6 @@ export class StravaAPIService {
           message
         }
         }
-         
         `,
       });
 

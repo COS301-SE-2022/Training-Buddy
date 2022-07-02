@@ -24,6 +24,7 @@
     "client-editprofile-feature": "libs/client/editprofile/feature",
     "client-example-feature": "libs/client/example/feature",
     "client-login-feature": "libs/client/login/feature",
+    "client-pagenotfound": "libs/client/pagenotfound",
     "client-profileimageupload": "libs/client/profileimageupload",
     "client-scheduleworkout-feature": "libs/client/scheduleworkout/feature",
     "client-settings-feature": "libs/client/settings/feature",
@@ -34,6 +35,7 @@
     "client-shell-feature": "libs/client/shell/feature",
     "client-signup-feature": "libs/client/signup/feature",
     "client-strava-feature": "libs/client/strava/feature",
+    "client-uploadprofileimage-feature": "libs/client/uploadprofileimage/feature",
     "client-viewprofile-feature": "libs/client/viewprofile/feature"
   }
 }
