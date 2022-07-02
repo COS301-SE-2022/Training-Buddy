@@ -34,6 +34,7 @@
     "client-shell-feature": "libs/client/shell/feature",
     "client-signup-feature": "libs/client/signup/feature",
     "client-strava-feature": "libs/client/strava/feature",
+    "client-uploadprofileimage-feature": "libs/client/uploadprofileimage/feature",
     "client-viewprofile-feature": "libs/client/viewprofile/feature"
   }
 }
