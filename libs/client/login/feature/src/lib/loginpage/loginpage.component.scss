@@ -10,7 +10,7 @@ mat-grid-list {
     // background-color: rgba(255, 255, 255, 1);
     height: 100vw;
     max-height: 80vh;
-    min-height: 300px;
+    min-height: 400px;
 }
 
 @media (max-width: 300px) {
@@ -23,10 +23,6 @@ mat-grid-list {
     mat-grid-list {
         height: 100vh;
     }
-}
-
-mat-grid-tile {
-    margin: 0.5vh !important;
 }
 
 mat-card {
