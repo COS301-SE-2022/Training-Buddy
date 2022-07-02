@@ -1,13 +1,38 @@
+mat-grid-list {
+    // max-width: 400px;
+    // width: 90vw;
+    // margin: 2em auto;
+    // padding: 2em auto;
+    // position: absolute;
+    // top: 20%;
+    // left: 50%;
+    // transform: translate(-50%, -0%);
+    // background-color: rgba(255, 255, 255, 1);
+    height: 100vw;
+    max-height: 90vh;
+    min-height: 800px;
+}
+
+@media (max-width: 300px) {
+    mat-grid-list { 
+        background-color: transparent;
+    }
+}
+
+@media (max-width: 1035px) {
+    mat-grid-list {
+        height: 100vh;
+    }
+}
+
+mat-grid-tile {
+    margin: 0.5vh !important;
+}
+
+
 mat-card {
-    max-width: 400px;
     width: 90vw;
-    margin: 2em auto;
-    padding: 2em auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -0%);
-    background-color: rgba(255, 255, 255, 1);
+    max-width: 400px;
 }
 
 .text-center {
