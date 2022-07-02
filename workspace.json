@@ -27,6 +27,7 @@
     "client-pagenotfound": "libs/client/pagenotfound",
     "client-profileimageupload": "libs/client/profileimageupload",
     "client-scheduleworkout-feature": "libs/client/scheduleworkout/feature",
+    "client-services-feature": "libs/client/services/feature",
     "client-settings-feature": "libs/client/settings/feature",
     "client-shared-components-navbar-ui": "libs/client/shared/components/navbar/ui",
     "client-shared-interfaces-user-data-access": "libs/client/shared/interfaces/user/data-access",
