@@ -440,13 +440,11 @@ export class TrainingBuddyServiceService {
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         if(!user ){
-             item.message = "failure no user"
              return item;
          }
          else{
-             await this.repoService.getTokens(email)
-             item.message = "Success User Tokens Saved "
-             return item;
+            return await this.repoService.getTokens(email)
+          
          }
 
 

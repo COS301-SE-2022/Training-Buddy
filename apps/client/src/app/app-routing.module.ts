@@ -105,6 +105,22 @@ const routes: Routes = [
       )
   },
 
+  {
+    path: 'profileimage',
+    loadChildren: () =>
+      import('@training-buddy/client/uploadprofileimage/feature').then(
+        m => m.ClientUploadprofileimageFeatureModule
+      )
+  },
+
+  {
+    path: '**',
+    loadChildren: () =>
+      import('@training-buddy/client/pagenotfound').then(
+        m => m.ClientPagenotfoundModule
+      )
+  }
+
 ];
 
 @NgModule({

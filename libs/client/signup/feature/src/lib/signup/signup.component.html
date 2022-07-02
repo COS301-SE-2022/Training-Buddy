@@ -3,110 +3,114 @@
 
     <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
     
-    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    <mat-grid-list cols="1" rowHeight="fit">
     
-        <mat-card>
+        <mat-grid-tile>
+
+            <mat-card>
     
-            <mat-card-content>
-    
-              <form [formGroup]="signupFrm">
-    
-                <h1 class="text-center">Sign Up</h1>
-    
-                <!-- Name and Surname -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Name and Surname</mat-label>
-                    <input formControlName="userNameSurname" id="userNameSurname" matInput type="text" placeholder="John Smith" name="userNameSurname">
-                    <mat-error *ngIf="signupFrm.controls['userNameSurname'].errors">
-                        {{ signupFrm.controls['userNameSurname'].errors!['error_msg'] }}
-                    </mat-error>
-                </mat-form-field>
-    
-                <!-- email -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input formControlName="userEmail" id="userEmail" matInput type="email" placeholder="user@domain.com" name="userEmail">
-                    <mat-error *ngIf="signupFrm.controls['userEmail'].errors">
-                        {{ signupFrm.controls['userEmail'].errors!['error_msg'] }}
-                    </mat-error>
-                </mat-form-field>
-    
-                <!-- password -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input formControlName="userPassword" id="userPassword" matInput [type]="hide ? 'password' : 'text'" name="userPassword">
-                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="signupFrm.controls['userPassword'].errors">
-                        {{ signupFrm.controls['userPassword'].errors!['error_msg'] }}
-                    </mat-error>
-                    <mat-hint class="fullhint">
-                        <div>
-                            Min length 8, 1x Uppercase, 1x Lowercase, 1x Special Char
-                        </div>
-                    </mat-hint>
-                </mat-form-field>
-    
-                <!-- dob -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Date of Birth</mat-label>
-                    <input formControlName="userDOB" id="userDOB" matInput [matDatepicker]="picker">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="signupFrm.controls['userDOB'].errors">
-                        Date of Birth is required
-                    </mat-error>
-                </mat-form-field>
-    
-                <!-- cellNumber -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Phone Number</mat-label>
-                    <input formControlName="userCellNumber" id="userCellNumber" matInput type="tel" placeholder="Phone Number" name="userCellNumber">
-                    <mat-error *ngIf="signupFrm.controls['userCellNumber'].errors">
-                        {{ signupFrm.controls['userCellNumber'].errors!['error_msg'] }}
-                    </mat-error>
-                </mat-form-field>
-    
-                <!-- gender -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Gender</mat-label>
-                    <mat-select formControlName="userGender" id="userGender" name="userGender">
-                        <mat-option value="M">Male</mat-option>
-                        <mat-option value="F">Female</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="signupFrm.controls['userGender'].errors">
-                        {{ signupFrm.controls['userGender'].errors!['error_msg'] }}
-                    </mat-error>
-                </mat-form-field>
-    
-                <!-- location with google autocomplete -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Location</mat-label>
-                    <input formControlName="userLocation" matInput
-                           matGoogleMapsAutocomplete
-                           (onAutocompleteSelected)="onAutocompleteSelected($event)"
-                           (onLocationSelected)="onLocationSelected($event)">
-                    <mat-error *ngIf="signupFrm.controls['userLocation'].errors">
-                        {{ signupFrm.controls['userLocation'].errors!['error_msg'] }}
-                    </mat-error>
-                    <mat-hint class="fullhint">
-                        <div>
-                            <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
-                        </div>
-                    </mat-hint>
-                </mat-form-field>
-                <!--Submit button-->
-                <div class="submitButton mt-3">
-                    <button id="signup" (click)="signup()" class="text-center ml-1" mat-raised-button color="primary">Sign Up</button>
-                    <div class="logIn"><p>Have An Account?</p><p routerLink="/login" class="logInLink">Log In</p></div>
-                </div>
-    
-              </form>
-    
-            </mat-card-content>
-    
-          </mat-card>
+                <mat-card-content>
+        
+                  <form [formGroup]="signupFrm">
+        
+                    <h1 class="text-center">Sign Up</h1>
+        
+                    <!-- Name and Surname -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Name and Surname</mat-label>
+                        <input formControlName="userNameSurname" id="userNameSurname" matInput type="text" placeholder="John Smith" name="userNameSurname">
+                        <mat-error *ngIf="signupFrm.controls['userNameSurname'].errors">
+                            {{ signupFrm.controls['userNameSurname'].errors!['error_msg'] }}
+                        </mat-error>
+                    </mat-form-field>
+        
+                    <!-- email -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="userEmail" id="userEmail" matInput type="email" placeholder="user@domain.com" name="userEmail">
+                        <mat-error *ngIf="signupFrm.controls['userEmail'].errors">
+                            {{ signupFrm.controls['userEmail'].errors!['error_msg'] }}
+                        </mat-error>
+                    </mat-form-field>
+        
+                    <!-- password -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input formControlName="userPassword" id="userPassword" matInput [type]="hide ? 'password' : 'text'" name="userPassword">
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error *ngIf="signupFrm.controls['userPassword'].errors">
+                            {{ signupFrm.controls['userPassword'].errors!['error_msg'] }}
+                        </mat-error>
+                        <mat-hint class="fullhint">
+                            <div>
+                                Min length 8, 1x Uppercase, 1x Lowercase, 1x Special Char
+                            </div>
+                        </mat-hint>
+                    </mat-form-field>
+        
+                    <!-- dob -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Date of Birth</mat-label>
+                        <input formControlName="userDOB" id="userDOB" matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="signupFrm.controls['userDOB'].errors">
+                            Date of Birth is required
+                        </mat-error>
+                    </mat-form-field>
+        
+                    <!-- cellNumber -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input formControlName="userCellNumber" id="userCellNumber" matInput type="tel" placeholder="Phone Number" name="userCellNumber">
+                        <mat-error *ngIf="signupFrm.controls['userCellNumber'].errors">
+                            {{ signupFrm.controls['userCellNumber'].errors!['error_msg'] }}
+                        </mat-error>
+                    </mat-form-field>
+        
+                    <!-- gender -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="userGender" id="userGender" name="userGender">
+                            <mat-option value="M">Male</mat-option>
+                            <mat-option value="F">Female</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="signupFrm.controls['userGender'].errors">
+                            {{ signupFrm.controls['userGender'].errors!['error_msg'] }}
+                        </mat-error>
+                    </mat-form-field>
+        
+                    <!-- location with google autocomplete -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Location</mat-label>
+                        <input formControlName="userLocation" matInput
+                               matGoogleMapsAutocomplete
+                               (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                               (onLocationSelected)="onLocationSelected($event)">
+                        <mat-error *ngIf="signupFrm.controls['userLocation'].errors">
+                            {{ signupFrm.controls['userLocation'].errors!['error_msg'] }}
+                        </mat-error>
+                        <mat-hint class="fullhint">
+                            <div>
+                                <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
+                            </div>
+                        </mat-hint>
+                    </mat-form-field>
+                    <!--Submit button-->
+                    <div class="submitButton mt-3">
+                        <button id="signup" (click)="signup()" class="text-center ml-1" mat-raised-button color="primary">Sign Up</button>
+                        <div class="logIn"><p>Have An Account?</p><p routerLink="/login" class="logInLink">Log In</p></div>
+                    </div>
+        
+                  </form>
+        
+                </mat-card-content>
+        
+              </mat-card>
+
+        </mat-grid-tile>
     
     </mat-grid-list>
     

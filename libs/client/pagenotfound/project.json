@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/pagenotfound",
+  "sourceRoot": "libs/client/pagenotfound/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/pagenotfound"],
+      "options": {
+        "jestConfig": "libs/client/pagenotfound/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/pagenotfound/src/**/*.ts",
+          "libs/client/pagenotfound/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
