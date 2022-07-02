@@ -105,6 +105,9 @@
       "@training-buddy/client/strava/feature": [
         "libs/client/strava/feature/src/index.ts"
       ],
+      "@training-buddy/client/uploadprofileimage/feature": [
+        "libs/client/uploadprofileimage/feature/src/index.ts"
+      ],
       "@training-buddy/client/viewprofile/feature": [
         "libs/client/viewprofile/feature/src/index.ts"
       ],
