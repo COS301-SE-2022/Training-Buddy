@@ -4,7 +4,6 @@ import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from
 import { reverse } from 'dns';
 import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
-import { user } from 'libs/client/editprofile/feature/src/lib/editprofilepage/editprofilepage.component';
 import passport = require('passport');
 import { emit, send } from 'process';
 import { async } from 'rxjs';
