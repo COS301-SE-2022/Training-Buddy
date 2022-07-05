@@ -1,6 +1,7 @@
 import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { reverse } from 'dns';
 import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
 import passport = require('passport');
@@ -19,6 +20,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
     buddyRequestsCollection = this.firestore.collection('/BuddyRequests') ;
     scheduledWorkoutCollection = this.firestore.collection('/ScheduledWorkouts') ;
+    workoutInvitesCollection = this.firestore.collection('/WorkoutInvites')
 
 
     //USERS
@@ -356,7 +358,47 @@ export class ApiInternalApiRepositoryDataAccessService {
         });
         return workouts ;
     }
+
+    async getWorkout(@Param() organiser: string, @Param() startTime: string){
+        return this.scheduledWorkoutCollection.where('email', '==', organiser).where('startTime','==',startTime).get().then(async (result) =>{
+            if(result.docs[0]) return result.docs[0].id ;
+            return false ;
+        });
+    } 
     //scheduled workouts - UPDATE
+    //TODO: implement
+
+    //workout invite - CREATE
+    //TODO: implement
+    async createInvite(@Param() email: string, @Param() startTime: string){
+        const workout = this.getWorkout(email, startTime) ;
+        const data = {
+            sender: email,
+            recievers: [],
+            workout: workout
+        }
+    }
+
+    async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() startTime){
+        const workout = await this.getWorkout(sender, startTime) ;
+        if(workout != false){
+            return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
+                if(result.docs[0]){
+                    for(let i = 0; i < receivers.length; i++){
+                        this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayUnion(receivers[i])}) ;
+                    }  
+                    return true ;
+                }                  
+                return false ;
+            }) 
+        }
+        return false ;
+    }
+
+    //workout invite - ACCEPT
+    //TODO: implement
+
+    //workout invite - REJECT
     //TODO: implement
 
 
