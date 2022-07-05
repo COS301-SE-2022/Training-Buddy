@@ -386,7 +386,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         if(workout != false){
             return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]){
-                    for(var i = 0; i < receivers.length; i++){
+                    for(let i = 0; i < receivers.length; i++){
                         this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayUnion(receivers[i])}) ;
                     }  
                     return true ;
