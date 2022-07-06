@@ -484,7 +484,7 @@ export class TrainingBuddyServiceService {
      */
     async sendInvite(email:string ,receiver:string ,  startTime: string){
         const user = await this.findOne(email);
-        let item = new ErrorMessage;
+        const item = new ErrorMessage;
         const arr = []
         arr.push(receiver) 
         if(!user ){
@@ -508,7 +508,7 @@ export class TrainingBuddyServiceService {
      * @returns ResponseWorkout 
      */
     async getWorkout(userEmail: string , startTime: string) {
-        let arr =[];
+        const arr =[];
         const user = await this.findOne(userEmail);
        if(!user){
             return arr;
