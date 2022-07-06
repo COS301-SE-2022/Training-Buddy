@@ -356,9 +356,6 @@ export class TrainingBuddyServiceService {
             arr = await this.repoService.getScheduledWorkouts(userEmail);
             return arr;
         }
-
-
-       
     }
     /**
      * 
@@ -398,8 +395,6 @@ export class TrainingBuddyServiceService {
             return outgoing;
         }
         else return outgoing;
-
-       
     }
     /**
      * 
@@ -420,6 +415,13 @@ export class TrainingBuddyServiceService {
         }
         else return outgoing;
     }
+    /**
+     * 
+     * @param email 
+     * @param access 
+     * @param refresh 
+     * @returns ErrorMessage
+     */
     async saveTokens(email:string  , access:string , refresh:string ){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
@@ -432,15 +434,18 @@ export class TrainingBuddyServiceService {
              item.message = "Success User Tokens Saved "
              return item;
          }
-        
-
-
     }
+    /**
+     * 
+     * @param email 
+     * @returns tokens
+     */
     async getToken(email:string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         if(!user ){
              return item;
+             
          }
          else{
             return await this.repoService.getTokens(email)
@@ -449,5 +454,69 @@ export class TrainingBuddyServiceService {
 
 
     }
+    /**
+     * 
+     * @param email 
+     * @param startTime 
+     * @returns ErrorMessage
+     */
+    async createInvite(email:string , startTime: string){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+        if(!user ){
+            item.message ="failure"
+             return item;
+         }
+         else{
+
+            await this.repoService.createInvite(email, startTime)
+            item.message ="failure"
+            return item;
+
+         }
+    }
+    /**
+     * 
+     * @param email 
+     * @param receiver 
+     * @param startTime 
+     * @returns ErrorMessage
+     */
+    async sendInvite(email:string ,receiver:string ,  startTime: string){
+        const user = await this.findOne(email);
+        let item = new ErrorMessage;
+        const arr = []
+        arr.push(receiver) 
+        if(!user ){
+             return item;
+         }
+         else{
+            const val = await this.repoService.sendInvite(email,arr,startTime)
+            if(val){
+                item.message = "Success";
+                return item
+            }else{
+                item.message = "Failure";
+                return item
+            }
+         }
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param startTime 
+     * @returns ResponseWorkout 
+     */
+    async getWorkout(userEmail: string , startTime: string) {
+        let arr =[];
+        const user = await this.findOne(userEmail);
+       if(!user){
+            return arr;
+        }else{
+            return await this.repoService.getWorkout(userEmail,startTime);
+           
+        }
+    }
+
 
 }

@@ -374,7 +374,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         const workout = this.getWorkout(email, startTime) ;
         const data = {
             sender: email,
-            recievers: [],
+            receivers: [],
             workout: workout
         }
     }
