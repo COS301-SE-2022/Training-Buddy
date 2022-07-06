@@ -15,6 +15,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
     readonly arrayUnion = firestore.FieldValue.arrayUnion ;
+    readonly arrayRemove = firestore.FieldValue.arrayRemove ;
     usersCollection = this.firestore.collection('/Users') ;
     activityLogsCollection = this.firestore.collection('/ActivityLogs') ;
     buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
@@ -369,7 +370,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     //TODO: implement
 
     //workout invite - CREATE
-    //TODO: implement
     async createInvite(@Param() email: string, @Param() startTime: string){
         const workout = this.getWorkout(email, startTime) ;
         const data = {
@@ -379,6 +379,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         }
     }
 
+    //workout invite - SEND
     async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() startTime){
         const workout = await this.getWorkout(sender, startTime) ;
         if(workout != false){
@@ -396,10 +397,52 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //workout invite - ACCEPT
-    //TODO: implement
+    async acceptInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
+        const workout = await this.getWorkout(sender, startTime) ;
+        if(workout != false){
+            return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
+                if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
+                    return this.scheduledWorkoutCollection.doc(workout).update({participants: this.arrayUnion(user)}).then(result =>{
+                        return true ;
+                    }) ;
+                }) ;
+                return false ;
+            }); 
+        }
+    }
 
     //workout invite - REJECT
-    //TODO: implement
+    async rejectInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
+        const workout = await this.getWorkout(sender, startTime) ;
+        if(workout != false){
+            return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
+                if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
+                    return true;
+                }) ;
+                return false ;
+            }); 
+        }
+    }
+
+    async getIncomingInvites(@Param() user: string){
+        const invites = [] ;
+        await this.workoutInvitesCollection.where('receivers', 'array-contains', user).get().then(async (querySnapshot) =>{
+            querySnapshot.docs.forEach((doc) => {
+                invites.push(doc.data());
+            });
+        });
+        return invites ;
+    }
+
+    async getOutgoingInvites(@Param() user: string){
+        const invites = [] ;
+        await this.workoutInvitesCollection.where('sender', '==', user).get().then(async (querySnapshot) =>{
+            querySnapshot.docs.forEach((doc) => {
+                invites.push(doc.data());
+            });
+        });
+        return invites ;
+    }
 
 
     //REDUNDANT
