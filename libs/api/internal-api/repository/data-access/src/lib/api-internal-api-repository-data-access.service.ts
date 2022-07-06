@@ -27,7 +27,10 @@ export class ApiInternalApiRepositoryDataAccessService {
     //USERS
     //users - CREATE
     async createUser(@Param() user: UserDto){
+        const uuid = require('uuid') ;
+        
         const data = {
+            id: uuid.v1(),
             userName : user.userName,
             userSurname : user.userSurname,
             email : user.email,
