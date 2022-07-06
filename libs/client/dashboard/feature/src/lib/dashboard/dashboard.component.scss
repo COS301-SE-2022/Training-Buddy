@@ -33,7 +33,6 @@ mat-icon:hover {
 #accept {
     color: rgb(42, 122, 42);
     font-size: 28px;
-
 }
 
 #reject {
@@ -47,4 +46,9 @@ mat-icon:hover {
 
 #noresults {
     width: 100% !important;
+}
+
+p {
+    word-break: break-all;
+    white-space: normal;
 }
