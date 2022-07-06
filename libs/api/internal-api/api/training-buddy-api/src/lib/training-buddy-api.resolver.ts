@@ -191,17 +191,60 @@ export class TrainingBuddyApiResolver {
     getLogs(@Args("email")userEmail:string){
         return this.trainingBuddyService.getLogs(userEmail);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param accessToken 
+     * @param refreshToken 
+     * @returns 
+     */
 
     @Mutation(()=>ErrorMessage)
     saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken:string ){
         return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken);
     }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
     @Query(()=>Tokens)
     getTokens(@Args("email")userEmail:string){
         return this.trainingBuddyService.getToken(userEmail);
-
-
     }
+    /**
+     * 
+     * @param userEmail 
+     * @param receiver 
+     * @param startTime 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    sendInvite(@Args("email")userEmail:string ,@Args("receiver")receiver:string ,@Args("startTime")startTime:string){
+        return this.trainingBuddyService.sendInvite(userEmail,receiver, startTime);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param startTime 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    createInvite(@Args("email")userEmail:string ,@Args("startTime")startTime:string){
+        return this.trainingBuddyService.createInvite(userEmail, startTime);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param startTime 
+     * @returns ResponseWorkout
+     */
+    @Query(()=>ResponseWorkout)
+    getWorkout(@Args("userEmail")userEmail:string ,@Args("startTime")startTime){
+        return this.trainingBuddyService.getWorkout(userEmail, startTime);
+    }
+
+
     
 
 }
