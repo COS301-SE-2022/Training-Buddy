@@ -240,7 +240,7 @@ export class TrainingBuddyApiResolver {
      * @returns ResponseWorkout
      */
     @Query(()=>ResponseWorkout)
-    getWorkout(@Args("userEmail")userEmail:string ,@Args("startTime")startTime){
+    getWorkout(@Args("userEmail")userEmail:string ,@Args("startTime")startTime:string){
         return this.trainingBuddyService.getWorkout(userEmail, startTime);
     }
 
