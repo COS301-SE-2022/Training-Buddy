@@ -8,6 +8,7 @@ import passport = require('passport');
 import { emit, send } from 'process';
 import { async } from 'rxjs';
 import internal = require('stream');
+import uuid = require('uuid') ;
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
@@ -27,7 +28,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     //USERS
     //users - CREATE
     async createUser(@Param() user: UserDto){
-        const uuid = require('uuid') ;
         
         const data = {
             id: uuid.v1(),
