@@ -1,0 +1,80 @@
+mat-grid-list {
+    // max-width: 400px;
+    // width: 90vw;
+    // margin: 2em auto;
+    // padding: 2em auto;
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -0%);
+    // background-color: rgba(255, 255, 255, 1);
+    height: 100vw;
+    max-height: 80vh;
+    min-height: 400px;
+}
+
+@media (max-width: 300px) {
+    mat-grid-list { 
+        background-color: transparent;
+    }
+}
+
+@media (max-width: 1035px) {
+    mat-grid-list {
+        height: 100vh;
+    }
+}
+
+mat-card {
+    width: 90vw;
+    max-width: 400px;
+}
+
+#background {
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#uploadbutton {
+    width: 100%;
+    background-color: #1b1a1b !important;
+}
+
+#fileuploaddiv {
+    // outline: 0.2vh dashed #1b1a1b;
+    // outline-offset: -6px;
+    background-color: rgba(27, 26, 27, 0.075);
+    position: relative;
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#fileupload {
+    width: 100%;
+	height: 100%;
+    opacity: 0;
+    // background-color: green;
+    position: absolute;
+}
+
+#fileupload:hover {
+    cursor: pointer;
+}
+
+#profileicon > mat-icon {
+    font-size: 50px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-100%, -100%);
+}
+
+.infotext {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
