@@ -366,7 +366,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async getWorkout(@Param() organiser: string, @Param() startTime: string){
         return this.scheduledWorkoutCollection.where('email', '==', organiser).where('startTime','==',startTime).get().then(async (result) =>{
             if(result.docs[0]) return result.docs[0].id ;
-            return false ;
+            return null ;
         });
     } 
     //scheduled workouts - UPDATE
@@ -385,7 +385,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //workout invite - SEND
     async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() startTime){
         const workout = await this.getWorkout(sender, startTime) ;
-        if(workout != false){
+        if(workout != null){
             return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]){
                     for(let i = 0; i < receivers.length; i++){
@@ -402,7 +402,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //workout invite - ACCEPT
     async acceptInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
         const workout = await this.getWorkout(sender, startTime) ;
-        if(workout != false){
+        if(workout != null){
             return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
                     return this.scheduledWorkoutCollection.doc(workout).update({participants: this.arrayUnion(user)}).then(result =>{
@@ -417,7 +417,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //workout invite - REJECT
     async rejectInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
         const workout = await this.getWorkout(sender, startTime) ;
-        if(workout != false){
+        if(workout != null){
             return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
                     return true;
