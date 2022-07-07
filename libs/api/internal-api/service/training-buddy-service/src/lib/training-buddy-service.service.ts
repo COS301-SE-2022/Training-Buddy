@@ -501,6 +501,25 @@ export class TrainingBuddyServiceService {
             }
          }
     }
+    async acceptInvite(email:string ,sender:string ,  startTime: string){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+
+        if(!user ){
+             return item;
+         }
+         else{
+            const val = await this.repoService.acceptInvite(email,sender,startTime)
+            if(val){
+                item.message = "Success";
+                return item
+            }else{
+                item.message = "Failure";
+                return item
+            }
+         }
+    }
+
     /**
      * 
      * @param userEmail 
