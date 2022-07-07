@@ -501,6 +501,13 @@ export class TrainingBuddyServiceService {
             }
          }
     }
+    /**
+     * 
+     * @param email 
+     * @param sender 
+     * @param startTime 
+     * @returns 
+     */
     async acceptInvite(email:string ,sender:string ,  startTime: string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
@@ -510,6 +517,31 @@ export class TrainingBuddyServiceService {
          }
          else{
             const val = await this.repoService.acceptInvite(email,sender,startTime)
+            if(val){
+                item.message = "Success";
+                return item
+            }else{
+                item.message = "Failure";
+                return item
+            }
+         }
+    }
+    /**
+     * 
+     * @param email 
+     * @param sender 
+     * @param startTime 
+     * @returns 
+     */
+    async rejectInvite(email:string ,sender:string ,  startTime: string){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+
+        if(!user ){
+             return item;
+         }
+         else{
+            const val = await this.repoService.rejectInvite(email,sender,startTime)
             if(val){
                 item.message = "Success";
                 return item
