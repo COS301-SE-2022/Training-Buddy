@@ -1,5 +1,5 @@
 import { Injectable} from '@nestjs/common';
-import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig, Invite} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -551,7 +551,32 @@ export class TrainingBuddyServiceService {
             }
          }
     }
-
+    /**
+     * 
+     * @param email 
+     * @returns 
+     */
+    async getIncomingInvites(email:string){
+       const user = await this.findOne(email);
+       if(!user){
+            return new Invite;
+        }else{
+            return await this.repoService.getIncomingInvites(email)    
+        }
+    }
+    /**
+     * 
+     * @param email 
+     * @returns 
+     */
+    async getOutgoingInvites(email:string){
+        const user = await this.findOne(email);
+        if(!user){
+             return new Invite;
+         }else{
+             return await this.repoService.getOutgoingInvites(email)    
+         }
+    }
     /**
      * 
      * @param userEmail 
