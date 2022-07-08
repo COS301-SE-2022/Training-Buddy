@@ -19,6 +19,7 @@
     "client": "apps/client",
     "client-addmanualactivity-feature": "libs/client/addmanualactivity/feature",
     "client-athlete-profile-feature": "libs/client/athlete-profile/feature",
+    "client-changepassword-feature": "libs/client/changepassword/feature",
     "client-dashboard-feature": "libs/client/dashboard/feature",
     "client-e2e": "apps/client-e2e",
     "client-editprofile-feature": "libs/client/editprofile/feature",
