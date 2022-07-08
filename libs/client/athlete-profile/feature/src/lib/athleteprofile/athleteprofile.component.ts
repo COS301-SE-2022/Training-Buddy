@@ -24,6 +24,7 @@ export class AthleteprofileComponent implements OnInit {
   radius : number;
 
   update = false;
+  sliderDefault = 2;
 
   sliderMove(value: any) {
     this.radius = value;
@@ -66,6 +67,7 @@ export class AthleteprofileComponent implements OnInit {
           const user = data.data.getOne;
           const metrics = user.metrics;
           this.radius = user.distance;
+          this.sliderDefault = user.distance;
           const bio = user.bio;
 
           this.prefFrm.setValue({
