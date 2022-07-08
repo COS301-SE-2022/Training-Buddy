@@ -4,6 +4,7 @@ import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from
 import { reverse } from 'dns';
 import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
+import { user } from 'libs/client/editprofile/feature/src/lib/editprofilepage/editprofilepage.component';
 import passport = require('passport');
 import { emit, send } from 'process';
 import { async } from 'rxjs';
@@ -343,7 +344,9 @@ export class ApiInternalApiRepositoryDataAccessService {
             activityType: workout.activity,
             startPoint: workout.location,
             proposedDistance: workout.distance,
-            proposedDuration: workout.duration
+            proposedDuration: workout.duration,
+            complete: false,
+            logs: [] 
         }
 
         await this.scheduledWorkoutCollection.doc().set(data)
@@ -364,7 +367,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     async getWorkout(@Param() organiser: string, @Param() startTime: string){
-        return this.scheduledWorkoutCollection.where('email', '==', organiser).where('startTime','==',startTime).get().then(async (result) =>{
+        return this.scheduledWorkoutCollection.where('organiser', '==', organiser).where('startTime','==',startTime).get().then(async (result) =>{
             if(result.docs[0]) return result.docs[0].id ;
             return null ;
         });
@@ -445,6 +448,16 @@ export class ApiInternalApiRepositoryDataAccessService {
             });
         });
         return invites ;
+    }
+
+    //complete a workout
+    async completeWorkout(@Param() organiser: string, @Param() startTime: string){
+        //change status to complete
+        const workout = await this.getWorkout(organiser, startTime) ;
+        if(workout != null){
+            return this.scheduledWorkoutCollection.doc(workout).update({complete: true}) ;
+        }
+
     }
 
 
