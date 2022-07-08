@@ -86,17 +86,16 @@ export class AthleteprofileComponent implements OnInit {
     //form is valid here
 
     //TODO: Complete API call
-    this.router.navigate(['/strava/link']); //for testing flow
+    // this.router.navigate(['/uploadimage']);
 
     ///////////////////////
     //API CALL HERE........
     this.queryProfile(this.email, running, riding, swimming, weightLifting, bio , this.radius).then(res => {
       console.log(res);
       if(res != "failure"){
-        this.router.navigate(['/strava/link']);
+        this.router.navigate(['/uploadimage']);
       }
       //route user to the dashboard
-     
     }).catch(rej => {
       console.log(rej);
     });
@@ -126,9 +125,7 @@ export class AthleteprofileComponent implements OnInit {
             message
           }
         }
-
-            
-          `,
+        `,
         })
         .subscribe ((result) => {
           const res: any  = result
