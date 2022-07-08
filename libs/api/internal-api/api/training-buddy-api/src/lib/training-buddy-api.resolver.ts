@@ -149,11 +149,10 @@ export class TrainingBuddyApiResolver {
      * @returns 
      * tested
      */
-    @Query(()=>[UserEntity])
-    @Subscription(()=>[UserEntity])
-    async getIncoming(@Args("email")userEmail:string){
-        return pubsub.asyncIterator(await this.trainingBuddyService.getIncoming(userEmail));
-    }
+     @Query(()=>[UserEntity])
+     getIncoming(@Args("email")userEmail:string){
+         return this.trainingBuddyService.getIncoming(userEmail);
+     }
     /**
      * 
      * @param userEmail 

@@ -1,0 +1,30 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+mat-toolbar {
+    background-color: rgba(255, 255, 255, 0.90);
+}
+
+#bar {
+    background-color: #1b1a1b !important;
+}
+
+span {
+    color : white;
+}
+
+mat-icon {
+    color : white;
+    padding-left: 2%;
+}
+
+h1 {
+    color: white;
+}
+
+.titleblock {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}

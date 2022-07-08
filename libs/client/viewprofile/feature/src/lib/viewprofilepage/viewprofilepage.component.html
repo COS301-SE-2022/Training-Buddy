@@ -1,8 +1,9 @@
-<training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+<!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
+<training-buddy-settings-navbar></training-buddy-settings-navbar>
 
-    <mat-grid-list cols="1" rowHeight="fit" class="py-12">
+    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
     
-        <mat-card id="grid">
+        <mat-card>
     
             <mat-card-content>
 
@@ -12,28 +13,23 @@
                             <img class="object-cover h-full w-full" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
                         </div>
                         <div class="mx-4 mb-3 mt-2">
-                            <div class="acceptTitle">
-                                <h1 class="block mt-1 text-2xl leading-tight font-medium text-black"> {{displayUser.userName}}   {{displayUser.userSurname}} </h1> 
-                            </div> 
-                            <div class="tracking-wide text-xs font-semibold"> {{displayUser.location}} </div>
-                            <p class="mt-2 text-slate-500"> {{displayUser.bio}} </p>
-                            <p class="mt-2 text-slate-500"> {{getSportString(displayUser)}} </p>
-
-                            
+                            <h1 class="">{{displayUser?.userName}} {{displayUser?.userSurname}}</h1> 
+                            <h3>{{displayUser?.location}}</h3>
+                            <p class="mt-2 text-slate-500">{{displayUser?.bio}}</p>
+                            <p class="mt-2 text-slate-500">{{getSportString(displayUser)}}</p>
                         </div>
                     </div>
                 </div>
 
-                <ng-container *ngIf="showlogs">
+                <div class="my-3 ml-3 acceptTitle">
+                    <h3>Activity Logs:</h3> 
+                </div>
 
-                    <div class="my-3 ml-3 acceptTitle">
-                        <h2 class="block mt-1 text-2xl leading-tight font-medium text-black">Activity Logs:</h2> 
-                    </div>
-    
+                <ng-container *ngIf="showlogs;"; else nologs>
                     <div *ngFor="let ac of logList" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
                         <div class="m-3">
                             <div class="flex justify-around">
-                                <h4><strong>{{ ac.name }}</strong></h4>
+                                <h4>{{ ac.name }}</h4>
                                 <h4>{{ ac.date }}</h4>
                             </div>
                             <div class="flex justify-between">
@@ -44,6 +40,12 @@
                         </div>
                     </div>
 
+                </ng-container>
+
+                <ng-container #nologs>
+                    <div class="text-center pb-3">
+                        <mat-hint>No activities have been done</mat-hint>
+                    </div>
                 </ng-container>
     
             </mat-card-content>
