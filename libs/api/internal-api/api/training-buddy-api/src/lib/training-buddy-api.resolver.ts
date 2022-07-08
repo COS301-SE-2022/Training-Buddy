@@ -1,10 +1,12 @@
-import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
+import { Mutation, Resolver,Subscription, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
 import {UserDto ,Invite , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, Tokens , LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
-
+import { PubSub } from 'graphql-subscriptions'
+const pubsub = new PubSub();
 @Resolver()
 export class TrainingBuddyApiResolver {
+    
     /**
      * 
      * @param trainingBuddyService 
@@ -148,8 +150,9 @@ export class TrainingBuddyApiResolver {
      * tested
      */
     @Query(()=>[UserEntity])
-    getIncoming(@Args("email")userEmail:string){
-        return this.trainingBuddyService.getIncoming(userEmail);
+    @Subscription(()=>[UserEntity])
+    async getIncoming(@Args("email")userEmail:string){
+        return pubsub.asyncIterator(await this.trainingBuddyService.getIncoming(userEmail));
     }
     /**
      * 
