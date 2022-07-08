@@ -37,7 +37,7 @@
                               /> -->
                                 <div id="profileicon" *ngIf="!showuploaded"><mat-icon>person_outline</mat-icon></div>
 
-                                <div class="mt-2 infotext text-center" *ngIf="!showuploaded">Select an image to upload...</div>
+                                <div class="mt-2 infotext text-center" *ngIf="!showuploaded">Drag and drop <br /> or <br /> click here to select...</div>
 
                                 <input id="fileupload" name="fileupload" #uploadinput type="file" (change)="fileattatched($event)" formControlName="image" accept="image/x-png,image/gif,image/jpeg">
                                 <!-- <label for="fileupload"> this is the label </label> -->

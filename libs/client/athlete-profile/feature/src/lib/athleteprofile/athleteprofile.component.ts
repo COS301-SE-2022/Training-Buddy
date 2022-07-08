@@ -63,7 +63,6 @@ export class AthleteprofileComponent implements OnInit {
       this.getCurrentUser().subscribe({
         next: (data : any) => {
 
-          console.log(data.data.getOne);
           const user = data.data.getOne;
           const metrics = user.metrics;
           this.radius = user.distance;

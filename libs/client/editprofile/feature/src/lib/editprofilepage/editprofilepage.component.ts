@@ -18,6 +18,7 @@ export class EditprofilepageComponent implements OnInit {
   longitude = 0;
   latitude = 0;
   originalEmail = '';
+  oldLocation = '';
 
   constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService, private router : Router) {
     this.frmBuilder = frm;
@@ -36,9 +37,10 @@ export class EditprofilepageComponent implements OnInit {
     this.getCurrentUser().subscribe({
       next: (data: any) => {
         this.user = data.data.getOne;
-        this.originalEmail = data.email;
+        this.originalEmail = this.cookie.get('email');
         this.longitude = this.user.longitude;
         this.latitude = this.user.latitude;
+        this.oldLocation = this.user.location;
         this.updateForm.setValue({
           userNameSurname: `${this.user.userName} ${this.user.userSurname}`,
           userEmail: this.user.email,
@@ -162,13 +164,16 @@ export class EditprofilepageComponent implements OnInit {
 
   save(){
 
-    const userName = this.updateForm.controls['userName'].value;
-    const userSurname = this.updateForm.controls['userSurname'].value;
+    const userNameSurname = this.updateForm.controls['userNameSurname'].value;
+    const userName = userNameSurname.split(' ')[0];
+    const userSurname = userNameSurname.split(' ')[1];
     const userEmail = this.updateForm.controls['userEmail'].value;
     const userCellNumber = this.updateForm.controls['userCellNumber'].value;
     const userGender = this.updateForm.controls['userGender'].value;
     const userLocation = this.updateForm.controls['userLocation'].value;
 
+    // console.log(this.originalEmail, userName, userSurname, userEmail, userCellNumber, userLocation, userGender, this.longitude, this.latitude)
+    
     this.queryAPI(this.originalEmail, userName, userSurname, userEmail, userCellNumber, userLocation, userGender).subscribe({
       next: (data: any) => {
         //forward back to the profile page

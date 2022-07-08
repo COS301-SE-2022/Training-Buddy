@@ -33,7 +33,7 @@
               <!-- Name and Surname -->
               <mat-form-field appearance="outline">
                   <mat-label>Name Surname</mat-label>
-                  <input formControlName="userNameSurname" id="userNameSurname" matInput type="text" name="userNameSurname">
+                  <input formControlName="userNameSurname" id="userNameSurname" matInput type="text" name="userNameSurname" value="new name">
                   <mat-error *ngIf="updateForm.controls['userNameSurname']?.errors">
                     {{ updateForm.controls['userNameSurname'].errors!['error_msg'] }}
                 </mat-error>
@@ -73,7 +73,8 @@
                 <input formControlName="userLocation" matInput
                         matGoogleMapsAutocomplete
                         (onAutocompleteSelected)="onAutocompleteSelected($event)"
-                        (onLocationSelected)="onLocationSelected($event)">
+                        (onLocationSelected)="onLocationSelected($event)"
+                        value="{{ oldLocation }}">
                 <mat-error *ngIf="updateForm.controls['userLocation'].errors">
                     {{ updateForm.controls['userLocation'].errors!['error_msg'] }}
                 </mat-error>
