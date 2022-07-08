@@ -1,6 +1,7 @@
 <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 
-  <training-buddy-signed-navbar></training-buddy-signed-navbar>
+  <training-buddy-unsigned-navbar *ngIf="!update"></training-buddy-unsigned-navbar>
+  <training-buddy-back-navbar *ngIf="update" title="Activity Settings"></training-buddy-back-navbar>
   
   <mat-grid-list cols="1" rows="1" rowHeight="2:1">
   
@@ -69,5 +70,7 @@
         </mat-card>
 
   </mat-grid-list>
+
+  <training-buddy-navbar *ngIf="update"></training-buddy-navbar>
  
 </div>
