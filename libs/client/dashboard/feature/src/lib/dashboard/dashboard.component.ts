@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.getIncomingRequests().subscribe({
+    this.getIncomingRequests().valueChanges.subscribe({
       next: (data: any) => {
         console.log(data)
         this.pendingrequests = false;
@@ -76,6 +76,8 @@ export class DashboardComponent implements OnInit {
           this.pendingrequests = true;
       }
     });
+
+    // this.getIncomingRequests().subscribeToMore();
 
     this.getOutgoing().subscribe({
       next: (data: any) => {
@@ -112,7 +114,7 @@ export class DashboardComponent implements OnInit {
         // pollInterval: 1000,
         // fetchPolicy: 'network-only'
       },
-      ).valueChanges;
+      );
   }
 
   getOutgoing() {
