@@ -106,6 +106,14 @@ const routes: Routes = [
   },
 
   {
+    path: 'changepassword',
+    loadChildren: () =>
+      import('@training-buddy/client/changepassword/feature').then(
+        m => m.ClientChangepasswordFeatureModule
+      )
+  },
+
+  {
     path: '**',
     loadChildren: () =>
       import('@training-buddy/client/pagenotfound').then(
