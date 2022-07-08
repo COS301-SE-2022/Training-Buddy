@@ -146,7 +146,6 @@ export class SignupComponent implements OnInit {
   }
 
   onLocationSelected(event: any) {
-    //TO be used when moving to co-ordinate based location system.
     if (event != null) {
       this.latitude = event.latitude;
       this.longitude = event.longitude;

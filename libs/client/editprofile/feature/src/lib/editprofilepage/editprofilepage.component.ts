@@ -9,36 +9,52 @@ import {CookieService} from 'ngx-cookie-service';
   styleUrls: ['./editprofilepage.component.scss']
 })
 export class EditprofilepageComponent implements OnInit {
-  theUser: user;
-  img: string;
-  email: string;
+
+  user!: any;
   updateForm!: FormGroup;
   frmBuilder! : FormBuilder;
+  vicinity = '';
+  longitude = 0;
+  latitude = 0;
 
-  latitude : number;
-  longitude : number;
-  vicinity : string;
+  constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService) {
 
-  constructor(private frm : FormBuilder, private apollo: Apollo, private cookieService: CookieService) {
-    this.theUser= new user("Taku", "Muguti", "taku@gmail.com", "0817653456" ,"Hatfield, Pretoria", "https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?cs=srgb&dl=pexels-asim-alnamat-343717.jpg&fm=jpg","M");
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
-    this.latitude = 0;
-    this.longitude = 0;
-    this.vicinity = "";
-    this.frmBuilder = frm;
-    this.email = cookieService.get('email');
   }
+
   ngOnInit(): void {
     //construction of the form
-    this.updateForm= this.frmBuilder.group({
-      userName: [this.theUser.name , this.validateName],
-      userSurname: [this.theUser.surname , this.validateSurname],
-      userEmail: [this.theUser.email, this.validateEmail],
-      userCellNumber: [this.theUser.cell, this.validateCellNumber],
-      userGender: [this.theUser.gender, this.validateGender],
-      userLocation: [this.theUser.location, this.validateLocation]
-    });
-  
+    this.getCurrentUser().subscribe({
+      next: (data: any) => {
+        this.updateForm= this.frmBuilder.group({
+          userNameSurname: [`${this.user.name} ${this.user.surname}`, this.validateNameSurname],
+          userEmail: [this.user.email, this.validateEmail],
+          userCellNumber: [this.user.cell, this.validateCellNumber],
+          userGender: [this.user.gender, this.validateGender],
+          userLocation: [this.user.location, this.validateLocation]
+        });
+      }
+    })
+  }
+
+  getCurrentUser() {
+    return this.apollo.watchQuery({
+      query: gql`query{
+        getOne(
+          email: "${this.cookie.get('email')}",
+      ){
+        userName,
+        userSurname,
+        location,
+        dob,
+        gender,
+        email,
+        cellNumber,
+        bio,
+        metrics{lift , ride , run , swim},
+        buddies
+      }
+      }`
+    }).valueChanges
   }
   
   //Google geocoding functions
@@ -47,21 +63,25 @@ export class EditprofilepageComponent implements OnInit {
   }
 
   onLocationSelected(event: any) {
-    //TO be used when moving to co-ordinate based location system.
-  
+    if (event != null) {
+      this.latitude = event.latitude;
+      this.longitude = event.longitude;
+    }
   }
 
-  validateName(input : FormControl) : {[valtype : string] : string} | null {
-    const userName = input.value;
+  //userNameSurname
+  validateNameSurname(input : FormControl) : {[valtype : string] : string} | null {
+    const userNameSurname = input.value;
     //regex for a length of 3 and a space
-    const re = /(([A-Z]|[a-z]))/;
-    if (!re.test(userName)) {
+    const re = /(([A-Z]|[a-z]))+ ([A-Z]|([a-z]))+/;
+    if (!re.test(userNameSurname)) {
       //return error
-      return {'error_msg' : 'Name is required'}
+      return {'error_msg' : 'Name and surname is required'}
     }
     //no error
     return null;
   }
+
   validateSurname(input : FormControl) : {[valtype : string] : string} | null {
     const userSurname = input.value;
     //regex for a length of 3 and a space
@@ -122,6 +142,7 @@ export class EditprofilepageComponent implements OnInit {
     //no error
     return null;
   }
+
   save(){
     console.log('save')
     const oldEmail = this.email;
@@ -136,6 +157,7 @@ export class EditprofilepageComponent implements OnInit {
       console.log(res);
     });
   }
+
   queryAPI(oldemail: string, name: string, surname: string, email: string, cell: string, location: string,  gender: string){
     return new Promise((resolve, )=>{
       if(!this.apollo.client === undefined){
@@ -163,25 +185,4 @@ export class EditprofilepageComponent implements OnInit {
       }
     })
   }
-}
-
-export class user{
-  name: string;
-  surname: string;
-  location: string;
-  image: string;
-  gender: string;
-  email: string;  
-  cell: string;
-
-  constructor(name: string, surname: string, email: string, cell: string, location: string, image: string,  gender: string){
-    this.name = name;
-    this.surname = surname;
-    this.location = location;
-    this.image = image;
-    this.gender = gender;
-    this.email = email;
-    this.cell = cell;
-  }
-
 }

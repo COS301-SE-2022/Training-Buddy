@@ -27,21 +27,13 @@
             <form [formGroup]="updateForm">
     
               <h1 class="text-center">Edit Profile</h1>
-            <!-- Name -->
+              <!-- Name and Surname -->
               <mat-form-field appearance="outline">
                   <mat-label>Name</mat-label>
-                  <input formControlName="userName" id="userName" matInput type="text" placeholder="{{theUser.name}}" name="name">
+                  <input formControlName="userNameSurname" id="userNameSurname" matInput type="text" placeholder="{{theUser.name}}" name="name">
                   <mat-error *ngIf="updateForm.controls['userName'].errors">
                     {{ updateForm.controls['userName'].errors!['error_msg'] }}
                 </mat-error>
-              </mat-form-field>
-               <!-- Surname -->
-               <mat-form-field appearance="outline">
-                <mat-label>Surname</mat-label>
-                <input formControlName="userSurname" id="userSurname" matInput type="text" placeholder="{{theUser.surname}}" name="surname">
-                <mat-error *ngIf="updateForm.controls['userSurname'].errors">
-                  {{ updateForm.controls['userSurname'].errors!['error_msg'] }}
-              </mat-error>
               </mat-form-field>
               <!-- Email -->
               <mat-form-field appearance="outline">
