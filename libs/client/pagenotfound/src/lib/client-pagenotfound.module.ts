@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { PageNotFoundRoutingModule } from './pagenotfound-routing.module';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-import { PageNotFoundRoutingModule } from './strava-routing.module';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 
 @NgModule({
   imports: [
     CommonModule,
-    PageNotFoundRoutingModule
+    PageNotFoundRoutingModule,
+    UiModule
   ],
   declarations: [
     PagenotfoundComponent
