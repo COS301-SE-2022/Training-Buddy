@@ -469,8 +469,9 @@ export class TrainingBuddyServiceService {
          }
          else{
 
-            await this.repoService.createInvite(email, startTime)
-            item.message ="failure"
+            const workout = await this.getWorkout(email,startTime);
+            await this.repoService.createInvite(email, workout)
+            item.message ="success"
             return item;
 
          }
