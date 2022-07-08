@@ -19,6 +19,10 @@ mat-icon {
     padding-left: 2%;
 }
 
+mat-icon:hover {
+    cursor: pointer;
+}
+
 h1 {
     color: white;
 }
