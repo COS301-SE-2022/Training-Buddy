@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ChangepasswordComponent } from './changepassword.component';
 
 describe('ChangepasswordComponent', () => {
@@ -8,7 +11,13 @@ describe('ChangepasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChangepasswordComponent ]
+      declarations: [ ChangepasswordComponent ],
+      imports:[
+        ReactiveFormsModule,
+        UiModule,
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   });
