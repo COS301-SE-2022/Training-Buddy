@@ -90,7 +90,7 @@ export class UploadprofileimageComponent implements OnInit {
     this.queryUploadImage().subscribe({
       next: () => {
         //route to next page:
-        this.router.navigate(['configureprofile']);
+        this.router.navigate(['strava/link']);
       },
       error: () => {
         //display error

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo, gql, Query } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'training-buddy-dashboard',
@@ -10,15 +12,17 @@ import {CookieService} from 'ngx-cookie-service';
 
 export class DashboardComponent implements OnInit {
 
-  requests : any[] = [];
+  requests : any = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
   outgoingRequests: any;
-  pendingrequests = false;
+  pendingrequests = true;
   doneloading = false;
   noBuddies : boolean;
 
   email : string;
+
+  test! : Observable<any>;
 
   constructor(private apollo : Apollo, private cookieService:CookieService ) { 
     this.noBuddies = true;
@@ -53,19 +57,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.getBuddieRecommended().valueChanges.subscribe({
-      next: (data : any) => {
-        this.buddies = data.data.findAll;
-        this.oldBuddies = data.data.findAll;
-        if (this.buddies.length != 0)
-          this.noBuddies = false;
-        this.doneloading = true;
-      }
-    });
-
-    this.getPendingRequests().valueChanges.subscribe({
+    this.getRequests().subscribe({
       next: (data: any) => {
-        console.log(data)
         this.pendingrequests = false;
         this.requests = data.data.getIncoming;
         if (this.requests.length != 0)
@@ -73,13 +66,35 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.getOutgoing().valueChanges.subscribe({
-      next: (data: any) => {
-        this.outgoingRequests = data.data.getOutgoing;
-        console.log('outgoing', this.outgoingRequests)
-      }
-    });
+  }
 
+  getRequests() {
+    return this.apollo
+      .watchQuery({
+        query: gql`query{
+          getIncoming(
+            email: "${this.email}",
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+        }
+        }
+        `,
+        // pollInterval: 1000,
+        // fetchPolicy: 'network-only'
+      },
+      ).valueChanges;
   }
 
   getOutgoing() {
@@ -105,7 +120,7 @@ export class DashboardComponent implements OnInit {
         }
         }
         `,
-        pollInterval: 1000
+        //pollInterval: 1000
       });
   }
 
@@ -132,39 +147,14 @@ export class DashboardComponent implements OnInit {
         }
         }
         `,
-        pollInterval: 15000
+        //pollInterval: 25000
       });
   }
 
-  getPendingRequests() {
-    return this.apollo
-      .watchQuery({
-        query: gql`query{
-          getIncoming(
-            email: "${this.email}",
-        ){
-          userName,
-          userSurname,
-          location,
-          longitude,
-          latitude,
-          stravaToken,
-          dob,
-          gender,
-          email,
-          cellNumber,
-          bio,
-          metrics{lift , ride , run , swim},
-          buddies
-        }
-        }
-        `,
-        pollInterval: 1000,
-      },
-      );
-  }
-
   checkIfInOutgoing(email : string) : boolean {
+    // return false;
+    if (this.outgoingRequests == null)
+      return false;
     for (let i = 0; i < this.outgoingRequests.length; i++) {
       if (this.outgoingRequests[i].email == email)
         return true;
@@ -200,13 +190,13 @@ export class DashboardComponent implements OnInit {
       }
       `,
     }).subscribe({
-      next: (data : any) => {
-        this.requests.map((el : any, i : number) => {
-          if (el.email == email) {
-            this.requests.splice(i, 1);
-          }
-        });
-      }
+      // next: (data : any) => {
+      //   this.requests.map((el : any, i : number) => {
+      //     if (el.email == email) {
+      //       this.requests.splice(i, 1);
+      //     }
+      //   });
+      // }
     });
   }
 
@@ -253,7 +243,6 @@ export class DashboardComponent implements OnInit {
       `,
     });
   }
-
 
   filter(value : any) {
 

@@ -12,35 +12,38 @@ export class ViewprofilepageComponent implements OnInit {
   logList : any[] = [];
   email! : string;
   displayUser! : any;
+  showlogs = false;
 
   constructor(private apollo : Apollo, private cookieService: CookieService){
     this.email = cookieService.get('email');
   } 
 
   ngOnInit(): void {
+
+    this.getCurrentUser().valueChanges.subscribe({
+      next: (data : any) => {
+        this.displayUser = data.data.getOne;
+      }
+    })
+
     this.getActivityLogs().subscribe(
       {
         next: (res : any) => {
-          // console.log(res.data.getLogs);
           res.data.getLogs.map((el : any) => {
-            // console.log(this.convertToCard(el));
-            this.logList.push(this.convertToCard(el));
-          })
+            const temp = this.convertToCard(el);
+            this.logList.push(temp);
+            console.log('temp', temp);
+            this.showlogs = true;
+          });
         },
       }
     );
 
-    this.getCurrentUser().subscribe({
-      next: (data : any) => {
-        console.log(data);
-        this.displayUser = data.data.getOne;
-      }
-    })
   }
 
   getCurrentUser() {
     return this.apollo
-    .query ({
+    .watchQuery ({
       query: gql`query{getOne(
         email:"${this.email}" 
       ){
@@ -60,6 +63,7 @@ export class ViewprofilepageComponent implements OnInit {
       }
       }
       `,
+      // //pollInterval: 25000
     })
     
   }
@@ -80,21 +84,22 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   convertToCard(data : any) : any {
+    const date = new Date(data.dateComplete);
     return {
       name: data.name,
       type: data.activityType,
       distance: this.metersToKm(data.distance),
       speed: this.convertSpeed(data),
       time: this.secondsToString(data.time),
-      date: data.dateComplete.split('T')[0]
+      date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
     }
   }
 
   convertSpeed(data : any) : string {
 
     const mps = data.speed;
-
-    if (data.activityType == 'Run') {
+    console.log('activity type', data.activityType)
+    if (data.activityType == 'Running') {
       let minperkm =  16.666666666667 / Number(mps);
       let min = 0;
       while (minperkm > 1) {
@@ -107,11 +112,11 @@ export class ViewprofilepageComponent implements OnInit {
       return min.toString() + ':' + secs.toString() + '0' + ' min/km';
     }
 
-    if (data.activityType == 'Ride') {
+    if (data.activityType == 'Riding') {
       return (Math.round(((mps * 3.6) * 100)) / 100).toString() + ' km/h';
     }
 
-    if (data.activityType == 'Swim') {
+    if (data.activityType == 'Swimming') {
       return '2:00 min/100m';
     }
 
