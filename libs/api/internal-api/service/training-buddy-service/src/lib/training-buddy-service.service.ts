@@ -1,5 +1,5 @@
 import { Injectable} from '@nestjs/common';
-import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig, Invite} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -499,6 +499,82 @@ export class TrainingBuddyServiceService {
                 item.message = "Failure";
                 return item
             }
+         }
+    }
+    /**
+     * 
+     * @param email 
+     * @param sender 
+     * @param startTime 
+     * @returns 
+     */
+    async acceptInvite(email:string ,sender:string ,  startTime: string){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+
+        if(!user ){
+             return item;
+         }
+         else{
+            const val = await this.repoService.acceptInvite(email,sender,startTime)
+            if(val){
+                item.message = "Success";
+                return item
+            }else{
+                item.message = "Failure";
+                return item
+            }
+         }
+    }
+    /**
+     * 
+     * @param email 
+     * @param sender 
+     * @param startTime 
+     * @returns 
+     */
+    async rejectInvite(email:string ,sender:string ,  startTime: string){
+        const user = await this.findOne(email);
+        const item = new ErrorMessage;
+
+        if(!user ){
+             return item;
+         }
+         else{
+            const val = await this.repoService.rejectInvite(email,sender,startTime)
+            if(val){
+                item.message = "Success";
+                return item
+            }else{
+                item.message = "Failure";
+                return item
+            }
+         }
+    }
+    /**
+     * 
+     * @param email 
+     * @returns 
+     */
+    async getIncomingInvites(email:string){
+       const user = await this.findOne(email);
+       if(!user){
+            return new Invite;
+        }else{
+            return await this.repoService.getIncomingInvites(email)    
+        }
+    }
+    /**
+     * 
+     * @param email 
+     * @returns 
+     */
+    async getOutgoingInvites(email:string){
+        const user = await this.findOne(email);
+        if(!user){
+             return new Invite;
+         }else{
+             return await this.repoService.getOutgoingInvites(email)    
          }
     }
     /**
