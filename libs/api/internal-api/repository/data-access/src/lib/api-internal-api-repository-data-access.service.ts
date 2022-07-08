@@ -196,6 +196,83 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
+    async updateLongitude(@Param() long: number, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({longitude: long}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+    async updateLatitude(@Param() latitude: number, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({latitude: latitude}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+    async updateRunning(@Param() run: boolean, @Param() email: string){
+        let r = 0 ;
+        if(run) 
+            r = 1 ;
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.run": r}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+    async updateRiding(@Param() ride: boolean, @Param() email: string){
+        let r = 0 ;
+        if(ride) 
+            r = 1 ;
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.ride": r}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+    async updateSwimming(@Param() swim: boolean, @Param() email: string){
+        let r = 0 ;
+        if(swim) 
+            r = 1 ;
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.swim": r}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+    async updateLifting(@Param() lift: boolean, @Param() email: string){
+        let r = 0 ;
+        if(lift) 
+            r = 1 ;
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.lift": r}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+    async updateBio(@Param() bio: string, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({bio: bio}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
+
+
+
     //user - DELETE
     
     //TODO: implement
@@ -364,24 +441,28 @@ export class ApiInternalApiRepositoryDataAccessService {
         });
         return workouts ;
     }
-
-    async getWorkout(@Param() organiser: string, @Param() startTime: string){
-        return this.scheduledWorkoutCollection.where('organiser', '==', organiser).where('startTime','==',startTime).get().then(async (result) =>{
-            if(result.docs[0]) return result.docs[0].id ;
-            return null ;
+    
+    async getWorkout(@Param() organiser: string, @Param() startTime: string):Promise<any>{
+        return this.scheduledWorkoutCollection.where('organiser', '==', organiser).get().then(async (result) =>{
+            if(result.docs[0]) return result.docs[0].id.toString() ;
+            return false ;
         });
-    } 
+    }
     //scheduled workouts - UPDATE
     //TODO: implement
 
     //workout invite - CREATE
-    async createInvite(@Param() email: string, @Param() startTime: string){
-        const workout = this.getWorkout(email, startTime) ;
-        const data = {
-            sender: email,
-            receivers: [],
-            workout: workout
-        }
+    async createInvite(@Param() email: string, @Param() workout: string){
+
+            const data = {
+                sender: email,
+                receivers: [],
+                workout: workout
+            }
+            await this.workoutInvitesCollection.doc().set(data).then(results =>{
+                return true ;
+            });
+            return false;
     }
 
     //workout invite - SEND
