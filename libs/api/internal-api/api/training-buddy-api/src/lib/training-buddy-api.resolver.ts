@@ -1,6 +1,6 @@
 import { Mutation, Resolver, Args, Query, Context } from '@nestjs/graphql';
 import { TrainingBuddyServiceService , LoginGuard, JwtAuthGuard } from '@training-buddy/api/internal-api/service/training-buddy-service'
-import {UserDto , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, Tokens , LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {UserDto ,Invite , UserEntity,ResponseWorkout,ResponseLogs , LoginResponse, Tokens , LoginInput,ActivityLog, ActivitySchedule, ErrorMessage, ActivityStat, UpdateUser, UserStatRes, Userconfig} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver()
@@ -236,6 +236,46 @@ export class TrainingBuddyApiResolver {
     /**
      * 
      * @param userEmail 
+     * @param sender 
+     * @param startTime 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    acceptInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("startTime")startTime:string){
+        return this.trainingBuddyService.acceptInvite(userEmail , sender , startTime);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param sender 
+     * @param startTime 
+     * @returns ErrorMessage
+     */
+    @Mutation(()=>ErrorMessage)
+    rejectInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("startTime")startTime:string){
+        return this.trainingBuddyService.rejectInvite(userEmail , sender , startTime);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns [Invite]
+     */
+    @Mutation(()=> [Invite])
+    getIncomingInvites(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getIncomingInvites(userEmail)
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns [Invite]
+     */
+    @Mutation(()=> [Invite])
+    getOutgoingInvites(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getOutgoingInvites(userEmail)
+    }
+    /**
+     * 
+     * @param userEmail 
      * @param startTime 
      * @returns ResponseWorkout
      */
@@ -243,6 +283,7 @@ export class TrainingBuddyApiResolver {
     getWorkout(@Args("userEmail")userEmail:string ,@Args("startTime")startTime:string){
         return this.trainingBuddyService.getWorkout(userEmail, startTime);
     }
+
 
 
     
