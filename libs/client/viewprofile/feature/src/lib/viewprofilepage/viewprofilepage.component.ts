@@ -32,7 +32,6 @@ export class ViewprofilepageComponent implements OnInit {
           res.data.getLogs.map((el : any) => {
             const temp = this.convertToCard(el);
             this.logList.push(temp);
-            console.log('temp', temp);
             this.showlogs = true;
           });
         },
@@ -69,12 +68,12 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   getSportString(data : any) : string {
-    if (data.metrics == null) return '';
+    if (data?.metrics == null) return '';
     const output = [];
-    if (data.metrics.run) output.push('Run');
-    if (data.metrics.ride) output.push('Ride');
-    if (data.metrics.swim) output.push('Swim');
-    if (data.metrics.lift) output.push('Weights');
+    if (data?.metrics.run) output.push('Run');
+    if (data?.metrics.ride) output.push('Ride');
+    if (data?.metrics.swim) output.push('Swim');
+    if (data?.metrics.lift) output.push('Weights');
     let retString = "";
     for (let i = 0; i < output.length; i++) {
       retString += output[i];

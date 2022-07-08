@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   oldBuddies : any[] = [];
   buddies : any[] = [];
   outgoingRequests: any;
-  pendingrequests = true;
+  pendingrequests = false;
   doneloading = false;
   noBuddies : boolean;
 
@@ -57,8 +57,19 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.getRequests().subscribe({
+    this.getBuddieRecommended().subscribe({
+      next: (data : any) => {
+        this.buddies = data.data.findAll;
+        this.oldBuddies = data.data.findAll;
+        if (this.buddies.length != 0)
+          this.noBuddies = false;
+        this.doneloading = true;
+      }
+    });
+
+    this.getIncomingRequests().subscribe({
       next: (data: any) => {
+        console.log(data)
         this.pendingrequests = false;
         this.requests = data.data.getIncoming;
         if (this.requests.length != 0)
@@ -66,9 +77,16 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+    this.getOutgoing().subscribe({
+      next: (data: any) => {
+        this.outgoingRequests = data.data.getOutgoing;
+        // console.log('outgoing', this.outgoingRequests)
+      }
+    });
+
   }
 
-  getRequests() {
+  getIncomingRequests() {
     return this.apollo
       .watchQuery({
         query: gql`query{
@@ -121,7 +139,7 @@ export class DashboardComponent implements OnInit {
         }
         `,
         //pollInterval: 1000
-      });
+      }).valueChanges;
   }
 
   getBuddieRecommended() {
@@ -148,7 +166,7 @@ export class DashboardComponent implements OnInit {
         }
         `,
         //pollInterval: 25000
-      });
+      }).valueChanges;
   }
 
   checkIfInOutgoing(email : string) : boolean {

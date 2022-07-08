@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
 
@@ -16,24 +17,38 @@ export class EditprofilepageComponent implements OnInit {
   vicinity = '';
   longitude = 0;
   latitude = 0;
+  originalEmail = '';
 
-  constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService) {
-
+  constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService, private router : Router) {
+    this.frmBuilder = frm;
   }
 
   ngOnInit(): void {
-    //construction of the form
+
+    this.updateForm= this.frmBuilder.group({
+      userNameSurname: ['', this.validateNameSurname],
+      userEmail: ['', this.validateEmail],
+      userCellNumber: ['', this.validateCellNumber],
+      userGender: ['', this.validateGender],
+      userLocation: ['', this.validateLocation]
+    });
+
     this.getCurrentUser().subscribe({
       next: (data: any) => {
-        this.updateForm= this.frmBuilder.group({
-          userNameSurname: [`${this.user.name} ${this.user.surname}`, this.validateNameSurname],
-          userEmail: [this.user.email, this.validateEmail],
-          userCellNumber: [this.user.cell, this.validateCellNumber],
-          userGender: [this.user.gender, this.validateGender],
-          userLocation: [this.user.location, this.validateLocation]
-        });
+        this.user = data.data.getOne;
+        this.originalEmail = data.email;
+        this.longitude = this.user.longitude;
+        this.latitude = this.user.latitude;
+        this.updateForm.setValue({
+          userNameSurname: `${this.user.userName} ${this.user.userSurname}`,
+          userEmail: this.user.email,
+          userCellNumber: this.user.cellNumber,
+          userGender: this.user.gender,
+          userLocation: this.user.location
+        })
       }
     })
+
   }
 
   getCurrentUser() {
@@ -45,6 +60,8 @@ export class EditprofilepageComponent implements OnInit {
         userName,
         userSurname,
         location,
+        longitude,
+        latitude,
         dob,
         gender,
         email,
@@ -144,8 +161,7 @@ export class EditprofilepageComponent implements OnInit {
   }
 
   save(){
-    console.log('save')
-    const oldEmail = this.email;
+
     const userName = this.updateForm.controls['userName'].value;
     const userSurname = this.updateForm.controls['userSurname'].value;
     const userEmail = this.updateForm.controls['userEmail'].value;
@@ -153,36 +169,33 @@ export class EditprofilepageComponent implements OnInit {
     const userGender = this.updateForm.controls['userGender'].value;
     const userLocation = this.updateForm.controls['userLocation'].value;
 
-    this.queryAPI(this.email,userName,userSurname,userEmail,userCellNumber,userLocation,userGender).then(res=>{
-      console.log(res);
-    });
+    this.queryAPI(this.originalEmail, userName, userSurname, userEmail, userCellNumber, userLocation, userGender).subscribe({
+      next: (data: any) => {
+        //forward back to the profile page
+        this.router.navigate(['profile'])
+      }
+    })
+
   }
 
-  queryAPI(oldemail: string, name: string, surname: string, email: string, cell: string, location: string,  gender: string){
-    return new Promise((resolve, )=>{
-      if(!this.apollo.client === undefined){
-        this.apollo
-          .mutate({
-            mutation: gql`
-                mutation{
-                updateProfile(userDto: {
-                  oldemail: "${oldemail}",
-                  userName: "${name}",
-                  userSurname: "${surname}",
-                  location: "${location}",
-                  gender: "${gender}",
-                  email: "${email}",
-                  cellNumber: "${cell}",
-              }){
-                message
-              }
-            }
-          `,
-          })
-          .subscribe ((result) => {
-            resolve(result);
-          });
-      }
+  queryAPI(oldemail: string, name: string, surname: string, email: string, cell: string, location: string,  gender: string) {
+    return this.apollo
+      .mutate({
+        mutation: gql`
+            mutation{
+            updateProfile(userDto: {
+              oldemail: "${oldemail}",
+              userName: "${name}",
+              userSurname: "${surname}",
+              location: "${location}",
+              gender: "${gender}",
+              email: "${email}",
+              cellNumber: "${cell}",
+          }){
+            message
+          }
+        }
+      `,
     })
   }
 }
