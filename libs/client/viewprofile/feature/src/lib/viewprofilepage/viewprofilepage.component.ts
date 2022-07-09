@@ -14,6 +14,8 @@ export class ViewprofilepageComponent implements OnInit {
   displayUser! : any;
   showlogs = false;
 
+  currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
+
   constructor(private apollo : Apollo, private cookieService: CookieService){
     this.email = cookieService.get('email');
   } 
@@ -97,7 +99,6 @@ export class ViewprofilepageComponent implements OnInit {
   convertSpeed(data : any) : string {
 
     const mps = data.speed;
-    console.log('activity type', data.activityType)
     if (data.activityType == 'Running') {
       let minperkm =  16.666666666667 / Number(mps);
       let min = 0;

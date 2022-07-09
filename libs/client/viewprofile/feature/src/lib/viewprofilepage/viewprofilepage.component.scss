@@ -3,49 +3,16 @@ mat-card {
     width: 90vw;
     margin: 2em auto;
     padding: 2em auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -0%);
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
     margin-bottom: 150px !important;
 }
 
 .text-center {
     text-align: center;
-}
-
-.submitButton {
-    text-align: center;
-    width: 100%;
-}
-
-.forgotpassword {
-    text-align: right;
-    text-decoration: underline;
-}
-
-mat-form-field {
-    display: block;
-}
-
-#signup {
-    width: 100%;
-    background-color: #1b1a1b !important;
-}
-
-.logIn {
-    text-align: right;
-    margin-top: 1%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-.logInLink {
-    text-decoration: underline;
-    color: #4350af;
-    margin-left: 1%;
 }
 
 .logInLink:hover {
@@ -59,37 +26,41 @@ mat-form-field {
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
 }
 
-.b { color: #4285F4; }
-.r { color: #EA4335; }
-.y { color: #FBBC05; }
-.g { color: #34A853; }
+.profilecol {
 
-p {
-    font-size: 12px !important;
 }
 
-.fullhint {
-    width: 100% !important;
-}
-
-#background {
-    height: 100vh !important;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-mat-error {
-    text-align: right;
-}
-
-mat-hint {
-    text-align: right !important;
+.statscol {
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 p {
     word-break: break-all;
     white-space: normal;
+}
+
+.green {
+    background-color: green;
+}
+
+.blue {
+    background-color: lightblue;
+}
+
+.pink {
+    background-color: pink;
+}
+
+#profilepic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
 }
