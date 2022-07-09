@@ -19,5 +19,19 @@ export class UpdateUser {
     password: string
     @Field ({nullable:true})
     distance: number
+    @Field ({nullable:true})
+    longitude: number
+    @Field ({nullable:true})
+    latitude: number
+    @Field({nullable:true})
+    running: boolean
+    @Field({nullable:true})
+    riding: boolean
+    @Field({nullable:true})
+    swimming: boolean
+    @Field({nullable:true})
+    weightLifting: boolean
+    @Field({nullable:true})
+    bio: string
     
 }
