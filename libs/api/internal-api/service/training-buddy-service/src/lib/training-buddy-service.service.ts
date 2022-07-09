@@ -492,7 +492,9 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-            const val = await this.repoService.sendInvite(email,arr,startTime)
+            const workout = await this.getWorkout(email,startTime);
+            console.log(workout) ;
+            const val = await this.repoService.sendInvite(email,arr,workout)
             if(val){
                 item.message = "Success";
                 return item
@@ -517,7 +519,8 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-            const val = await this.repoService.acceptInvite(email,sender,startTime)
+            const workout = await this.getWorkout(sender,startTime);
+            const val = await this.repoService.acceptInvite(email,sender,workout)
             if(val){
                 item.message = "Success";
                 return item
