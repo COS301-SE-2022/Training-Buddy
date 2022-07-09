@@ -114,6 +114,14 @@ const routes: Routes = [
   },
 
   {
+    path: 'schedule',
+    loadChildren: () =>
+      import('@training-buddy/client/schedule/feature').then(
+        m => m.ClientScheduleFeatureModule
+      )
+  },
+
+  {
     path: '**',
     loadChildren: () =>
       import('@training-buddy/client/pagenotfound').then(
