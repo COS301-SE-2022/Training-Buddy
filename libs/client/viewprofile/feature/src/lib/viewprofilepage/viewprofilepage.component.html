@@ -3,55 +3,81 @@
 
     <mat-grid-list cols="1" rows="1" rowHeight="2:1">
     
-        <mat-card>
+        <!-- <mat-grid-tile> -->
+            <mat-card>
     
-            <mat-card-content>
-
-               <div class="max-w-md bg-white rounded-xl shadow-md overflow-hidden max-w-2xl">
-                    <div class="">
-                        <div class="shrink-0">
-                            <img class="object-cover h-full w-full" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
-                        </div>
-                        <div class="mx-4 mb-3 mt-2">
-                            <h1 class="">{{displayUser?.userName}} {{displayUser?.userSurname}}</h1> 
-                            <h3>{{displayUser?.location}}</h3>
-                            <p class="mt-2 text-slate-500">{{displayUser?.bio}}</p>
-                            <p class="mt-2 text-slate-500">{{getSportString(displayUser)}}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="my-3 ml-3 acceptTitle">
-                    <h3>Activity Logs:</h3> 
-                </div>
-
-                <ng-container *ngIf="showlogs;"; else nologs>
-                    <div *ngFor="let ac of logList" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
-                        <div class="m-3">
-                            <div class="flex justify-around">
-                                <h4>{{ ac.name }}</h4>
-                                <h4>{{ ac.date }}</h4>
+                <mat-card-content>
+    
+                   <!-- <div class="max-w-md bg-white rounded-xl shadow-md overflow-hidden max-w-2xl">
+                        <div class="">
+                            <div class="shrink-0">
+                                <img class="object-cover h-full w-full" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
                             </div>
-                            <div class="flex justify-between">
-                                <h4>{{ ac.time }}</h4>
-                                <h4>{{ ac.distance }}</h4>
-                                <h4>{{ ac.speed }}</h4>
+                            <div class="mx-4 mb-3 mt-2">
+                                <h1 class="">{{displayUser?.userName}} {{displayUser?.userSurname}}</h1> 
+                                <h3>{{displayUser?.location}}</h3>
+                                <p class="mt-2 text-slate-500">{{displayUser?.bio}}</p>
+                                <p class="mt-2 text-slate-500">{{getSportString(displayUser)}}</p>
                             </div>
                         </div>
                     </div>
-
-                </ng-container>
-
-                <ng-container #nologs>
-                    <div class="text-center pb-3">
-                        <mat-hint>No activities have been done</mat-hint>
+    
+                    <div class="my-3 ml-3 acceptTitle">
+                        <h3>Activity Logs:</h3> 
                     </div>
-                </ng-container>
     
-            </mat-card-content>
+                    <ng-container *ngIf="showlogs;"; else nologs>
+                        <div *ngFor="let ac of logList" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
+                            <div class="m-3">
+                                <div class="flex justify-around">
+                                    <h4>{{ ac.name }}</h4>
+                                    <h4>{{ ac.date }}</h4>
+                                </div>
+                                <div class="flex justify-between">
+                                    <h4>{{ ac.time }}</h4>
+                                    <h4>{{ ac.distance }}</h4>
+                                    <h4>{{ ac.speed }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
     
-        </mat-card>
+                    <ng-container #nologs>
+                        <div class="text-center pb-3">
+                            <mat-hint>No activities have been done</mat-hint>
+                        </div>
+                    </ng-container> -->
+    
+
+
+                    <div class="row">
+    
+                        <!-- profile image circle -->
+                        <div class="profilecol">
+                            
+                            <div  id="profilepic" class="my-2" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+
+                        </div>
+    
+                        <!-- content to the right of the image -->
+                        <div class="statscol row blue">
+                            
+                            <!-- stat col -->
+                            <div>one</div>
+
+                        </div>
+    
+                    </div>
+    
+    
+        
+                </mat-card-content>
+        
+            </mat-card>
+        <!-- </mat-grid-tile> -->
 
     </mat-grid-list>
+
+    <!-- <h1 class="p-8">test</h1> -->
 
 <training-buddy-navbar class="navfix"></training-buddy-navbar>
