@@ -54,7 +54,8 @@ export class EditprofilepageComponent implements OnInit {
   }
 
   getCurrentUser() {
-    return this.apollo.watchQuery({
+    return this.apollo
+    .query({
       query: gql`query{
         getOne(
           email: "${this.cookie.get('email')}",
@@ -73,7 +74,7 @@ export class EditprofilepageComponent implements OnInit {
         buddies
       }
       }`
-    }).valueChanges
+    })
   }
   
   //Google geocoding functions
