@@ -20,7 +20,7 @@ export class ViewprofilepageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getCurrentUser().valueChanges.subscribe({
+    this.getCurrentUser().subscribe({
       next: (data : any) => {
         this.displayUser = data.data.getOne;
       }
@@ -42,7 +42,7 @@ export class ViewprofilepageComponent implements OnInit {
 
   getCurrentUser() {
     return this.apollo
-    .watchQuery ({
+    .query({
       query: gql`query{getOne(
         email:"${this.email}" 
       ){

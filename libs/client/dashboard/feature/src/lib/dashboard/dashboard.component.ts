@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.getIncomingRequests().valueChanges.subscribe({
+    this.getIncomingRequests().subscribe({
       next: (data: any) => {
         console.log(data)
         this.pendingrequests = false;
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
 
   getIncomingRequests() {
     return this.apollo
-      .watchQuery({
+      .query({
         query: gql`query{
           getIncoming(
             email: "${this.email}",
@@ -119,7 +119,7 @@ export class DashboardComponent implements OnInit {
 
   getOutgoing() {
     return this.apollo
-      .watchQuery({
+      .query({
         query: gql`query{
           getOutgoing(
             email: "${this.email}",
@@ -141,12 +141,12 @@ export class DashboardComponent implements OnInit {
         }
         `,
         //pollInterval: 1000
-      }).valueChanges;
+      });
   }
 
   getBuddieRecommended() {
     return this.apollo
-      .watchQuery({
+      .query({
         query: gql`query{
           findAll(
             email: "${this.email}",
@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit {
         }
         `,
         //pollInterval: 25000
-      }).valueChanges;
+      });
   }
 
   checkIfInOutgoing(email : string) : boolean {
