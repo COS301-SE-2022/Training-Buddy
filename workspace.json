@@ -26,6 +26,7 @@
     "client-example-feature": "libs/client/example/feature",
     "client-login-feature": "libs/client/login/feature",
     "client-pagenotfound": "libs/client/pagenotfound",
+    "client-schedule-feature": "libs/client/schedule/feature",
     "client-scheduleworkout-feature": "libs/client/scheduleworkout/feature",
     "client-settings-feature": "libs/client/settings/feature",
     "client-shared-components-navbar-ui": "libs/client/shared/components/navbar/ui",

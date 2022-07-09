@@ -81,6 +81,9 @@
       "@training-buddy/client/pagenotfound": [
         "libs/client/pagenotfound/src/index.ts"
       ],
+      "@training-buddy/client/schedule/feature": [
+        "libs/client/schedule/feature/src/index.ts"
+      ],
       "@training-buddy/client/scheduleworkout/feature": [
         "libs/client/scheduleworkout/feature/src/index.ts"
       ],
