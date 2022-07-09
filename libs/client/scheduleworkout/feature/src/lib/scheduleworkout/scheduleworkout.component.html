@@ -1,6 +1,8 @@
 <!-- <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}"> -->
 
-    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+    <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
+
+    <training-buddy-back-navbar title="Add Activity"></training-buddy-back-navbar>
     
     <mat-grid-list cols="1" rows="1" rowHeight="2:1">
     
@@ -10,7 +12,7 @@
     
               <form [formGroup]="scheduleWorkout">
     
-                <h1 class="text-center">Schedule Workout</h1>
+                <!-- <h1 class="text-center">Schedule Workout</h1> -->
 
                 <!-- activity name -->
                 <mat-form-field appearance="outline">
@@ -115,7 +117,7 @@
                 </div>
 
                 <div class="submitButton mt-3">
-                    <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add Activity</button>
+                    <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add</button>
                 </div>
     
               </form>
