@@ -110,16 +110,40 @@ export class TrainingBuddyApiResolver {
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
         return this.trainingBuddyService.activitySchedule(activitySchedule)
     }
-    /**
-     * 
-     * @param userEmail 
-     * @param otherEmail 
-     * @returns ErrorMessage
-     * tested 
-     */
+   
     @Mutation(()=>ErrorMessage)
     sendRequest(@Args('Sender')userEmail: string , @Args('Receiver')otherEmail: string){
-        return this.trainingBuddyService.sendRequest(userEmail, otherEmail);
+        const val = this.trainingBuddyService.sendRequest(userEmail, otherEmail);
+        this.subscriptionsRequest(userEmail, otherEmail)
+        return val
+    }
+    /**
+     * 
+     * @returns [userEntity]
+     */
+    @Subscription(()=>[UserEntity])
+    getIncomingSub(){
+        const val = pubsub.asyncIterator( "getIncomingSub")
+        return val;
+    }
+    /**
+     * 
+     * @returns [userEntity]
+     */
+    @Subscription(()=>[UserEntity])
+    getOutgoingSub(){
+        const val = pubsub.asyncIterator("getOutgoingSub")
+        return val;
+    }
+    /**
+     * 
+     * @returns [UserEntity]
+     */
+    @Subscription(()=>[UserEntity])
+
+    getConnectionsSub(){
+        const val = pubsub.asyncIterator("getConnectionsSub")
+        return val;
     }
     /**
      * 
@@ -130,7 +154,9 @@ export class TrainingBuddyApiResolver {
      */
     @Mutation(()=>ErrorMessage)
     reject(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
-        return this.trainingBuddyService.reject(userEmail, otherEmail);
+        const val = this.trainingBuddyService.reject(userEmail, otherEmail);
+        this.subscriptionsRequest(userEmail, otherEmail)
+        return val;
     }
     /**
      * 
@@ -141,7 +167,9 @@ export class TrainingBuddyApiResolver {
      */
     @Mutation(()=>ErrorMessage)
     accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
-        return this.trainingBuddyService.accept(userEmail, otherEmail);
+        const val = this.trainingBuddyService.accept(userEmail, otherEmail);
+        this.subscriptionsRequest(userEmail, otherEmail)
+        return val;
     }
     /**
      * 
@@ -150,10 +178,10 @@ export class TrainingBuddyApiResolver {
      * tested
      */
     @Query(()=>[UserEntity])
-    @Subscription(()=>[UserEntity])
-    async getIncoming(@Args("email")userEmail:string){
-        return pubsub.asyncIterator(await this.trainingBuddyService.getIncoming(userEmail));
+    getIncoming(@Args("email")userEmail:string){
+        return  this.trainingBuddyService.getIncoming(userEmail);
     }
+   
     /**
      * 
      * @param userEmail 
@@ -224,7 +252,9 @@ export class TrainingBuddyApiResolver {
      */
     @Mutation(()=>ErrorMessage)
     sendInvite(@Args("email")userEmail:string ,@Args("receiver")receiver:string ,@Args("startTime")startTime:string){
-        return this.trainingBuddyService.sendInvite(userEmail,receiver, startTime);
+        const val = this.trainingBuddyService.sendInvite(userEmail,receiver, startTime);
+        this.subscriptionInvites(userEmail,receiver, startTime)
+        return val;
     }
     /**
      * 
@@ -245,7 +275,9 @@ export class TrainingBuddyApiResolver {
      */
     @Mutation(()=>ErrorMessage)
     acceptInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("startTime")startTime:string){
-        return this.trainingBuddyService.acceptInvite(userEmail , sender , startTime);
+        const val = this.trainingBuddyService.acceptInvite(userEmail,sender, startTime);
+        this.subscriptionInvites(userEmail,sender, startTime)
+        return val;
     }
     /**
      * 
@@ -256,7 +288,9 @@ export class TrainingBuddyApiResolver {
      */
     @Mutation(()=>ErrorMessage)
     rejectInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("startTime")startTime:string){
-        return this.trainingBuddyService.rejectInvite(userEmail , sender , startTime);
+        const val = this.trainingBuddyService.rejectInvite(userEmail,sender, startTime);
+        this.subscriptionInvites(userEmail,sender, startTime)
+        return val;
     }
     /**
      * 
@@ -285,6 +319,61 @@ export class TrainingBuddyApiResolver {
     @Query(()=>ResponseWorkout)
     getWorkout(@Args("userEmail")userEmail:string ,@Args("startTime")startTime:string){
         return this.trainingBuddyService.getWorkout(userEmail, startTime);
+    }
+    @Mutation(()=> ErrorMessage)
+    saveImage(@Args("email")userEmail:string ,@Args("Image")image:string){
+        return this.trainingBuddyService.saveImage(userEmail, image);
+    }
+     /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @returns ErrorMessage
+     * tested 
+     */
+      subscriptionsRequest(userEmail: string, otherEmail: string){
+        const data1 =this.trainingBuddyService.getIncoming(otherEmail);
+        const data2 =this.trainingBuddyService.getOutgoing(userEmail);
+        const data3 =this.trainingBuddyService.getConnections(userEmail);
+        const data4 =this.trainingBuddyService.getConnections(otherEmail);
+      
+        pubsub.publish( "getIncomingSub",{[ "getIncomingSub"]:data1})
+        pubsub.publish( "getOutgoingSub",{[ "getOutgoingSub"]:data2})
+        pubsub.publish( "getConnectionsSub",{[ "getConnectionsSub"]:data3})
+        pubsub.publish( "getConnectionsSub",{[ "getConnectionsSub"]:data4})
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @param otherEmail 
+     * @param startTime 
+     */
+    subscriptionInvites(userEmail:string , otherEmail:string, startTime: string){
+        const data1 =this.trainingBuddyService.getIncomingInvites(otherEmail);
+        const data2 =this.trainingBuddyService.getOutgoingInvites(userEmail);
+        const data3 =this.trainingBuddyService.getWorkout(userEmail, startTime);
+        pubsub.publish( "getIncomingInviteSub",{[ "getIncomingInviteSub"]:data1})
+        pubsub.publish( "getOutgoingInviteSub",{[ "getOutgoingInviteSub"]:data2})
+        pubsub.publish( "getWorkoutSub",{[ "getWorkoutSub"]:data3})
+       
+
+
+    }
+    @Subscription(()=>[Invite])
+    getIncomingInviteSub(){
+        const val = pubsub.asyncIterator("getIncomingInviteSub")
+        return val;
+    }
+
+    @Subscription(()=>[Invite])
+    getOutgoingInviteSub(){
+        const val = pubsub.asyncIterator("getOutgoingInviteSub")
+        return val;
+    }
+    @Subscription(()=>[ResponseWorkout])
+    getWorkoutSub(){
+        const val = pubsub.asyncIterator("getWorkoutSub")
+        return val;
     }
 
 
