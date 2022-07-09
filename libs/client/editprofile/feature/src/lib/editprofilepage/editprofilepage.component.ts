@@ -19,9 +19,15 @@ export class EditprofilepageComponent implements OnInit {
   latitude = 0;
   originalEmail = '';
   oldLocation = '';
+  base64File! : any;
+  currentImage! : string;
+  newImage! : File;
+  fileuploadflag = false; //assume the user won't upload a new image
+  fileuploaderror = '';
 
   constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService, private router : Router) {
     this.frmBuilder = frm;
+    this.currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
   }
 
   ngOnInit(): void {
@@ -163,45 +169,104 @@ export class EditprofilepageComponent implements OnInit {
     return null;
   }
 
+  fileattatched(event : any) {
+
+    if (event.target.files.length == 0 && this.newImage != null)
+      return;
+
+    const file = event.target.files[0];
+    // this.submit = true;
+    this.fileuploadflag = false;
+    const re = /^image*/;
+    if (!file.type.match(re)) {
+      //image is not valid here due to mime:
+      //check if a previous image was uploaded:
+      if (this.newImage != null) {
+        this.fileuploaderror = 'Only images are supported.';
+        this.newImage = file;
+        this.fileuploadflag = true;
+        return; //this will ignore files that are not images
+      }
+      //no previous image was uploaded:
+      this.fileuploaderror = 'Only images are supported.';
+      this.fileuploadflag = true;
+      return;
+    }
+
+    this.newImage = event.target.files[0];
+    
+    const reader = new FileReader();
+    reader.onload = (event:any) => {
+        this.currentImage = event.target.result;
+    }
+    reader.readAsDataURL(this.newImage);
+
+  }
+
   save(){
 
-    const userNameSurname = this.updateForm.controls['userNameSurname'].value;
-    const userName = userNameSurname.split(' ')[0];
-    const userSurname = userNameSurname.split(' ')[1];
-    const userEmail = this.updateForm.controls['userEmail'].value;
-    const userCellNumber = this.updateForm.controls['userCellNumber'].value;
-    const userGender = this.updateForm.controls['userGender'].value;
-    const userLocation = this.updateForm.controls['userLocation'].value;
+    const NameSurname = this.updateForm.controls['userNameSurname'].value;
+    const Name = NameSurname.split(' ')[0];
+    const Surname = NameSurname.split(' ')[1];
+    const Email = this.updateForm.controls['userEmail'].value;
+    const CellNumber = this.updateForm.controls['userCellNumber'].value;
+    const Gender = this.updateForm.controls['userGender'].value;
+    const Location = this.updateForm.controls['userLocation'].value;
 
-    // console.log(this.originalEmail, userName, userSurname, userEmail, userCellNumber, userLocation, userGender, this.longitude, this.latitude)
-    
-    this.queryAPI(this.originalEmail, userName, userSurname, userEmail, userCellNumber, userLocation, userGender).subscribe({
-      next: (data: any) => {
-        //forward back to the profile page
-        this.router.navigate(['profile'])
-      }
-    })
-
-  }
-
-  queryAPI(oldemail: string, name: string, surname: string, email: string, cell: string, location: string,  gender: string) {
-    return this.apollo
-      .mutate({
-        mutation: gql`
-            mutation{
-            updateProfile(userDto: {
-              oldemail: "${oldemail}",
-              userName: "${name}",
-              userSurname: "${surname}",
-              location: "${location}",
-              gender: "${gender}",
-              email: "${email}",
-              cellNumber: "${cell}",
-          }){
-            message
+    if (this.newImage != null) {
+      //update to the photo
+      this.Base64encode(this.newImage).then(encode => {
+        this.updateUser(Name, Surname, Email, CellNumber, Gender, Location, encode).subscribe({
+          next: () => {
+            this.router.navigate(['settings']);
           }
+        });
+      });
+
+    } else {
+
+      //no update to the photo
+      this.updateUser(Name, Surname, Email, CellNumber, Gender, Location, null).subscribe({
+        next: () => {
+          this.router.navigate(['settings']);
         }
-      `,
+      });
+
+    }
+
+  }
+
+  updateUser(Name : string, Surname : string, Email : string, CellNumber : string, Gender : string, Location : string, newImage : any) {
+
+    //THIS QUERY MUST BE UPDATED TO WORK WITH UPDATING THE PROFILE IMAGE and LONG AND LAT
+    //use this.longitude and this.latitude for the new gps-cords
+
+    return this.apollo
+        .mutate({
+          mutation: gql`
+              mutation{
+              updateProfile(userDto: {
+                oldemail: "${this.originalEmail}",
+                userName: "${Name}",
+                userSurname: "${Surname}",
+                location: "${Location}",
+                gender: "${Gender}",
+                email: "${Email}",
+                cellNumber: "${CellNumber}",
+            }){
+              message
+            }
+          }
+        `,
+      })
+  }
+
+  Base64encode(file : File) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(file);
     })
   }
+
 }
