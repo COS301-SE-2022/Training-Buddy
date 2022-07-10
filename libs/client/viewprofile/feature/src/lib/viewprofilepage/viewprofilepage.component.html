@@ -1,7 +1,9 @@
 <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
 <training-buddy-settings-navbar></training-buddy-settings-navbar>
 
-    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    <div *ngIf="loading" class="spinner"><mat-spinner></mat-spinner></div>
+
+    <mat-grid-list *ngIf="!loading" cols="1" rows="1" rowHeight="2:1">
     
         <!-- <mat-grid-tile> -->
             <mat-card>
@@ -85,7 +87,8 @@
     
                     </div>
     
-    
+                    <training-buddy-buddies-list></training-buddy-buddies-list>
+                    <training-buddy-log-list></training-buddy-log-list>
         
                 </mat-card-content>
         

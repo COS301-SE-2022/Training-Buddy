@@ -4,6 +4,8 @@ import { ViewprofilepageComponent } from './viewprofilepage/viewprofilepage.comp
 import { ProfileRoutingModule } from './profile-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import {CookieService} from 'ngx-cookie-service';
+import { BuddylistComponent } from './buddylist/buddylist.component';
+import { LoglistComponent } from './loglist/loglist.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -11,7 +13,9 @@ import {CookieService} from 'ngx-cookie-service';
     UiModule
   ],
   declarations: [
-    ViewprofilepageComponent
+    ViewprofilepageComponent,
+    BuddylistComponent,
+    LoglistComponent
   ],
   providers: [
     CookieService

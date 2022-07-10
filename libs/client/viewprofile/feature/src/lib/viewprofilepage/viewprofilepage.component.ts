@@ -9,6 +9,8 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class ViewprofilepageComponent implements OnInit {
 
+  loading = true;
+
   logList : any[] = [];
   email! : string;
   displayUser! : any;
@@ -25,6 +27,7 @@ export class ViewprofilepageComponent implements OnInit {
     this.getCurrentUser().subscribe({
       next: (data : any) => {
         this.displayUser = data.data.getOne;
+        this.loading = false;
       }
     })
 
@@ -46,7 +49,7 @@ export class ViewprofilepageComponent implements OnInit {
     return this.apollo
     .query({
       query: gql`query{getOne(
-        email:"${this.email}" 
+        email:"${this.email}"
       ){
           userName,
           userSurname,
