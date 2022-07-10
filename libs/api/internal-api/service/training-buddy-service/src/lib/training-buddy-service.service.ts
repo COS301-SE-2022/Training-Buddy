@@ -17,6 +17,7 @@ export class TrainingBuddyServiceService {
      * @returns null || UserEntity
      */
     async validateUser(email: string , password: string):Promise<any> {
+        File 
         const user = await this.findOne(email);
         let valid = false;
         if(user)
@@ -165,7 +166,28 @@ export class TrainingBuddyServiceService {
                 response = await this.repoService.updateUserSurname(user.userSurname, user.oldemail);
             }
             if(user.distance){
-               // response = await this.repoService.updateUserDistance(user.userSurname, user.distance);
+               response = await this.repoService.updateDistance( user.distance, user.userSurname);
+            }
+            if(user.longitude){
+                response = await this.repoService.updateLongitude( user.longitude, user.userSurname);
+            }
+            if(user.latitude){
+                response = await this.repoService.updateLatitude( user.latitude, user.userSurname);
+            }
+            if(user.running){
+                response = await this.repoService.updateRunning( user.running, user.userSurname);
+            }
+            if(user.riding){
+                response = await this.repoService.updateRiding( user.riding, user.userSurname);
+            }
+            if(user.swimming){
+                response = await this.repoService.updateSwimming( user.swimming,user.userSurname);
+            }
+            if(user.weightLifting){
+                response = await this.repoService.updateLifting( user.weightLifting,user.userSurname);
+            }
+            if(user.bio){
+                response = await this.repoService.updateBio( user.bio, user.userSurname);
             }
             if(response){
                 item.message ="Successful";
@@ -307,6 +329,7 @@ export class TrainingBuddyServiceService {
             return item;
         }
     }
+
     /**
      * 
      * @param userEmail 
@@ -322,6 +345,13 @@ export class TrainingBuddyServiceService {
             return item;
         }
         else{
+            const check = await this.getIncoming(otherEmail);
+            for(let i = 0; i < check.length; i++){
+                if(check[i].email == userEmail){
+                    item.message = "Failure Sent Request already"
+                    return item;
+                }
+            }
             await this.repoService.makeConnectionRequest(userEmail, otherEmail);
             item.message = "Success User Connection Sent"
             return item;
@@ -376,6 +406,7 @@ export class TrainingBuddyServiceService {
         }
         else return arr;
     }
+
     /**
      * 
      * @param userEmail 
@@ -593,6 +624,36 @@ export class TrainingBuddyServiceService {
             return await this.repoService.getWorkout(userEmail,startTime);
            
         }
+    }
+    async saveImage(userEmail:string,image:string){
+        // let base64data;
+        // const fileReaderInstance = new FileReader();
+        // fileReaderInstance.readAsDataURL(image); 
+        // fileReaderInstance.onload = () => {
+        //     base64data = fileReaderInstance.result;     
+        //     console.log(base64data)  
+        // } 
+         const item = new ErrorMessage; 
+        item.message= "Not Finished"
+        return item.message;
+        //TODO 
+        // const user = await this.findOne(userEmail);
+        // const item = new ErrorMessage;
+        // if(!user){
+        //     item.message = "Failure User Not Found";
+        //  }else{
+        //     const val = await this.repoService.
+        //     if(val){
+        //         item.message = "Success";
+        //         return item
+        //     }else{
+        //         item.message = "Failure";
+        //         return item
+        //     }
+            
+        //  }
+
+
     }
 
 
