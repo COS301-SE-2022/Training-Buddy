@@ -2,6 +2,7 @@ import { animate, keyframes, style, transition, trigger } from '@angular/animati
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'training-buddy-profile-page',
@@ -68,7 +69,6 @@ export class ViewprofilepageComponent implements OnInit {
 
   loading = true;
   toggle = true;
-  logList : any[] = [];
   email! : string;
   displayUser! : any;
 
@@ -87,16 +87,14 @@ export class ViewprofilepageComponent implements OnInit {
       }
     })
 
-    this.getActivityLogs().subscribe(
-      {
-        next: (res : any) => {
-          res.data.getLogs.map((el : any) => {
-            const temp = this.convertToCard(el);
-            this.logList.push(temp);
-          });
-        },
-      }
-    );
+
+
+    // this.getBuddies().subscribe({
+    //   next: (data : any) => {
+    //     // this.buddies = data.data.getBuddies;
+    //     this.buddies.next(data.data.getConnections);
+    //   }
+    // })
 
   }
 
@@ -140,82 +138,6 @@ export class ViewprofilepageComponent implements OnInit {
       if (i < output.length - 1) retString += ', ';
     }
     return retString;
-  }
-
-  convertToCard(data : any) : any {
-    const date = new Date(data.dateComplete);
-    return {
-      name: data.name,
-      type: data.activityType,
-      distance: this.metersToKm(data.distance),
-      speed: this.convertSpeed(data),
-      time: this.secondsToString(data.time),
-      date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
-    }
-  }
-
-  convertSpeed(data : any) : string {
-
-    const mps = data.speed;
-    if (data.activityType == 'Running') {
-      let minperkm =  16.666666666667 / Number(mps);
-      let min = 0;
-      while (minperkm > 1) {
-        min++;
-        minperkm--;
-      }
-      const secs = Math.round((((Math.abs(minperkm) * 100) / 100) * 60));
-      if (secs.toString().length != 1)
-        return min.toString() + ':' + secs.toString() + ' min/km';
-      return min.toString() + ':' + secs.toString() + '0' + ' min/km';
-    }
-
-    if (data.activityType == 'Riding') {
-      return (Math.round(((mps * 3.6) * 100)) / 100).toString() + ' km/h';
-    }
-
-    if (data.activityType == 'Swimming') {
-      return '2:00 min/100m';
-    }
-
-    return ''; //Weight Lifting
-  }
-
-  metersToKm(data : any) : string {
-    return (Math.round(Number(data / 1000) * 100) / 100).toString() + 'km';
-  }
-
-  secondsToString(data : number) : string {
-    data /= 60 //convert to minutes
-    let hours = 0;
-    while (data >= 60) {
-      hours++;
-      data -= 60;
-    }
-    const mins = Math.round(data);
-    if (hours == 0)
-      return `${mins} mins`;
-    return `${hours} hours ${mins} mins`;
-  }
-
-  getActivityLogs() {
-    
-    return this.apollo
-        .query ({
-          query: gql`query{getLogs(
-            email:"${this.email}" 
-          ){
-            user,
-            activityType, 
-            dateComplete,
-            distance,
-            name,
-            speed,
-            time
-          }
-          }
-          `,
-        })
   }
 
   toggleBuddies() {

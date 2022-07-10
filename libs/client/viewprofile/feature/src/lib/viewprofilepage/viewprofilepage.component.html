@@ -9,48 +9,6 @@
             <mat-card>
     
                 <mat-card-content>
-    
-                   <!-- <div class="max-w-md bg-white rounded-xl shadow-md overflow-hidden max-w-2xl">
-                        <div class="">
-                            <div class="shrink-0">
-                                <img class="object-cover h-full w-full" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
-                            </div>
-                            <div class="mx-4 mb-3 mt-2">
-                                <h1 class="">{{displayUser?.userName}} {{displayUser?.userSurname}}</h1> 
-                                <h3>{{displayUser?.location}}</h3>
-                                <p class="mt-2 text-slate-500">{{displayUser?.bio}}</p>
-                                <p class="mt-2 text-slate-500">{{getSportString(displayUser)}}</p>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="my-3 ml-3 acceptTitle">
-                        <h3>Activity Logs:</h3> 
-                    </div>
-    
-                    <ng-container *ngIf="showlogs;"; else nologs>
-                        <div *ngFor="let ac of logList" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
-                            <div class="m-3">
-                                <div class="flex justify-around">
-                                    <h4>{{ ac.name }}</h4>
-                                    <h4>{{ ac.date }}</h4>
-                                </div>
-                                <div class="flex justify-between">
-                                    <h4>{{ ac.time }}</h4>
-                                    <h4>{{ ac.distance }}</h4>
-                                    <h4>{{ ac.speed }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-    
-                    <ng-container #nologs>
-                        <div class="text-center pb-3">
-                            <mat-hint>No activities have been done</mat-hint>
-                        </div>
-                    </ng-container> -->
-    
-
 
                     <div class="row">
     
@@ -87,6 +45,7 @@
     
                     </div>
 
+                    <!-- toggle page -->
                     <div class="row space-around mt-5">
                         <div class="fullwidth text-center">
                             <h4 (click)="toggleBuddies()" class="link">Buddies</h4>
@@ -100,6 +59,7 @@
                         </div>
                     </div>
     
+                    <!-- child components -->
                     <training-buddy-buddies-list *ngIf="toggle" [@fadeIn]></training-buddy-buddies-list>
                     <training-buddy-log-list *ngIf="!toggle" [@fadeIn]></training-buddy-log-list>
         
