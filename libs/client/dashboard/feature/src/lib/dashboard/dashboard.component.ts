@@ -240,21 +240,21 @@ export class DashboardComponent implements OnInit {
       query: gql`query{
         getConnections(
           email: "${this.email}",
-      ){
-        userName,
-        userSurname,
-        location,
-        longitude,
-        latitude,
-        stravaToken,
-        dob,
-        gender,
-        email,
-        cellNumber,
-        bio,
-        metrics{lift , ride , run , swim},
-        buddies
-      }
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+        }
       }
       `,
     });
