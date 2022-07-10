@@ -26,6 +26,23 @@ mat-card {
     margin-bottom: 150px !important;
 }
 
+.link:hover {
+    cursor: pointer;
+}
+
+.hrlight {
+    height: 1.5px;
+    background-color: #e4e6eb;
+    border: none;
+}
+
+.hrdark {
+    height: 1.5px;
+    background-color: #1b1a1b !important;
+    border: none;
+    // width:
+}
+
 .text-center {
     text-align: center;
 }
@@ -38,8 +55,24 @@ h1, h3 {
     margin-bottom: 0%;
 }
 
+h4 {
+    margin-bottom: 3%;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
 ::ng-deep .mat-form-field-wrapper {
     margin-bottom: -1.25em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.space-around {
+    justify-content: space-around;
 }
 
 .row {
@@ -65,18 +98,6 @@ h1, h3 {
 p {
     word-break: break-all;
     white-space: normal;
-}
-
-.green {
-    background-color: green;
-}
-
-.blue {
-    background-color: lightblue;
-}
-
-.pink {
-    background-color: pink;
 }
 
 #profilepic {

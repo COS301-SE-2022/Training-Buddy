@@ -1,3 +1,4 @@
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
@@ -5,16 +6,71 @@ import {CookieService} from 'ngx-cookie-service';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
-  styleUrls: ['./viewprofilepage.component.scss']
+  styleUrls: ['./viewprofilepage.component.scss'],
+  animations: [
+
+    trigger(
+      'swipeRight', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              transform: 'translate3d(-100%, 0, 0)',
+              visibility: 'visible'
+            }),
+            style({
+              transform: 'translate3d(0, 0, 0)'
+            })
+        ]))
+        ]),
+        transition(':leave', [
+          
+        ])
+      ]
+    ),
+
+    trigger(
+      'swipeLeft', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              transform: 'translate3d(100%, 0, 0)',
+              visibility: 'visible'
+            }),
+            style({
+              transform: 'translate3d(0, 0, 0)'
+            })
+        ]))
+        ]),
+        transition(':leave', [
+          
+        ])
+      ]
+    ),
+
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(300, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ])
+      ]
+    )
+
+  ]
 })
 export class ViewprofilepageComponent implements OnInit {
 
   loading = true;
-
+  toggle = true;
   logList : any[] = [];
   email! : string;
   displayUser! : any;
-  showlogs = false;
 
   currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
 
@@ -37,7 +93,6 @@ export class ViewprofilepageComponent implements OnInit {
           res.data.getLogs.map((el : any) => {
             const temp = this.convertToCard(el);
             this.logList.push(temp);
-            this.showlogs = true;
           });
         },
       }
@@ -161,6 +216,14 @@ export class ViewprofilepageComponent implements OnInit {
           }
           `,
         })
+  }
+
+  toggleBuddies() {
+    this.toggle = true;
+  }
+
+  toggleLogs() {
+    this.toggle = false;
   }
 
 }
