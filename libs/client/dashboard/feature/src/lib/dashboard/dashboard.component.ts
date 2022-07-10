@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql, Query } from 'apollo-angular';
-import {CookieService} from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-dashboard',
@@ -21,8 +19,6 @@ export class DashboardComponent implements OnInit {
   noBuddies : boolean;
 
   email : string;
-
-  test! : Observable<any>;
 
   constructor(private apollo : Apollo, private cookieService:CookieService ) { 
     this.noBuddies = true;
