@@ -19,6 +19,10 @@ mat-card {
     cursor: pointer;
 }
 
+h1, h3 {
+    margin-bottom: 0%;
+}
+
 ::ng-deep .mat-form-field-wrapper {
     margin-bottom: -1.25em;
 }
@@ -26,6 +30,7 @@ mat-card {
 .row {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .profilecol {
@@ -36,6 +41,10 @@ mat-card {
     width: 100%;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.statsblock {
+    width: 100%;
 }
 
 p {

@@ -17,7 +17,6 @@ export class TrainingBuddyServiceService {
      * @returns null || UserEntity
      */
     async validateUser(email: string , password: string):Promise<any> {
-        File 
         const user = await this.findOne(email);
         let valid = false;
         if(user)
