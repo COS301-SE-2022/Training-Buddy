@@ -6,11 +6,12 @@
     <mat-grid-list *ngIf="!loading" [@fadeIn] cols="1" rows="1" rowHeight="2:1">
     
         <!-- <mat-grid-tile> -->
-            <mat-card>
-    
-                <mat-card-content>
+            <!-- <mat-card> -->
+            <div id="container">
 
-                    <div class="row">
+                <!-- <mat-card-content> -->
+
+                    <div class="row padding">
     
                         <!-- profile image circle -->
                         <div class="profilecol">
@@ -29,12 +30,12 @@
 
                             <div class="row statscol">
 
-                                <div>
+                                <div (click)="toggleBuddiesButton.click()">
                                     <div class="text-center">0</div>
                                     <div>Buddies</div>
                                 </div>
 
-                                <div>
+                                <div (click)="toggleLogsButton.click()">
                                     <div class="text-center">0</div>
                                     <div>Activities</div>
                                 </div>
@@ -48,24 +49,27 @@
                     <!-- toggle page -->
                     <div class="row space-around mt-5">
                         <div class="fullwidth text-center">
-                            <h4 (click)="toggleBuddies()" class="link">Buddies</h4>
+                            <h4 (click)="toggleBuddies()" class="link" #toggleBuddiesButton>Buddies</h4>
                             <ng-container *ngIf="toggle"><hr class="hrdark" [@swipeLeft] /></ng-container>
                             <ng-container *ngIf="!toggle"><hr class="hrlight" /></ng-container>
                         </div>
                         <div class="fullwidth text-center">
-                            <h4 (click)="toggleLogs()" class="link">Activities</h4>
+                            <h4 (click)="toggleLogs()" class="link" #toggleLogsButton>Activities</h4>
                             <ng-container *ngIf="toggle"><hr class="hrlight" /></ng-container>
                             <ng-container *ngIf="!toggle" ><hr class="hrdark" [@swipeRight]/></ng-container>
                         </div>
                     </div>
     
                     <!-- child components -->
-                    <training-buddy-buddies-list *ngIf="toggle" [@fadeIn]></training-buddy-buddies-list>
-                    <training-buddy-log-list *ngIf="!toggle" [@fadeIn]></training-buddy-log-list>
+                    <div class="padding">
+                        <training-buddy-buddies-list *ngIf="toggle" [@fadeIn]></training-buddy-buddies-list>
+                        <training-buddy-log-list *ngIf="!toggle" [@fadeIn]></training-buddy-log-list>
+                    </div>
         
-                </mat-card-content>
-        
-            </mat-card>
+                <!-- </mat-card-content> -->
+
+            </div>
+            <!-- </mat-card> -->
         <!-- </mat-grid-tile> -->
 
     </mat-grid-list>
