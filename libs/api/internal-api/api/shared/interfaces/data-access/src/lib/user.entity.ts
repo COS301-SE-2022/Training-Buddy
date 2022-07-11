@@ -33,6 +33,4 @@ export class UserEntity {
     buddies: string[] 
     @Field({nullable:true})
     distance: number
-    @Field({nullable:true})
-    id : string
 }

@@ -22,7 +22,7 @@
                 <h4>{{ ac.speed }}</h4>
             </div> -->
 
-            <div class="row align-content cursor" routerLink="{{ buddy.id }}">
+            <div class="row align-content cursor" (click)="viewOtherProfile(buddy.id)">
                 <div class="my-2 buddypic" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
                 <div class="ml-6">
                     <div><h2>{{ buddy?.userName }} {{ buddy?.userSurname }}</h2></div>
@@ -31,7 +31,7 @@
             </div>
 
             <div>
-                <button class="text-center mx-5 button" (click)="openSheet()"><mat-icon>more_horiz</mat-icon></button>
+                <button class="text-center mx-5 button" (click)="openSheet()"><mat-icon *ngIf="checkSelf()">more_horiz</mat-icon></button>
             </div>
 
         </div>

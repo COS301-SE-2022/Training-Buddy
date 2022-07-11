@@ -65,57 +65,28 @@ export class SignupComponent implements OnInit {
     const userDOB = this.signupFrm.controls['userDOB'].value;
     const userCellNumber = this.signupFrm.controls['userCellNumber'].value;
     const userGender = this.signupFrm.controls['userGender'].value;
-    ///////////////////////
     //global vars with location
     //this.longitude
     //this.latitude
     ///////////////////////
 
-    ////////////////
-    //testing values
-    // console.log(userNameSurname);
-    // console.log(userEmail);
-    // console.log(userPassword);
-    // console.log(userDOB );
-    // console.log(userCellNumber);
-    // console.log(userGender);
-    // console.log(this.latitude);
-    // console.log(this.longitude);
-    ////////////////
-
-    ///////////////////////
-    //API CALL HERE........
     this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude)
-    // .then(res => {
-    //   if(res != "User Already Exists failure"){
-    //     //TODO Pop up that the email already exists
-    //       this.cookieService.set('email',userEmail);
-    //      this.router.navigate(['/configureprofile']);
-    //   }
-    // });
     .subscribe({
       next: (data : any) => {
-        console.log(data);
-      },
-      error: (err : any) => {
-        console.log('signup error', err);
+        this.cookieService.set('id', data.data.signup.message);
+        this.cookieService.set('email', userEmail);
+        this.router.navigate(['/configureprofile']);
       }
     })
-    ///////////////////////
 
   }
 
-  ///////////////////////
-  //API CALL RETURN PROMISE
   querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string, longitude :number , latitude :number ) {
-
-    //TODO: Update the mutation to send through user location as GPS points
 
     const userName = userNameSurname.split(' ')[0];
     const userSurname = userNameSurname.split(' ')[1];
     const stravatokenTest= "myToken";
-    // console.log(longitude)
-    // console.log(latitude)
+
     return this.apollo
         .mutate ({
           mutation: gql`
@@ -138,15 +109,8 @@ export class SignupComponent implements OnInit {
             }
           `,
         })
-        // .subscribe ((result) => {
-        //   const res: any  = result
-        //   resolve(res.data.signup.message);
-        // });
-    // });
   }
-  ///////////////////////
 
-  /////////////////////////////////////////////////////////////////
   //Google geocoding functions
   onAutocompleteSelected(event : any) {
     this.vicinity = event.vicinity;

@@ -89,7 +89,7 @@ export class LoglistComponent implements OnInit {
     return this.apollo
       .query ({
         query: gql`query{getLogs(
-          email:"${this.cookie.get('email')}" 
+          email:"${this.cookie.get('profileemail')}" 
         ){
           user,
           activityType, 
