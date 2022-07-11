@@ -9,6 +9,7 @@ import { emit, send } from 'process';
 import { async } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
+import fs = require('fs') ;
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
@@ -28,7 +29,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     //USERS
     //users - CREATE
     async createUser(@Param() user: UserDto){
-        
         const data = {
             id: uuid.v1(),
             userName : user.userName,
@@ -55,6 +55,13 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async login(@Param() email: string):Promise<any>{
         return this.usersCollection.where('email', '==', email).get().then(async (result) =>{
+            if(result.docs[0]) return result.docs[0].data() ;
+            return false ;
+        });
+    }
+
+    async getUser(@Param() userID: string):Promise<any>{
+        return this.usersCollection.where('id', '==', userID).get().then(async (result) =>{
             if(result.docs[0]) return result.docs[0].data() ;
             return false ;
         });
