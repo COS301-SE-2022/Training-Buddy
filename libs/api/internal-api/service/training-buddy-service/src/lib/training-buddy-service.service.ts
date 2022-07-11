@@ -34,6 +34,7 @@ export class TrainingBuddyServiceService {
      * @returns Promise UserEntity
      */
     async findOne(email: string): Promise<any>{
+
         return await this.repoService.login(email)
     }
     /**
@@ -276,7 +277,7 @@ export class TrainingBuddyServiceService {
      * @returns 
      */
     async getUser(userID:string){
-        return this.repoService.getUser(Number(userID))
+        return this.repoService.getUser(userID)
     }
     /**
      * 
