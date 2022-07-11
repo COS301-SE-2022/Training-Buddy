@@ -13,17 +13,21 @@ mat-spinner {
     stroke: #3fb53f;
 }
 
-mat-card {
+#container {
     max-width: 400px;
-    width: 90vw;
+    width: 100%;
     margin: 2em auto;
-    padding: 2em auto;
+    // padding: 2em auto;
     // position: absolute;
     // top: 50%;
     // left: 50%;
     // transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
     margin-bottom: 150px !important;
+}
+
+.padding {
+    padding: 20px !important;
 }
 
 .link:hover {
