@@ -1,3 +1,4 @@
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,7 +8,25 @@ import {CookieService} from 'ngx-cookie-service';
 @Component({
   selector: 'training-buddy-edit-profile',
   templateUrl: './editprofilepage.component.html',
-  styleUrls: ['./editprofilepage.component.scss']
+  styleUrls: ['./editprofilepage.component.scss'],
+  animations: [
+
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(100, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ])
+      ]
+    )
+    
+  ]
 })
 export class EditprofilepageComponent implements OnInit {
 

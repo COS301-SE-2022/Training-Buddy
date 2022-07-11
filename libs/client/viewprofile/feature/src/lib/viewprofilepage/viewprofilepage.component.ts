@@ -51,7 +51,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
     trigger(
       'fadeIn', [
         transition(':enter', [
-          animate(300, keyframes([
+          animate(120, keyframes([
             style({
               opacity: '0'
             }),
