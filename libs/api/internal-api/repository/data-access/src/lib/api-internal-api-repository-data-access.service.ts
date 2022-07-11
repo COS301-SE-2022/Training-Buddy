@@ -9,6 +9,7 @@ import { emit, send } from 'process';
 import { async } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
+import fs = require('fs') ;
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
@@ -28,7 +29,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     //USERS
     //users - CREATE
     async createUser(@Param() user: UserDto){
-        
         const data = {
             id: uuid.v1(),
             userName : user.userName,
@@ -58,6 +58,28 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return result.docs[0].data() ;
             return false ;
         });
+    }
+
+    async getUser(@Param() userID: number):Promise<any>{
+        return this.usersCollection.where('id', '==', userID).get().then(async (result) =>{
+            if(result.docs[0]) return result.docs[0].data() ;
+            return false ;
+        });
+    }
+
+    async getMetrics(@Param() email: string){
+        const data = [] ;
+
+        await this.usersCollection.where('email', '!=', email).get().then(async (querySnapshot) =>{
+            querySnapshot.docs.forEach((doc) => {
+                const metric = [] ;
+                metric.push(doc.data().email);
+                metric.push(doc.data().metrics) ;
+                data.push(metric) ;
+            });
+        });
+
+        return data ;
     }
 
     async findAll(@Param() email: string){
@@ -92,7 +114,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
                 data.push(result.docs[0].data().stravaAccess) ;
                 data.push(result.docs[0].data().stravaRefresh) ;
-                return true ;
+                return data ;
         })
     }
 
@@ -444,8 +466,10 @@ export class ApiInternalApiRepositoryDataAccessService {
     
     async getWorkout(@Param() organiser: string, @Param() startTime: string):Promise<any>{
         return this.scheduledWorkoutCollection.where('organiser', '==', organiser).get().then(async (result) =>{
-            if(result.docs[0]) return result.docs[0].id.toString() ;
-            return false ;
+            if(result.docs[0]) {
+                return result.docs[0].id ;
+            }
+            else return false ;
         });
     }
     //scheduled workouts - UPDATE
@@ -466,10 +490,8 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //workout invite - SEND
-    async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() startTime){
-        const workout = await this.getWorkout(sender, startTime) ;
-        if(workout != null){
-            return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
+    async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() workout){
+            return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]){
                     for(let i = 0; i < receivers.length; i++){
                         this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayUnion(receivers[i])}) ;
@@ -478,30 +500,28 @@ export class ApiInternalApiRepositoryDataAccessService {
                 }                  
                 return false ;
             }) 
-        }
-        return false ;
     }
 
     //workout invite - ACCEPT
-    async acceptInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
-        const workout = await this.getWorkout(sender, startTime) ;
-        if(workout != null){
-            return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
-                if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
+    async acceptInvite(@Param() user: string, @Param() sender: string, @Param() workout: string){
+            return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
+                if(result.docs[0]) {
+                    console.log("hello") ;
+                    return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
                     return this.scheduledWorkoutCollection.doc(workout).update({participants: this.arrayUnion(user)}).then(result =>{
                         return true ;
                     }) ;
                 }) ;
-                return false ;
+                };
             }); 
-        }
+            return false; 
     }
 
     //workout invite - REJECT
     async rejectInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
         const workout = await this.getWorkout(sender, startTime) ;
         if(workout != null){
-            return this.workoutInvitesCollection.where('email', '==', sender).where('workout','==',workout).get().then(async (result) => {
+            return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
                     return true;
                 }) ;
