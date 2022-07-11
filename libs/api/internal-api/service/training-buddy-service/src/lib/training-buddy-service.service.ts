@@ -17,7 +17,7 @@ export class TrainingBuddyServiceService {
      * @returns null || UserEntity
      */
     async validateUser(email: string , password: string):Promise<any> {
-        File 
+
         const user = await this.findOne(email);
         let valid = false;
         if(user)
@@ -53,7 +53,7 @@ export class TrainingBuddyServiceService {
             user = {...userdto, password };
             await this.repoService.createUser(user);
             const item = new ErrorMessage;
-            item.message = "User has Successfully Signed";
+            item.message = user.id.toString();
             return item;
         }
     }
@@ -83,7 +83,7 @@ export class TrainingBuddyServiceService {
                 }
             }
         }
-        return people ;
+        return people;
     }
     /**
      * 
@@ -258,8 +258,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async activityLog(actLog :ActivityLog ){
-        const user = await this.findOne(actLog.email);
-      
+       const user = await this.findOne(actLog.email);
        const item = new ErrorMessage;
        if(!user){
             item.message = "failure"
@@ -270,6 +269,14 @@ export class TrainingBuddyServiceService {
             item.message = "success"
             return item;
         }
+    }
+    /**
+     * 
+     * @param userID 
+     * @returns 
+     */
+    async getUser(userID:string){
+        return this.repoService.getUser(Number(userID))
     }
     /**
      * 
@@ -627,6 +634,9 @@ export class TrainingBuddyServiceService {
             return await this.repoService.getWorkout(userEmail,startTime);
            
         }
+    }
+    async collaborativeFiltering(people: any  , email: string){
+        const person = this.findOne(email)
     }
     async saveImage(userEmail:string,image:string){
         // let base64data;
