@@ -3,6 +3,7 @@ import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { valueToObjectRepresentation } from '@apollo/client/utilities';
 
 @Component({
   selector: 'training-buddy-log-list',
@@ -33,6 +34,7 @@ export class LoglistComponent implements OnInit {
 
   logList : any[] = [];
   logListOriginal : any[] = [];
+  nologs = false;
   loading = true;
   clearbutton = false;
 
@@ -46,6 +48,9 @@ export class LoglistComponent implements OnInit {
             this.logList.push(this.convertToCard(el));
             this.logListOriginal.push(this.convertToCard(el));
           });
+          if (data.data.getLogs.length == 0) {
+            this.nologs = true;
+          }
           this.loading = false;
         },
       }

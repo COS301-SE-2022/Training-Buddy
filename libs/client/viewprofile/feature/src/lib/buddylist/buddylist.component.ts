@@ -34,6 +34,7 @@ export class BuddylistComponent implements OnInit {
 
   buddies! : any;
   buddiesOriginal! : any;
+  nobuddies = false;
   loading = true;
   clearbutton = false;
   currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
@@ -48,6 +49,9 @@ export class BuddylistComponent implements OnInit {
       next: (data : any) => {
         this.buddies = data.data.getConnections;
         this.buddiesOriginal = this.buddies;
+        if (this.buddiesOriginal.length == 0) {
+          this.nobuddies = true;
+        }
         this.loading = false;
       }
     })

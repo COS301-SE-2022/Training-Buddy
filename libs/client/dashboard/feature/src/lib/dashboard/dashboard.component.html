@@ -47,7 +47,7 @@
                 </mat-form-field>
                 
                 <div id="noresults" *ngIf="doneloading">
-                    <mat-hint *ngIf="noBuddies" class="text-center">No Buddies</mat-hint>
+                    <mat-hint *ngIf="noBuddies" class="text-center">No Recommended Buddies</mat-hint>
                     <br />
                     <ng-container *ngIf="noBuddies"><mat-hint class="text-center">Try another sport or increase your </mat-hint><a id="configurelink" routerLink="/configureprofile/update"><u>Buddy Distance</u></a></ng-container>
                 </div>

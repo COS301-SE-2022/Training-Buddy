@@ -1,4 +1,4 @@
-<div *ngIf="!loading" [@fadeIn]>
+<div *ngIf="!loading && !nobuddies" [@fadeIn]>
 
     <mat-form-field class="mt-3" appearance="outline">
         <mat-label>Search</mat-label>
@@ -38,6 +38,12 @@
 
     </div>
 
+</div>
+
+<div *ngIf="!loading && nobuddies" class="my-6">
+    <mat-hint class="text-center">No Buddies</mat-hint>
+    <br />
+    <mat-hint class="text-center">Send some invites to your </mat-hint><a id="configurelink" routerLink="/dashboard"><u>Recommended Buddies</u></a>
 </div>
 
 <div *ngIf="loading" class="spinner my-6" [@fadeIn]><mat-spinner></mat-spinner></div>
