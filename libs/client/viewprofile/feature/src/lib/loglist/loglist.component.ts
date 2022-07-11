@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
@@ -29,9 +29,12 @@ import { animate, keyframes, style, transition, trigger } from '@angular/animati
 })
 export class LoglistComponent implements OnInit {
 
+  @ViewChild('inputbox') input : any;
 
   logList : any[] = [];
+  logListOriginal : any[] = [];
   loading = true;
+  clearbutton = false;
 
   constructor(private apollo : Apollo, private cookie : CookieService) { }
 
@@ -41,11 +44,40 @@ export class LoglistComponent implements OnInit {
         next: (data : any) => {
           data.data.getLogs.map((el : any) => {
             this.logList.push(this.convertToCard(el));
+            this.logListOriginal.push(this.convertToCard(el));
           });
           this.loading = false;
         },
       }
     );
+  }
+
+  search(event : any) {
+    const search = event.value;
+
+    if (search.length == 0) {
+      this.logList = this.logListOriginal;
+      return;
+    }
+
+    const hits = new Fuse(this.logListOriginal, {
+      keys: [
+        'name',
+        'type',
+        'distance',
+        'speed',
+        'date',
+        'time'
+      ]
+    }).search(
+      search
+    );
+
+    this.logList = [];
+    hits.map((el : any) => {
+      this.logList.push(el.item);
+    });
+
   }
 
   getActivityLogs() {
@@ -71,12 +103,22 @@ export class LoglistComponent implements OnInit {
     const date = new Date(data.dateComplete);
     return {
       name: data.name,
-      type: data.activityType,
+      type: this.type(data.activityType),
       distance: this.metersToKm(data.distance),
       speed: this.convertSpeed(data),
       time: this.secondsToString(data.time),
       date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
     }
+  }
+
+  type(data : string) : string {
+    if (data == 'Running') 
+      return 'Run';
+    if (data == 'Riding')
+      return 'Ride';
+    if (data == 'Swimming')
+      return 'Swim';
+    return 'Weights';
   }
 
   convertSpeed(data : any) : string {
@@ -121,6 +163,16 @@ export class LoglistComponent implements OnInit {
     if (hours == 0)
       return `${mins} mins`;
     return `${hours} hours ${mins} mins`;
+  }
+
+  showClear() {
+    this.clearbutton = true;
+  }
+
+  hideClear() {
+    this.clearbutton = false;
+    this.input.nativeElement.value = '';
+    this.logList = this.logListOriginal;
   }
 
 }
