@@ -24,6 +24,8 @@ export class UserEntity {
     @Field({nullable:true})
     cellNumber: string 
     @Field({nullable:true})
+    id:string
+    @Field({nullable:true})
     bio: string 
     @Field(()=>Metric, {nullable:true})
     metrics: Metric

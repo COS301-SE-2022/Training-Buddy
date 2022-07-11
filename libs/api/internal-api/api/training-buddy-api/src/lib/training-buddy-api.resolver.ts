@@ -256,6 +256,13 @@ export class TrainingBuddyApiResolver {
         this.subscriptionInvites(userEmail,receiver, startTime)
         return val;
     }
+   /**
+    * @return UserEntity
+    */
+    @Query(()=>UserEntity)
+    getUser(@Args("UserID")userID:string){
+        return this.trainingBuddyService.getUser(userID);
+    }
     /**
      * 
      * @param userEmail 
