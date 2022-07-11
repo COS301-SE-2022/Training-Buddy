@@ -67,6 +67,12 @@ export class ApiInternalApiRepositoryDataAccessService {
         });
     }
 
+    async getMetrics(@Param() email: string){
+        return this.usersCollection.where('email', '!=', email){
+
+        }
+    }
+
     async findAll(@Param() email: string){
         const users = [] ;
         await this.usersCollection.get().then(async (querySnapshot) =>{
@@ -99,7 +105,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
                 data.push(result.docs[0].data().stravaAccess) ;
                 data.push(result.docs[0].data().stravaRefresh) ;
-                return true ;
+                return data ;
         })
     }
 
