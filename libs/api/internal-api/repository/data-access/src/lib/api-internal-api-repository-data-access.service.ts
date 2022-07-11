@@ -68,9 +68,18 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     async getMetrics(@Param() email: string){
-        return this.usersCollection.where('email', '!=', email){
+        const data = [] ;
 
-        }
+        await this.usersCollection.where('email', '!=', email).get().then(async (querySnapshot) =>{
+            querySnapshot.docs.forEach((doc) => {
+                const metric = [] ;
+                metric.push(doc.data().email);
+                metric.push(doc.data().metrics) ;
+                data.push(metric) ;
+            });
+        });
+
+        return data ;
     }
 
     async findAll(@Param() email: string){
