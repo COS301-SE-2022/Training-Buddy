@@ -54,6 +54,7 @@ export class LoginpageComponent implements OnInit {
         console.log("invalid credentials"); //make this a notification
       } else {
         this.cookieService.set('email', response.data.login.user.email);
+        this.cookieService.set('id', response.data.login.user.id);
         this.router.navigate(['/dashboard']);
       }
     });
@@ -61,7 +62,7 @@ export class LoginpageComponent implements OnInit {
   }
 
   queryLogin(){
-    return this.apollo.mutate<userData>({
+    return this.apollo.mutate({
       mutation: gql`
       mutation{
         login(loginInput:{
@@ -71,7 +72,8 @@ export class LoginpageComponent implements OnInit {
           user{
             userName,
             userSurname,
-            email
+            email,
+            id
           }
         }
       }
@@ -79,13 +81,4 @@ export class LoginpageComponent implements OnInit {
     })
   }
 
-}
-export interface userData{
-  login:{
-    user:{
-      userName: string;
-      userSurname: string;
-      email: string;
-    }
-  }
 }

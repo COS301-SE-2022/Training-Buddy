@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ChangepasswordComponent } from './changepassword.component';
 
 describe('ChangepasswordComponent', () => {
@@ -16,7 +17,8 @@ describe('ChangepasswordComponent', () => {
         ReactiveFormsModule,
         UiModule,
         BrowserAnimationsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        NoopAnimationsModule
       ]
     })
     .compileComponents();

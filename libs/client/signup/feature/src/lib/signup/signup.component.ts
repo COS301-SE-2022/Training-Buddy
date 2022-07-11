@@ -85,13 +85,22 @@ export class SignupComponent implements OnInit {
 
     ///////////////////////
     //API CALL HERE........
-    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude).then(res => {
-      if(res != "User Already Exists failure"){
-        //TODO Pop up that the email already exists
-          this.cookieService.set('email',userEmail);
-         this.router.navigate(['/configureprofile']);
+    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude)
+    // .then(res => {
+    //   if(res != "User Already Exists failure"){
+    //     //TODO Pop up that the email already exists
+    //       this.cookieService.set('email',userEmail);
+    //      this.router.navigate(['/configureprofile']);
+    //   }
+    // });
+    .subscribe({
+      next: (data : any) => {
+        console.log(data);
+      },
+      error: (err : any) => {
+        console.log('signup error', err);
       }
-    });
+    })
     ///////////////////////
 
   }
@@ -104,12 +113,10 @@ export class SignupComponent implements OnInit {
 
     const userName = userNameSurname.split(' ')[0];
     const userSurname = userNameSurname.split(' ')[1];
-    const stravatokenTest= "myToken"
-    console.log(longitude)
-    console.log(latitude)
-    return new Promise((resolve, _) => {
-      if (!(this.apollo.client === undefined))
-      this.apollo
+    const stravatokenTest= "myToken";
+    // console.log(longitude)
+    // console.log(latitude)
+    return this.apollo
         .mutate ({
           mutation: gql`
             mutation{
@@ -131,11 +138,11 @@ export class SignupComponent implements OnInit {
             }
           `,
         })
-        .subscribe ((result) => {
-         const res: any  = result
-          resolve(res.data.signup.message);
-        });
-    });
+        // .subscribe ((result) => {
+        //   const res: any  = result
+        //   resolve(res.data.signup.message);
+        // });
+    // });
   }
   ///////////////////////
 

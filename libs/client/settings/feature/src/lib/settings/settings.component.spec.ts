@@ -4,7 +4,8 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Apollo } from 'apollo-angular';
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SettingsComponent } from './settings.component';
 
 describe('SettingsComponent', () => {
@@ -18,7 +19,8 @@ describe('SettingsComponent', () => {
         ReactiveFormsModule,
         UiModule,
         BrowserAnimationsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        NoopAnimationsModule
       ],
       providers: [
         Apollo,
