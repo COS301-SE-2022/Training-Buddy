@@ -1,0 +1,42 @@
+mat-form-field {
+    display: block;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+
+mat-spinner {
+    margin: auto;
+}
+
+h2 {
+    margin-bottom: 0% !important
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-content {
+    align-items: center;
+}
+
+.buddypic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}

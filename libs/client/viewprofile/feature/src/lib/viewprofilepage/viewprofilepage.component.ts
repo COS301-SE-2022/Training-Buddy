@@ -2,8 +2,6 @@ import { animate, keyframes, style, transition, trigger } from '@angular/animati
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
-import { BehaviorSubject, Observable } from 'rxjs';
-
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
@@ -71,7 +69,6 @@ export class ViewprofilepageComponent implements OnInit {
   toggle = true;
   email! : string;
   displayUser! : any;
-
   currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
 
   constructor(private apollo : Apollo, private cookieService: CookieService){
