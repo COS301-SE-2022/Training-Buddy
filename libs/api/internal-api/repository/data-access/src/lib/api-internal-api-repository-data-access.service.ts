@@ -60,7 +60,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         });
     }
 
-    async getUser(@Param() userID: string):Promise<any>{
+    async getUser(@Param() userID: number):Promise<any>{
         return this.usersCollection.where('id', '==', userID).get().then(async (result) =>{
             if(result.docs[0]) return result.docs[0].data() ;
             return false ;
