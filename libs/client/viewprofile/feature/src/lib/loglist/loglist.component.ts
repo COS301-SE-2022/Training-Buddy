@@ -1,15 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
+import Fuse from 'fuse.js';
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'training-buddy-log-list',
   templateUrl: './loglist.component.html',
-  styleUrls: ['./loglist.component.scss']
+  styleUrls: ['./loglist.component.scss'],
+  animations: [
+
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ])
+      ]
+    )
+    
+  ]
 })
 export class LoglistComponent implements OnInit {
 
+
   logList : any[] = [];
+  loading = true;
 
   constructor(private apollo : Apollo, private cookie : CookieService) { }
 
@@ -20,6 +42,7 @@ export class LoglistComponent implements OnInit {
           data.data.getLogs.map((el : any) => {
             this.logList.push(this.convertToCard(el));
           });
+          this.loading = false;
         },
       }
     );

@@ -1,10 +1,29 @@
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'training-buddy-change-password',
   templateUrl: './changepassword.component.html',
-  styleUrls: ['./changepassword.component.scss']
+  styleUrls: ['./changepassword.component.scss'],
+  animations: [
+
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ])
+      ]
+    )
+
+  ]
 })
 export class ChangepasswordComponent implements OnInit {
 
