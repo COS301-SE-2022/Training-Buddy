@@ -5,7 +5,8 @@ import { Apollo } from 'apollo-angular';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('EditprofilepageComponent', () => {
   let component: EditprofilepageComponent;
@@ -17,7 +18,8 @@ describe('EditprofilepageComponent', () => {
         UiModule,
         RouterTestingModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NoopAnimationsModule
       ],
       providers: [
         Apollo,
