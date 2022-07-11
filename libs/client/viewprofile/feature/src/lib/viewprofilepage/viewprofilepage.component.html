@@ -1,5 +1,6 @@
 <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
-<training-buddy-settings-navbar></training-buddy-settings-navbar>
+<training-buddy-settings-navbar *ngIf="!guestprofile"></training-buddy-settings-navbar>
+<training-buddy-back-navbar *ngIf="guestprofile"></training-buddy-back-navbar>
 
     <div *ngIf="loading" class="spinner"><mat-spinner></mat-spinner></div>
 
