@@ -1,4 +1,4 @@
-<div *ngIf="!loading && !nologs" [@fadeIn]>
+<div *ngIf="!nologs" [@fadeIn]>
 
     <mat-form-field class="mt-3" appearance="outline">
         <mat-label>Search</mat-label>
@@ -25,14 +25,18 @@
 
     </div>
 
+    <div *ngIf="noresult">
+        <mat-hint>No activity found</mat-hint>
+    </div>
+
 </div>
 
-<div *ngIf="!loading && nologs" class="my-6">
+<div *ngIf="nologs" class="my-6">
     <mat-hint class="text-center">No Activities</mat-hint>
     <br />
     <mat-hint class="text-center">Record an activity on Strava or </mat-hint><a id="configurelink" routerLink="/addactivity"><u>Add Activity</u></a>
 </div>
 
-<div *ngIf="loading" class="spinner my-6" [@fadeIn]><mat-spinner></mat-spinner></div>
+<!-- <div *ngIf="loading" class="spinner my-6" [@fadeIn]><mat-spinner></mat-spinner></div> -->
 
 <!-- <pre>{{ logList | json }}</pre> -->

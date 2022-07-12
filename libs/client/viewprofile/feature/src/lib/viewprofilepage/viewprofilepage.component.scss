@@ -1,27 +1,24 @@
-mat-spinner {
+#pagespinner {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #000000;
+#childspinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
 }
 
-.mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #3fb53f;
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1b1a1b;
 }
 
 #container {
     max-width: 400px;
     width: 100%;
     margin: 2em auto;
-    // padding: 2em auto;
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
     margin-bottom: 150px !important;
 }

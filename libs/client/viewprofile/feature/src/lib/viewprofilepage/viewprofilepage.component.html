@@ -2,7 +2,7 @@
 <training-buddy-settings-navbar *ngIf="!guestprofile"></training-buddy-settings-navbar>
 <training-buddy-back-navbar *ngIf="guestprofile"></training-buddy-back-navbar>
 
-    <div *ngIf="loading" class="spinner"><mat-spinner></mat-spinner></div>
+    <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 
     <mat-grid-list *ngIf="!loading" [@fadeIn] cols="1" rows="1" rowHeight="2:1">
     
@@ -32,12 +32,12 @@
                             <div class="row statscol">
 
                                 <div (click)="toggleBuddiesButton.click()">
-                                    <div class="text-center">0</div>
+                                    <div class="text-center">{{ buddyCount }}</div>
                                     <div>Buddies</div>
                                 </div>
 
                                 <div (click)="toggleLogsButton.click()">
-                                    <div class="text-center">0</div>
+                                    <div class="text-center">{{ activityCount }}</div>
                                     <div>Activities</div>
                                 </div>
 
@@ -63,8 +63,9 @@
     
                     <!-- child components -->
                     <div class="padding">
-                        <training-buddy-buddies-list *ngIf="toggle" [@fadeIn]></training-buddy-buddies-list>
-                        <training-buddy-log-list *ngIf="!toggle" [@fadeIn]></training-buddy-log-list>
+                        <training-buddy-buddies-list *ngIf="toggle && buddyLoadComp" data="{{ buddies }}" [@fadeIn]></training-buddy-buddies-list>
+                        <training-buddy-log-list *ngIf="!toggle && logLoadComp" data="{{ logs }}" [@fadeIn]></training-buddy-log-list>
+                        <div *ngIf="!buddyLoadComp && !logLoadComp" class="spinner" id="childspinner" [@fadeIn]><mat-spinner></mat-spinner></div>
                     </div>
         
                 <!-- </mat-card-content> -->

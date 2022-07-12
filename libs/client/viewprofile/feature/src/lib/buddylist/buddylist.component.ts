@@ -1,9 +1,8 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import Fuse from 'fuse.js';
-import { Apollo, gql } from 'apollo-angular';
-import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 // import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
@@ -33,45 +32,34 @@ export class BuddylistComponent implements OnInit {
 
   @ViewChild('inputbox') input : any;
 
+  @Input() data : any;
+
   buddies! : any;
   buddiesOriginal! : any;
   nobuddies = false;
-  loading = true;
   clearbutton = false;
   currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
+  noresult = false;
 
-  constructor(private apollo : Apollo, private cookie : CookieService, private router : Router) { 
+  constructor(private router : Router, private cookie : CookieService) { 
     // constructor(private apollo : Apollo, private cookie : CookieService, private sheet : MatBottomSheet) { 
   }
   
   viewOtherProfile(id : string) {
-    if (id == this.cookie.get('id')) {
-      this.router.navigate(['/profile']);
-      console.log('moving to home profile');
-      return;
-    }
-
-    this.cookie.set('profileemail', id);
     this.router.navigate([`/profile/${id}`]);
-    console.log('moving to another profile');
   }
 
-  checkSelf() {
-    return this.cookie.get('email') == this.cookie.get('profileemail');
+  checkSelf(id : string) : boolean {
+    // console.log(id, '==', this.cookie.get('id'), id == this.cookie.get('id'))
+    return id != this.cookie.get('id');
   }
 
   ngOnInit(): void {
-    this.getBuddies().subscribe({
-      next: (data : any) => {
-        this.buddies = data.data.getConnections;
-        this.buddiesOriginal = this.buddies;
-        // console.log(this.buddies);
-        if (this.buddiesOriginal.length == 0) {
-          this.nobuddies = true;
-        }
-        this.loading = false;
-      }
-    })
+    this.buddies = JSON.parse(this.data);
+    this.buddiesOriginal = this.buddies;
+    if (this.buddiesOriginal.length == 0) {
+      this.nobuddies = true;
+    }
   }
 
   openSheet() {
@@ -80,6 +68,7 @@ export class BuddylistComponent implements OnInit {
   }
 
   search(event : any) {
+
     const search = event.value;
 
     if (search.length == 0) {
@@ -87,46 +76,27 @@ export class BuddylistComponent implements OnInit {
       return;
     }
 
-    this.buddies = new Fuse(this.buddiesOriginal, {
+    const swap = new Fuse(this.buddiesOriginal, {
       keys: [
-        'name',
-        'type',
-        'distance',
-        'speed',
-        'date',
-        'time'
+        'userName',
+        'userSurname',
+        'location'
       ]
     }).search(
       search
     );
 
-  }
+    this.buddies = [];
+    swap.map((el : any) => {
+      this.buddies.push(el.item);
+    })
 
-  getBuddies() {
-    return this.apollo
-    .query({
-      query: gql`query{
-        getConnections(
-          email: "${this.cookie.get('profileemail')}",
-      ){
-        userName,
-        userSurname,
-        location,
-        longitude,
-        latitude,
-        stravaToken,
-        dob,
-        gender,
-        email,
-        cellNumber,
-        bio,
-        metrics{lift , ride , run , swim},
-        buddies,
-        id
-      }
-      }
-      `,
-    });
+    if (this.buddies.length == 0) {
+      this.noresult = true;
+    } else {
+      this.noresult = false;
+    }
+
   }
 
   showClear() {
@@ -134,6 +104,12 @@ export class BuddylistComponent implements OnInit {
   }
 
   hideClear() {
+    this.clearbutton = false;
+    // this.input.nativeElement.value = '';
+    // this.buddies = this.buddiesOriginal;
+  }
+
+  clearSearch() {
     this.clearbutton = false;
     this.input.nativeElement.value = '';
     this.buddies = this.buddiesOriginal;
