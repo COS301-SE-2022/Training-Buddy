@@ -27,7 +27,7 @@ export class ScheduleworkoutComponent implements OnInit {
   secs = '30';
 
   constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar, private cookieService: CookieService) {
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
+    this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     this.frmBuilder = builder;
     this.setAllFalse();
     this.isRunning = true;

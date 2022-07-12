@@ -1,9 +1,14 @@
 <mat-toolbar>
     <!-- <mat-icon (click)="route('/dashboard')">dashboard</mat-icon> -->
-    <mat-icon (click)="route('/dashboard')">home</mat-icon>
+    <!-- <mat-icon (click)="route('/dashboard')">home</mat-icon> -->
+    <mat-icon [routerLink]="['/dashboard']">home</mat-icon>
     <!-- <mat-icon> chat_bubble</mat-icon> -->
-    <mat-icon (click)="route('/addactivity')">add_circle</mat-icon>
-    <mat-icon (click)="route('/scheduleworkout')">calendar_today</mat-icon>
-    <mat-icon (click)="route('/profile')">person</mat-icon>
-    <mat-icon (click)="route('/settings')">settings</mat-icon>
+    <!-- <mat-icon (click)="route('/addactivity')">add_circle</mat-icon> -->
+    <mat-icon [routerLink]="['/addactivity']">add_circle</mat-icon>
+    <!-- <mat-icon (click)="route('/scheduleworkout')">calendar_today</mat-icon> -->
+    <mat-icon [routerLink]="['/schedule']">calendar_today</mat-icon>
+    <!-- <mat-icon (click)="route('/profile')">person</mat-icon> -->
+    <mat-icon [routerLink]="['/profile']">person</mat-icon>
+    <!-- <mat-icon (click)="route('/settings')">settings</mat-icon> -->
+    <!-- <mat-icon routerLink="['/dashboard]">settings</mat-icon> -->
 </mat-toolbar>
