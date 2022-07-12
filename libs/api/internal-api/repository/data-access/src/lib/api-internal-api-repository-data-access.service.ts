@@ -51,6 +51,26 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
+    async uploadPicture(@Param() user_id: number, @Param() fn: string){
+        const bucket = admin.storage().bucket() ;
+
+        const metadata = {
+            metadata: {
+                firebaseStorageDownloadTokens: uuid.v1()
+            },
+            contentType: 'image/png',
+            cacheControl: 'public, max-age=31536000'
+        }
+
+        //const file = fs.readFileSync(fn).toString('base64') ;
+
+        await bucket.upload(fn, {
+            gzip: true,
+            metadata: metadata
+        });       
+        
+    }
+
     //users - READ
 
     async login(@Param() email: string):Promise<any>{

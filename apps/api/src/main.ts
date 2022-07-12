@@ -12,15 +12,18 @@ import * as dotenv from "dotenv";
 async function bootstrap() {
   const serviceAccount = require('./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json')
 
-  admin.initializeApp({
-    credential: admin.credential.cert({
+  const main = admin.initializeApp({
+      credential: admin.credential.cert({
       projectId:process.env.PROJECT_ID,
       privateKey: process.env.PRIVATE_KEY,
       clientEmail: process.env.CLIENT_MAIL
       
     }),
     databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET
   });
+
+  module.exports = main ;
 
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';

@@ -647,9 +647,9 @@ export class TrainingBuddyServiceService {
         //     base64data = fileReaderInstance.result;     
         //     console.log(base64data)  
         // } 
-         const item = new ErrorMessage; 
-        item.message= "Not Finished"
-        return item.message;
+        //  const item = new ErrorMessage; 
+        // item.message= "Not Finished"
+        // return item.message;
         //TODO 
         // const user = await this.findOne(userEmail);
         // const item = new ErrorMessage;
@@ -666,6 +666,8 @@ export class TrainingBuddyServiceService {
         //     }
             
         //  }
+
+        return await this.repoService.uploadPicture(userEmail, image) ;
 
 
     }
