@@ -55,7 +55,7 @@
                 <ng-container *ngIf="doneloading">
 
                     <div *ngFor="let usr of buddies" class="mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-                        <div class="md:flex">
+                        <div class="md:flex cursor" routerLink="/profile/{{usr.id}}">
                             <div class="md:shrink-0">
                                 <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/1.jpg?raw=true">
                             </div>

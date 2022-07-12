@@ -60,6 +60,7 @@ export class DashboardComponent implements OnInit {
         if (this.buddies.length != 0)
           this.noBuddies = false;
         this.doneloading = true;
+        console.log(this.buddies);
       }
     });
 
@@ -159,7 +160,8 @@ export class DashboardComponent implements OnInit {
           cellNumber,
           bio,
           metrics{lift , run , swim , ride},
-          buddies
+          buddies,
+          id
         }
         }
         `,
