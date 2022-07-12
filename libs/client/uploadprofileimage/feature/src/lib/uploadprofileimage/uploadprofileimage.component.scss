@@ -30,6 +30,10 @@ mat-card {
     max-width: 400px;
 }
 
+.text-right {
+    text-align: end;
+}
+
 #background {
     height: 100vh;
     background-size: cover;
@@ -39,6 +43,11 @@ mat-card {
 #uploadbutton {
     width: 100%;
     background-color: #1b1a1b !important;
+    margin-top: 2%;
+}
+
+.infotag {
+    margin-bottom: 1.5%;
 }
 
 #fileuploaddiv {
@@ -77,4 +86,12 @@ mat-card {
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.text-center {
+    text-align: center;
+}
+
+#title {
+    margin-bottom: 1% !important;
 }

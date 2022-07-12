@@ -1,64 +1,71 @@
 <!-- <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}"> -->
-    <training-buddy-signed-navbar></training-buddy-signed-navbar>
-    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    <!-- <training-buddy-signed-navbar></training-buddy-signed-navbar> -->
+
+    <training-buddy-back-navbar title="Edit Profile"></training-buddy-back-navbar>
+
+    <mat-grid-list cols="1" rows="1" rowHeight="2:1" [@fadeIn]>
         <mat-card>
            
             <!-- <figure class="relative flex flex-col-reverse bg-zinc-900 rounded-lg p-6 darkbg-zinc-900 dark:highlight-white/5">
                 <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
-                    <p>{{theUser.status}}</p>
+                    <p>{{user.status}}</p>
                 </blockquote>
                 <figcaption class="flex items-center space-x-4">
-                    <img src="{{theUser.image}}" alt="not working" class="flex-none w-20 h-20 rounded-full object-cover">
+                    <img src="{{user.image}}" alt="not working" class="flex-none w-20 h-20 rounded-full object-cover">
                     <div class="flex-auto">
                         <div class="text-base text-slate-900 font-semibold dark:text-slate-300">
-                            <span class="absolute inset-0"></span>{{theUser.name}} {{theUser.surname}}
+                            <span class="absolute inset-0"></span>{{user.name}} {{user.surname}}
                     </div>
-                    <div class="mt-0.5 text-slate-700 dark:text-slate-300"> <mat-icon> location_on</mat-icon>{{theUser.location}}</div>
+                    <div class="mt-0.5 text-slate-700 dark:text-slate-300"> <mat-icon> location_on</mat-icon>{{user.location}}</div>
                 </div>
                 </figcaption>
             </figure> -->
             
-           <div class="relative">
-            <img class="w-full" src="{{theUser.image}}" alt="dummy-image">
-            <button class="absolute bottom-0  right-0 text-white bg-zinc-900 w-10 h-10 rounded-full" ><mat-icon>camera_alt</mat-icon></button>
-          </div>
-          <mat-card-content>
+            <div class="container">
+            
+              <!-- <img class="w-full" src="{{ currentImage }}" alt="dummy-image"> -->
+              <div  id="fileuploaddiv" class="my-2" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+            
+              <!-- <button class="absolute"><mat-icon>camera_alt</mat-icon></button> -->
+
+              <input id="fileupload" name="fileupload" #fileinput type="file" (change)="fileattatched($event)" accept="image/x-png,image/gif,image/jpeg" hidden>
+
+              <button (click)="fileinput.click()" id="editbutton" class="lowright" mat-fab>
+                <mat-icon>edit</mat-icon>
+              </button>
+          
+            </div>
+          
+          <mat-card-content class="mt-3">
         
             <form [formGroup]="updateForm">
     
-              <h1 class="text-center">Edit Profile</h1>
-            <!-- Name -->
+              <!-- <h1 class="text-center">Edit Profile</h1> -->
+              <!-- Name and Surname -->
               <mat-form-field appearance="outline">
-                  <mat-label>Name</mat-label>
-                  <input formControlName="userName" id="userName" matInput type="text" placeholder="{{theUser.name}}" name="name">
-                  <mat-error *ngIf="updateForm.controls['userName'].errors">
-                    {{ updateForm.controls['userName'].errors!['error_msg'] }}
+                  <mat-label>Name Surname</mat-label>
+                  <input formControlName="userNameSurname" id="userNameSurname" matInput type="text" name="userNameSurname" value="new name">
+                  <mat-error *ngIf="updateForm.controls['userNameSurname']?.errors">
+                    {{ updateForm.controls['userNameSurname'].errors!['error_msg'] }}
                 </mat-error>
-              </mat-form-field>
-               <!-- Surname -->
-               <mat-form-field appearance="outline">
-                <mat-label>Surname</mat-label>
-                <input formControlName="userSurname" id="userSurname" matInput type="text" placeholder="{{theUser.surname}}" name="surname">
-                <mat-error *ngIf="updateForm.controls['userSurname'].errors">
-                  {{ updateForm.controls['userSurname'].errors!['error_msg'] }}
-              </mat-error>
               </mat-form-field>
               <!-- Email -->
               <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
-                <input formControlName="userEmail" id="userEmail" matInput type="text" placeholder="{{theUser.email}}" name="email">
-                <mat-error *ngIf="updateForm.controls['userEmail'].errors">
+                <input formControlName="userEmail" id="userEmail" matInput type="text"  name="userEmail">
+                <mat-error *ngIf="updateForm.controls['userEmail']?.errors">
                   {{ updateForm.controls['userEmail'].errors!['error_msg'] }}
               </mat-error>
               </mat-form-field>
                 <!-- Cell Number -->
               <mat-form-field appearance="outline">
                 <mat-label>Cell Number</mat-label>
-                <input formControlName="userCellNumber" id="userCellNumber" matInput type="text" placeholder="{{theUser.cell}}" name="cell">
-                <mat-error *ngIf="updateForm.controls['userCellNumber'].errors">
+                <input formControlName="userCellNumber" id="userCellNumber" matInput type="text" name="userCellNumber">
+                <mat-error *ngIf="updateForm.controls['userCellNumber']?.errors">
                   {{ updateForm.controls['userCellNumber'].errors!['error_msg'] }}
               </mat-error>
               </mat-form-field>
+
                 <!-- Gender -->
               <mat-form-field appearance="outline">
                 <mat-label>Gender</mat-label>
@@ -70,13 +77,15 @@
                 {{ updateForm.controls['userGender'].errors!['error_msg'] }}
               </mat-error>
               </mat-form-field>
+
                 <!-- Location -->
               <mat-form-field appearance="outline">
                 <mat-label>location</mat-label>
                 <input formControlName="userLocation" matInput
                         matGoogleMapsAutocomplete
                         (onAutocompleteSelected)="onAutocompleteSelected($event)"
-                        (onLocationSelected)="onLocationSelected($event)">
+                        (onLocationSelected)="onLocationSelected($event)"
+                        value="{{ oldLocation }}">
                 <mat-error *ngIf="updateForm.controls['userLocation'].errors">
                     {{ updateForm.controls['userLocation'].errors!['error_msg'] }}
                 </mat-error>
@@ -86,6 +95,7 @@
                     </div>
                 </mat-hint>
               </mat-form-field>
+
               <!--Submit button-->
               <div class="submitButton mt-3">
                   <button id="save" (click)="save()" class="text-center ml-1" mat-raised-button color="primary">Save</button>

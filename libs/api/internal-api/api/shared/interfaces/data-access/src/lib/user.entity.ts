@@ -31,5 +31,6 @@ export class UserEntity {
     metrics: Metric
     @Field(type=> [String] , {nullable:true})
     buddies: string[] 
-
+    @Field({nullable:true})
+    distance: number
 }

@@ -23,7 +23,7 @@ export class UploadprofileimageComponent implements OnInit {
   filename = '';
 
   constructor(private builder : FormBuilder, private cookie : CookieService, private apollo : Apollo, private router : Router) { 
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
+    this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     this.submit = false;
     this.fileuploadflag = false;
   }
@@ -86,28 +86,32 @@ export class UploadprofileimageComponent implements OnInit {
       return;
     }
 
-    //upload the image here with the api
-    this.queryUploadImage().subscribe({
-      next: () => {
-        //route to next page:
-        this.router.navigate(['configureprofile']);
-      },
-      error: () => {
-        //display error
-      }
-    })
-
-  }
-
-  queryUploadImage() {
     const email = this.cookie.get('email');
     const image = this.profileimage;
-    return this.apollo
+
+    this.Base64encode(image).then(encode => {
+      //encode is the base64 representation of the image.
+      this.apollo
         .mutate ({
           mutation: gql`
           
           `
+        }).subscribe({
+          next: () => {
+            //route to next page:
+            this.router.navigate(['strava/link']);
+          },
         });
+    });
+
+  }
+
+  Base64encode(file : File) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    })
   }
 
 }

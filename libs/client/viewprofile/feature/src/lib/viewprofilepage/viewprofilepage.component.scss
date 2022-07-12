@@ -1,89 +1,152 @@
-mat-card {
-    max-width: 400px;
-    width: 90vw;
-    margin: 2em auto;
-    padding: 2em auto;
+#pagespinner {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -0%);
+    transform: translate(-50%, -50%);
+}
+
+#childspinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1b1a1b;
+}
+
+#container {
+    max-width: 400px;
+    width: 100%;
+    margin: 2em auto;
     background-color: rgba(255, 255, 255, 1);
+    margin-bottom: 150px !important;
+}
+
+.padding {
+    padding: 20px !important;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.hrlight {
+    height: 1.5px;
+    background-color: #e4e6eb;
+    border: none;
+}
+
+.hrdark {
+    height: 1.5px;
+    background-color: #1b1a1b !important;
+    border: none;
+    // width:
 }
 
 .text-center {
     text-align: center;
 }
 
-.submitButton {
-    text-align: center;
-    width: 100%;
-}
-
-.forgotpassword {
-    text-align: right;
-    text-decoration: underline;
-}
-
-mat-form-field {
-    display: block;
-}
-
-#signup {
-    width: 100%;
-    background-color: #1b1a1b !important;
-}
-
-.logIn {
-    text-align: right;
-    margin-top: 1%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-.logInLink {
-    text-decoration: underline;
-    color: #4350af;
-    margin-left: 1%;
-}
-
 .logInLink:hover {
     cursor: pointer;
+}
+
+h1, h3 {
+    margin-bottom: 0%;
+}
+
+h4 {
+    margin-bottom: 3%;
+}
+
+.fullwidth {
+    width: 100%;
 }
 
 ::ng-deep .mat-form-field-wrapper {
     margin-bottom: -1.25em;
 }
 
+.text-center {
+    text-align: center;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    align-items: center;
 }
 
-.b { color: #4285F4; }
-.r { color: #EA4335; }
-.y { color: #FBBC05; }
-.g { color: #34A853; }
+.statscol {
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.statsblock {
+    width: 100%;
+}
 
 p {
-    font-size: 12px !important;
+    word-break: break-all;
+    white-space: normal;
 }
 
-.fullhint {
-    width: 100% !important;
-}
-
-#background {
-    height: 100vh !important;
+#profilepic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
     background-size: cover;
     background-repeat: no-repeat;
+    margin-bottom: 5% !important;
 }
 
-mat-error {
-    text-align: right;
+//buddy component css
+mat-form-field {
+    display: block;
 }
 
-mat-hint {
-    text-align: right !important;
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+
+mat-spinner {
+    margin: auto;
+}
+
+h2 {
+    margin-bottom: 0% !important
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-content {
+    align-items: center;
+}
+
+.buddypic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
+}
+
+.cursor:hover {
+    cursor: pointer;
 }

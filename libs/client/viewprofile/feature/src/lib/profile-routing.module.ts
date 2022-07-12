@@ -7,6 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ViewprofilepageComponent
+  },
+
+  {
+    path: ':id',
+    component: ViewprofilepageComponent
   }
 
 ];

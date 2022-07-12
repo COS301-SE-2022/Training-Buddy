@@ -17,7 +17,6 @@ export class TrainingBuddyServiceService {
      * @returns null || UserEntity
      */
     async validateUser(email: string , password: string):Promise<any> {
-
         const user = await this.findOne(email);
         let valid = false;
         if(user)
@@ -52,9 +51,10 @@ export class TrainingBuddyServiceService {
         else{
             const password = await bcrypt.hash(userdto.password, 10)
             user = {...userdto, password };
-            await this.repoService.createUser(user);
+            const ret = await this.repoService.createUser(user);
             const item = new ErrorMessage;
-            item.message = user.id.toString();
+            item.message = ret.id;
+            console.log(item.message);
             return item;
         }
     }

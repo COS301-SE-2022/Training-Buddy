@@ -18,7 +18,7 @@ export class LoginpageComponent implements OnInit {
   frmBuilder! : FormBuilder;
 
   constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService:CookieService) {
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
+    this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
   
     //injections
     this.frmBuilder = frm;
@@ -39,10 +39,8 @@ export class LoginpageComponent implements OnInit {
 
   login() {
 
-    //check for errors in form
     for (const input in this.loginFrm.controls) {
       if (this.loginFrm.controls[input].invalid) {
-        //prevent submission
         return;
       }
     }
@@ -50,33 +48,21 @@ export class LoginpageComponent implements OnInit {
     this.userEmail = this.loginFrm.controls['userEmail'].value;
     this.userPassword = this.loginFrm.controls['userPassword'].value;
 
-    ////////////////
-    //testing values
-    // console.log(userEmail);
-    // console.log(userPassword);
-    ////////////////
-    
-    ///////////////////////
-    //API CALL AND LOGIN...
-    // this.queryLogin(userEmail, userPassword ).then(res => {
-    //   //after queryLogin(...)
-    //   // console.log(res);
-
-      
-    //   // console.log(res.userName);
-    //   // console.log(res.)
-    //   //route to dash
-    //   // this.router.navigate(['/dashboard']);
-    // });
-    this.queryLogin();
-    ///////////////////////
+    this.queryLogin().subscribe((response : any) =>{
+      console.log(response.data.login.user.email);
+      if(response.data?.login.user.email == null){
+        console.log("invalid credentials"); //make this a notification
+      } else {
+        this.cookieService.set('email', response.data.login.user.email);
+        this.cookieService.set('id', response.data.login.user.id);
+        this.router.navigate(['/dashboard']);
+      }
+    });
 
   }
 
-  ///////////////////////
-  //API CALL RETURN PROMISE
   queryLogin(){
-    this.apollo.mutate<userData>({
+    return this.apollo.mutate({
       mutation: gql`
       mutation{
         login(loginInput:{
@@ -86,40 +72,13 @@ export class LoginpageComponent implements OnInit {
           user{
             userName,
             userSurname,
-            email
+            email,
+            id
           }
         }
       }
     `,
-    }).subscribe((response) =>{
-      console.log(response.data?.login.user.email);
-      if(response.data?.login.user.email == null){
-        //send snackbar
-        console.log("invalid credentials");
-        
-      }else{
-        //store cookies
-        this.setCookie();
-        //route.
-        this.router.navigate(['/dashboard']);
-      }
     })
   }
-  ///////////////////////
-  setCookie(){
-    this.cookieService.set('email',this.userEmail);
-  }
-   
-  deleteCookie(){
-    this.cookieService.delete('email');
-  }
-}
-export interface userData{
-  login:{
-    user:{
-      userName: string;
-      userSurname: string;
-      email: string;
-    }
-  }
+
 }

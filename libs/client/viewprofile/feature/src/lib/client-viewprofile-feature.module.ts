@@ -11,7 +11,7 @@ import {CookieService} from 'ngx-cookie-service';
     UiModule
   ],
   declarations: [
-    ViewprofilepageComponent
+    ViewprofilepageComponent,
   ],
   providers: [
     CookieService

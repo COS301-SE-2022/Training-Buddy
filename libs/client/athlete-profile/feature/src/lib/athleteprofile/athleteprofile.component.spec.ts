@@ -5,7 +5,7 @@ import { Apollo } from 'apollo-angular';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AthleteprofileComponent } from './athleteprofile.component';
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('AthleteprofileComponent', () => {
   let component: AthleteprofileComponent;
