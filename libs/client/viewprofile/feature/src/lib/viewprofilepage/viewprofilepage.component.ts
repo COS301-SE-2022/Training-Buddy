@@ -1,8 +1,10 @@
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
+import Fuse from 'fuse.js';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
@@ -66,15 +68,29 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ViewprofilepageComponent implements OnInit {
 
-  //buddy component data
-  buddyLoadComp = false;
-  buddies! : string;
+  //buddies
   buddyCount = 0;
+  @ViewChild('buddySearchBox') buddySearchBox : any;
+  clearBuddiesbutton = false;
+  noBuddiesResult = false;
+  noBuddies = false;
+  buddies! : any;
+  buddiesOriginal : any;
+  buddiesLoaded = false;
 
-  //loglist component data
-  logLoadComp = false;
-  logs! : string;
+  //logs
   activityCount = 0;
+  @ViewChild('logSearchBox') logSearchBox : any;
+  clearLogsbutton = false;
+  noLogsResult = false;
+  noLogs = false;
+  logs : any[] = [];
+  logsOriginal : any[] = [];
+  logsLoaded = false;
+
+  //fetch observables:
+  eventBuddies : Subject<void> = new Subject<void>();
+  eventLogs : Subject<void> = new Subject<void>();
 
   guestprofile = false;
   loading = true;
@@ -84,52 +100,115 @@ export class ViewprofilepageComponent implements OnInit {
   displayUser! : any;
   currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
 
-  constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute){
-   
-    this.email = cookie.get('email');
-    // this.id = this.activated.snapshot.paramMap.get('id');
-    this.id = this.cookie.get('id');
 
+
+  constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router){
   } 
+
+  changeProfile(id : string) {
+    this.logsLoaded = false;
+    this.buddiesLoaded = false;
+    this.buddyCount = 0;
+    this.activityCount = 0;
+    this.loading = true;
+    this.router.navigate([`/profile/${id}`]);
+  }
+
+  openSheet(buddy : any) {
+    console.log('open sheet');
+  }
+
+  checkSelf(id : any) {
+    return this.cookie.get('id') != id;
+  }
 
   ngOnInit(): void {
 
-    this.getCurrentUser().subscribe({
+    this.activated.params.subscribe((param : any) => {
+      const routerid = param?.id;
+      this.id = routerid
+      if (routerid == null)
+        this.id = this.cookie.get('id');
+
+      this.getCurrentUser().subscribe({
+        next: (data : any) => {
+          this.displayUser = data.data.getUser;
+          this.loading = false;
+          this.getData(this.displayUser.email);
+        },
+      })
+    })
+
+  }
+
+  getData(email : string) { //this is the email of the user to fetch the data for
+
+    this.getBuddies(email).subscribe({
       next: (data : any) => {
-        this.displayUser = data.data.getUser;
-        this.loading = false;
+        this.buddies = data.data.getConnections;
+        this.buddiesOriginal = this.buddies;
+        this.buddiesLoaded = true;
+        this.buddyCount = this.buddies.length;
+        if (this.buddyCount == 0) {
+          this.noBuddies = true;
+        }
       }
     })
 
-    this.getBuddies().subscribe({
-      next: (data : any) => {
-        this.buddies = JSON.stringify(data.data.getConnections);
-        this.buddyLoadComp = true;
-        this.buddyCount = data.data.getConnections.length;
-      }
-    })
-
-    this.getActivityLogs().subscribe(
+    this.getActivityLogs(email).subscribe(
       {
         next: (data : any) => {
           const swap: any[] = [];
           data.data.getLogs.map((el : any) => {
             swap.push(this.convertToCard(el));
           });
-          this.logs = JSON.stringify(swap);
-          this.logLoadComp = true;
+          this.logs = swap;
+          this.logsLoaded = true;
+          this.logsOriginal = this.logs;
           this.activityCount = swap.length;
+          if (this.logs.length == 0) {
+            this.noLogs = true;
+          }
+          console.log('activities', this.logs);
         },
       }
     );
 
   }
 
-  getActivityLogs() {
+  
+  getCurrentUser() {
+    return this.apollo
+    .query({
+      query: gql`query{getUser(
+        UserID:"${this.id}"
+      ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+      }
+      }
+      `,
+      // //pollInterval: 25000
+    })
+    
+  }
+
+  getActivityLogs(email : string) {
     return this.apollo
       .query ({
         query: gql`query{getLogs(
-          email:"${ this.email }" 
+          email:"${ email }" 
         ){
           user,
           activityType, 
@@ -144,12 +223,12 @@ export class ViewprofilepageComponent implements OnInit {
       })
   }
   
-  getBuddies() {
+  getBuddies(email : string) {
     return this.apollo
     .query({
       query: gql`query{
         getConnections(
-          email: "${ this.email }",
+          email: "${ email }",
       ){
         userName,
         userSurname,
@@ -237,33 +316,6 @@ export class ViewprofilepageComponent implements OnInit {
     return `${hours} hours ${mins} mins`;
   }
 
-  getCurrentUser() {
-    return this.apollo
-    .query({
-      query: gql`query{getUser(
-        UserID:"${this.id}"
-      ){
-          userName,
-          userSurname,
-          location,
-          longitude,
-          latitude,
-          stravaToken,
-          dob,
-          gender,
-          email,
-          cellNumber,
-          bio,
-          metrics{lift , ride , run , swim},
-          buddies
-      }
-      }
-      `,
-      // //pollInterval: 25000
-    })
-    
-  }
-
   getSportString(data : any) : string {
     if (data?.metrics == null) return '';
     const output = [];
@@ -285,6 +337,118 @@ export class ViewprofilepageComponent implements OnInit {
 
   toggleLogs() {
     this.toggle = false;
+  }
+
+  //code for the buddies//
+  showBuddiesClear() {
+    this.clearBuddiesbutton = true;
+  }
+
+  hideBuddiesClear() {
+    this.clearBuddiesbutton = false;
+    // this.input.nativeElement.value = '';
+    // this.buddies = this.buddiesOriginal;
+  }
+
+  clearBuddiesSearch() {
+    this.clearBuddiesbutton = false;
+    this.buddySearchBox.nativeElement.value = '';
+    this.buddies = this.buddiesOriginal;
+  }
+
+  searchBuddies(event : any) {
+
+    const search = event.value;
+
+    if (search.length == 0) {
+      this.buddies = this.buddiesOriginal;
+      this.noBuddiesResult = false;
+      return;
+    }
+
+    const swap = new Fuse(this.buddiesOriginal, {
+      keys: [
+        'userName',
+        'userSurname',
+        'location'
+      ]
+    }).search(
+      search
+    );
+
+    this.buddies = [];
+    swap.map((el : any) => {
+      this.buddies.push(el.item);
+    })
+
+    if (this.buddies.length == 0) {
+      this.noBuddiesResult = true;
+    } else {
+      this.noBuddiesResult = false;
+    }
+
+  }
+
+  currentProfile() : boolean {
+    const paramId = this.activated.snapshot.paramMap.get('id');
+    if (paramId == null)
+      return true;
+    if (paramId == this.cookie.get('id'))
+      return true;
+    return false;
+  }
+
+  //code for logs//
+  searchLogs(event : any) {
+
+    const search = event.value;
+
+    if (search.length == 0) {
+      this.logs = this.logsOriginal;
+      this.noLogsResult = false;
+      return;
+    }
+
+    const hits = new Fuse(this.logsOriginal, {
+      keys: [
+        'name',
+        'type',
+        'distance',
+        'speed',
+        'date',
+        'time'
+      ]
+    }).search(
+      search
+    );
+
+    this.logs = [];
+    hits.map((el : any) => {
+      this.logs.push(el.item);
+    });
+
+    if (this.logs.length == 0) {
+      this.noLogsResult = true;
+    } else {
+      this.noLogsResult = false;
+    }
+
+  }
+
+  showLogsClear() {
+    this.clearLogsbutton = true;
+  }
+
+  hideLogsClear() {
+    this.clearLogsbutton = false;
+    // this.input.nativeElement.value = '';
+    // this.logList = this.logListOriginal;
+  }
+
+  clearLogsSearch() {
+    this.clearLogsbutton = false;
+    this.logSearchBox.nativeElement.value = '';
+    this.logs = this.logsOriginal;
   }
 
 }
