@@ -30,7 +30,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //users - CREATE
     async createUser(@Param() user: UserDto){
         const data = {
-            id: uuid.v1().toString(),
+            id: uuid.v1(),
             userName : user.userName,
             userSurname : user.userSurname,
             email : user.email,
@@ -51,7 +51,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
-    async uploadPicture(@Param() user_id: number, @Param() fn: string){
+    async uploadPicture(@Param() email: string, @Param() fn: string){
         const bucket = admin.storage().bucket() ;
 
         const metadata = {
@@ -80,7 +80,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         });
     }
 
-    async getUser(@Param() userID:string):Promise<any>{
+    async getUser(@Param() userID: number):Promise<any>{
         return this.usersCollection.where('id', '==', userID).get().then(async (result) =>{
             if(result.docs[0]) return result.docs[0].data() ;
             return false ;
