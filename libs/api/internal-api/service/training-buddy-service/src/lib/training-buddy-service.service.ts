@@ -640,8 +640,8 @@ export class TrainingBuddyServiceService {
     async collaborativeFiltering(people: any[]  , email: string){
         const person = this.findOne(email)
         people.push(person);
-        let metric = [];
-        let recommended = [];
+        const metric = [];
+        const  recommended = [];
         for(let count = 0 ; count < people.length ; count++){
             metric.push(people[count].metric) 
         }
