@@ -1,6 +1,7 @@
 import { Injectable} from '@nestjs/common';
 import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig, Invite} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
+import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
@@ -9,7 +10,7 @@ export class TrainingBuddyServiceService {
      * 
      * @param jwtService 
      */
-    constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
+    constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity, private filter : CollaborativeFilter){}
     /**
      * 
      * @param email 
@@ -636,8 +637,30 @@ export class TrainingBuddyServiceService {
            
         }
     }
-    async collaborativeFiltering(people: any  , email: string){
+    async collaborativeFiltering(people: any[]  , email: string){
         const person = this.findOne(email)
+        people.push(person);
+        let metric = [];
+        let recommended = [];
+        for(let count = 0 ; count < people.length ; count++){
+            metric.push(people[count].metric) 
+        }
+       const res=  this.filter.cFilter(metric,0)
+       if(res.length<=0){
+        return people;
+       }else{
+        for(let i = 0; i < people.length; i++){
+            let count = 0;
+            for(let k = 0; k < res.length; i++){
+                if(people[i].metric[res[k]]==0){
+                    count++
+                }
+            } if(count <= 1){
+                recommended.push(people[i])
+            }
+        }
+        return recommended;
+    }     
     }
     async saveImage(userEmail:string,image:string){
         // let base64data;
