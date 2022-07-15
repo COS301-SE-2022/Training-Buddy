@@ -183,5 +183,20 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test sendRequest Function
+   */
+  
+  describe('sendRequest', () => {
+
+    it('should allow user to send a request', async () => {
+      jest.spyOn(resolver, 'sendRequest')
+      .mockImplementation(resolver.sendRequest);
+
+      expect(resolver.sendRequest).toReturn;
+
+    });
+  });
+
 
 });
