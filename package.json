@@ -57,6 +57,7 @@
     "apollo-angular": "^3.0.1",
     "apollo-server": "^3.7.0",
     "bcrypt": "^5.0.1",
+    "collaborative-filter": "^1.0.0-beta.3",
     "express": "^4.18.1",
     "file-system": "^2.2.2",
     "firebase": "^9.8.2",
