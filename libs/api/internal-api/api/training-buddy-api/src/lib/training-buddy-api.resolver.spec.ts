@@ -240,9 +240,32 @@ describe('TrainingBuddyApiResolver', () => {
   });
 
   /**
-   * 
+   * Test reject Function
    */
 
+  describe('reject', () => {
+    
+    it('should allow user to reject connection', async () => {
+      jest.spyOn(resolver, 'reject')
+      .mockImplementation(resolver.reject)
+
+      expect(resolver.reject).toReturn;
+    });
+  });
+
+  /**
+   * Test accept Function
+   */
+
+  describe('accept', () => {
+
+    it('should allow user to reject connection', async () => {
+      jest.spyOn(resolver, 'accept')
+      .mockImplementation(resolver.reject);
+
+      expect(resolver.reject).toReturn;
+    });
+  });
 
 
 
