@@ -18257,6 +18257,11 @@ sort-keys@^2.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
+sorted-btree@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/sorted-btree/-/sorted-btree-1.8.0.tgz#3fe8ceeb3882b6cdbe27f66fa9640aac91459dd6"
+  integrity sha512-AbLHqsE2CStFKk3e6T7jf0ZRg1GXb9km6urm8jFO2XDbC1KXV6pM8s91vz2VzFA241Pmz6p3OG5LP1p9hmpJ/A==
+
 "source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.1, source-map-js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/source-map-js/-/source-map-js-1.0.2.tgz"
