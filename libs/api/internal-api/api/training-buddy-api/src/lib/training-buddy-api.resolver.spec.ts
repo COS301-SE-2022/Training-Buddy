@@ -267,6 +267,33 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test getIncoming Function
+   */
+  describe('getIncoming', () => {
+    
+    it('should get all incoming requests', async () => {
+      jest.spyOn(resolver, 'getIncoming')
+      .mockImplementation(resolver.getIncoming);
+
+      expect(resolver.getIncoming).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getOutgoing Function
+   */
+  describe('getOutgoing', () => {
+    
+    it('should get all outgoing requests', async () => {
+      jest.spyOn(resolver, 'getOutgoing')
+      .mockImplementation(resolver.getOutgoing);
+
+      expect(resolver.getOutgoing).toReturn;
+
+    });
+  });
 
 
 });
