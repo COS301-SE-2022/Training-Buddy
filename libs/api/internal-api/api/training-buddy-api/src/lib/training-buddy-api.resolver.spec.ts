@@ -338,5 +338,38 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
   
+  /**
+   * Test saveTokens Function
+   */
+
+  describe('saveTokens', () => {
+    
+    it('should save user token', async () => {
+      jest.spyOn(resolver, 'saveTokens')
+      .mockImplementation(resolver.saveTokens);
+
+      expect(resolver.saveTokens).toReturn;
+    });
+  });
+
+  /**
+   * Test getTokens Function
+   */
+
+  describe('getTokens', () => {
+    
+    it('should get user token', async () => {
+      jest.spyOn(resolver, 'getTokens')
+      .mockImplementation(resolver.getTokens);
+
+      expect(resolver.saveTokens).toReturn;
+
+    });
+  });
+
+
+
+
+
 
 });
