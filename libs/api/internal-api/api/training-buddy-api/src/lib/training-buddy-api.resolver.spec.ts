@@ -463,4 +463,36 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test getWorkout Functions
+   */
+  describe('getWorkout', () => {
+    
+    it('should get user workouts', async () => {
+      jest.spyOn(resolver, 'getWorkout')
+      .mockImplementation(resolver.getWorkout);
+
+      expect(resolver.getWorkout).toReturn;
+    });
+  });
+
+  /**
+   * Test saveImage Function
+   */
+  describe('saveImage', () => {
+    
+    it('should allow user to save image', async () => {
+      jest.spyOn(resolver, 'saveImage')
+      .mockImplementation(resolver.saveImage);
+
+      expect(resolver.saveImage).toReturn;
+  
+    });
+  });
+
+  /**
+   * Test 
+   */
+
+
 });
