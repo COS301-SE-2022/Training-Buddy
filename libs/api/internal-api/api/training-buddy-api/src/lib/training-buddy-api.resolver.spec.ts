@@ -491,8 +491,49 @@ describe('TrainingBuddyApiResolver', () => {
   });
 
   /**
-   * Test 
+   * Test getIncomingInviteSub Function
    */
+  describe('getIncomingInviteSub', () => {
+    
+    it('should get all incoming invite subscriptions', async () => {
+      jest.spyOn(resolver, 'getIncomingInviteSub')
+      .mockImplementation(resolver.getIncomingInviteSub);
+
+      expect(resolver.getIncomingInviteSub).toReturn;
+    });
+  });
+
+  /**
+   * Test getOutgoingInviteSub Function
+   */
+
+  describe('getOutgoingInviteSub', () => {
+    
+
+    it('should get all outgoing invite subscriptions', async () => {
+      jest.spyOn(resolver, 'getOutgoingInviteSub')
+      .mockImplementation(resolver.getOutgoingInviteSub);
+
+      expect(resolver.getOutgoingInviteSub).toReturn;
+    });
+  });
+
+  /**
+   * Test getWorkoutSub Function
+   */
+
+  describe('getWorkoutSub', () => {
+    
+    it('should get all workout subsriptions', async () => {
+      jest.spyOn(resolver, 'getWorkoutSub')
+      .mockImplementation(resolver.getWorkoutSub);
+
+      expect(resolver.getWorkoutSub).toReturn;
+      
+    });
+  });
+
+
 
 
 });
