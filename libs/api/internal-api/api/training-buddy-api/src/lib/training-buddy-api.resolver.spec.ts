@@ -198,5 +198,52 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test getIncomingSub Function
+   */
+  describe('getIncomingSub', () => {
+
+    it('should get incoming subscription', async () => {
+      jest.spyOn(resolver, 'getIncomingSub')
+      .mockImplementation(resolver.getIncomingSub);
+
+      expect(resolver.getIncomingSub).toReturn;
+
+    });
+  });
+  
+  /**
+   * Test getOutgoingSub Function 
+   */
+  describe('getOutgoingSub', () => {
+
+    it('should get outgoing subscription', async () => {
+      jest.spyOn(resolver, 'getOutgoingSub')
+      .mockImplementation(resolver.getOutgoingSub);
+
+      expect(resolver.getOutgoingSub).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getConnectionsSub Function
+   */
+  describe('getConnectionsSub', () => {
+    it('should getConnectionsSub', async () => {
+        jest.spyOn(resolver, 'getConnectionsSub')
+        .mockImplementation(resolver.getConnectionsSub);
+
+        expect(resolver.getConnectionsSub).toReturn;
+
+    });
+  });
+
+  /**
+   * 
+   */
+
+
+
 
 });
