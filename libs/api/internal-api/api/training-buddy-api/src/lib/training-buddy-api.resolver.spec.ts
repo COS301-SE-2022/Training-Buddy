@@ -367,9 +367,73 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test sendInvite Function
+   */
 
+  describe('sendInvite', () => {
 
+    it('should allow user to send invite', async () => {
+      jest.spyOn(resolver, 'sendInvite')
+      .mockImplementation(resolver.sendInvite);
 
+      expect(resolver.sendInvite).toReturn;
 
+    });
+  });
+
+  /**
+   * Test getUser Function
+   */
+  describe('getUser', () => {
+    
+    it('should get all users', async () => {
+      jest.spyOn(resolver, 'getUser')
+      .mockImplementation(resolver.getUser);
+
+      expect(resolver.getUser).toReturn;
+
+    });
+  });
+
+  /**
+   * Test createInvite Function
+   */
+  describe('createInvite', () => {
+    
+    it('should allow user to create invite', async () => {
+      jest.spyOn(resolver, 'createInvite')
+      .mockImplementation(resolver.createInvite);
+
+      expect(resolver.createInvite).toReturn;
+    });
+  });
+
+  /**
+   * Test acceptInvite Function
+   */
+  describe('acceptInvite', () => {
+    
+    it('should allow user to accept invite', async () => {
+      jest.spyOn(resolver, 'acceptInvite')
+      .mockImplementation(resolver.acceptInvite);
+
+      expect(resolver.acceptInvite);
+    });
+  });
+
+  /**
+   * Test rejectInvite Function
+   */
+  describe('rejectInvite', () => {
+    
+    it('should allow user to reject invite', async () => {
+      jest.spyOn(resolver, 'rejectInvite')
+      .mockImplementation(resolver.rejectInvite);
+
+      expect(resolver.rejectInvite);
+
+    });
+  });
 
 });
