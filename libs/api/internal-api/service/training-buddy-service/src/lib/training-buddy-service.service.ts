@@ -641,10 +641,8 @@ export class TrainingBuddyServiceService {
     }
     
     async collaborativeFiltering(people: any[]  , email: string){
-        var collaborativeFilter = require("collaborative-filter")
-
-        var tree = new BTree;
-
+        const collaborativeFilter = require("collaborative-filter")
+        const tree = new BTree;
         let  person = await this.findOne(email)
         const metric = [];
         const recommended = [];
