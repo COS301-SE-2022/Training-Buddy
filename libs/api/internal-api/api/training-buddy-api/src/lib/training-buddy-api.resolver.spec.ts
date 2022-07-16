@@ -295,5 +295,48 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
+  /**
+   * Test getConnections Function
+   */
+  describe('getConnections', () => {
+    
+    it('should get all user connection', async () => {
+      jest.spyOn(resolver, 'getConnections')
+      .mockImplementation(resolver.getConnections);
+
+      expect(resolver.getConnections).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getScheduleWorkout
+   */
+
+  describe('getScheduleWorkout', () => {
+    
+    it('should get users scheduled workouts', async () => {
+      jest.spyOn(resolver, 'getScheduleWorkout')
+      .mockImplementation(resolver.getScheduleWorkout);
+
+      expect(resolver.getScheduleWorkout).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getLogs Functions
+   */
+  describe('getLogs', () => {
+    
+    it('should get all user activity logs', async () => {
+      jest.spyOn(resolver, 'getLogs')
+      .mockImplementation(resolver.getLogs);
+
+      expect(resolver.getLogs).toReturn;
+
+    });
+  });
+  
 
 });
