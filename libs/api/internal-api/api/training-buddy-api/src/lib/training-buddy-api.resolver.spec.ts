@@ -418,7 +418,7 @@ describe('TrainingBuddyApiResolver', () => {
       jest.spyOn(resolver, 'acceptInvite')
       .mockImplementation(resolver.acceptInvite);
 
-      expect(resolver.acceptInvite);
+      expect(resolver.acceptInvite).toReturn;
     });
   });
 
@@ -431,8 +431,35 @@ describe('TrainingBuddyApiResolver', () => {
       jest.spyOn(resolver, 'rejectInvite')
       .mockImplementation(resolver.rejectInvite);
 
-      expect(resolver.rejectInvite);
+      expect(resolver.rejectInvite).toReturn;
 
+    });
+  });
+
+  /**
+   * Test getIncomingInvites Function
+   */
+  describe('getIncomingInvites', () => {
+    
+    it('should get all incoming invites', async () => {
+      jest.spyOn(resolver, 'getIncomingInvites')
+      .mockImplementation(resolver.getIncomingInvites);
+
+      expect(resolver.getIncomingInvites).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getOutgoingInvites Function
+   */
+  describe('getOutgoingInvites', () => {
+    
+    it('should get all outgoing invites', async () => {
+      jest.spyOn(resolver, 'getOutgoingInvites')
+      .mockImplementation(resolver.getOutgoingInvites);
+
+      expect(resolver.getOutgoingInvites).toReturn;
     });
   });
 
