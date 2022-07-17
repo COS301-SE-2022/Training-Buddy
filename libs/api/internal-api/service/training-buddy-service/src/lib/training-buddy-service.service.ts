@@ -4,9 +4,11 @@ import {JwtService} from '@nestjs/jwt'
 import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
 import BTree from 'sorted-btree'
+
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+   
     /**
      * 
      * @param jwtService 
@@ -641,7 +643,7 @@ export class TrainingBuddyServiceService {
     }
     
     async collaborativeFiltering(people: any[]  , email: string){
-        const collaborativeFilter = require("collaborative-filter")
+        const collaborativeFilter = await import("collaborative-filter")
         const tree = new BTree;
         let  person = await this.findOne(email)
         const metric = [];
