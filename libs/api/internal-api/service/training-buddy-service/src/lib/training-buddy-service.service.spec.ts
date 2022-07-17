@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TrainingBuddyServiceService } from './training-buddy-service.service';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 import { JwtModule } from '@nestjs/jwt';
+
 import {UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 describe('TrainingBuddyServiceService', () => {
   let service: TrainingBuddyServiceService;
