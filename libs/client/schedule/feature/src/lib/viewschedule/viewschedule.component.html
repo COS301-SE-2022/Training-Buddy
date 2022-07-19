@@ -1,6 +1,10 @@
 <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
-
+<!-- <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div> -->
 <h1 class="text-center">Up Comming Workouts</h1>
+
+<div *ngIf="!upcomingEvents" class="my-6">
+    <mat-hint class="text-center">No events scheduled</mat-hint>
+</div>
 
 <div>
     <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
