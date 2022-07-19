@@ -23,6 +23,25 @@
                     </mat-error>
                 </mat-form-field>
 
+                <!-- Location with goodle autocompelet-->
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Location</mat-label>
+                    <input formControlName="userLocation" matInput
+                           matGoogleMapsAutocomplete
+                           (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                           (onLocationSelected)="onLocationSelected($event)">
+                    <mat-error >
+                        Location is required
+                    </mat-error>
+                    <mat-hint class="fullhint">
+                        <div>
+                            <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
+                        </div>
+                    </mat-hint>
+                </mat-form-field>
+
+
                 <!-- activity type -->
                 <mat-form-field appearance="outline">
 
