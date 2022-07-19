@@ -23,6 +23,10 @@ export class ScheduleworkoutComponent implements OnInit {
   calculatedDuration : string;
   showCalculatedDuration : boolean;
 
+  latitude : number;
+  longitude : number;
+  vicinity : string;
+
   mins = '5';
   secs = '30';
 
@@ -34,6 +38,9 @@ export class ScheduleworkoutComponent implements OnInit {
     this.calculatedDuration = '';
     this.showCalculatedDuration = false;
     this.email = cookieService.get('name');
+    this.latitude = 0;
+    this.longitude = 0;
+    this.vicinity = "";
   }
 
   setAllFalse() {
@@ -242,5 +249,15 @@ export class ScheduleworkoutComponent implements OnInit {
     }
     this.showCalculatedDuration = true;
   }
-
+    //Google geocoding functions
+    onAutocompleteSelected(event : any) {
+      this.vicinity = event.vicinity;
+    }
+  
+    onLocationSelected(event: any) {
+      if (event != null) {
+        this.latitude = event.latitude;
+        this.longitude = event.longitude;
+      }
+    }
 }
