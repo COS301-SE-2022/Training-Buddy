@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class ViewscheduleComponent implements OnInit {
 
   // constructor() { }
-
+  upcomingEvents = false;
+  loading = true;
   ngOnInit(): void {
     return;
   }
