@@ -59,6 +59,7 @@ describe('TrainingBuddyApiResolver', () => {
       expect(resolver.login).toReturn;
 
       expect(resolver.login).toHaveBeenCalled;
+
       
     });
   });
