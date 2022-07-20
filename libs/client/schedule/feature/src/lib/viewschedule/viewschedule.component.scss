@@ -8,3 +8,13 @@
 .text-center {
     text-align: center;
 }
+
+#pagespinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1b1a1b;
+}

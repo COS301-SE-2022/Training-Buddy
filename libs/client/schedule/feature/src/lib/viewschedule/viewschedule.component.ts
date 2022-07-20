@@ -15,10 +15,10 @@ export class ViewscheduleComponent implements OnInit {
   loading = true;
   id!: any;
   user!: any;
-  buddies: any;
+  workouts: any;
   workoutsLoaded = false;
   workoutsCount = 0;
-  noWorkouts = false;
+  currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router){
   } 
   ngOnInit(): void {
@@ -84,11 +84,15 @@ export class ViewscheduleComponent implements OnInit {
     //to do api call to get the schedule workouts
     this.getWorkouts(email).subscribe({
       next: (data : any) => {
-        this.buddies = data.data.getScheduleWorkout;
+          const swap: any[] = [];
+          data.data.getScheduleWorkout.map((el : any) => {
+            swap.push(this.convertToCard(el));
+          });
+        this.workouts = swap;
         this.workoutsLoaded = true;
-        this.workoutsCount = this.buddies.length;
-        if (this.workoutsCount == 0) {
-          this.noWorkouts = true;
+        this.workoutsCount = this.workouts.length;
+        if (this.workoutsCount != 0) {
+          this.upcomingEvents = true;
         }
         console.log(data)
       }
