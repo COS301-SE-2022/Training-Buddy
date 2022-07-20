@@ -1,22 +1,29 @@
 <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
-<div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
-<h1 class="text-center">Up Comming Workouts</h1>
 
-<div *ngIf="!upcomingEvents" class="my-6">
-    <mat-hint class="text-center">No events scheduled</mat-hint>
-</div>
-<mat-card>
-    <mat-card-title>Event name</mat-card-title>
-    <mat-card-subtitle>Time: 19:30 Location:Mcdonanld</mat-card-subtitle>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-</mat-card>
-<div>
-    <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
-        <mat-icon>add</mat-icon>
-    </button>
+<h1 class="text-center">Up Comming Workouts</h1>
+<div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
+<div *ngIf="!loading"> 
+    <div *ngIf="!upcomingEvents" class="my-6">
+        <mat-hint class="text-center">No workouts scheduled</mat-hint>
+    </div>
+    <div *ngFor="let workout of workouts" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
+                            
+        <div class="m-3 row space-between align-content">
+
+            <div class="row align-content cursor" >
+                <div class="my-2 buddypic" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+                <div class="ml-6">
+                    <div><h2>{{ workout?.name }} {{workout?.startDate}} {{ workout?.startTime }}</h2></div>
+                    <div><mat-hint>{{ workout?.startPoint }}</mat-hint></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+        <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
+            <mat-icon>add</mat-icon>
+        </button>
 </div>
 
 <training-buddy-navbar></training-buddy-navbar>
