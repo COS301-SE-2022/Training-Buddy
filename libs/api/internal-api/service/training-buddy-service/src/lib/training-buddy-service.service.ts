@@ -643,6 +643,9 @@ export class TrainingBuddyServiceService {
     }
     
     async collaborativeFiltering(people: any[]  , email: string){
+        if(people.length <=0){
+            return people;
+        }
         const collaborativeFilter = await import("collaborative-filter")
         const tree = new BTree;
         let  person = await this.findOne(email)
