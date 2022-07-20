@@ -4,6 +4,8 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ViewscheduleComponent } from './viewschedule.component';
+import { Apollo } from 'apollo-angular';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('ViewscheduleComponent', () => {
   let component: ViewscheduleComponent;
@@ -17,7 +19,11 @@ describe('ViewscheduleComponent', () => {
         UiModule,
         BrowserAnimationsModule,
         RouterTestingModule
-      ]
+      ],
+      providers: [
+        Apollo, 
+        CookieService
+      ],
     })
     .compileComponents();
   });
