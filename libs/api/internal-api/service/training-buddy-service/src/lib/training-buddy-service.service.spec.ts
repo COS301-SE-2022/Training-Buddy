@@ -86,16 +86,30 @@ describe('TrainingBuddyServiceService', () => {
    * Test signup
    */
 
-  // describe('signup', () => {
+  describe('signup', () => {
     
-  //   it.only('should allow user to signup', async () => {
+    it.only('should allow user to signup', async () => {
 
-  //     jest.spyOn(service, 'signup').mockImplementation(service.signup);
+      jest.spyOn(service, 'signup').mockImplementation(service.signup);
 
-  //     expect(service.signup(mockUserDto)).toReturn;
+      expect(service.signup).toReturn;
       
-  //   });
-  // });
+    });
+  });
+
+  /**
+   * Test getAll Function
+   */
+  describe('getAll', () => {
+    
+    it('should get all users', async () => {
+
+      jest.spyOn(service, 'getAll').mockImplementation(service.getAll);
+
+      expect(service.getAll).toReturn;
+
+    });
+  });
 
 
 });
