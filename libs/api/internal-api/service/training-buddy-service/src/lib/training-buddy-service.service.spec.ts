@@ -32,7 +32,7 @@ describe('TrainingBuddyServiceService', () => {
     expect(service).toBeDefined();
   });
 
-    /**
+  /**
    * Test validateUser
    */
      describe('validateUser', () => {
@@ -64,6 +64,22 @@ describe('TrainingBuddyServiceService', () => {
       });
       
     });
+
+  /**
+   * Test findOne Function
+   */
+  describe('findOne', () => {
+
+    it('should find and return one user', async () => {
+
+      jest.spyOn(service, 'findOne').mockImplementation(async () => service.findOne);
+
+      expect(service.findOne(UserDtoModule.email)).toReturn;
+
+    });
+    
+  });
+
 
 
 });
