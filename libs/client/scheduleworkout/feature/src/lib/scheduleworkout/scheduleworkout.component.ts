@@ -54,6 +54,7 @@ export class ScheduleworkoutComponent implements OnInit {
   ngOnInit(): void {
     this.scheduleWorkout = this.frmBuilder.group({
       name: ['Training Activity', [Validators.required]],
+      location: ['', [Validators.required]],
       type: ['Running', [Validators.required]],
       hours: ['1', [Validators.required]],
       minutes: ['00', [Validators.required, Validators.max(59)]],
@@ -90,6 +91,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
     //use the appropriate variable in the API call
     const type = this.scheduleWorkout.controls['type'].value || false;
+    const location = this.scheduleWorkout.controls['location'].value || false;
     const name = this.scheduleWorkout.controls['name'].value || false;
     const hours = this.scheduleWorkout.controls['hours'].value || false;
     const minutes = this.scheduleWorkout.controls['minutes'].value || false;
@@ -113,7 +115,7 @@ export class ScheduleworkoutComponent implements OnInit {
       this.resetForm();
       return;
     }
-
+  
     //distance is required for riding, running & swimming:
     if (!distance)
       return;
@@ -146,7 +148,10 @@ export class ScheduleworkoutComponent implements OnInit {
       //TODO(4):  
 
     }
-
+    //location is required
+    if(!location){
+      return;
+    }
     this.resetForm();
   }
 

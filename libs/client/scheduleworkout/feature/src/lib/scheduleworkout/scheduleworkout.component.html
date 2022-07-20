@@ -17,7 +17,7 @@
                 <!-- activity name -->
                 <mat-form-field appearance="outline">
                     <mat-label>Activity Name</mat-label>
-                    <input formControlName="name" id="name" matInput type="text" placeholder="Training Activity" name="name">
+                    <input formControlName="name" id="name" matInput type="text" placeholder="" name="name">
                     <mat-error>
                         Name is required
                     </mat-error>
@@ -27,11 +27,11 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Location</mat-label>
-                    <input formControlName="userLocation" matInput
+                    <input formControlName="location" matInput
                            matGoogleMapsAutocomplete
                            (onAutocompleteSelected)="onAutocompleteSelected($event)"
                            (onLocationSelected)="onLocationSelected($event)">
-                    <mat-error >
+                    <mat-error *ngIf="scheduleWorkout.controls['location'].errors">
                         Location is required
                     </mat-error>
                     <mat-hint class="fullhint">

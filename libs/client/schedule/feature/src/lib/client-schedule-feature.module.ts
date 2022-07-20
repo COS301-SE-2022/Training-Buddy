@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ViewscheduleComponent } from './viewschedule/viewschedule.component';
 import { ScheduleRoutingModule } from './schedule-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -13,5 +14,8 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
   declarations: [
     ViewscheduleComponent
   ],
+  providers: [
+    CookieService
+  ]
 })
 export class ClientScheduleFeatureModule {}
