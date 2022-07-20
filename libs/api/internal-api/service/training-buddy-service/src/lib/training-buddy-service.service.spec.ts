@@ -10,6 +10,9 @@ import {  UserDto,
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const UserDtoModule: UserDto = new UserDto() as UserDto;
 
+jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const mockUserDto: jest.Mocked<UserDto> = new UserDto() as UserDto;
+
 describe('TrainingBuddyServiceService', () => {
   let service: TrainingBuddyServiceService;
 
@@ -44,7 +47,7 @@ describe('TrainingBuddyServiceService', () => {
 
       jest.spyOn(service, 'validateUser').mockImplementation(() => positiveResult);
 
-      expect(await service.validateUser(UserDtoModule.email, UserDtoModule.password)).toEqual(positiveResult);
+      expect(await service.validateUser(UserDtoModule.email, UserDtoModule.password)).toBe(positiveResult);
 
     });
 
@@ -78,6 +81,21 @@ describe('TrainingBuddyServiceService', () => {
     });
     
   });
+
+  /**
+   * Test signup
+   */
+
+  // describe('signup', () => {
+    
+  //   it.only('should allow user to signup', async () => {
+
+  //     jest.spyOn(service, 'signup').mockImplementation(service.signup);
+
+  //     expect(service.signup(mockUserDto)).toReturn;
+      
+  //   });
+  // });
 
 
 });
