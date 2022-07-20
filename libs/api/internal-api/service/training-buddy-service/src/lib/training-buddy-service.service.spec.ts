@@ -3,7 +3,14 @@ import { TrainingBuddyServiceService } from './training-buddy-service.service';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 import { JwtModule } from '@nestjs/jwt';
 
-import {UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import {  UserDto,
+  ActivityStat,
+  UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+
+  
+jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const UserDtoModule: UserDto = new UserDto() as UserDto;
+
 describe('TrainingBuddyServiceService', () => {
   let service: TrainingBuddyServiceService;
 
@@ -24,4 +31,39 @@ describe('TrainingBuddyServiceService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+    /**
+   * Test validateUser
+   */
+     describe('validateUser', () => {
+      /**
+       * Positive Test
+       */
+      it('should validate user', async () => {
+  
+        const positiveResult = null;
+  
+        jest.spyOn(service, 'validateUser').mockImplementation(() => positiveResult);
+  
+        expect(await service.validateUser(UserDtoModule.email, UserDtoModule.password)).toBe(positiveResult);
+  
+      });
+  
+      /**
+       * Negative Test
+       */
+  
+      it('should throw validateUser error', async () => {
+  
+        const negativeResult = 0;
+  
+        jest.spyOn(service, 'validateUser').mockImplementation(async () => negativeResult);
+  
+        expect(await service.validateUser(UserDtoModule.email, UserDtoModule.password)).toThrowError;
+   
+      });
+      
+    });
+
+
 });
