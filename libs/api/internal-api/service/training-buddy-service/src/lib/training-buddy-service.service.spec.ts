@@ -6,7 +6,10 @@ import { JwtModule } from '@nestjs/jwt';
 import {  UserDto,
   ActivityStat,
   UserEntity,
-  ErrorMessage} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+  UpdateUser,
+  Userconfig,
+  ErrorMessage
+  } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { userInfo } from 'os';
 
   
@@ -15,6 +18,15 @@ const UserDtoModule: UserDto = new UserDto() as UserDto;
 
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const ActivityStatModule: ActivityStat = new ActivityStat() as ActivityStat;
+
+jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const UpdateUserModule: UpdateUser = new UpdateUser() as UpdateUser;
+
+jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const UserconfigModule: Userconfig = new Userconfig() as Userconfig;
+
+jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const ErrorMessageModule: ErrorMessage = new ErrorMessage() as ErrorMessage;
 
 describe('TrainingBuddyServiceService', () => {
   let service: TrainingBuddyServiceService;
@@ -153,10 +165,38 @@ describe('TrainingBuddyServiceService', () => {
       jest.spyOn(service, 'fetchUserStat').mockImplementation(service.fetchUserStat);
 
       expect(async () => service.fetchUserStat(UserDtoModule.email)).toReturn;
-      
+
     });
   });
 
+  /**
+   * Test updateUser
+   */
+
+  describe('updateUser', () => {
+    
+    it('should allow user to update details', async () => {
+      
+      jest.spyOn(service, 'updateUser').mockImplementation(service.updateUser);
+
+      expect(async () => service.updateUser(UpdateUserModule)).toReturn;
+
+    });
+  });
+
+  /**
+   * Test userConfig
+   */
+  describe('userConfig', () => {
+
+    it('should allow user configure profile', async () => {
+
+      jest.spyOn(service, 'userConfig').mockImplementation(service.userConfig);
+
+      expect(async () => service.userConfig(UserconfigModule)).toReturn;
+      
+    });
+  });
 
 
 });
