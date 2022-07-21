@@ -96,7 +96,7 @@ export class TrainingBuddyServiceService {
      * @param user 
      * @returns 
      */
-    async login( user:any){
+    async login(user:any){
         {
             return {
                 accessToken: this.jwtService.sign({user: user.userName , email: user.email}),
