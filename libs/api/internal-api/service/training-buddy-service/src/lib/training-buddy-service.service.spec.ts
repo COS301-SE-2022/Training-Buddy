@@ -5,11 +5,16 @@ import { JwtModule } from '@nestjs/jwt';
 
 import {  UserDto,
   ActivityStat,
-  UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+  UserEntity,
+  ErrorMessage} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
+import { userInfo } from 'os';
 
   
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const UserDtoModule: UserDto = new UserDto() as UserDto;
+
+jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
+const ActivityStatModule: ActivityStat = new ActivityStat() as ActivityStat;
 
 describe('TrainingBuddyServiceService', () => {
   let service: TrainingBuddyServiceService;
@@ -86,11 +91,11 @@ describe('TrainingBuddyServiceService', () => {
 
      describe('signup', () => {
     
-      it.only('should allow user to signup', async () => {
+      it('should allow user to signup', async () => {
   
         jest.spyOn(service, 'signup').mockImplementation(service.signup);
   
-        expect(service.signup).toReturn;
+        expect(async () => service.signup(UserDtoModule)).toReturn;
         
       });
     });
@@ -104,12 +109,53 @@ describe('TrainingBuddyServiceService', () => {
   
         jest.spyOn(service, 'getAll').mockImplementation(service.getAll);
   
-        expect(service.getAll).toReturn;
+        expect(async () => service.getAll(UserDtoModule.email)).toReturn;
   
       });
     });
 
+  /**
+   * Test login Function
+  */
+  describe('login', () => {
     
+    it('should allow user to login', async () => {
+
+      jest.spyOn(service, 'login').mockImplementation(service.login)
+
+      expect(service.login).toReturn;
+    });
+  });
+
+  /**
+   * Test createActivityStat 
+   */
+
+  describe('createActivityStat', () => {
+
+    it('should allow user to createActivityStat', async () => {
+
+      jest.spyOn(service, 'createActivityStat').mockImplementation(service.createActivityStat);
+
+      expect(async () => service.createActivityStat(ActivityStatModule)).toReturn;
+
+    });
+
+  });
+
+  /**
+   * Test fetchUserStat 
+   */
+  describe('fetchUserStat', () => {
+    
+    it('should fetch user statistics', async () => {
+      
+      jest.spyOn(service, 'fetchUserStat').mockImplementation(service.fetchUserStat);
+
+      expect(async () => service.fetchUserStat(UserDtoModule.email)).toReturn;
+      
+    });
+  });
 
 
 
