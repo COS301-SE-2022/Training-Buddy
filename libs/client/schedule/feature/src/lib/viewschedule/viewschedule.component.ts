@@ -88,13 +88,19 @@ export class ViewscheduleComponent implements OnInit {
           data.data.getScheduleWorkout.map((el : any) => {
             swap.push(this.convertToCard(el));
           });
-        this.workouts = swap;
-        this.workoutsLoaded = true;
-        this.workoutsCount = this.workouts.length;
-        if (this.workoutsCount != 0) {
-          this.upcomingEvents = true;
-        }
-        console.log(data)
+
+          //sort the data.
+          swap.sort(function(a,b){
+            return a.startDate.timestamp - b.startDate.timestamp;
+          });
+          console.log(swap);
+          this.workouts = swap;
+          this.workoutsLoaded = true;
+          this.workoutsCount = this.workouts.length;
+          if (this.workoutsCount != 0) {
+            this.upcomingEvents = true;
+          }
+          console.log(data)
       }
     })
   }
@@ -123,6 +129,7 @@ export class ViewscheduleComponent implements OnInit {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
    
     return{
+      timestamp: data,
       day: date.getDate(),
       month:  months[date.getMonth()],
       year: date.getFullYear(),
