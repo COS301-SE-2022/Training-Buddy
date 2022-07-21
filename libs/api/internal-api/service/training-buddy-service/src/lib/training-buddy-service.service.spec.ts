@@ -194,9 +194,45 @@ describe('TrainingBuddyServiceService', () => {
       jest.spyOn(service, 'userConfig').mockImplementation(service.userConfig);
 
       expect(async () => service.userConfig(UserconfigModule)).toReturn;
+
+    });
+  });
+
+  /**
+   * Test calculatedDistance
+   */
+  describe('calculatedistance', () => {
+    
+    it('should calculate distance', async () => {
+      
+      jest.spyOn(service, 'calculatedistance').mockImplementation(service.calculatedistance);
+    
+      expect(async () => service.calculatedistance(UserDtoModule.latitude, UserDtoModule.longitude, UserDtoModule.latitude, UserDtoModule.longitude));
       
     });
   });
+
+  /**
+   * Test toRad
+   */
+
+  // describe('toRad', () => {
+    
+  //   /**
+  //    * Positive Test
+  //    */
+  //   it('should convert number to rad', async () => {
+  //     const positiveResult = 10;
+      
+  //     jest.spyOn(service, 'toRad').mockImplementation(service.toRad);
+
+  //     const returedResult = async () =>  service.toRad(positiveResult);
+
+  //     expect(returedResult).toEqual((positiveResult * Math.PI / 180));
+
+  //   });
+
+  // });
 
 
 });

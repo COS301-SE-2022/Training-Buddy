@@ -249,6 +249,7 @@ export class TrainingBuddyServiceService {
         return d;
 
     }
+
     /**
      * 
      * @param Value 
@@ -258,6 +259,7 @@ export class TrainingBuddyServiceService {
     {
         return Value * Math.PI / 180;
     }
+    
     /**
      * 
      * @param actLog 
