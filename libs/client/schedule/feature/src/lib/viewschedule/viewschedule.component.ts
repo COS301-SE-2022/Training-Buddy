@@ -105,8 +105,7 @@ export class ViewscheduleComponent implements OnInit {
       //name: data.name,
       name: "Training",
       startPoint: this.startPoint(data.startPoint),
-      startTime: this.startTime(data.startTime),
-      startDate: this.startDate(data.startTime),
+      startDate: this.startDateTime(data.startTime),
       image: this.image(data.activityType)
 
     
@@ -118,16 +117,19 @@ export class ViewscheduleComponent implements OnInit {
     return "Hatfield Studios";
   }
 
-  startTime(data: string): string{
+  startDateTime(data: string): any{
     //write a function that returns the date and time 
     // e.g 13:00
-    return "13:00";
-  }
-
-  startDate(data: string): string{
-    //return the date
-    // e.g 17 june
-    return "17 june";
+    const date = new Date(Number(data) * 1000);
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+   
+    return{
+      day: date.getDate(),
+      month:  months[date.getMonth()],
+      year: date.getFullYear(),
+      hour: date.getHours(),
+      minutes: date.getMinutes(),
+    }
   }
 
   image(data: string): string{
