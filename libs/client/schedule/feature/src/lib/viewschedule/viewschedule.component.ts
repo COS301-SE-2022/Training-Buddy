@@ -18,7 +18,7 @@ export class ViewscheduleComponent implements OnInit {
   workouts: any;
   workoutsLoaded = false;
   workoutsCount = 0;
-  currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
+
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router){
   } 
   ngOnInit(): void {
@@ -104,23 +104,13 @@ export class ViewscheduleComponent implements OnInit {
     return{
       //name: data.name,
       name: "Training",
-      type: this.type(data.activityType),
       startPoint: this.startPoint(data.startPoint),
       startTime: this.startTime(data.startTime),
       startDate: this.startDate(data.startTime),
+      image: this.image(data.activityType)
 
     
     }
-  }
-
-  type(data: string): string{
-    if (data == 'Running') 
-    return 'Run';
-    if (data == 'Riding')
-      return 'Ride';
-    if (data == 'Swimming')
-      return 'Swim';
-    return 'Weights';
   }
 
   startPoint(data: string): string{
@@ -138,6 +128,17 @@ export class ViewscheduleComponent implements OnInit {
     //return the date
     // e.g 17 june
     return "17 june";
+  }
+
+  image(data: string): string{
+    // return this.currentImage;
+    if (data == 'Running') 
+    return "https://img.icons8.com/ios/50/000000/running.png";
+    if (data == 'Riding')
+      return "https://img.icons8.com/ios-filled/50/000000/bicycle.png";
+    if (data == 'Swimming')
+      return "https://img.icons8.com/ios/50/000000/swimming.png";
+    return "https://img.icons8.com/ios/50/000000/dumbbell--v1.png";
   }
 
 }

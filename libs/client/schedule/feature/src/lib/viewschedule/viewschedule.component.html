@@ -11,7 +11,7 @@
         <div class="m-3 row space-between align-content">
 
             <div class="row align-content cursor" >
-                <div class="my-2 buddypic" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+                <div class="my-2 eventpic" [ngStyle]="{'background-image': 'url(' +  workout?.image + ')'}"></div>
                 <div class="ml-6">
                     <div><h2>{{ workout?.name }} {{workout?.startDate}} {{ workout?.startTime }}</h2></div>
                     <div><mat-hint>{{ workout?.startPoint }}</mat-hint></div>
