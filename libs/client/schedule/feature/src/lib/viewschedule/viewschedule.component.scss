@@ -18,10 +18,11 @@
 
 .eventpic {
     background-color: rgba(27, 26, 27, 0.075);
-    height: 75px;
-    width: 75px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
-    background-size: cover;
+    background-size: 80%;
+    background-position: center;
     background-repeat: no-repeat;
     margin-bottom: 5% !important;
 }
