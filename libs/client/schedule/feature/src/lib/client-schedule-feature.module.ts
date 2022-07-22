@@ -4,6 +4,7 @@ import { ViewscheduleComponent } from './viewschedule/viewschedule.component';
 import { ScheduleRoutingModule } from './schedule-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { CookieService } from 'ngx-cookie-service';
+import { WorkoutComponent } from './workout/workout.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { CookieService } from 'ngx-cookie-service';
     UiModule
   ],
   declarations: [
-    ViewscheduleComponent
+    ViewscheduleComponent,
+    WorkoutComponent
   ],
   providers: [
     CookieService
