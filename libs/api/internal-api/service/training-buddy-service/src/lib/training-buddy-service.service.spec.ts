@@ -8,6 +8,7 @@ import {  UserDto,
   UserEntity,
   UpdateUser,
   Userconfig,
+  ActivitySchedule,
   ErrorMessage
   } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import { userInfo } from 'os';
@@ -26,7 +27,7 @@ jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-acces
 const UserconfigModule: Userconfig = new Userconfig() as Userconfig;
 
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-const ErrorMessageModule: ErrorMessage = new ErrorMessage() as ErrorMessage;
+const ActivityScheduleModule: ActivitySchedule = new ActivitySchedule() as ActivitySchedule;
 
 describe('TrainingBuddyServiceService', () => {
   let service: TrainingBuddyServiceService;
@@ -234,5 +235,47 @@ describe('TrainingBuddyServiceService', () => {
 
   // });
 
+  /**
+   * Test activitySchedule
+   */
+  describe('activitySchedule', () => {
+    
+    it('should allow user to schedule activity', async () => {
+      
+      jest.spyOn(service, 'activitySchedule').mockImplementation(service.activitySchedule);
+
+      expect(async () => service.activitySchedule(ActivityScheduleModule)).toReturn;
+    });
+  });
+
+  /**
+   * Test accept
+   */
+
+  describe('accept', () => {
+    
+    it('should should allow user to accept invite', async () => {
+      
+      jest.spyOn(service, 'accept').mockImplementation(service.accept);
+
+      expect(async () => service.accept(UserDtoModule.email, 'u1@gmail.com')).toReturn;
+
+    });
+  });
+
+  /**
+   * Test reject
+   */
+  describe('reject', () => {
+
+    it('should should allow user to accept invite', async () => {
+      
+      jest.spyOn(service, 'reject').mockImplementation(service.reject);
+
+      expect(async () => service.accept(UserDtoModule.email, 'u1@gmail.com')).toReturn;
+    
+    });
+
+  });
 
 });
