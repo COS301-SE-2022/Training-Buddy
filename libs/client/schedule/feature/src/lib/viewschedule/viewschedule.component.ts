@@ -93,14 +93,34 @@ export class ViewscheduleComponent implements OnInit {
           swap.sort(function(a,b){
             return a.startDate.timestamp - b.startDate.timestamp;
           });
-          console.log(swap);
+          // console.log(swap[0]);
+          //
+          
+          const dated: any[][] = [[]];
+          let x = 0;
+          let currentday = swap[0].startDate.day;
+          
+          for(let w = 0; w < swap.length; w++  ){
+            if(swap[w].startDate.day == currentday){
+              dated[x].push(swap[w].startDate.day);
+            }
+            else{
+              currentday = swap[w].startDate.day;
+              x++;
+              const temp: any[] = [];
+              dated.push(temp)
+              dated[x].push(swap[w].startDate.day);
+            }
+          }
+        
+          console.log(dated);
           this.workouts = swap;
           this.workoutsLoaded = true;
           this.workoutsCount = this.workouts.length;
           if (this.workoutsCount != 0) {
             this.upcomingEvents = true;
           }
-          console.log(data)
+          // console.log(data)
       }
     })
   }
@@ -109,7 +129,7 @@ export class ViewscheduleComponent implements OnInit {
     //to do write function to convert the data to a card
     return{
       //name: data.name,
-      name: "Training",
+      name: "Gym session",
       startPoint: this.startPoint(data.startPoint),
       startDate: this.startDateTime(data.startTime),
       image: this.image(data.activityType)
