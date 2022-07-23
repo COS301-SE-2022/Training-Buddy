@@ -6,7 +6,7 @@
     <div *ngIf="!upcomingEvents" class="my-6">
         <mat-hint class="text-center">No workouts scheduled</mat-hint>
     </div>
-    <div *ngFor="let workout of workouts" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
+    <!-- <div *ngFor="let workout of workouts" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
                             
         <div class="m-3 row space-between align-content">
 
@@ -20,6 +20,31 @@
 
         </div>
 
+    </div> -->
+    <div>
+        <!-- for date -->
+        <div *ngFor="let day of workouts">
+            <div>
+                {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
+            </div>
+            <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
+                            
+                <div class="m-3 row space-between align-content">
+        
+                    <div class="row align-content cursor" >
+                        <div class="my-2 eventpic" [ngStyle]="{'background-image': 'url(' +  workout?.image + ')'}"></div>
+                        <div class="ml-6">
+                            <div><h2>{{ workout?.name }} {{workout?.startDate.day}} {{workout?.startDate.month}} {{workout?.startDate.hour}}:{{workout?.startDate.minutes}}</h2></div>
+                            <div><mat-hint>{{ workout?.startPoint }}</mat-hint></div>
+                        </div>
+                    </div>
+        
+                </div>
+        
+            </div>
+        </div>
+        <!-- for workouts on date -->
+        <div></div>
     </div>
         <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
             <mat-icon>add</mat-icon>

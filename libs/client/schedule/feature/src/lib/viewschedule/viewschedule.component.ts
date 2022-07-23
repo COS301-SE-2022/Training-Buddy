@@ -102,19 +102,19 @@ export class ViewscheduleComponent implements OnInit {
           
           for(let w = 0; w < swap.length; w++  ){
             if(swap[w].startDate.day == currentday){
-              dated[x].push(swap[w].startDate.day);
+              dated[x].push(swap[w]);
             }
             else{
               currentday = swap[w].startDate.day;
               x++;
               const temp: any[] = [];
               dated.push(temp)
-              dated[x].push(swap[w].startDate.day);
+              dated[x].push(swap[w]);
             }
           }
         
           console.log(dated);
-          this.workouts = swap;
+          this.workouts = dated;
           this.workoutsLoaded = true;
           this.workoutsCount = this.workouts.length;
           if (this.workoutsCount != 0) {
