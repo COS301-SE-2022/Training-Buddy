@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Apollo, gql, Query } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { collection, query, where } from "firebase/firestore";
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -20,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   email : string;
 
-  constructor(private apollo : Apollo, private cookieService:CookieService ) { 
+  constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore) { 
     this.noBuddies = true;
     this.email = this.cookieService.get('email');
   }
@@ -51,8 +53,13 @@ export class DashboardComponent implements OnInit {
     return this.requests == null;
   }
 
-  ngOnInit(): void {
-    
+  async ngOnInit(): Promise<void> {
+
+    // console.log('trying to query')
+    // this.firestore.collection('ActivityLogs').valueChanges().subscribe((data : any) => {
+    //   console.log('data', data)
+    // });
+    // console.log(q);
     this.getBuddieRecommended().subscribe({
       next: (data : any) => {
         this.buddies = data.data.findAll;
@@ -60,28 +67,48 @@ export class DashboardComponent implements OnInit {
         if (this.buddies.length != 0)
           this.noBuddies = false;
         this.doneloading = true;
-        console.log(this.buddies);
+        // console.log(this.buddies);
       }
     });
 
-    this.getIncomingRequests().subscribe({
-      next: (data: any) => {
-        console.log(data)
-        this.pendingrequests = false;
-        this.requests = data.data.getIncoming;
-        if (this.requests.length != 0)
-          this.pendingrequests = true;
-      }
-    });
+    //old method through Graphqql
+    // this.getIncomingRequests().subscribe({
+    //   next: (data: any) => {
+    //     console.log(data)
+    //     this.pendingrequests = false;
+    //     this.requests = data.data.getIncoming;
+    //     if (this.requests.length != 0)
+    //       this.pendingrequests = true;
+    //   }
+    // });
 
-    // this.getIncomingRequests().subscribeToMore();
 
-    this.getOutgoing().subscribe({
-      next: (data: any) => {
-        this.outgoingRequests = data.data.getOutgoing;
-        // console.log('outgoing', this.outgoingRequests)
-      }
-    });
+
+    // this.firestore.collection('BuddyRequests').valueChanges().subscribe((data : any) => {
+    //   console.log('Incoming', data);
+    // })
+
+
+
+
+    // const q = query(collection(db, "cities"), where("state", "==", "CA"));
+    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //   const cities = [];
+    //   querySnapshot.forEach((doc) => {
+    //       cities.push(doc.data().name);
+    //   });
+    //   console.log("Current cities in CA: ", cities.join(", "));
+    // });
+
+
+
+
+    // this.getOutgoing().subscribe({
+    //   next: (data: any) => {
+    //     this.outgoingRequests = data.data.getOutgoing;
+    //     // console.log('outgoing', this.outgoingRequests)
+    //   }
+    // });
 
   }
 

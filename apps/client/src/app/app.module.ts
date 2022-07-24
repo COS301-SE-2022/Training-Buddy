@@ -12,6 +12,9 @@ import {InMemoryCache} from '@apollo/client/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 
+//firestore
+import { AngularFireModule } from '@angular/fire/compat';
+
 @NgModule({
   declarations: [AppComponent,],
   imports: [
@@ -33,6 +36,9 @@ import { AgmCoreModule } from '@agm/core';
     }),
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
+
+    AngularFireModule.initializeApp(environment.firebase),
+    
   ],
   providers: [
     {
