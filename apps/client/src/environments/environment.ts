@@ -2,8 +2,19 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+
 export const environment = {
   production: false,
+  firebase: {
+    apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
+    authDomain: 'training-buddy-2022.firebaseapp.com',
+    databaseURL: 'https://training-buddy-2022-default-rtdb.firebaseio.com',
+    projectId: 'training-buddy-2022',
+    storageBucket: 'training-buddy-2022.appspot.com',
+    messagingSenderId: '<your-messaging-sender-id>',
+    appId: '445917436',
+    measurementId: 'G-K7WPZTL3FJ'
+  }
 };
 
 /*
