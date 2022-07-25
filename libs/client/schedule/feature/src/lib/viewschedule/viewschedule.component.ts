@@ -12,6 +12,8 @@ export class ViewscheduleComponent implements OnInit {
 
   // constructor() { }
   upcomingEvents = false;
+  workoutInvites = false;
+
   loading = true;
   id!: any;
   user!: any;
@@ -69,6 +71,7 @@ export class ViewscheduleComponent implements OnInit {
       query: gql`
         query{
           getScheduleWorkout(email: "${ email }"){
+            title,
             startTime,
             organiser,
             participants,
@@ -80,7 +83,65 @@ export class ViewscheduleComponent implements OnInit {
         }`,
     })
   }
+
+  getInvites(email: string){
+    return this.apollo
+    .query({
+      query: gql`
+        query{
+          getIncomingInvites(email: "${ email }"){
+              sender,
+              receivers,
+              workout{
+                title,
+                startTime,
+                organiser,
+                participants,
+                activityType,
+                startPoint,
+                proposedDistance,
+                proposedDuration
+              }
+            }
+        }
+      `
+    })
+  }
   getData(email: string){ //this gets all the scheduled workouts
+    //get all the invites
+    // this.getInvites(email).subscribe({
+    //   next: (data: any) =>{
+    //     const swap: any[]= [];
+    //     data.data.getIncomingInvites.map((el : any) => {
+    //       swap.push(this.convertToCard(el));
+    //     });
+
+    //     //sort the data.
+    //     swap.sort(function(a,b){
+    //       return a.startDate.timestamp - b.startDate.timestamp;
+    //     });
+
+    //     const dated: any[][] = [[]];
+    //     let x = 0;
+    //     let currentday = swap[0].startDate.day;
+        
+    //     for(let w = 0; w < swap.length; w++  ){
+    //       if(swap[w].startDate.day == currentday){
+    //         dated[x].push(swap[w]);
+    //       }
+    //       else{
+    //         currentday = swap[w].startDate.day;
+    //         x++;
+    //         const temp: any[] = [];
+    //         dated.push(temp)
+    //         dated[x].push(swap[w]);
+    //       }
+    //     }
+
+    //     this.workoutInvites = true;
+      
+    //   }
+    // })
     //to do api call to get the schedule workouts
     this.getWorkouts(email).subscribe({
       next: (data : any) => {
@@ -93,9 +154,7 @@ export class ViewscheduleComponent implements OnInit {
           swap.sort(function(a,b){
             return a.startDate.timestamp - b.startDate.timestamp;
           });
-          // console.log(swap[0]);
-          //
-          
+
           const dated: any[][] = [[]];
           let x = 0;
           let currentday = swap[0].startDate.day;
@@ -113,7 +172,7 @@ export class ViewscheduleComponent implements OnInit {
             }
           }
         
-          console.log(dated);
+          // console.log(dated);
           this.workouts = dated;
           this.workoutsLoaded = true;
           this.workoutsCount = this.workouts.length;
@@ -129,7 +188,7 @@ export class ViewscheduleComponent implements OnInit {
     //to do write function to convert the data to a card
     return{
       //name: data.name,
-      name: "Gym session",
+      name: data.title,
       startPoint: this.startPoint(data.startPoint),
       startDate: this.startDateTime(data.startTime),
       image: this.image(data.activityType)
@@ -169,4 +228,7 @@ export class ViewscheduleComponent implements OnInit {
     return "https://img.icons8.com/ios/50/000000/dumbbell--v1.png";
   }
 
+  fullWorkoutDetails(){
+    this.router.navigate(['schedule/workout']);
+  }
 }
