@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { collection, query, where } from "firebase/firestore";
+import { database } from 'firebase-admin';
+import { map, throwIfEmpty } from 'rxjs';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -82,24 +84,9 @@ export class DashboardComponent implements OnInit {
     //   }
     // });
 
-
-
-    // this.firestore.collection('BuddyRequests').valueChanges().subscribe((data : any) => {
-    //   console.log('Incoming', data);
-    // })
-
-
-
-
-    // const q = query(collection(db, "cities"), where("state", "==", "CA"));
-    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    //   const cities = [];
-    //   querySnapshot.forEach((doc) => {
-    //       cities.push(doc.data().name);
-    //   });
-    //   console.log("Current cities in CA: ", cities.join(", "));
-    // });
-
+    this.firestore.collection('BuddyRequests').valueChanges().subscribe(resp => {
+      this.requests = this.getUsersFromRequests(this.filterBuddyRequests(resp));
+    });
 
 
 
@@ -112,34 +99,60 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  getIncomingRequests() {
-    return this.apollo
-      .query({
-        query: gql`query{
-          getIncoming(
-            email: "${this.email}",
-        ){
-          userName,
-          userSurname,
-          location,
-          longitude,
-          latitude,
-          stravaToken,
-          dob,
-          gender,
-          email,
-          cellNumber,
-          bio,
-          metrics{lift , ride , run , swim},
-          buddies
-        }
-        }
-        `,
-        // pollInterval: 1000,
-        // fetchPolicy: 'network-only'
-      },
-      );
+  //Get Incoming Requests login
+  getUsersFromRequests(requests : any[]) : any[] {
+    const o : any[] = [];
+    this.firestore.collection('Users').valueChanges().subscribe(resp => {
+      requests.map((req : any) => {
+        resp.map((usr : any) => {
+          if (usr.email == req.sender) {
+            o.push(usr);
+            return;
+          }
+        });
+      });
+    });
+    return o;
   }
+
+  filterBuddyRequests(data : any) : any[] {
+    const o : any[] = [];
+    data.map((el : any) => {
+      if (el.receiver == this.email)
+        o.push(el);
+    });
+    return o;
+  }
+
+  //old method
+  // getIncomingRequests() {
+  //   return this.apollo
+  //     .watchQuery({
+  //       query: gql`query{
+  //         getIncoming(
+  //           email: "${this.email}",
+  //       ){
+  //         userName,
+  //         userSurname,
+  //         location,
+  //         longitude,
+  //         latitude,
+  //         stravaToken,
+  //         dob,
+  //         gender,
+  //         email,
+  //         cellNumber,
+  //         bio,
+  //         metrics{lift , ride , run , swim},
+  //         buddies
+  //       }
+  //       }
+  //       `,
+  //       // pollInterval: 1000,
+  //       // fetchPolicy: 'network-only'
+  //     },
+  //     ).valueChanges;
+  // }
 
   getOutgoing() {
     return this.apollo
@@ -235,13 +248,13 @@ export class DashboardComponent implements OnInit {
       }
       `,
     }).subscribe({
-      // next: (data : any) => {
-      //   this.requests.map((el : any, i : number) => {
-      //     if (el.email == email) {
-      //       this.requests.splice(i, 1);
-      //     }
-      //   });
-      // }
+      next: (data : any) => {
+        this.requests.map((el : any, i : number) => {
+          if (el.email == email) {
+            this.requests.splice(i, 1);
+          }
+        });
+      }
     });
   }
 
@@ -258,7 +271,15 @@ export class DashboardComponent implements OnInit {
       }
       }
       `,
-    }).subscribe({
+    }).subscribe(() => {
+      this.requests.forEach((el : any, i : number) => {
+        if (el.email == data) {
+          this.requests.splice(i, 1);
+          if (this.requests.length == 0) {
+            this.pendingrequests = false;
+          }
+        }
+      })
     });
 
   }
