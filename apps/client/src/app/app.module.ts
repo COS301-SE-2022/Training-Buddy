@@ -13,7 +13,8 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
 import { AgmCoreModule } from '@agm/core';
 
 //firestore
-import { AngularFireModule, FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
@@ -48,9 +49,8 @@ const firebase = {
     }),
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
-
     AngularFireModule.initializeApp(firebase),
-    
+    AngularFirestoreModule
   ],
   providers: [
     {
@@ -65,11 +65,7 @@ const firebase = {
       },
       deps: [HttpLink],
     },
-    HttpClient,
-    {
-      provide: FIREBASE_OPTIONS,
-      useValue: firebase
-    }
+    HttpClient
   ],
   bootstrap: [AppComponent],
 })

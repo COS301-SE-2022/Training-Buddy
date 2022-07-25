@@ -330,6 +330,11 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/fire@5.4.2":
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/@angular/fire/-/fire-5.4.2.tgz#fb2d54935de0d83789e940e5f57a6ffc0e1ef4eb"
+  integrity sha512-QzB5d1wtqr9jxfsVNv2+569MlfK4/QrrpNy0IngOHdxS4FBbXqMOcx37iv1m2mzJv9zlGUddUX44IZP5Xfb3cw==
+
 "@angular/fire@^7.0.4":
   version "7.4.1"
   resolved "https://registry.yarnpkg.com/@angular/fire/-/fire-7.4.1.tgz#a6de4b311c1abf4d3b47dc0f7744edc7b9b12873"
@@ -4386,6 +4391,13 @@
   resolved "https://registry.npmjs.org/@types/fined/-/fined-1.1.3.tgz"
   integrity sha512-CWYnSRnun3CGbt6taXeVo2lCbuaj4mchVJ4UF/BdU5TSuIn3AmS13pGMwCsBUoehGbhZrBrpNJZSZI5EVilXww==
 
+"@types/firebase@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@types/firebase/-/firebase-3.2.1.tgz#17c1c8fee7485ab09668d2461e34540bdf44b3b1"
+  integrity sha512-G8XgHMu2jHlElfc2xVNaYP50F0qrqeTCjgeG1v5b4SRwWG4XKC4fCuEdVZuZaMRmVygcnbRZBAo9O7RsDvmkGQ==
+  dependencies:
+    firebase "*"
+
 "@types/glob@^7.1.1":
   version "7.2.0"
   resolved "https://registry.npmjs.org/@types/glob/-/glob-7.2.0.tgz"
@@ -5291,6 +5303,13 @@ all-node-versions@^8.0.0:
     path-exists "^4.0.0"
     semver "^7.3.2"
     write-file-atomic "^3.0.3"
+
+angularfire2@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.4.2.tgz#e6b7df3c070aaddba6f650abfdc4c89aec306f7a"
+  integrity sha512-7brktOHPObHgMnCN+QkakyCBr2mnxMxMSVLlEZ7OF70LjFIQz/RV3t5a7cH1SjystbY+kzR3qYvn/irlWs27/Q==
+  dependencies:
+    "@angular/fire" "5.4.2"
 
 ansi-align@^3.0.0:
   version "3.0.1"
@@ -10280,7 +10299,7 @@ firebase-tools@^10.8.0:
     winston-transport "^4.4.0"
     ws "^7.2.3"
 
-firebase@^9.0.2, firebase@^9.8.0:
+firebase@*, firebase@^9.8.0, firebase@^9.9.1:
   version "9.9.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-9.9.1.tgz#3a4539ab64176196b981d296f7a0b819bb97530b"
   integrity sha512-1saLd91mmfNWOdP3DpkCAyXcrwB0iJXZoYY8S98ljp1erL+eUPHu+AHw8ImjynVIejSX07NHgla3mQP0bIniZA==
