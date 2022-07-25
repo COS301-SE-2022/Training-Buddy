@@ -6,14 +6,14 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
-import {HttpLink} from 'apollo-angular/http';
-import {InMemoryCache} from '@apollo/client/core';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 
 //firestore
-import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireModule, FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
@@ -25,8 +25,10 @@ const firebase = {
   appId: '445917436',
   measurementId: 'G-K7WPZTL3FJ'
 }
+
 @NgModule({
-  declarations: [AppComponent,],
+  declarations: [AppComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -63,7 +65,11 @@ const firebase = {
       },
       deps: [HttpLink],
     },
-    HttpClient
+    HttpClient,
+    {
+      provide: FIREBASE_OPTIONS,
+      useValue: firebase
+    }
   ],
   bootstrap: [AppComponent],
 })
