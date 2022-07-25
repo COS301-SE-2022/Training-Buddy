@@ -304,7 +304,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns [Invite]
      */
-    @Mutation(()=> [Invite])
+    @Query(()=> [Invite])
     getIncomingInvites(@Args("email")userEmail:string){
         return this.trainingBuddyService.getIncomingInvites(userEmail)
     }
@@ -313,7 +313,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns [Invite]
      */
-    @Mutation(()=> [Invite])
+    @Query(()=> [Invite])
     getOutgoingInvites(@Args("email")userEmail:string){
         return this.trainingBuddyService.getOutgoingInvites(userEmail)
     }
