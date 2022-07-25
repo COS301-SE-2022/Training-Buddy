@@ -119,6 +119,9 @@
       ],
       "@training-buddy/shared/services/authentication/data-access/src/lib/image-generator": [
         "libs/client/shared/services/authentication/data-access/src/lib/image-generator.service"
+      ],
+      "@training-buddy/environment" : [
+        "apps/client/src/environments/environment.ts"
       ]
     }
   },
