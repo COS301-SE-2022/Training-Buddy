@@ -28,7 +28,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //USERS
     //users - CREATE
-    async createUser(@Param() user: UserDto){
+    async createUser(@Param() user: UserDto) {
         const data = {
             id: uuid.v1(),
             userName : user.userName,
@@ -46,9 +46,9 @@ export class ApiInternalApiRepositoryDataAccessService {
 
         await this.usersCollection.doc().set(data)
         .then(results =>{
-            return true ;
+            return data ;
         });
-        return false ;
+        return data ;
     }
 
     async uploadPicture(@Param() email: string, @Param() fn: string){

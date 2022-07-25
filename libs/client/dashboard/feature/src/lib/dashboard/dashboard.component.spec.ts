@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DashboardComponent } from './dashboard.component';
 import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -12,7 +13,8 @@ describe('DashboardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ DashboardComponent ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        UiModule
       ],
       providers: [
         Apollo,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-import {CookieService} from 'ngx-cookie-service';
+import { Apollo, gql, Query } from 'apollo-angular';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-dashboard',
@@ -10,65 +10,108 @@ import {CookieService} from 'ngx-cookie-service';
 
 export class DashboardComponent implements OnInit {
 
-  //mock arrays (replace with api data)
-  requests : any[] = [];
+  requests : any = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
-  outgoingRequests: any[] = [];
-
-  img : string;
-
+  outgoingRequests: any;
+  pendingrequests = false;
+  doneloading = false;
   noBuddies : boolean;
 
   email : string;
 
   constructor(private apollo : Apollo, private cookieService:CookieService ) { 
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
     this.noBuddies = true;
     this.email = this.cookieService.get('email');
   }
 
+  sendRequest(email : any) {
+    this.apollo
+      .mutate({
+        mutation: gql`mutation{
+          sendRequest(
+            Sender: "${this.email}",
+            Receiver: "${email}"
+          ),{
+            message
+          }
+        }
+        `,
+      }).subscribe({
+        next: (data: any) => {
+          // console.log(data);
+        },
+        error: (err : any) => {
+          // console.log(err);
+        }
+      });
+  }
+
   ifPendingRequests() : boolean {
-    return this.requests.length != 0;
+    return this.requests == null;
   }
 
   ngOnInit(): void {
     
     this.getBuddieRecommended().subscribe({
       next: (data : any) => {
-        data.data.findAll.map((el : any) => {
-          this.buddies.push(el);
-          this.oldBuddies.push(el);
+        this.buddies = data.data.findAll;
+        this.oldBuddies = data.data.findAll;
+        if (this.buddies.length != 0)
           this.noBuddies = false;
-        });
+        this.doneloading = true;
+        console.log(this.buddies);
       }
     });
 
-    this.getPendingRequests().subscribe({
+    this.getIncomingRequests().subscribe({
       next: (data: any) => {
-        data.data.getIncoming.map((el : any) => {
-          this.requests.push(el);
-        })
+        console.log(data)
+        this.pendingrequests = false;
+        this.requests = data.data.getIncoming;
+        if (this.requests.length != 0)
+          this.pendingrequests = true;
       }
     });
+
+    // this.getIncomingRequests().subscribeToMore();
 
     this.getOutgoing().subscribe({
       next: (data: any) => {
-        data.data.getOutgoing.map((el : any) => {
-          this.outgoingRequests.push(el);
-        })
+        this.outgoingRequests = data.data.getOutgoing;
+        // console.log('outgoing', this.outgoingRequests)
       }
     });
 
   }
 
-  checkIfInOutgoing(email : string) : boolean {
-    let output = false;
-    for (let i = 0; i < this.outgoingRequests.length; i++) {
-      if (this.outgoingRequests[i].email)
-        output = true;
-    }
-    return output;
+  getIncomingRequests() {
+    return this.apollo
+      .query({
+        query: gql`query{
+          getIncoming(
+            email: "${this.email}",
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+        }
+        }
+        `,
+        // pollInterval: 1000,
+        // fetchPolicy: 'network-only'
+      },
+      );
   }
 
   getOutgoing() {
@@ -93,30 +136,12 @@ export class DashboardComponent implements OnInit {
           buddies
         }
         }
-         
         `,
+        //pollInterval: 1000
       });
-
-
-  }
-
-  getSportString(data : any) : string {
-    if (data.metrics == null) return '';
-    const output = [];
-    if (data.metrics.run) output.push('Run');
-    if (data.metrics.ride) output.push('Ride');
-    if (data.metrics.swim) output.push('Swim');
-    if (data.metrics.lift) output.push('Weights');
-    let retString = "";
-    for (let i = 0; i < output.length; i++) {
-      retString += output[i];
-      if (i < output.length - 1) retString += ', ';
-    }
-    return retString;
   }
 
   getBuddieRecommended() {
-
     return this.apollo
       .query({
         query: gql`query{
@@ -135,46 +160,80 @@ export class DashboardComponent implements OnInit {
           cellNumber,
           bio,
           metrics{lift , run , swim , ride},
-          buddies
-
+          buddies,
+          id
         }
         }
-         
         `,
+        //pollInterval: 25000
       });
   }
 
-  accept(email : string){
-    return this.apollo
-    .query({
-      query: gql`query{
-        accept(
-          Sender: "${this.email}",
-          Receiver: "${email}"
-      ){
-       message
-      }
-      }
-       
-      `,
-    });
-
+  checkIfInOutgoing(email : string) : boolean {
+    // return false;
+    if (this.outgoingRequests == null)
+      return false;
+    for (let i = 0; i < this.outgoingRequests.length; i++) {
+      if (this.outgoingRequests[i].email == email)
+        return true;
+    }
+    return false;
   }
 
-  reject(email : string){
-    return this.apollo
-    .query({
-      query: gql`query{
-        reject(
-          Sender: "${this.email}",
-          Receiver: "${email}"
+  getSportString(data : any) : string {
+    if (data.metrics == null) return '';
+    const output = [];
+    if (data.metrics.run) output.push('Run');
+    if (data.metrics.ride) output.push('Ride');
+    if (data.metrics.swim) output.push('Swim');
+    if (data.metrics.lift) output.push('Weights');
+    let retString = "";
+    for (let i = 0; i < output.length; i++) {
+      retString += output[i];
+      if (i < output.length - 1) retString += ', ';
+    }
+    return retString;
+  }
+
+  accept(email : string){
+    this.apollo
+    .mutate({
+      mutation: gql`mutation{
+        accept(
+          Sender: "${email}",
+          Receiver: "${this.email}"
       ){
        message
       }
       }
-       
       `,
+    }).subscribe({
+      // next: (data : any) => {
+      //   this.requests.map((el : any, i : number) => {
+      //     if (el.email == email) {
+      //       this.requests.splice(i, 1);
+      //     }
+      //   });
+      // }
     });
+  }
+
+  reject(data : string){
+
+    this.apollo
+    .mutate({
+      mutation: gql`mutation{
+        reject(
+          Sender: "${data}",
+          Receiver: "${this.email}"
+      ){
+       message
+      }
+      }
+      `,
+    }).subscribe({
+    });
+
   }
   
   getFriends(){
@@ -183,34 +242,6 @@ export class DashboardComponent implements OnInit {
       query: gql`query{
         getConnections(
           email: "${this.email}",
-      ){
-        userName,
-        userSurname,
-        location,
-        longitude,
-        latitude,
-        stravaToken,
-        dob,
-        gender,
-        email,
-        cellNumber,
-        bio,
-        metrics{lift , ride , run , swim},
-        buddies
-      }
-      }
-       
-      `,
-    });
-  }
-
-  getPendingRequests() {
-
-    return this.apollo
-      .query({
-        query: gql`query{
-          getIncoming(
-            email: "${this.email}",
         ){
           userName,
           userSurname,
@@ -226,11 +257,9 @@ export class DashboardComponent implements OnInit {
           metrics{lift , ride , run , swim},
           buddies
         }
-        }
-         
-        `,
-      });
-
+      }
+      `,
+    });
   }
 
   filter(value : any) {
@@ -267,7 +296,6 @@ export class DashboardComponent implements OnInit {
 
   filterMap(attr : string) {
     this.buddies = this.buddies.filter((el : any) => {
-      console.log(el.metrics[attr] == 1);
       return el.metrics[attr] == 1;
     });
   }

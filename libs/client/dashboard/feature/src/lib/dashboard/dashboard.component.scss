@@ -3,6 +3,10 @@
     margin-bottom: 8px;
 }
 
+.configurelink {
+    text-decoration: underline !important;
+}
+
 mat-card {
     max-width: 600px;
     width: 90vw;
@@ -33,7 +37,6 @@ mat-icon:hover {
 #accept {
     color: rgb(42, 122, 42);
     font-size: 28px;
-
 }
 
 #reject {
@@ -47,4 +50,13 @@ mat-icon:hover {
 
 #noresults {
     width: 100% !important;
+}
+
+p {
+    word-break: break-all;
+    white-space: normal;
+}
+
+.cursor {
+    cursor: pointer;
 }

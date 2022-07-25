@@ -1,6 +1,8 @@
 <!-- <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}"> -->
 
-    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+    <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
+
+    <training-buddy-back-navbar title="Schedule workout"></training-buddy-back-navbar>
     
     <mat-grid-list cols="1" rows="1" rowHeight="2:1">
     
@@ -10,16 +12,35 @@
     
               <form [formGroup]="scheduleWorkout">
     
-                <h1 class="text-center">Schedule Workout</h1>
+                <!-- <h1 class="text-center">Schedule Workout</h1> -->
 
                 <!-- activity name -->
                 <mat-form-field appearance="outline">
                     <mat-label>Activity Name</mat-label>
-                    <input formControlName="name" id="name" matInput type="text" placeholder="Training Activity" name="name">
+                    <input formControlName="name" id="name" matInput type="text" placeholder="" name="name">
                     <mat-error>
                         Name is required
                     </mat-error>
                 </mat-form-field>
+
+                <!-- Location with goodle autocompelet-->
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Location</mat-label>
+                    <input formControlName="location" matInput
+                           matGoogleMapsAutocomplete
+                           (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                           (onLocationSelected)="onLocationSelected($event)">
+                    <mat-error *ngIf="scheduleWorkout.controls['location'].errors">
+                        Location is required
+                    </mat-error>
+                    <mat-hint class="fullhint">
+                        <div>
+                            <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
+                        </div>
+                    </mat-hint>
+                </mat-form-field>
+
 
                 <!-- activity type -->
                 <mat-form-field appearance="outline">
@@ -115,7 +136,7 @@
                 </div>
 
                 <div class="submitButton mt-3">
-                    <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add Activity</button>
+                    <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add</button>
                 </div>
     
               </form>

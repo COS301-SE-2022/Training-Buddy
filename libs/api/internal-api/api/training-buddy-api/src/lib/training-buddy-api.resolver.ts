@@ -304,7 +304,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns [Invite]
      */
-    @Mutation(()=> [Invite])
+    @Query(()=> [Invite])
     getIncomingInvites(@Args("email")userEmail:string){
         return this.trainingBuddyService.getIncomingInvites(userEmail)
     }
@@ -313,7 +313,7 @@ export class TrainingBuddyApiResolver {
      * @param userEmail 
      * @returns [Invite]
      */
-    @Mutation(()=> [Invite])
+    @Query(()=> [Invite])
     getOutgoingInvites(@Args("email")userEmail:string){
         return this.trainingBuddyService.getOutgoingInvites(userEmail)
     }
@@ -338,7 +338,7 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      * tested 
      */
-      subscriptionsRequest(userEmail: string, otherEmail: string){
+    subscriptionsRequest(userEmail: string, otherEmail: string){
         const data1 =this.trainingBuddyService.getIncoming(otherEmail);
         const data2 =this.trainingBuddyService.getOutgoing(userEmail);
         const data3 =this.trainingBuddyService.getConnections(userEmail);

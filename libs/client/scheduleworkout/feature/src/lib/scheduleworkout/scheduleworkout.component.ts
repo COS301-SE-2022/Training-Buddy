@@ -23,17 +23,24 @@ export class ScheduleworkoutComponent implements OnInit {
   calculatedDuration : string;
   showCalculatedDuration : boolean;
 
+  latitude : number;
+  longitude : number;
+  vicinity : string;
+
   mins = '5';
   secs = '30';
 
   constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar, private cookieService: CookieService) {
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
+    this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     this.frmBuilder = builder;
     this.setAllFalse();
     this.isRunning = true;
     this.calculatedDuration = '';
     this.showCalculatedDuration = false;
     this.email = cookieService.get('name');
+    this.latitude = 0;
+    this.longitude = 0;
+    this.vicinity = "";
   }
 
   setAllFalse() {
@@ -47,6 +54,7 @@ export class ScheduleworkoutComponent implements OnInit {
   ngOnInit(): void {
     this.scheduleWorkout = this.frmBuilder.group({
       name: ['Training Activity', [Validators.required]],
+      location: ['', [Validators.required]],
       type: ['Running', [Validators.required]],
       hours: ['1', [Validators.required]],
       minutes: ['00', [Validators.required, Validators.max(59)]],
@@ -83,6 +91,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
     //use the appropriate variable in the API call
     const type = this.scheduleWorkout.controls['type'].value || false;
+    const location = this.scheduleWorkout.controls['location'].value || false;
     const name = this.scheduleWorkout.controls['name'].value || false;
     const hours = this.scheduleWorkout.controls['hours'].value || false;
     const minutes = this.scheduleWorkout.controls['minutes'].value || false;
@@ -106,7 +115,7 @@ export class ScheduleworkoutComponent implements OnInit {
       this.resetForm();
       return;
     }
-
+  
     //distance is required for riding, running & swimming:
     if (!distance)
       return;
@@ -139,7 +148,10 @@ export class ScheduleworkoutComponent implements OnInit {
       //TODO(4):  
 
     }
-
+    //location is required
+    if(!location){
+      return;
+    }
     this.resetForm();
   }
 
@@ -242,5 +254,15 @@ export class ScheduleworkoutComponent implements OnInit {
     }
     this.showCalculatedDuration = true;
   }
-
+    //Google geocoding functions
+    onAutocompleteSelected(event : any) {
+      this.vicinity = event.vicinity;
+    }
+  
+    onLocationSelected(event: any) {
+      if (event != null) {
+        this.latitude = event.latitude;
+        this.longitude = event.longitude;
+      }
+    }
 }

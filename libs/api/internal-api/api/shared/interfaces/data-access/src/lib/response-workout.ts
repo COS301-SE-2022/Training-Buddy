@@ -4,6 +4,8 @@ import { ObjectType , Field} from "@nestjs/graphql";
 @ObjectType()
 export class ResponseWorkout {
     @Field()
+    title:string
+    @Field()
     startTime:string
     @Field()
     organiser:string
@@ -16,5 +18,5 @@ export class ResponseWorkout {
     @Field()
     proposedDistance:string
     @Field()
-    proposedDuration:number
+    proposedDuration:string
 }

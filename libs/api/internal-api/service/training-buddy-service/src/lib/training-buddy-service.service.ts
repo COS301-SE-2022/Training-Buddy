@@ -1,10 +1,14 @@
 import { Injectable} from '@nestjs/common';
 import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig, Invite} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
+import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
+import BTree from 'sorted-btree'
+
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+   
     /**
      * 
      * @param jwtService 
@@ -17,7 +21,6 @@ export class TrainingBuddyServiceService {
      * @returns null || UserEntity
      */
     async validateUser(email: string , password: string):Promise<any> {
-
         const user = await this.findOne(email);
         let valid = false;
         if(user)
@@ -52,9 +55,10 @@ export class TrainingBuddyServiceService {
         else{
             const password = await bcrypt.hash(userdto.password, 10)
             user = {...userdto, password };
-            await this.repoService.createUser(user);
+            const ret = await this.repoService.createUser(user);
             const item = new ErrorMessage;
-            item.message = user.id.toString();
+            item.message = ret.id;
+            console.log(item.message);
             return item;
         }
     }
@@ -65,7 +69,7 @@ export class TrainingBuddyServiceService {
     async getAll(email:string ){
         
         const arr = await this.repoService.findAll(email)
-        console.log(arr)
+
         let distance = 0;
         let longitude = 0;
         let latitude = 0;
@@ -84,14 +88,15 @@ export class TrainingBuddyServiceService {
                 }
             }
         }
-        return people;
+        
+        return this.collaborativeFiltering(people , email);
     }
     /**
      * 
      * @param user 
      * @returns 
      */
-    async login( user:any){
+    async login(user:any){
         {
             return {
                 accessToken: this.jwtService.sign({user: user.userName , email: user.email}),
@@ -244,6 +249,7 @@ export class TrainingBuddyServiceService {
         return d;
 
     }
+
     /**
      * 
      * @param Value 
@@ -253,6 +259,7 @@ export class TrainingBuddyServiceService {
     {
         return Value * Math.PI / 180;
     }
+    
     /**
      * 
      * @param actLog 
@@ -636,8 +643,48 @@ export class TrainingBuddyServiceService {
            
         }
     }
-    async collaborativeFiltering(people: any  , email: string){
-        const person = this.findOne(email)
+    
+    async collaborativeFiltering(people: any[]  , email: string){
+        if(people.length <=0){
+            return people;
+        }
+        const collaborativeFilter = await import("collaborative-filter")
+        const tree = new BTree;
+        let  person = await this.findOne(email)
+        const metric = [];
+        const recommended = [];
+        let metricact = [];
+        let peoplebtree ;
+        for(let count = 0 ; count < people.length ; count++){
+            metricact.push(people[count].metrics.lift)
+            metricact.push(people[count].metrics.ride)
+            metricact.push(people[count].metrics.run)
+            metricact.push(people[count].metrics.swim)
+            metric.push(metricact)
+            metricact = []
+            peoplebtree = people[count];
+            tree.set(peoplebtree.email, people[count].metrics) 
+        }
+
+       let res= []
+       res=  collaborativeFilter.cFilter(metric,0)
+       if(res.length<=0){
+        return people;
+       }else{
+        person=[]
+        tree.forEachPair((k, v) => {
+            let count = 0;
+            person = this.findOne(k)
+            res.forEach( async element => {
+                person = await this.findOne(k)
+                if(person.metrics[element]==0){
+                    count ++;
+                }});
+                if(count>=0 ){
+                    recommended.push(person)
+                }})
+    }     
+    return recommended;
     }
     async saveImage(userEmail:string,image:string){
         // let base64data;

@@ -15,11 +15,11 @@
                     <!-- file input -->
                     <div class="fileupload mr-3 ml-3 mb-3">
               
-                      <div class="text-center my-1 infocolour"><h1>Profile Image</h1></div>
+                      <div class="text-center"><h1 id="title">Profile Image</h1></div>
               
                       <div class="w-full">
               
-                        <div class="mt-2 infocolour text-center">Select or Drag and Drop your files</div>
+                        <div class="infotag text-center">Select or Drag and Drop your files</div>
               
                           <div  id="fileuploaddiv" class="my-2" [ngStyle]="{'background-image': 'url(' + url + ')'}">
 
@@ -37,7 +37,7 @@
                               /> -->
                                 <div id="profileicon" *ngIf="!showuploaded"><mat-icon>person_outline</mat-icon></div>
 
-                                <div class="mt-2 infotext text-center" *ngIf="!showuploaded">Select an image to upload...</div>
+                                <div class="mt-2 infotext text-center" *ngIf="!showuploaded">Drag and drop <br /> or <br /> click here to select...</div>
 
                                 <input id="fileupload" name="fileupload" #uploadinput type="file" (change)="fileattatched($event)" formControlName="image" accept="image/x-png,image/gif,image/jpeg">
                                 <!-- <label for="fileupload"> this is the label </label> -->
@@ -52,7 +52,7 @@
                             {{ fileuploaderror }}
                           </div>
               
-                          <button id="uploadbutton" type="submit" class="text-center ml-1" mat-raised-button color="primary">Upload</button>
+                          <button id="uploadbutton" type="submit" class="text-center" mat-raised-button color="primary">Upload</button>
 
                       </div>
                     </div>
