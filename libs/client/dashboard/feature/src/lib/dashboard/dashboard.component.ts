@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo, gql, Query } from 'apollo-angular';
+import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { collection, query, where } from "firebase/firestore";
-import { database } from 'firebase-admin';
-import { map, throwIfEmpty } from 'rxjs';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -57,23 +54,18 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    // console.log('trying to query')
-    // this.firestore.collection('ActivityLogs').valueChanges().subscribe((data : any) => {
-    //   console.log('data', data)
-    // });
-    // console.log(q);
     this.getBuddieRecommended().subscribe({
       next: (data : any) => {
-        this.buddies = data.data.findAll;
-        this.oldBuddies = data.data.findAll;
+        const filter = this.removeOverlapConnections(data.data.findAll);
+        this.buddies = filter;
+        this.oldBuddies = filter;
         if (this.buddies.length != 0)
           this.noBuddies = false;
         this.doneloading = true;
-        // console.log(this.buddies);
       }
     });
 
-    //old method through Graphqql
+    // old method through Graphqql
     // this.getIncomingRequests().subscribe({
     //   next: (data: any) => {
     //     console.log(data)
@@ -85,18 +77,37 @@ export class DashboardComponent implements OnInit {
     // });
 
     this.firestore.collection('BuddyRequests').valueChanges().subscribe(resp => {
-      this.requests = this.getUsersFromRequests(this.filterBuddyRequests(resp));
+      this.requests = this.getUsersFromRequests(this.filterIncoming(resp));
+      this.outgoingRequests = this.filterOutgoing(resp);
     });
 
+  }
 
+  //remove paired buddies
+  removeOverlapConnections(data : any) : any[] {
+    if (data == null)
+      return [];
+    const o : any[] = [];
+    data.map((el : any) => {
+      let flag = true;
+      el.buddies.map((cons : any) => {
+        if (this.email == cons)
+          flag = false;
+      });
+      if (flag)
+      o.push(el);
+    });
+    return o;
+  }
 
-    // this.getOutgoing().subscribe({
-    //   next: (data: any) => {
-    //     this.outgoingRequests = data.data.getOutgoing;
-    //     // console.log('outgoing', this.outgoingRequests)
-    //   }
-    // });
-
+  //filter outgoing
+  filterOutgoing(data : any) : any[] {
+    const o : any[] = [];
+    data.map((el : any) => {
+      if (el.sender == this.email)  
+        o.push(el);
+    });
+    return o;
   }
 
   //Get Incoming Requests login
@@ -115,7 +126,7 @@ export class DashboardComponent implements OnInit {
     return o;
   }
 
-  filterBuddyRequests(data : any) : any[] {
+  filterIncoming(data : any) : any[] {
     const o : any[] = [];
     data.map((el : any) => {
       if (el.receiver == this.email)
@@ -177,7 +188,6 @@ export class DashboardComponent implements OnInit {
         }
         }
         `,
-        //pollInterval: 1000
       });
   }
 
@@ -205,19 +215,20 @@ export class DashboardComponent implements OnInit {
         }
         }
         `,
-        //pollInterval: 25000
       });
   }
 
   checkIfInOutgoing(email : string) : boolean {
-    // return false;
     if (this.outgoingRequests == null)
-      return false;
-    for (let i = 0; i < this.outgoingRequests.length; i++) {
-      if (this.outgoingRequests[i].email == email)
-        return true;
-    }
-    return false;
+    return true;
+    let flag = false;
+    this.outgoingRequests.map((el : any) => {
+      if (el.receiver == email) {
+        flag = true;
+      }
+    });
+
+    return flag;
   }
 
   getSportString(data : any) : string {
