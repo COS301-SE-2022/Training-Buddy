@@ -33,8 +33,8 @@ export class ViewscheduleComponent implements OnInit {
       this.getCurrentUser().subscribe({
         next: (data : any) => {
           this.user = data.data.getUser;
-          this.loading = false;
           this.getData(this.user.email);
+          
         },
       })
     })
@@ -179,6 +179,7 @@ export class ViewscheduleComponent implements OnInit {
           if (this.workoutsCount != 0) {
             this.upcomingEvents = true;
           }
+          this.loading = false;
           // console.log(data)
       }
     })
