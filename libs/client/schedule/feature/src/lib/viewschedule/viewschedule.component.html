@@ -20,7 +20,7 @@
         </div>
 
     </div> -->
-    <div>
+    <div class="px-4">
         <!-- for date -->
         <div *ngFor="let day of workouts">
             <div class="text-center ">
@@ -29,7 +29,7 @@
                 </h2>
 
             </div>
-            <div *ngFor="let workout of day" class="mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3 mb-3">
+            <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3" (click)="fullWorkoutDetails()">
                             
                 <div class="m-3 row space-between align-content">
         
