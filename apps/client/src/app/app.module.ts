@@ -15,6 +15,16 @@ import { AgmCoreModule } from '@agm/core';
 //firestore
 import { AngularFireModule } from '@angular/fire/compat';
 
+const firebase = {
+  apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
+  authDomain: 'training-buddy-2022.firebaseapp.com',
+  databaseURL: 'https://training-buddy-2022-default-rtdb.firebaseio.com',
+  projectId: 'training-buddy-2022',
+  storageBucket: 'training-buddy-2022.appspot.com',
+  messagingSenderId: '<your-messaging-sender-id>',
+  appId: '445917436',
+  measurementId: 'G-K7WPZTL3FJ'
+}
 @NgModule({
   declarations: [AppComponent,],
   imports: [
@@ -37,7 +47,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
 
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(firebase),
     
   ],
   providers: [
