@@ -358,7 +358,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //requests - READ
 
     //incoming
-    async getIncomingRequests(@Param() email: string){
+    async getIncomingRequests(@Param() email: string) {
         const requests = [] ;
         await this.buddyRequestsCollection.where('receiver', '==', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
