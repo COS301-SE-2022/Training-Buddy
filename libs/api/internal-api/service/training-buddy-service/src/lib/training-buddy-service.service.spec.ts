@@ -278,4 +278,91 @@ describe('TrainingBuddyServiceService', () => {
 
   });
 
+  /**
+   * Test sendRequest
+   */
+  describe('sendRequest', () => {
+
+    it('should allow user to send request', async () => {
+      jest.spyOn(service, 'reject').mockImplementation(service.sendRequest);
+
+      expect(async () => service.sendRequest(UserDtoModule.email, 'u2@gmail.com')).toReturn;
+    });
+  });
+
+  /**
+   * Test getLogs
+   */
+  describe('getLogs', () => {
+
+    it('should allow user to get logs', async () => {
+
+      // let arr ;
+      // const user = await service.findOne(UserDtoModule.email);
+
+      jest.spyOn(service, 'getLogs').mockImplementation(service.getLogs);
+
+      expect(async () => service.getLogs(UserDtoModule.email)).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getScheduleWorkout
+   */
+  describe('getScheduleWorkout', () => {
+
+    it('should allow user to get scheduled workouts', async () => {
+      
+      jest.spyOn(service, 'getScheduleWorkout').mockImplementation(service.getScheduleWorkout);
+
+      expect(async () => service.getScheduleWorkout(UserDtoModule.email)).toReturn
+
+    });
+  });
+
+  /**
+   * Test getConnections
+   */
+  describe('getConnections', () => {
+    
+    it('should get all user connections', async () => {
+      
+      jest.spyOn(service, 'getConnections').mockImplementation(service.getConnections);
+
+      expect(async () => service.getConnections(UserDtoModule.email)).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getIncoming 
+   */
+  describe('getIncoming', () => {
+    
+    it('should get all users incoming connections', async () => {
+      
+      jest.spyOn(service, 'getIncoming').mockImplementation(service.getIncoming);
+
+      expect(async () => service.getIncoming(UserDtoModule.email)).toReturn;
+
+    });
+
+  });
+
+  /**'
+   * Test getOutgoing
+   */
+  describe('getOutgoing', () => {
+    
+    it('should get all users outgoing connections', async () => {
+      
+      jest.spyOn(service, 'getOutgoing').mockImplementation(service.getOutgoing);
+
+      expect(async () => service.getOutgoing(UserDtoModule.email)).toReturn;
+
+
+    });
+  });
+
 });
