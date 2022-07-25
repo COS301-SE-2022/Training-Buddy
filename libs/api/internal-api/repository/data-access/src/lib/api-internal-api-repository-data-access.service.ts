@@ -403,6 +403,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async deleteConnectionRequest(@Param() sender: string, @Param() receiver: string){
         return this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
             if(result.docs[0]) return this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
+                console.log(result.docs[0].data())
                 return true ;
             }) ;
             return false ;
@@ -413,6 +414,15 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //connections - CREATE
     async makeConnection(@Param() user1: string, @Param() user2: string){
+<<<<<<< Updated upstream
+=======
+        const now = new Date() ;
+        const data = {
+            users: [user1, user2],
+            time: now,
+            metric: 0
+        }
+>>>>>>> Stashed changes
 
     
         return this.usersCollection.where('email', '==', user1).get().then(async (result) => {
@@ -457,7 +467,13 @@ export class ApiInternalApiRepositoryDataAccessService {
     async scheduleWorkout(@Param() workout : ActivitySchedule){
         const data = {
             organiser: workout.email,
+<<<<<<< Updated upstream
             participants: [workout.email],
+=======
+            participants: {
+                
+            },
+>>>>>>> Stashed changes
             startTime: workout.time,
             activityType: workout.activity,
             startPoint: workout.location,
@@ -474,6 +490,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
+<<<<<<< Updated upstream
     async getScheduledWorkouts(@Param() email: string){
         const workouts = [] ;
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then(async (querySnapshot) =>{
@@ -492,6 +509,18 @@ export class ApiInternalApiRepositoryDataAccessService {
             else return false ;
         });
     }
+=======
+    // async getscheduledWorkouts(@Param() email: string){
+    //     const workouts = [] ;
+    //     await this.scheduledWorkoutCollection.where('users', 'array-contains', email).get().then(async (querySnapshot) =>{
+    //         querySnapshot.docs.forEach((doc) => {
+    //             buddies.push(doc.data());
+    //         });
+    //     });
+    //     return buddies ;
+    // }
+
+>>>>>>> Stashed changes
     //scheduled workouts - UPDATE
     //TODO: implement
 
