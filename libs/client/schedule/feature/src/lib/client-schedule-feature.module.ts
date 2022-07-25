@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ViewscheduleComponent } from './viewschedule/viewschedule.component';
 import { ScheduleRoutingModule } from './schedule-routing.module';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { CookieService } from 'ngx-cookie-service';
+import { WorkoutComponent } from './workout/workout.component';
 
 @NgModule({
   imports: [
@@ -11,7 +13,11 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
     UiModule
   ],
   declarations: [
-    ViewscheduleComponent
+    ViewscheduleComponent,
+    WorkoutComponent
   ],
+  providers: [
+    CookieService
+  ]
 })
 export class ClientScheduleFeatureModule {}
