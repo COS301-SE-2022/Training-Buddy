@@ -5,8 +5,6 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { AngularFireModule } from '@angular/fire/compat';
-import { environment } from "@training-buddy/environment";
 
 @NgModule({
   imports: [
@@ -14,7 +12,6 @@ import { environment } from "@training-buddy/environment";
     DashboardRoutingModule,
     UiModule,
     HttpClientJsonpModule,
-    AngularFireModule.initializeApp(environment.firebase),
   ],
   declarations: [
     DashboardComponent
