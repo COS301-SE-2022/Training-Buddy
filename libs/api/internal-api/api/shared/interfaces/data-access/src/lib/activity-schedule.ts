@@ -3,6 +3,8 @@ import { Field , Int, InputType} from '@nestjs/graphql'
 @InputType()
 export class ActivitySchedule {
     @Field()
+    title:string
+    @Field()
     email: string
     @Field()
     time:string
@@ -13,5 +15,5 @@ export class ActivitySchedule {
     @Field()
     distance:string
     @Field()
-    duration:number
+    duration:string
 }
