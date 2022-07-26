@@ -10,6 +10,7 @@ import { async } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
 import fs = require('fs') ;
+import { workerData } from 'worker_threads';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
@@ -465,13 +466,11 @@ export class ApiInternalApiRepositoryDataAccessService {
         });
         return workouts ;
     }
-    
-    async getWorkout(@Param() organiser: string, @Param() startTime: string):Promise<any>{
-        return this.scheduledWorkoutCollection.where('organiser', '==', organiser).get().then(async (result) =>{
-            if(result.docs[0]) {
-                return result.docs[0].id ;
-            }
-            else return false ;
+
+    async getWorkout(@Param() email: string, @Param() workoutID: string):Promise<any>{
+        return this.scheduledWorkoutCollection.where('id', '==', workoutID).get().then(async (result) =>{
+            if(result.docs[0]) return result.docs[0].data() ;
+            return false ;
         });
     }
     //scheduled workouts - UPDATE
@@ -492,9 +491,10 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //workout invite - SEND
-    async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() workout){
+    async sendInvite(@Param() sender: string, @Param() receivers: string[], @Param() workout: string){
             return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]){
+                    console.log("hello")
                     for(let i = 0; i < receivers.length; i++){
                         this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayUnion(receivers[i])}) ;
                     }  
@@ -508,7 +508,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     async acceptInvite(@Param() user: string, @Param() sender: string, @Param() workout: string){
             return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]) {
-                    console.log("hello") ;
                     return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
                     return this.scheduledWorkoutCollection.doc(workout).update({participants: this.arrayUnion(user)}).then(result =>{
                         return true ;
@@ -520,10 +519,9 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //workout invite - REJECT
-    async rejectInvite(@Param() user: string, @Param() sender: string, @Param() startTime: string){
-        const workout = await this.getWorkout(sender, startTime) ;
-        if(workout != null){
-            return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
+    async rejectInvite(@Param() user: string, @Param() sender: string, @Param() workoutID: string){
+        if(workoutID != null){
+            return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workoutID).get().then(async (result) => {
                 if(result.docs[0]) return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
                     return true;
                 }) ;
@@ -553,11 +551,10 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //complete a workout
-    async completeWorkout(@Param() organiser: string, @Param() startTime: string){
+    async completeWorkout(@Param() workoutID: string){
         //change status to complete
-        const workout = await this.getWorkout(organiser, startTime) ;
-        if(workout != null){
-            return this.scheduledWorkoutCollection.doc(workout).update({complete: true}) ;
+        if(workoutID != null){
+            return this.scheduledWorkoutCollection.doc(workoutID).update({complete: true}) ;
         }
 
     }
