@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -14,11 +15,15 @@ describe('DashboardComponent', () => {
       declarations: [ DashboardComponent ],
       imports: [
         RouterTestingModule,
-        UiModule
+        UiModule,
       ],
       providers: [
         Apollo,
-        CookieService
+        CookieService,
+        {
+          provide: AngularFirestore,
+          useValue: {}
+        }
       ]
     })
     .compileComponents();

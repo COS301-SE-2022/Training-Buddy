@@ -378,7 +378,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //requests - READ
 
     //incoming
-    async getIncomingRequests(@Param() email: string){
+    async getIncomingRequests(@Param() email: string) {
         const requests = [] ;
         await this.buddyRequestsCollection.where('receiver', '==', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
@@ -466,6 +466,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //scheduled workouts - CREATE
     async scheduleWorkout(@Param() workout : ActivitySchedule){
         const data = {
+            title: workout.title,
             organiser: workout.email,
 <<<<<<< Updated upstream
             participants: [workout.email],
