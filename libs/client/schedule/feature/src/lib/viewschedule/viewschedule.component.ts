@@ -231,8 +231,7 @@ export class ViewscheduleComponent implements OnInit {
   }
 
   fullWorkoutDetails(workoutID: string){
-    console.log(workoutID);
-    // this.router.navigate([`schedule/workout/${workoutID}`]);
+    this.router.navigate([`schedule/${workoutID}`]);
   }
 
   acceptInvite(email: string, workoutID: string){
