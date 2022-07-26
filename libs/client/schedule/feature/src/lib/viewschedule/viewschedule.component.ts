@@ -13,58 +13,21 @@ export class ViewscheduleComponent implements OnInit {
   // constructor() { }
   upcomingEvents = false;
   loading = true;
-  id!: any;
   user!: any;
   workouts: any;
   workoutInvites: any;
   invitesAvailable = false;
   workoutsLoaded = false;
   workoutsCount = 0;
+  email : string;
 
-  constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router){
+  constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private cookieService:CookieService){
+    this.email = this.cookieService.get('email');
   } 
   ngOnInit(): void {
-    this.activated.params.subscribe((param : any) => {
-      const routerid = param?.id;
-      this.id = routerid
-      if (routerid == null)
-        this.id = this.cookie.get('id');
-
-      this.getCurrentUser().subscribe({
-        next: (data : any) => {
-          this.user = data.data.getUser;
-          this.getData(this.user.email);
-          
-        },
-      })
-    })
-
+    this.getData(this.email);
   }
-  getCurrentUser() {
-    return this.apollo
-    .query({
-      query: gql`query{getUser(
-        UserID:"${this.id}"
-      ){
-          userName,
-          userSurname,
-          location,
-          longitude,
-          latitude,
-          stravaToken,
-          dob,
-          gender,
-          email,
-          cellNumber,
-          bio,
-          metrics{lift , ride , run , swim},
-          buddies
-      }
-      }
-      `,
-    })
-    
-  }
+ 
   getWorkouts(email: string){
     return this.apollo
     .query({
@@ -85,7 +48,7 @@ export class ViewscheduleComponent implements OnInit {
     })
   }
 
-  getInvitesHelper(email: string){
+  getInvites(email: string){
     return this.apollo
     .query({
       query: gql`
@@ -93,89 +56,85 @@ export class ViewscheduleComponent implements OnInit {
           getIncomingInvites(email: "${ email }"){
               sender,
               receivers,
-              workout,
+              workout{
+                title,
+                id,
+                startTime,
+                organiser,
+                participants,
+                activityType,
+                startPoint,
+                proposedDistance,
+                proposedDuration
+              }
             }
         }
       `
     })
   }
 
-  getInvites(email: string): any{
-    this.getInvitesHelper(email).subscribe({
-      next: (data: any) =>{
-        
-        return this.apollo
-        .query({
-          query: gql`
-          query{
-            getWorkout(
-              email: "${ email }",
-              workoutID: "${ data.data.getIncomingInvites.workout }",
-            )
-            {
-              title,
-              id
-              startTime,
-              organiser,
-              participants,
-              activityType,
-              startPoint,
-              proposedDistance,
-              proposedDuration
-            }
+  getUserName(email: string){
+    return this.apollo
+    .query({
+      query: gql`
+        query{
+          getOne(email: "${ email }"){
+            userName
           }
-          `
-        })
+        }`
+    })
+  }
+  getOrganiser(email: string): any{
+    this.getUserName(email).subscribe({
+      next: (data: any) =>{
+        console.log(data.data.getOne.userName);
+        return data.data.getOne.userName;
       }
     })
-    // this.getInvitesHelper(email).subscribe({
-    //   next: (data: any) =>{
-    //       data.data.getIncomingInvites.workout;
-    //   });
   }
   getData(email: string){ //this gets all the scheduled workouts
     //get all the invites
-    // this.getInvites(email).subscribe({
-    //   next: (data: any) =>{
-    //     const swap: any[]= [];
-    //     data.data.getIncomingInvites.map((el : any) => {
-    //       swap.push(this.convertToCard(el));
-    //     });
+    this.getInvites(email).subscribe({
+      next: (data: any) =>{
+        const swap: any[]= [];
+        data.data.getIncomingInvites.map((el : any) => {
+          swap.push(this.convertInvitedToCard(el));
+        });
 
-    //     //sort the data. 
-    //     swap.sort(function(a,b){
-    //       return a.startDate.timestamp - b.startDate.timestamp;
-    //     });
+        //sort the data. 
+        swap.sort(function(a,b){
+          return a.startDate.timestamp - b.startDate.timestamp;
+        });
 
-    //     const dated: any[][] = [[]];
-    //     let x = 0;
-    //     let currentday = swap[0].startDate.day;
+        const dated: any[][] = [[]];
+        let x = 0;
+        let currentday = swap[0].startDate.day;
         
-    //     for(let w = 0; w < swap.length; w++  ){
-    //       if(swap[w].startDate.day == currentday){
-    //         dated[x].push(swap[w]);
-    //       }
-    //       else{
-    //         currentday = swap[w].startDate.day;
-    //         x++;
-    //         const temp: any[] = [];
-    //         dated.push(temp)
-    //         dated[x].push(swap[w]);
-    //       }
-    //     }
-    //     this.workoutInvites = dated;
-    //     if(this.workoutInvites.length != 0){
-    //       this.invitesAvailable = true;
-    //     }
+        for(let w = 0; w < swap.length; w++  ){
+          if(swap[w].startDate.day == currentday){
+            dated[x].push(swap[w]);
+          }
+          else{
+            currentday = swap[w].startDate.day;
+            x++;
+            const temp: any[] = [];
+            dated.push(temp)
+            dated[x].push(swap[w]);
+          }
+        }
+        this.workoutInvites = dated;
+        if(this.workoutInvites.length != 0){
+          this.invitesAvailable = true;
+        }
       
-    //   }
-    // })
+      }
+    })
     //to do api call to get the schedule workouts
     this.getWorkouts(email).subscribe({
       next: (data : any) => {
           const swap: any[] = [];
           data.data.getScheduleWorkout.map((el : any) => {
-            swap.push(this.convertToCard(el));
+            swap.push(this.convertWorkoutToCard(el));
           });
 
           //sort the data.
@@ -212,8 +171,19 @@ export class ViewscheduleComponent implements OnInit {
       }
     })
   }
-
-  convertToCard(data: any) : any {
+  convertInvitedToCard(data: any) : any{
+    return{
+   
+      organiser: this.getOrganiser(data.workout.organiser),
+      organiserEmail: data.workout.organiser,
+      name: data.workout.title,
+      id: data.workout.id,
+      startPoint: this.startPoint(data.workout.startPoint),
+      startDate: this.startDateTime(data.workout.startTime),
+      image: this.image(data.workout.activityType)
+    }
+  }
+  convertWorkoutToCard(data: any) : any {
     //to do write function to convert the data to a card
     return{
       //name: data.name,
@@ -223,7 +193,6 @@ export class ViewscheduleComponent implements OnInit {
       startDate: this.startDateTime(data.startTime),
       image: this.image(data.activityType)
 
-    
     }
   }
 
@@ -261,5 +230,57 @@ export class ViewscheduleComponent implements OnInit {
   fullWorkoutDetails(workoutID: string){
     console.log(workoutID);
     // this.router.navigate([`schedule/workout/${workoutID}`]);
+  }
+
+  acceptInvite(email: string, workoutID: string){
+    console.log("accept clicked");
+    this.apollo
+    .mutate({
+      mutation: gql`
+        mutation{ 
+          acceptInvite(
+            email: "${ this.email }",
+            sender: "${ email }", 
+            workoutID: "${ workoutID }"
+          ){
+          message
+          }
+      }
+    `,
+    }).subscribe({
+      next: (data : any) => {
+        this.workoutInvites.map((el : any, i : number) => {
+          if (el.email == email) {
+            this.workoutInvites.splice(i, 1);
+          }
+        });
+      }
+    });
+
+  }
+  rejectInvite(email: string, workoutID: string){
+    console.log("reject clicked");
+    this.apollo
+    .mutate({
+      mutation: gql`
+        mutation{ 
+          rejectInvite(
+            email: "${ this.email }",
+            sender: "${ email }", 
+            workoutID: "${ workoutID }"
+          ){
+          message
+          }
+      }
+    `,
+    }).subscribe({
+      next: (data : any) => {
+        this.workoutInvites.map((el : any, i : number) => {
+          if (el.email == email) {
+            this.workoutInvites.splice(i, 1);
+          }
+        });
+      }
+    });
   }
 }
