@@ -12,12 +12,12 @@ export class ViewscheduleComponent implements OnInit {
 
   // constructor() { }
   upcomingEvents = false;
-  workoutInvites = false;
-
   loading = true;
   id!: any;
   user!: any;
   workouts: any;
+  workoutInvites: any;
+  invitesAvailable = false;
   workoutsLoaded = false;
   workoutsCount = 0;
 
@@ -85,7 +85,7 @@ export class ViewscheduleComponent implements OnInit {
     })
   }
 
-  getInvites(email: string){
+  getInvitesHelper(email: string){
     return this.apollo
     .query({
       query: gql`
@@ -93,21 +93,45 @@ export class ViewscheduleComponent implements OnInit {
           getIncomingInvites(email: "${ email }"){
               sender,
               receivers,
-              workout{
-                title,
-                id,
-                startTime,
-                organiser,
-                participants,
-                activityType,
-                startPoint,
-                proposedDistance,
-                proposedDuration
-              }
+              workout,
             }
         }
       `
     })
+  }
+
+  getInvites(email: string): any{
+    this.getInvitesHelper(email).subscribe({
+      next: (data: any) =>{
+        
+        return this.apollo
+        .query({
+          query: gql`
+          query{
+            getWorkout(
+              email: "${ email }",
+              workoutID: "${ data.data.getIncomingInvites.workout }",
+            )
+            {
+              title,
+              id
+              startTime,
+              organiser,
+              participants,
+              activityType,
+              startPoint,
+              proposedDistance,
+              proposedDuration
+            }
+          }
+          `
+        })
+      }
+    })
+    // this.getInvitesHelper(email).subscribe({
+    //   next: (data: any) =>{
+    //       data.data.getIncomingInvites.workout;
+    //   });
   }
   getData(email: string){ //this gets all the scheduled workouts
     //get all the invites
@@ -118,7 +142,7 @@ export class ViewscheduleComponent implements OnInit {
     //       swap.push(this.convertToCard(el));
     //     });
 
-    //     //sort the data.
+    //     //sort the data. 
     //     swap.sort(function(a,b){
     //       return a.startDate.timestamp - b.startDate.timestamp;
     //     });
@@ -139,8 +163,10 @@ export class ViewscheduleComponent implements OnInit {
     //         dated[x].push(swap[w]);
     //       }
     //     }
-
-    //     this.workoutInvites = true;
+    //     this.workoutInvites = dated;
+    //     if(this.workoutInvites.length != 0){
+    //       this.invitesAvailable = true;
+    //     }
       
     //   }
     // })
@@ -232,7 +258,8 @@ export class ViewscheduleComponent implements OnInit {
     return "https://img.icons8.com/ios/50/000000/dumbbell--v1.png";
   }
 
-  fullWorkoutDetails(){
-    this.router.navigate(['schedule/workout']);
+  fullWorkoutDetails(workoutID: string){
+    console.log(workoutID);
+    // this.router.navigate([`schedule/workout/${workoutID}`]);
   }
 }
