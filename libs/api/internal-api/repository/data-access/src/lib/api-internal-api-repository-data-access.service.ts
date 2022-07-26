@@ -436,6 +436,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //scheduled workouts - CREATE
     async scheduleWorkout(@Param() workout : ActivitySchedule){
         const data = {
+            id: uuid.v1().toString(),
             title: workout.title,
             organiser: workout.email,
             participants: [workout.email],
