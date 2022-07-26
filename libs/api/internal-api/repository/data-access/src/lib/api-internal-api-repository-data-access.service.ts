@@ -1,7 +1,6 @@
 import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { reverse } from 'dns';
 import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
 import passport = require('passport');
@@ -10,7 +9,6 @@ import { async } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
 import fs = require('fs') ;
-import { workerData } from 'worker_threads';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
@@ -509,9 +507,11 @@ export class ApiInternalApiRepositoryDataAccessService {
             return this.workoutInvitesCollection.where('sender', '==', sender).where('workout','==',workout).get().then(async (result) => {
                 if(result.docs[0]) {
                     return this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayRemove(user)}).then(results => {
-                    return this.scheduledWorkoutCollection.doc(workout).update({participants: this.arrayUnion(user)}).then(result =>{
-                        return true ;
-                    }) ;
+                    return this.scheduledWorkoutCollection.where("id","==",workout).get().then(async (res) => {
+                        return this.scheduledWorkoutCollection.doc(res.docs[0].id).update({participants: this.arrayUnion(user)}).then(result =>{
+                            return true ;
+                        }) ;
+                    } );
                 }) ;
                 };
             }); 
@@ -534,7 +534,12 @@ export class ApiInternalApiRepositoryDataAccessService {
         const invites = [] ;
         await this.workoutInvitesCollection.where('receivers', 'array-contains', user).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                invites.push(doc.data());
+                const data = {
+                    sender: doc.data().sender,
+                    receivers: doc.data().receivers,
+                    workout: this.getWorkout(user, doc.data().workout)
+                }
+                invites.push(data);
             });
         });
         return invites ;
@@ -554,7 +559,9 @@ export class ApiInternalApiRepositoryDataAccessService {
     async completeWorkout(@Param() workoutID: string){
         //change status to complete
         if(workoutID != null){
-            return this.scheduledWorkoutCollection.doc(workoutID).update({complete: true}) ;
+            return this.scheduledWorkoutCollection.where("id", "==", workoutID).get().then(async (result) => {
+                return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({complete: true})
+            }); 
         }
 
     }
