@@ -221,11 +221,11 @@ export class ViewscheduleComponent implements OnInit {
 
   image(data: string): string{
     // return this.currentImage;
-    if (data == 'Running') 
+    if (data == 'run') 
     return "https://img.icons8.com/ios/50/000000/running.png";
-    if (data == 'Riding')
+    if (data == 'ride')
       return "https://img.icons8.com/ios-filled/50/000000/bicycle.png";
-    if (data == 'Swimming')
+    if (data == 'swim')
       return "https://img.icons8.com/ios/50/000000/swimming.png";
     return "https://img.icons8.com/ios/50/000000/dumbbell--v1.png";
   }
@@ -236,7 +236,6 @@ export class ViewscheduleComponent implements OnInit {
   }
 
   acceptInvite(email: string, workoutID: string){
-    console.log("accept clicked");
     this.apollo
     .mutate({
       mutation: gql`
@@ -251,18 +250,23 @@ export class ViewscheduleComponent implements OnInit {
       }
     `,
     }).subscribe({
-      next: (data : any) => {
+      next: () => {
         this.workoutInvites.map((el : any, i : number) => {
-          if (el.email == email) {
+          if (el.organiserEmail == email) {
             this.workoutInvites.splice(i, 1);
           }
         });
       }
     });
+    this.workoutInvites.map((el : any, i : number) => {
+      console.log("checking if ", el[0].organiserEmail, "==", email);
+        if (el[0].organiserEmail == email) {
+          this.workoutInvites.splice(i, 1);
+        }
+      });
 
   }
   rejectInvite(email: string, workoutID: string){
-    console.log("reject clicked");
     this.apollo
     .mutate({
       mutation: gql`
@@ -277,12 +281,18 @@ export class ViewscheduleComponent implements OnInit {
       }
     `,
     }).subscribe({
-      next: (data : any) => {
+      next: () => {
         this.workoutInvites.map((el : any, i : number) => {
-          if (el.email == email) {
+          if (el.organiserEmail== email) {
             this.workoutInvites.splice(i, 1);
           }
         });
+      }
+    });
+  this.workoutInvites.map((el : any, i : number) => {
+    console.log("checking if ", el[0].organiserEmail, "==", email);
+      if (el[0].organiserEmail == email) {
+        this.workoutInvites.splice(i, 1);
       }
     });
   }
