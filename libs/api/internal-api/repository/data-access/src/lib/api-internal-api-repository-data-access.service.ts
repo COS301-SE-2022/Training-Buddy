@@ -549,8 +549,13 @@ export class ApiInternalApiRepositoryDataAccessService {
         const invites = [] ;
         await this.workoutInvitesCollection.where('sender', '==', user).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                invites.push(doc.data());
-            });
+                const data = {
+                    sender: doc.data().sender,
+                    receivers: doc.data().receivers,
+                    workout: this.getWorkout(user, doc.data().workout)
+                }
+                invites.push(data);
+            })
         });
         return invites ;
     }
