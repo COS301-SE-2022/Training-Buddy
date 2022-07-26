@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
@@ -204,6 +205,9 @@ export class ViewscheduleComponent implements OnInit {
   startDateTime(data: string): any{
     //write a function that returns the date and time 
     const date = new Date(Number(data) * 1000);
+    const datepipe: DatePipe = new DatePipe('en-US')
+    const formattedDate = datepipe.transform(date, 'HH:mm');
+    console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
    
     return{
@@ -211,8 +215,7 @@ export class ViewscheduleComponent implements OnInit {
       day: date.getDate(),
       month:  months[date.getMonth()],
       year: date.getFullYear(),
-      hour: date.getHours(),
-      minutes: date.getMinutes(),
+      time: formattedDate,
     }
   }
 
