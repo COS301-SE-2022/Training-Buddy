@@ -10,5 +10,5 @@ export class Invite {
     receivers: string[]
 
     @Field()
-    workout:string
+    workout:ResponseWorkout
 }
