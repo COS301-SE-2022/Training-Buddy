@@ -72,6 +72,7 @@ export class ViewscheduleComponent implements OnInit {
         query{
           getScheduleWorkout(email: "${ email }"){
             title,
+            id,
             startTime,
             organiser,
             participants,
@@ -94,6 +95,7 @@ export class ViewscheduleComponent implements OnInit {
               receivers,
               workout{
                 title,
+                id,
                 startTime,
                 organiser,
                 participants,
@@ -190,6 +192,7 @@ export class ViewscheduleComponent implements OnInit {
     return{
       //name: data.name,
       name: data.title,
+      id: data.id,
       startPoint: this.startPoint(data.startPoint),
       startDate: this.startDateTime(data.startTime),
       image: this.image(data.activityType)
