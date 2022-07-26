@@ -20,10 +20,52 @@
         </div>
 
     </div> -->
-    <div *ngIf="invitesAvailable">
-        workout invites available.
+       
+    <div  *ngIf="invitesAvailable" class="px-4">
+        <h2 class="text-center">
+            Workout Invites
+        </h2>
+        <!-- for date -->
+        <div *ngFor="let day of workoutInvites">
+            <div class="text-center ">
+                <h2>
+                    {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
+                </h2>
+
+            </div>
+            <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3" >
+                            
+                <div class="m-3 row space-between align-content">
+        
+                    <div class="row align-content cursor" (click)="fullWorkoutDetails(workout?.id)">
+                        <div class="my-2 eventpic" [ngStyle]="{'background-image': 'url(' +  workout?.image + ')'}"></div>
+                        <div class="ml-6">
+                            <div><h2>{{ workout?.name }} </h2></div>
+                            <div> 
+
+                            <mat-hint>
+                                {{workout?.organiser}} <br>
+                                {{workout?.startDate.hour}}:{{workout?.startDate.minutes}} <br>
+                                <mat-icon> location_on</mat-icon>{{ workout?.startPoint }}
+                            </mat-hint>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiserEmail, workout?.id)">	<mat-icon>check</mat-icon></button>
+                        <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiserEmail, workout?.id)">	<mat-icon>close</mat-icon></button>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        
     </div>
-    <div class="px-4">
+  
+    <div  *ngIf="upcomingEvents" class="px-4">
+        <h2 class="text-center">
+            Upcoming Workouts
+        </h2>
         <!-- for date -->
         <div *ngFor="let day of workouts">
             <div class="text-center ">
