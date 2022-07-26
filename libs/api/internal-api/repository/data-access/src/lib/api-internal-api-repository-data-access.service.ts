@@ -1,7 +1,6 @@
 import { Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { reverse } from 'dns';
 import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
 import passport = require('passport');
@@ -10,7 +9,6 @@ import { async } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
 import fs = require('fs') ;
-import { workerData } from 'worker_threads';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
