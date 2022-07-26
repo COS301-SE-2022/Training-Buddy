@@ -48,10 +48,10 @@
                     <mat-label>Activity Type</mat-label>
 
                     <mat-select #toggle (selectionChange)="activityToggle(toggle.value)" formControlName="type" id="type" name="type">
-                        <mat-option value="Running" default>Running</mat-option>
-                        <mat-option value="Riding">Riding</mat-option>
-                        <mat-option value="Swimming">Swimming</mat-option>
-                        <mat-option value="WeightLifting">Weight Lifting</mat-option>
+                        <mat-option value="run" default>Run</mat-option>
+                        <mat-option value="ride">Ride</mat-option>
+                        <mat-option value="swim">Swim</mat-option>
+                        <mat-option value="lift">Gym</mat-option>
                     </mat-select>
 
                 </mat-form-field>
