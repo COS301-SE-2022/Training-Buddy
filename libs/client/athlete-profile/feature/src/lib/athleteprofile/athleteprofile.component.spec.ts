@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AthleteprofileComponent } from './athleteprofile.component';
 import { CookieService } from 'ngx-cookie-service';
 
+
 describe('AthleteprofileComponent', () => {
   let component: AthleteprofileComponent;
   let fixture: ComponentFixture<AthleteprofileComponent>;
@@ -18,11 +19,14 @@ describe('AthleteprofileComponent', () => {
         ReactiveFormsModule,
         UiModule,
         NoopAnimationsModule,
-        RouterTestingModule
+        RouterTestingModule,
+       
       ],
       providers: [
         Apollo,
-        CookieService
+        CookieService,
+
+       
       ]
     })
     .compileComponents();

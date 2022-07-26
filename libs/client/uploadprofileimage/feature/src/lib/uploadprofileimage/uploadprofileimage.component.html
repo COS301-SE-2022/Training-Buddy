@@ -10,7 +10,7 @@
     
             <mat-card-content>
     
-                <form [formGroup]="uploadfrm" (ngSubmit)="upload()">
+                <form [formGroup]="uploadfrm" (ngSubmit)="upload($event)">
 
                     <!-- file input -->
                     <div class="fileupload mr-3 ml-3 mb-3">
@@ -52,7 +52,7 @@
                             {{ fileuploaderror }}
                           </div>
               
-                          <button id="uploadbutton" type="submit" class="text-center" mat-raised-button color="primary">Upload</button>
+                          <button id="uploadbutton"  type="submit" class="text-center" mat-raised-button color="primary">Upload</button>
 
                       </div>
                     </div>

@@ -327,10 +327,6 @@ export class TrainingBuddyApiResolver {
     getWorkout(@Args("email")userEmail:string ,@Args("workoutID")workoutID:string){
         return this.trainingBuddyService.getWorkout(userEmail, workoutID);
     }
-    @Mutation(()=> ErrorMessage)
-    saveImage(@Args("email")userEmail:string ,@Args("Image")image:string){
-        return this.trainingBuddyService.saveImage(userEmail, image);
-    }
      /**
      * 
      * @param userEmail 
