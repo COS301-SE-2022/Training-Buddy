@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
 @Component({
@@ -30,14 +31,14 @@ export class ScheduleworkoutComponent implements OnInit {
   mins = '5';
   secs = '30';
 
-  constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar, private cookieService: CookieService) {
+  constructor(private builder : FormBuilder, private apollo : Apollo, private snackBar : MatSnackBar, private cookieService: CookieService,private router : Router) {
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     this.frmBuilder = builder;
     this.setAllFalse();
     this.isRunning = true;
     this.calculatedDuration = '';
     this.showCalculatedDuration = false;
-    this.email = cookieService.get('name');
+    this.email = cookieService.get('email');
     this.latitude = 0;
     this.longitude = 0;
     this.vicinity = "";
@@ -67,39 +68,79 @@ export class ScheduleworkoutComponent implements OnInit {
 
   activityToggle(value : string) {
     this.setAllFalse();
-    if (value == 'Running') {
+    if (value == 'run') {
       this.isRunning = true;
       this.mins = '5';
       this.secs = '30';
     }
-    if (value == 'Riding')
+    if (value == 'ride')
       this.isRiding = true;
-    if (value == 'Swimming') {
+    if (value == 'swim') {
       this.isSwimming = true;
       this.mins = '2';
       this.secs = '00';
     }
-    if (value == 'WeightLifting') {
+    if (value == 'lift') {
       this.isWeightLifting = true;
       this.mins = '1';
       this.secs = '00';
     }
     this.calculateDuration();
   }
-
+  queryActivitySchedule(title: string, time: string, activity: string, location: string, distance: string, duration: string){
+    this.apollo
+    .mutate({
+      mutation: gql`
+        mutation{
+        activitySchedule(ActivitySchedule:{
+          title: "${title}",
+          email: "${this.email}",
+          time: "${time}",
+          activity: "${activity}",
+          location: "${location}",
+          distance: "${distance}",
+          duration: "${duration}",
+        }){
+          message
+        }
+      }
+    `,
+    }).subscribe({
+      next: (data: any) => {
+        console.log(data.data.activitySchedule.message);
+        //routing
+        this.router.navigate([`/schedule`]);
+        
+      }
+    });
+  }
   add() {
 
     //use the appropriate variable in the API call
     const type = this.scheduleWorkout.controls['type'].value || false;
     const location = this.scheduleWorkout.controls['location'].value || false;
     const name = this.scheduleWorkout.controls['name'].value || false;
-    const hours = this.scheduleWorkout.controls['hours'].value || false;
-    const minutes = this.scheduleWorkout.controls['minutes'].value || false;
+    let hours = this.scheduleWorkout.controls['hours'].value || false;
+    let minutes = this.scheduleWorkout.controls['minutes'].value || false;
     const seconds = this.scheduleWorkout.controls['seconds'].value || false;
     const date = this.scheduleWorkout.controls['date'].value || false;
     const kmph = this .scheduleWorkout.controls['kmph'].value || false;
     const distance = this.scheduleWorkout.controls['distance'].value || false;
 
+
+    const d = new Date(date);
+    const epoch = d.getTime();
+    const timestamp = Math.trunc(epoch/1000).toString();
+
+    if(hours.length == 1){
+      hours = "0" + hours;
+    }
+    if(minutes.length == 1){
+      minutes = "0" + minutes;
+    }
+    
+    const duration = hours +":"+ minutes;
+    console.log(duration);
     //base validation:
     if (!(name && type && date))
       return;
@@ -111,6 +152,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
       //schedule weight lifting workout API call
       //TODO(1):
+      this.queryActivitySchedule(name,timestamp,type,location,"N/A",duration);
 
       this.resetForm();
       return;
@@ -127,6 +169,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
       //schedule riding workout API call
       //TODO(2):
+      this.queryActivitySchedule(name,timestamp,type,location,distance,duration);
 
       this.resetForm();
       return;
@@ -139,6 +182,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
       //schedule running workout API call
       //TODO(3):
+      this.queryActivitySchedule(name,timestamp,type,location,distance,duration);
 
     }
 
@@ -146,6 +190,7 @@ export class ScheduleworkoutComponent implements OnInit {
 
       //schedule swimming workout API call
       //TODO(4):  
+      this.queryActivitySchedule(name,timestamp,type,location,distance,duration);
 
     }
     //location is required
@@ -265,4 +310,5 @@ export class ScheduleworkoutComponent implements OnInit {
         this.longitude = event.longitude;
       }
     }
+
 }
