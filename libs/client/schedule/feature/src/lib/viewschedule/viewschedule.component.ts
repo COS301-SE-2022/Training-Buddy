@@ -179,7 +179,7 @@ export class ViewscheduleComponent implements OnInit {
       organiserEmail: data.workout.organiser,
       name: data.workout.title,
       id: data.workout.id,
-      startPoint: this.startPoint(data.workout.startPoint),
+      startPoint: data.workout.startPoint,
       startDate: this.startDateTime(data.workout.startTime),
       image: this.image(data.workout.activityType)
     }
@@ -190,17 +190,13 @@ export class ViewscheduleComponent implements OnInit {
       //name: data.name,
       name: data.title,
       id: data.id,
-      startPoint: this.startPoint(data.startPoint),
+      startPoint: data.startPoint,
       startDate: this.startDateTime(data.startTime),
       image: this.image(data.activityType)
 
     }
   }
 
-  startPoint(data: string): string{
-    //to do write a function that returns the location.
-    return "Hatfield Studios";
-  }
 
   startDateTime(data: string): any{
     //write a function that returns the date and time 
