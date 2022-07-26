@@ -5,8 +5,6 @@ export class ActivitySchedule {
     @Field()
     title:string
     @Field()
-    id:string
-    @Field()
     email: string
     @Field()
     time:string
