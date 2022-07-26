@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
-import { Subject } from 'rxjs';
+import { Subject,take } from 'rxjs';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
@@ -77,7 +78,7 @@ export class ViewprofilepageComponent implements OnInit {
   buddies! : any;
   buddiesOriginal : any;
   buddiesLoaded = false;
-
+  ref!: AngularFireStorageReference;
   //logs
   activityCount = 0;
   @ViewChild('logSearchBox') logSearchBox : any;
@@ -98,11 +99,17 @@ export class ViewprofilepageComponent implements OnInit {
   email! : string;
   id! : any;
   displayUser! : any;
-  currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
+  currentImage! :any;
 
 
 
-  constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router){
+  constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
+    const id = this.cookie.get('id');
+    this.ref = this.afStorage.ref("UserProfileImage/"+id);
+   this.ref.getDownloadURL().subscribe((downloadURL) => {
+    this.currentImage=downloadURL;
+    });
+    
   } 
 
   changeProfile(id : string) {
@@ -123,6 +130,7 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
 
     this.activated.params.subscribe((param : any) => {
       const routerid = param?.id;

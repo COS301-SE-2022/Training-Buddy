@@ -6,7 +6,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { UploadprofileimageComponent } from './uploadprofileimage.component';
 import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-
+import { AngularFireStorage} from '@angular/fire/compat/storage';
+import { AngularFireModule, FIREBASE_OPTIONS } from '@angular/fire/compat';
+const firebase = {
+  apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
+  authDomain: 'training-buddy-2022.firebaseapp.com',
+  databaseURL: 'https://training-buddy-2022-default-rtdb.firebaseio.com',
+  projectId: 'training-buddy-2022',
+  storageBucket: 'training-buddy-2022.appspot.com',
+  messagingSenderId: '<your-messaging-sender-id>',
+  appId: '445917436',
+  measurementId: 'G-K7WPZTL3FJ'
+}
 describe('UploadprofileimageComponent', () => {
   let component: UploadprofileimageComponent;
   let fixture: ComponentFixture<UploadprofileimageComponent>;
@@ -22,7 +33,9 @@ describe('UploadprofileimageComponent', () => {
       ],
       providers: [
         Apollo,
-        CookieService
+        CookieService,
+        { provide: FIREBASE_OPTIONS, useValue:firebase }
+      
       ]
     })
     .compileComponents();
