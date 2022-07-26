@@ -324,7 +324,7 @@ export class TrainingBuddyApiResolver {
      * @returns ResponseWorkout
      */
     @Query(()=>ResponseWorkout)
-    getWorkout(@Args("workoutID")userEmail:string ,@Args("workoutID")workoutID:string){
+    getWorkout(@Args("email")userEmail:string ,@Args("workoutID")workoutID:string){
         return this.trainingBuddyService.getWorkout(userEmail, workoutID);
     }
     @Mutation(()=> ErrorMessage)
