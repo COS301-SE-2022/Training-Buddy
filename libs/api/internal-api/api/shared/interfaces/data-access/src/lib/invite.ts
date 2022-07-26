@@ -9,6 +9,6 @@ export class Invite {
     @Field(type=> [String] , {nullable:true})
     receivers: string[]
 
-    @Field(()=>ResponseWorkout)
+    @Field()
     workout:ResponseWorkout
 }

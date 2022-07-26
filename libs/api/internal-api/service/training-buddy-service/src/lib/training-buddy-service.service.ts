@@ -506,7 +506,7 @@ export class TrainingBuddyServiceService {
      * @param startTime 
      * @returns ErrorMessage
      */
-    async createInvite(email:string , startTime: string){
+    async createInvite(email:string , workoutID: string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         if(!user ){
@@ -514,9 +514,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-
-            const workout = await this.getWorkout(email,startTime);
-            await this.repoService.createInvite(email, workout)
+            await this.repoService.createInvite(email, workoutID)
             item.message ="success"
             return item;
 
@@ -529,7 +527,7 @@ export class TrainingBuddyServiceService {
      * @param startTime 
      * @returns ErrorMessage
      */
-    async sendInvite(email:string ,receiver:string ,  startTime: string){
+    async sendInvite(email:string ,receiver:string ,  workoutID: string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         const arr = []
@@ -538,9 +536,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-            const workout = await this.getWorkout(email,startTime);
-            console.log(workout) ;
-            const val = await this.repoService.sendInvite(email,arr,workout)
+            const val = await this.repoService.sendInvite(email,arr,workoutID)
             if(val){
                 item.message = "Success";
                 return item
@@ -557,7 +553,7 @@ export class TrainingBuddyServiceService {
      * @param startTime 
      * @returns 
      */
-    async acceptInvite(email:string ,sender:string ,  startTime: string){
+    async acceptInvite(email:string ,sender:string ,  workoutID: string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
 
@@ -565,8 +561,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-            const workout = await this.getWorkout(sender,startTime);
-            const val = await this.repoService.acceptInvite(email,sender,workout)
+            const val = await this.repoService.acceptInvite(email,sender,workoutID)
             if(val){
                 item.message = "Success";
                 return item
@@ -583,7 +578,7 @@ export class TrainingBuddyServiceService {
      * @param startTime 
      * @returns 
      */
-    async rejectInvite(email:string ,sender:string ,  startTime: string){
+    async rejectInvite(email:string ,sender:string ,  workoutID: string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
 
@@ -591,7 +586,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-            const val = await this.repoService.rejectInvite(email,sender,startTime)
+            const val = await this.repoService.rejectInvite(email,sender,workoutID)
             if(val){
                 item.message = "Success";
                 return item
@@ -633,13 +628,13 @@ export class TrainingBuddyServiceService {
      * @param startTime 
      * @returns ResponseWorkout 
      */
-    async getWorkout(userEmail: string , startTime: string) {
+    async getWorkout(userEmail: string , workoutID) {
         const arr =[];
         const user = await this.findOne(userEmail);
        if(!user){
             return arr;
         }else{
-            return await this.repoService.getWorkout(userEmail,startTime);
+            return await this.repoService.getWorkout(userEmail,workoutID);
            
         }
     }
