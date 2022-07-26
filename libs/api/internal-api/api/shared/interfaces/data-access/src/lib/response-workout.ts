@@ -6,6 +6,8 @@ export class ResponseWorkout {
     @Field()
     title:string
     @Field()
+    id: string
+    @Field()
     startTime:string
     @Field()
     organiser:string

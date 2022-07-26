@@ -251,9 +251,9 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    sendInvite(@Args("email")userEmail:string ,@Args("receiver")receiver:string ,@Args("startTime")startTime:string){
-        const val = this.trainingBuddyService.sendInvite(userEmail,receiver, startTime);
-        this.subscriptionInvites(userEmail,receiver, startTime)
+    sendInvite(@Args("email")userEmail:string ,@Args("receiver")receiver:string ,@Args("workoutID")workoutID:string){
+        const val = this.trainingBuddyService.sendInvite(userEmail,receiver, workoutID);
+        this.subscriptionInvites(userEmail,receiver, workoutID)
         return val;
     }
    /**
@@ -270,8 +270,8 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    createInvite(@Args("email")userEmail:string ,@Args("startTime")startTime:string){
-        return this.trainingBuddyService.createInvite(userEmail, startTime);
+    createInvite(@Args("email")userEmail:string ,@Args("workoutID")workoutID:string){
+        return this.trainingBuddyService.createInvite(userEmail, workoutID);
     }
     /**
      * 
@@ -281,9 +281,9 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    acceptInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("startTime")startTime:string){
-        const val = this.trainingBuddyService.acceptInvite(userEmail,sender, startTime);
-        this.subscriptionInvites(userEmail,sender, startTime)
+    acceptInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("workoutID")workoutID:string){
+        const val = this.trainingBuddyService.acceptInvite(userEmail,sender, workoutID);
+        this.subscriptionInvites(userEmail,sender, workoutID)
         return val;
     }
     /**
@@ -294,9 +294,9 @@ export class TrainingBuddyApiResolver {
      * @returns ErrorMessage
      */
     @Mutation(()=>ErrorMessage)
-    rejectInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("startTime")startTime:string){
-        const val = this.trainingBuddyService.rejectInvite(userEmail,sender, startTime);
-        this.subscriptionInvites(userEmail,sender, startTime)
+    rejectInvite(@Args("email")userEmail:string ,@Args("sender")sender:string, @Args("workoutID")workoutID:string){
+        const val = this.trainingBuddyService.rejectInvite(userEmail,sender, workoutID);
+        this.subscriptionInvites(userEmail,sender, workoutID)
         return val;
     }
     /**
@@ -324,8 +324,8 @@ export class TrainingBuddyApiResolver {
      * @returns ResponseWorkout
      */
     @Query(()=>ResponseWorkout)
-    getWorkout(@Args("userEmail")userEmail:string ,@Args("startTime")startTime:string){
-        return this.trainingBuddyService.getWorkout(userEmail, startTime);
+    getWorkout(@Args("workoutID")userEmail:string ,@Args("workoutID")workoutID:string){
+        return this.trainingBuddyService.getWorkout(userEmail, workoutID);
     }
     @Mutation(()=> ErrorMessage)
     saveImage(@Args("email")userEmail:string ,@Args("Image")image:string){
