@@ -122,18 +122,30 @@ export class ApiInternalApiRepositoryDataAccessService {
     async userConfig(@Param() userConfig: Userconfig){
         
         let run = 0 ;
+        let runGroup = -1;
         let ride = 0; 
+        let rideGroup = -1 ;
         let swim = 0; 
+        let swimGroup = -1 ;
         let lift = 0 ;
+        let liftGroup = -1 ;
 
-        if(userConfig.riding)
+        if(userConfig.riding){
             ride = 1 ;
-        if(userConfig.running)
+            const rideGroup = 0 ;
+        }
+        if(userConfig.running){
             run = 1 ;
-        if(userConfig.swimming)
+            runGroup = 0 ;
+        }
+        if(userConfig.swimming){
             swim = 1 ;
-        if(userConfig.weightLifting)
+            swimGroup = 0 ;
+        }
+        if(userConfig.weightLifting){
             lift = 1 ;
+            liftGroup = 0 ;
+        }
         
         const data = {
             metrics: {
@@ -141,6 +153,12 @@ export class ApiInternalApiRepositoryDataAccessService {
                 ride : ride, 
                 swim : swim,
                 lift : lift
+            },
+            groups: {
+                runGroup: runGroup,
+                rideGroup: rideGroup,
+                swimGroup: swimGroup,
+                liftGroup: liftGroup
             },
             distance : userConfig.distance,
             bio : userConfig.bio 
