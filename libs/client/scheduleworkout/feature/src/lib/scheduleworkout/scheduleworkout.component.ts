@@ -107,7 +107,7 @@ export class ScheduleworkoutComponent implements OnInit {
     `,
     }).subscribe({
       next: (data: any) => {
-        console.log(data.data.activitySchedule.message);
+        // console.log(data.data.activitySchedule.message);
         //routing
         this.router.navigate([`/schedule`]);
         

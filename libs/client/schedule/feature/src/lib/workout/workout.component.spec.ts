@@ -1,4 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { RouterTestingModule } from '@angular/router/testing';
+import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { Apollo } from 'apollo-angular';
+import firebase = require('firebase/compat');
+import { CookieService } from 'ngx-cookie-service';
 
 import { WorkoutComponent } from './workout.component';
 
@@ -8,7 +14,16 @@ describe('WorkoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkoutComponent ]
+      declarations: [ WorkoutComponent ],
+      imports: [
+        UiModule,
+        RouterTestingModule
+      ],
+      providers: [
+        Apollo,
+        CookieService,
+        { provide: FIREBASE_OPTIONS, useValue:firebase }
+      ],
     })
     .compileComponents();
   });
