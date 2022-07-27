@@ -64,8 +64,8 @@
                                 <div class="acceptTitle">
                                     <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p> 
                                     <div>
-                                        <button *ngIf="!checkIfInOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
-                                        <button *ngIf="checkIfInOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
+                                        <button *ngIf="!inOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
+                                        <button *ngIf="inOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
                                     </div>
                                 </div> 
                                 <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
