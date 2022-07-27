@@ -552,9 +552,14 @@ export class ApiInternalApiRepositoryDataAccessService {
         const invites = [] ;
         await this.workoutInvitesCollection.where('receivers', 'array-contains', user).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
+
+                const recs = [] ;
+                doc.data().receivers.forEach((rec) => {
+                    recs.push(this.login(rec)) ;
+                })
                 const data = {
                     sender: doc.data().sender,
-                    receivers: doc.data().receivers,
+                    receivers: recs,
                     workout: this.getWorkout(user, doc.data().workout)
                 }
                 invites.push(data);
