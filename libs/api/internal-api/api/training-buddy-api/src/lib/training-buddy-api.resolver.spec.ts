@@ -477,19 +477,6 @@ describe('TrainingBuddyApiResolver', () => {
     });
   });
 
-  /**
-   * Test saveImage Function
-   */
-  describe('saveImage', () => {
-    
-    it('should allow user to save image', async () => {
-      jest.spyOn(resolver, 'saveImage')
-      .mockImplementation(resolver.saveImage);
-
-      expect(resolver.saveImage).toReturn;
-  
-    });
-  });
 
   /**
    * Test getIncomingInviteSub Function

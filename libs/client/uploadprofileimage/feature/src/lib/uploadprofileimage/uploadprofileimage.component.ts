@@ -3,14 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Apollo, gql } from 'apollo-angular';
 import { Router } from '@angular/router';
-
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { map, Observable } from 'rxjs';
 @Component({
   selector: 'training-buddy-upload-profile-image',
   templateUrl: './uploadprofileimage.component.html',
   styleUrls: ['./uploadprofileimage.component.scss']
 })
 export class UploadprofileimageComponent implements OnInit {
-
+  ref!: AngularFireStorageReference;
+  task!: AngularFireUploadTask;
+  uploadState!: Observable<string>;
+  uploadProgress!: Observable<number>;
+  downloadURL!: Observable<string>;
   img : string;
   profileimage! : File;
   uploadfrm! : FormGroup;
@@ -22,7 +27,7 @@ export class UploadprofileimageComponent implements OnInit {
   showuploaded = false;
   filename = '';
 
-  constructor(private builder : FormBuilder, private cookie : CookieService, private apollo : Apollo, private router : Router) { 
+  constructor(private builder : FormBuilder, private cookie : CookieService, private apollo : Apollo, private router : Router,private afStorage: AngularFireStorage ) { 
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     this.submit = false;
     this.fileuploadflag = false;
@@ -75,7 +80,7 @@ export class UploadprofileimageComponent implements OnInit {
 
   }
 
-  upload() {
+  upload(event: { target: { files: any[]; }; }) {
 
     this.submit = true;
     
@@ -86,23 +91,28 @@ export class UploadprofileimageComponent implements OnInit {
       return;
     }
 
-    const email = this.cookie.get('email');
+    const id = this.cookie.get('id');
     const image = this.profileimage;
+    this.ref = this.afStorage.ref("UserProfileImage/"+id);// can set this ref in to a cookie to get download url 
+    this.task = this.ref.put(image); 
+    this.router.navigate(['/dashboard'])
+    //this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+   
 
-    this.Base64encode(image).then(encode => {
-      //encode is the base64 representation of the image.
-      this.apollo
-        .mutate ({
-          mutation: gql`
+    // this.Base64encode(image).then(encode => {
+    //   //encode is the base64 representation of the image.
+    //   this.apollo
+    //     .mutate ({
+    //       mutation: gql`
           
-          `
-        }).subscribe({
-          next: () => {
-            //route to next page:
-            this.router.navigate(['strava/link']);
-          },
-        });
-    });
+    //       `
+    //     }).subscribe({
+    //       next: () => {
+    //         //route to next page:
+    //         this.router.navigate(['strava/link']);
+    //       },
+    //     });
+    // });
 
   }
 

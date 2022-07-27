@@ -675,42 +675,13 @@ export class TrainingBuddyServiceService {
                 if(person.metrics[element]==0){
                     count ++;
                 }});
-                if(count>=0 ){
+                if(count<= 2 ){
                     recommended.push(person)
                 }})
     }     
     return recommended;
     }
-    async saveImage(userEmail:string,image:string){
-        // let base64data;
-        // const fileReaderInstance = new FileReader();
-        // fileReaderInstance.readAsDataURL(image); 
-        // fileReaderInstance.onload = () => {
-        //     base64data = fileReaderInstance.result;     
-        //     console.log(base64data)  
-        // } 
-         const item = new ErrorMessage; 
-        item.message= "Not Finished"
-        return item.message;
-        //TODO 
-        // const user = await this.findOne(userEmail);
-        // const item = new ErrorMessage;
-        // if(!user){
-        //     item.message = "Failure User Not Found";
-        //  }else{
-        //     const val = await this.repoService.
-        //     if(val){
-        //         item.message = "Success";
-        //         return item
-        //     }else{
-        //         item.message = "Failure";
-        //         return item
-        //     }
-            
-        //  }
-
-
-    }
+  
 
 
 }
