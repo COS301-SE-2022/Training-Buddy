@@ -488,4 +488,18 @@ describe('TrainingBuddyServiceService', () => {
     });
   });
 
+  /**
+   * Test getWorkout
+   */
+  describe('getWorkout', () => {
+    
+    it('should get all users workouts', async () => {
+      
+      jest.spyOn(service, 'getWorkout').mockImplementation(service.getWorkout);
+
+      expect(async () => service.getWorkout(UserDtoModule.email, ResponseWorkoutModule.id)).toReturn;
+
+    });
+  });
+
 });
