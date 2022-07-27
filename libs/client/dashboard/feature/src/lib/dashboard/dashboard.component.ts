@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import { tap } from 'rxjs';
+import { combineLatest, map, tap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { fdatasync } from 'fs';
 import { use } from 'passport';
@@ -92,11 +93,11 @@ export class DashboardComponent implements OnInit {
         if (this.buddies.length != 0)
           this.noBuddies = false;
         this.doneloading = true;
+        this.removeConnections();
         console.log(this.buddies);
       }
     });
 
-    //Getting Incoiming Requests:
     this.firestore
       .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
       .valueChanges()
@@ -104,14 +105,23 @@ export class DashboardComponent implements OnInit {
         this.pendingrequests = data.length != 0;
         this.requests = [];
         data.map((req : any) => {
+
+        incoming.forEach((req : any) => {
+
           this.firestore
           .collection('Users', ref => ref.where('email', '==', req.sender))
+          .collection('Users', ref => ref.where('email', '==', req.email))
           .valueChanges()
-          .pipe(
-            tap((usr : any) => {
-              this.requests.push(usr[0]);
-            })
           ).subscribe();
+          .subscribe((currentusr : any) => {
+
+            console.log('imncoming requests : ', req)
+
+            // this.requests = [];
+            // this.firestore
+            //   .collection('Users', ref => ref.where('email', '==', requsr[0].email))
+            //   .valueChanges()
+          });
         });
       });
 
@@ -125,9 +135,24 @@ export class DashboardComponent implements OnInit {
         //remove the accepted buddy from the recs:
         this.buddies = this.removeAccepted(this.buddies, data);
         this.oldBuddies = this.removeAccepted(this.oldBuddies, data);
-
       });
 
+  }
+
+  removeConnections() {
+    this.firestore
+      .collection('Users', ref => ref.where('email', '==', this.email))
+      .valueChanges()
+      .subscribe((data : any) => {
+        this.buddies = this.filterEmail(this.buddies, data[0].buddies);
+        this.oldBuddies = this.filterEmail(this.oldBuddies, data[0].buddies);
+      })
+  }
+
+  filterEmail(data : any[], em : string) {
+    return data.filter((usr : any) => {
+      return usr.email != em;
+    });
   }
 
   trackById(i : number, usr : any) {
@@ -135,13 +160,13 @@ export class DashboardComponent implements OnInit {
   }
 
   removeRec(data : any) {
-    this.buddies = this.filterNotEmail(this.buddies, data);
-    this.oldBuddies = this.filterNotEmail(this.oldBuddies, data);
+    this.buddies = this.filterNotBuddy(this.buddies, data);
+    this.oldBuddies = this.filterNotBuddy(this.oldBuddies, data);
     if (this.buddies.length == 0)
       this.noBuddies = true;
   }
 
-  filterNotEmail(data : any, usr : any) {
+  filterNotBuddy(data : any, usr : any) {
     return data.filter((el : any) => {
       return el.email != usr.email;
     });
@@ -154,7 +179,7 @@ export class DashboardComponent implements OnInit {
 
       //filter outgoing to try
       const temp = reqs.filter((el : any) => {
-        return el.receiver == bud.email;
+        return el.receiver != bud.email;
       })
 
       if (temp.length != 0)
@@ -220,11 +245,23 @@ export class DashboardComponent implements OnInit {
 
   accept(email : string) {
 
-    this.requests.map((el : any, i : number) => {
-      if (el.email == email) {
-        this.requests.splice(i, 1);
-      }
+    //filters from current recs.
+    this.buddies = this.buddies.filter((el : any) => {
+      return el.email != email;
     });
+    this.oldBuddies = this.oldBuddies.filter((el : any) => {
+      return el.email != email;
+    });
+
+    if (this.buddies.length == 0) {
+      this.noBuddies = true;
+    } else {
+      this.noBuddies = false;
+    }
+
+    this.requests = this.requests.filter((el : any) => {
+      return el.email != email;
+    })
 
     this.apollo
     .mutate({
@@ -240,23 +277,16 @@ export class DashboardComponent implements OnInit {
     }).subscribe();
   }
 
-  reject(data : string) {
-
-    this.requests.forEach((el : any, i : number) => {
-      if (el.email == data) {
-        this.requests.splice(i, 1);
-        console.log(this.requests);
-        if (this.requests.length == 0) {
-          this.pendingrequests = false;
-        }
-      }
-    })
-
+  reject(email : string) {
+    this.requests = this.requests.filter((el : any) => {
+      return el.email != email;
+    });
+    this.pendingrequests = this.requests.length != 0;
     this.apollo
     .mutate({
       mutation: gql`mutation{
         reject(
-          Sender: "${data}",
+          Sender: "${email}",
           Receiver: "${this.email}"
       ){
        message
