@@ -33,9 +33,7 @@
             </div>
 
             <div [@fadeIn] id="recBuddies" class="m-8 mt-2" *ngIf="doneloading">
-    
                 <h1 class="text-center">Recommended</h1>
-                data is here
                 <div class="w-100 flex">
                     <mat-form-field id="filter" class="max-w-md mx-auto rounded-xl overflow-hidden md:max-w-2xl" appearance="outline">
                         <mat-label>Filter Sport Type</mat-label>
@@ -50,14 +48,12 @@
                 </div>
 
                 <div class="w-100 flex">
-                    <div id="noresults" class="max-w-md mx-auto overflow-hidden md:max-w-2xl" *ngIf="doneloading">
+                    <div id="noresults" class="max-w-md mx-auto overflow-hidden md:max-w-2xl">
                         <mat-hint *ngIf="noBuddies" class="text-center">No Recommended Buddies</mat-hint>
                         <br />
                         <ng-container *ngIf="noBuddies"><mat-hint class="text-center">Try another sport or increase your </mat-hint><a id="configurelink" routerLink="/configureprofile/update"><u>Buddy Distance</u></a></ng-container>
                     </div>
                 </div>
-
-                <ng-container *ngIf="doneloading">
 
                     <div [@fadeIn] *ngFor="let usr of buddies; trackBy:trackById" class="dynamic mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         
@@ -92,8 +88,6 @@
 
                     </div>
 
-                </ng-container>
-                
             </div>
 
         </mat-grid-list>
