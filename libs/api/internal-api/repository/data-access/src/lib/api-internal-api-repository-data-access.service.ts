@@ -485,7 +485,18 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async getWorkout(@Param() email: string, @Param() workoutID: string):Promise<any>{
         return this.scheduledWorkoutCollection.where('id', '==', workoutID).get().then(async (result) =>{
-            if(result.docs[0]) return result.docs[0].data() ;
+            if(result.docs[0]){
+                const data = result.docs[0].data() ;
+
+                const users = [] ;
+                data.participants.forEach((user) => {
+                    users.push(this.login(user)) ;
+                })
+                data.participants = users ;
+
+                return data ;
+                //return result.docs[0].data() ;
+            } 
             return false ;
         });
     }
