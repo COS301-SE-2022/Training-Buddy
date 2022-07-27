@@ -11,10 +11,8 @@ import {  UserDto,
   ActivitySchedule,
   Tokens,
   ResponseWorkout,
-  ErrorMessage
   } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { userInfo } from 'os';
-import { WorkoutComponent } from 'libs/client/schedule/feature/src/lib/workout/workout.component';
+
 
   
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
@@ -34,6 +32,7 @@ const ActivityScheduleModule: ActivitySchedule = new ActivitySchedule() as Activ
 
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const TokensModule: Tokens = new Tokens() as Tokens;
+
 jest.dontMock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
 const ResponseWorkoutModule: ResponseWorkout = new ResponseWorkout() as ResponseWorkout;
 
