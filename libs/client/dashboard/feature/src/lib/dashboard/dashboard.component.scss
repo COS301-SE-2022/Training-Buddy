@@ -34,6 +34,21 @@ mat-icon:hover {
     cursor: pointer;
 }
 
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+
+.dynamic {
+    will-change: opacity;
+}
+
+#spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 #accept {
     color: rgb(42, 122, 42);
     font-size: 28px;

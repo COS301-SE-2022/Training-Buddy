@@ -5,7 +5,7 @@ import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
 import { Subject,take } from 'rxjs';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
