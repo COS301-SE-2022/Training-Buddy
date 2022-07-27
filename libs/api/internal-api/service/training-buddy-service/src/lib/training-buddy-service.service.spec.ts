@@ -365,4 +365,34 @@ describe('TrainingBuddyServiceService', () => {
     });
   });
 
+  /**
+   * Test saveTokens
+   */
+  describe('saveTokens', () => {
+    
+    it('should save user tokens', async () => {
+      
+      jest.spyOn(service, 'saveTokens').mockImplementation(service.saveTokens);
+
+      expect(async () => service.saveTokens(UserDtoModule.email, 'access', 'string')).toReturn;
+
+    });
+  });
+
+  /**
+   * Test getToken
+   */
+  describe('getTokens', () => {
+    
+    it('should get user token', async () => {
+      
+      jest.spyOn(service, 'getToken').mockImplementation(service.getToken);
+
+      expect(async () => service.getToken(UserDtoModule.email)).toReturn;
+
+    });
+
+  });
+
+
 });
