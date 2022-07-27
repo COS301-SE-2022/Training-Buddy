@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { tap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { fdatasync } from 'fs';
+import { use } from 'passport';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -91,8 +92,43 @@ export class DashboardComponent implements OnInit {
       .valueChanges()
       .subscribe((data : any) => {
         this.outgoingRequests = data;
+        
+        //remove the accepted buddy from the recs:
+        this.buddies = this.removeAccepted(this.buddies, data);
+        this.oldBuddies = this.removeAccepted(this.oldBuddies, data);
+
       });
 
+  }
+
+  removeRec(data : any) {
+    this.buddies = this.filterNotEmail(this.buddies, data);
+    this.oldBuddies = this.filterNotEmail(this.oldBuddies, data);
+    if (this.buddies.length == 0)
+      this.noBuddies = true;
+  }
+
+  filterNotEmail(data : any, usr : any) {
+    return data.filter((el : any) => {
+      return el.email != usr.email;
+    });
+  }
+
+  removeAccepted(buddies : any[], reqs : any) : any[] {
+    const o : any[] = [];
+
+    buddies.map((bud : any) => {
+
+      //filter outgoing to try
+      const temp = reqs.filter((el : any) => {
+        return el.receiver == bud.email;
+      })
+
+      if (temp.length != 0)
+        o.push(bud);
+
+    });
+    return o;
   }
   
   getBuddieRecommended() {
