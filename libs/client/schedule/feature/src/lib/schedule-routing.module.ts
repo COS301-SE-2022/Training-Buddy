@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ViewscheduleComponent } from './viewschedule/viewschedule.component';
 import { WorkoutComponent } from './workout/workout.component';
 
+
 const routes: Routes = [
 
   {
@@ -10,7 +11,7 @@ const routes: Routes = [
     component: ViewscheduleComponent
   },
   {
-    path: 'workout',
+    path: ':workoutID',
     component: WorkoutComponent
   }
 
