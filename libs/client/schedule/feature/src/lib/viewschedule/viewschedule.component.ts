@@ -88,7 +88,7 @@ export class ViewscheduleComponent implements OnInit {
   getOrganiser(email: string): any{
     this.getUserName(email).subscribe({
       next: (data: any) =>{
-        console.log(data.data.getOne.userName);
+        // console.log(data.data.getOne.userName);
         return data.data.getOne.userName;
       }
     })
@@ -203,7 +203,7 @@ export class ViewscheduleComponent implements OnInit {
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
-    console.log(formattedDate);
+    // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
    
     return{
@@ -254,7 +254,7 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
     this.workoutInvites.map((el : any, i : number) => {
-      console.log("checking if ", el[0].organiserEmail, "==", email);
+      // console.log("checking if ", el[0].organiserEmail, "==", email);
         if (el[0].organiserEmail == email) {
           this.workoutInvites.splice(i, 1);
         }
@@ -285,7 +285,7 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
   this.workoutInvites.map((el : any, i : number) => {
-    console.log("checking if ", el[0].organiserEmail, "==", email);
+    // console.log("checking if ", el[0].organiserEmail, "==", email);
       if (el[0].organiserEmail == email) {
         this.workoutInvites.splice(i, 1);
       }
