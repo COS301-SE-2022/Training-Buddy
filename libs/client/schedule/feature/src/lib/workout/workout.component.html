@@ -17,18 +17,17 @@
             <mat-divider></mat-divider>
             <mat-list-item>organiser: {{workout?.organiser}}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>
-                participants: 
-                <mat-chip-list>
-                    <mat-chip *ngFor="let participant of workout?.participants">
-                      <img matChipAvatar src="{{participant.image}}" alt="picture"/>
-                    {{participant.name}}
-                    </mat-chip>
-                  </mat-chip-list>
-            </mat-list-item>
-            <mat-divider></mat-divider> 
-        
           </mat-list>
+          <div>
+            participants: 
+            <mat-chip-list>
+                <mat-chip *ngFor="let participant of workout?.participants">
+                  <img matChipAvatar src="{{participant.image}}" alt="picture"/>
+                {{participant.name}}
+                </mat-chip>
+              </mat-chip-list>
+          </div>
+         
     </div>
 </div>
 <training-buddy-navbar></training-buddy-navbar>
