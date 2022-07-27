@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-
+import { tap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { fdatasync } from 'fs';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,7 +15,7 @@ export class DashboardComponent implements OnInit {
   requests : any = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
-  outgoingRequests: any;
+  outgoingRequests: any[] = [];
   pendingrequests = false;
   doneloading = false;
   noBuddies : boolean;
@@ -54,143 +55,46 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    this.getBuddieRecommended().subscribe({
+    this.getBuddieRecommended()
+    .subscribe({
       next: (data : any) => {
-        const filter = this.removeOverlapConnections(data.data.findAll);
-        this.buddies = filter;
-        this.oldBuddies = filter;
+        this.buddies = data.data.findAll;
+        this.oldBuddies = this.buddies;
         if (this.buddies.length != 0)
           this.noBuddies = false;
         this.doneloading = true;
       }
     });
 
-    // old method through Graphqql
-    // this.getIncomingRequests().subscribe({
-    //   next: (data: any) => {
-    //     console.log(data)
-    //     this.pendingrequests = false;
-    //     this.requests = data.data.getIncoming;
-    //     if (this.requests.length != 0)
-    //       this.pendingrequests = true;
-    //   }
-    // });
-
-    this.firestore.collection('BuddyRequests').valueChanges().subscribe(resp => {
-      this.requests = this.getUsersFromRequests(this.filterIncoming(resp));
-      this.outgoingRequests = this.filterOutgoing(resp);
-    });
-
-  }
-
-  //remove paired buddies
-  removeOverlapConnections(data : any) : any[] {
-    if (data == null)
-      return [];
-    const o : any[] = [];
-    data.map((el : any) => {
-      let flag = true;
-      el.buddies.map((cons : any) => {
-        if (this.email == cons)
-          flag = false;
-      });
-      if (flag)
-      o.push(el);
-    });
-    return o;
-  }
-
-  //filter outgoing
-  filterOutgoing(data : any) : any[] {
-    const o : any[] = [];
-    data.map((el : any) => {
-      if (el.sender == this.email)  
-        o.push(el);
-    });
-    return o;
-  }
-
-  //Get Incoming Requests login
-  getUsersFromRequests(requests : any[]) : any[] {
-    const o : any[] = [];
-    this.firestore.collection('Users').valueChanges().subscribe(resp => {
-      requests.map((req : any) => {
-        resp.map((usr : any) => {
-          if (usr.email == req.sender) {
-            o.push(usr);
-            return;
-          }
+    //Getting Incoiming Requests:
+    this.firestore
+      .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
+      .valueChanges()
+      .subscribe((data : any) => {
+        this.pendingrequests = data.length != 0;
+        this.requests = [];
+        data.map((req : any) => {
+          this.firestore
+          .collection('Users', ref => ref.where('email', '==', req.sender))
+          .valueChanges()
+          .pipe(
+            tap((usr : any) => {
+              this.requests.push(usr[0]);
+            })
+          ).subscribe();
         });
       });
-    });
-    return o;
-  }
 
-  filterIncoming(data : any) : any[] {
-    const o : any[] = [];
-    data.map((el : any) => {
-      if (el.receiver == this.email)
-        o.push(el);
-    });
-    return o;
-  }
-
-  //old method
-  // getIncomingRequests() {
-  //   return this.apollo
-  //     .watchQuery({
-  //       query: gql`query{
-  //         getIncoming(
-  //           email: "${this.email}",
-  //       ){
-  //         userName,
-  //         userSurname,
-  //         location,
-  //         longitude,
-  //         latitude,
-  //         stravaToken,
-  //         dob,
-  //         gender,
-  //         email,
-  //         cellNumber,
-  //         bio,
-  //         metrics{lift , ride , run , swim},
-  //         buddies
-  //       }
-  //       }
-  //       `,
-  //       // pollInterval: 1000,
-  //       // fetchPolicy: 'network-only'
-  //     },
-  //     ).valueChanges;
-  // }
-
-  getOutgoing() {
-    return this.apollo
-      .query({
-        query: gql`query{
-          getOutgoing(
-            email: "${this.email}",
-        ){
-          userName,
-          userSurname,
-          location,
-          longitude,
-          latitude,
-          stravaToken,
-          dob,
-          gender,
-          email,
-          cellNumber,
-          bio,
-          metrics{lift , ride , run , swim},
-          buddies
-        }
-        }
-        `,
+    //Getting Outgoing Requests:
+    this.firestore
+      .collection('BuddyRequests', ref => ref.where('sender', '==', this.email))
+      .valueChanges()
+      .subscribe((data : any) => {
+        this.outgoingRequests = data;
       });
-  }
 
+  }
+  
   getBuddieRecommended() {
     return this.apollo
       .query({
@@ -218,16 +122,15 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  checkIfInOutgoing(email : string) : boolean {
+  inOutgoing(email : string) : boolean {
     if (this.outgoingRequests == null)
-    return true;
+      return false;
     let flag = false;
     this.outgoingRequests.map((el : any) => {
       if (el.receiver == email) {
         flag = true;
       }
     });
-
     return flag;
   }
 
@@ -246,7 +149,14 @@ export class DashboardComponent implements OnInit {
     return retString;
   }
 
-  accept(email : string){
+  accept(email : string) {
+
+    this.requests.map((el : any, i : number) => {
+      if (el.email == email) {
+        this.requests.splice(i, 1);
+      }
+    });
+
     this.apollo
     .mutate({
       mutation: gql`mutation{
@@ -258,18 +168,20 @@ export class DashboardComponent implements OnInit {
       }
       }
       `,
-    }).subscribe({
-      next: (data : any) => {
-        this.requests.map((el : any, i : number) => {
-          if (el.email == email) {
-            this.requests.splice(i, 1);
-          }
-        });
-      }
-    });
+    }).subscribe();
   }
 
-  reject(data : string){
+  reject(data : string) {
+
+    this.requests.forEach((el : any, i : number) => {
+      if (el.email == data) {
+        this.requests.splice(i, 1);
+        console.log(this.requests);
+        if (this.requests.length == 0) {
+          this.pendingrequests = false;
+        }
+      }
+    })
 
     this.apollo
     .mutate({
@@ -282,17 +194,7 @@ export class DashboardComponent implements OnInit {
       }
       }
       `,
-    }).subscribe(() => {
-      this.requests.forEach((el : any, i : number) => {
-        if (el.email == data) {
-          this.requests.splice(i, 1);
-          if (this.requests.length == 0) {
-            this.pendingrequests = false;
-          }
-        }
-      })
-    });
-
+    }).subscribe();
   }
   
   getFriends(){

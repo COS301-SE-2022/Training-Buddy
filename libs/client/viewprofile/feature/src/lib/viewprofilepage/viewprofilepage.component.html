@@ -51,13 +51,13 @@
                     <div class="row space-around mt-5">
                         <div class="fullwidth text-center">
                             <h4 (click)="toggleBuddies()" class="link" #toggleBuddiesButton>Buddies</h4>
-                            <ng-container *ngIf="toggle"><hr class="hrdark" [@swipeLeft] /></ng-container>
-                            <ng-container *ngIf="!toggle"><hr class="hrlight" /></ng-container>
+                            <ng-container *ngIf="toggle"><hr class="hrdark animation-perform" [@swipeLeft] /></ng-container>
+                            <ng-container *ngIf="!toggle"><hr class="hrlight animation-perform" /></ng-container>
                         </div>
                         <div class="fullwidth text-center">
                             <h4 (click)="toggleLogs()" class="link" #toggleLogsButton>Activities</h4>
-                            <ng-container *ngIf="toggle"><hr class="hrlight" /></ng-container>
-                            <ng-container *ngIf="!toggle" ><hr class="hrdark" [@swipeRight]/></ng-container>
+                            <ng-container *ngIf="toggle"><hr class="hrlight animation-perform" /></ng-container>
+                            <ng-container *ngIf="!toggle" ><hr class="hrdark animation-perform" [@swipeRight]/></ng-container>
                         </div>
                     </div>
     

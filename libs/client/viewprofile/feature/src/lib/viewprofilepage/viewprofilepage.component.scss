@@ -11,6 +11,10 @@
     margin-top: 10%;
 }
 
+.animation-perform {
+    will-change: auto;
+}
+
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
     stroke: #1b1a1b;
 }
