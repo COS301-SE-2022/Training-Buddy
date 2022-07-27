@@ -5,10 +5,38 @@ import { tap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { fdatasync } from 'fs';
 import { use } from 'passport';
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  animations: [
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(300, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ]),
+      transition(':leave', [
+        animate(300, keyframes([
+          style({
+            opacity: '1'
+          }),
+          style({
+            opacity: '0'
+          })
+        ]))
+      ])
+      ]
+    ),
+
+  ]
 })
 
 export class DashboardComponent implements OnInit {
@@ -54,7 +82,7 @@ export class DashboardComponent implements OnInit {
     return this.requests == null;
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
 
     this.getBuddieRecommended()
     .subscribe({
@@ -64,6 +92,7 @@ export class DashboardComponent implements OnInit {
         if (this.buddies.length != 0)
           this.noBuddies = false;
         this.doneloading = true;
+        console.log(this.buddies);
       }
     });
 
@@ -99,6 +128,10 @@ export class DashboardComponent implements OnInit {
 
       });
 
+  }
+
+  trackById(i : number, usr : any) {
+    return usr.id;
   }
 
   removeRec(data : any) {

@@ -6,10 +6,10 @@
 
             <div id="incomingRequests" class="m-8" *ngIf="doneloading">
     
-                <h1 *ngIf="pendingrequests" class="text-center">Incoming Requests</h1>
+                <h1 [@fadeIn] *ngIf="pendingrequests" class="text-center">Incoming Requests</h1>
                 
                 <ng-container>
-                    <div *ngFor="let usr of requests" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
+                    <div [@fadeIn] *ngFor="let usr of requests; trackBy:trackById" class="dynamic max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
                         <div class="md:flex">
                             <div class="md:shrink-0">
                                 <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/5.jpg?raw=true">
@@ -32,10 +32,10 @@
 
             </div>
 
-            <div id="recBuddies" class="m-8 mt-2" *ngIf="doneloading">
+            <div [@fadeIn] id="recBuddies" class="m-8 mt-2" *ngIf="doneloading">
     
                 <h1 class="text-center">Recommended</h1>
-
+                data is here
                 <div class="w-100 flex">
                     <mat-form-field id="filter" class="max-w-md mx-auto rounded-xl overflow-hidden md:max-w-2xl" appearance="outline">
                         <mat-label>Filter Sport Type</mat-label>
@@ -48,8 +48,6 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                
-                
 
                 <div class="w-100 flex">
                     <div id="noresults" class="max-w-md mx-auto overflow-hidden md:max-w-2xl" *ngIf="doneloading">
@@ -61,7 +59,7 @@
 
                 <ng-container *ngIf="doneloading">
 
-                    <div *ngFor="let usr of buddies" class="mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                    <div [@fadeIn] *ngFor="let usr of buddies; trackBy:trackById" class="dynamic mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         
                         <div class="md:flex cursor">
                             <div class="md:shrink-0">
@@ -87,15 +85,10 @@
                                     </div>
                                     
                                 </div>
-                                <!-- <mat-icon> directions_bike</mat-icon> -->
-                                <!-- <p class="mt-2 text-slate-500 mb-0">{{ getSportString(usr) }}</p> -->
+                            
                             </div>
                             
                         </div>
-
-                        <!-- <div class="flex inline-flex w-100 pb-3">
-                        </div> -->
-                        
 
                     </div>
 
@@ -104,6 +97,9 @@
             </div>
 
         </mat-grid-list>
+
+        <div *ngIf="!doneloading" class="spinner" id="spinner"><mat-spinner></mat-spinner></div>
+
 
     <training-buddy-navbar></training-buddy-navbar>
 
