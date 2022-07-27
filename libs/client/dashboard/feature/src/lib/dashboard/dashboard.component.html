@@ -63,17 +63,30 @@
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
                                     <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p> 
-                                    <div>
-                                        <button *ngIf="!inOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
-                                        <button *ngIf="inOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
-                                    </div>
+                                    
                                 </div> 
-                                <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
+                                <div class="tracking-wide text-xs font-semibold"><p>{{ usr.location }}</p></div>
                                 <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
                                 <!-- <mat-icon> directions_bike</mat-icon> -->
-                                <p class="mt-2 text-slate-500">{{ getSportString(usr) }}</p>
+                                <!-- <p class="mt-2 text-slate-500 mb-0">{{ getSportString(usr) }}</p> -->
                             </div>
                         </div>
+
+                        <!-- <div class="flex inline-flex w-100 pb-3">
+                        </div> -->
+                        
+                        <div class="grid grid-cols-2 mb-4 mx-4 mt-4">
+                            <div class="flex request-buttons">
+                                <button class="pad-right mr-1" mat-raised-button (click)="removeRec(usr)">Not Interested</button>
+                            </div>
+    
+                            <div class="flex request-buttons flex-end">
+                                <button class="pad-left action-color" *ngIf="!inOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
+                                <button class="pad-left" *ngIf="inOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
+                            </div>
+                            
+                        </div>
+
                     </div>
 
                 </ng-container>

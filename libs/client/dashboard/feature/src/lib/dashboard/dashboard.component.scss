@@ -55,8 +55,23 @@ mat-icon:hover {
 p {
     word-break: break-all;
     white-space: normal;
+    margin: 0px !important;
+    margin-bottom: 1% !important;
 }
 
 .cursor {
     cursor: pointer;
+}
+
+.request-buttons > button {
+    width: 96% !important;
+}
+
+.flex-end {
+    justify-content: end !important;
+}
+
+.action-color {
+    color: white;
+    background-color: #1b1a1b7c !important;
 }
