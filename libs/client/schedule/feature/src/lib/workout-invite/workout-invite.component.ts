@@ -76,7 +76,32 @@ export class WorkoutInviteComponent implements OnInit {
     }).subscribe({
       next: (data: any) => {
         console.log(data.data.sendInvite.message);
+        if(data.data.sendInvite.message == "Failure"){
+          //create invite 
+          this.createInvite();
+          //sendRequest
+          this.sendRequest(email);
+        }
       }
     });
+  }
+  createInvite(){
+    this.apollo
+    .mutate({
+      mutation: gql`
+        mutation{
+          createInvite(
+            email: "${this.email}",
+            workoutID: "${this.workoutID}"
+          ){
+            message
+          }
+      }
+      `
+    }).subscribe({
+      next: (data: any) =>{
+        console.log(data.data.createInvite.message);
+      }
+    })
   }
 }
