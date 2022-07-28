@@ -48,17 +48,16 @@ export class DashboardComponent implements OnInit {
 
     this.getBuddieRecommended().subscribe({
       next: async (data : any) => {
-        const filter = this.removeOverlapConnections(data.data.findAll);
+        const d = data.data.findAll;
+        // const filter = this.removeOverlapConnections(data.data.findAll);
         // await this.fetchImages(filter);
-        await this.fetchImages(filter).then((o) => {
+        await this.fetchImages(d).then((o) => {
           this.buddies = o;
-          console.log('buddies', o)
           if (this.buddies.length != 0)
             this.noBuddies = false;
           this.doneloading = true;
         })
-        this.oldBuddies = await this.fetchImages(filter);
-        
+        this.oldBuddies = await this.fetchImages(d);
       }
     });
 
@@ -93,21 +92,21 @@ export class DashboardComponent implements OnInit {
   }
 
   //remove paired buddies
-  removeOverlapConnections(data : any) : any[] {
-    if (data == null)
-      return [];
-    const o : any[] = [];
-    data.map((el : any) => {
-      let flag = true;
-      el.buddies.map((cons : any) => {
-        if (this.email == cons)
-          flag = false;
-      });
-      if (flag)
-      o.push(el);
-    });
-    return o;
-  }
+  // removeOverlapConnections(data : any) : any[] {
+  //   if (data == null)
+  //     return [];
+  //   const o : any[] = [];
+  //   data.map((el : any) => {
+  //     let flag = true;
+  //     el.buddies.map((cons : any) => {
+  //       if (this.email == cons)
+  //         flag = false;
+  //     });
+  //     if (flag)
+  //     o.push(el);
+  //   });
+  //   return o;
+  // }
 
   //filter outgoing
   filterOutgoing(data : any) : any[] {
@@ -367,7 +366,7 @@ export class DashboardComponent implements OnInit {
       return el.metrics[attr] == 1;
     });
   }
-  
+
   async getImage(user : any ){
     // this.ref = this.afStorage.ref("UserProfileImage/"+user.id);
     // this.ref.getDownloadURL()
