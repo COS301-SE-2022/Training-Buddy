@@ -6,12 +6,14 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { CookieService } from 'ngx-cookie-service';
 import { WorkoutComponent } from './workout/workout.component';
 import { WorkoutInviteComponent } from './workout-invite/workout-invite.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
     CommonModule,
     ScheduleRoutingModule,
-    UiModule
+    UiModule,
+    MatDialogModule
   ],
   declarations: [
     ViewscheduleComponent,
@@ -20,6 +22,9 @@ import { WorkoutInviteComponent } from './workout-invite/workout-invite.componen
   ],
   providers: [
     CookieService
-  ]
+  ],
+  entryComponents: [
+    WorkoutInviteComponent 
+],
 })
 export class ClientScheduleFeatureModule {}
