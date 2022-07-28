@@ -132,7 +132,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
         if(userConfig.riding){
             ride = 1 ;
-            const rideGroup = 0 ;
+            rideGroup = 0 ;
         }
         if(userConfig.running){
             run = 1 ;
