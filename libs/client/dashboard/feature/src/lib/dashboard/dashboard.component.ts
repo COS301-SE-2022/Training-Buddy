@@ -72,6 +72,23 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
+    //bind to the current user
+    this.firestore
+      .collection('Users', ref => ref.where('email', '==', this.email))
+      .valueChanges()
+      .subscribe((curr : any) => {
+        const buds = curr[0].buddies;
+        if (this.buddies != null) {
+          buds.forEach((b : any) => {
+            this.buddies.forEach((el : any, i : number) => {
+              if (b == el.email) {
+                this.buddies.splice(i, 1);
+              }
+            })
+          });
+        }
+      })
+
     //getting rec. buddies from engine
     this.getBuddieRecommended().subscribe({
       next: async (data : any) => {
@@ -82,7 +99,7 @@ export class DashboardComponent implements OnInit {
           console.log('buddies', this.buddies)
           if (this.buddies.length == 0)
             this.noBuddies = false;
-            console.log('onoBuddies', this.noBuddies)
+            // console.log('onoBuddies', this.noBuddies)
           this.doneloading = true;
         })
       }
@@ -119,8 +136,6 @@ export class DashboardComponent implements OnInit {
       .collection('BuddyRequests', ref => ref.where('sender', '==', this.email))
       .valueChanges()
       .subscribe((outgoing : any) => {
-        this.buddies = this.removeOverlapConnections(this.buddies);
-        this.oldBuddies = this.removeOverlapConnections(this.oldBuddies);
         this.outgoingRequests = outgoing;
       });
 
