@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Apollo } from 'apollo-angular';
+import { CookieService } from 'ngx-cookie-service';
 import { WorkoutInviteComponent } from './workout-invite.component';
 
 describe('WorkoutInviteComponent', () => {
@@ -7,7 +9,11 @@ describe('WorkoutInviteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkoutInviteComponent ]
+      declarations: [ WorkoutInviteComponent ],
+      providers: [
+        Apollo,
+        CookieService,
+      ]
     })
     .compileComponents();
   });
