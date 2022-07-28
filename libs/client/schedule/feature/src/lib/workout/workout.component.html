@@ -22,12 +22,15 @@
             participants: 
             <mat-chip-list>
                 <mat-chip *ngFor="let participant of workout?.participants">
-                  <img matChipAvatar src="{{ getImage(participant.id) }}" alt="picture"/>
+                  <img matChipAvatar src="https://firebasestorage.googleapis.com/v0/b/training-buddy-2022.appspot.com/o/UserProfileImage%2F0a5fc8b0-0e52-11ed-bdc7-f3e9a95969bd?alt=media&token=ebe36b07-6760-4f30-be92-ca5c0335ba74" alt="picture"/>
                 {{participant.userName}} {{participant.userSurname}}
                 </mat-chip>
               </mat-chip-list>
           </div>
          
     </div>
+    <button id="addbutton"  (click)="openDialog()" mat-fab>
+      <mat-icon>add</mat-icon>
+  </button>
 </div>
 <training-buddy-navbar></training-buddy-navbar>
