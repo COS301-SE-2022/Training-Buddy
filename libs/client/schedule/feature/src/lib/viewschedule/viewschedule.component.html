@@ -45,7 +45,7 @@
 
                             <mat-hint>
                                 {{workout?.organiser}} <br>
-                                time: {{workout?.startDate.time}} <br>
+                                {{workout?.startDate.time}} <br>
                                 <mat-icon> location_on</mat-icon>
                                 <!-- <p class="truncate" >
                                     {{ workout?.startPoint }}
@@ -54,13 +54,13 @@
                             </mat-hint>
                             </div>
                         </div>
-                        <div>
-                            <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiserEmail, workout?.id)">	<mat-icon>check</mat-icon></button>
-                            <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiserEmail, workout?.id)">	<mat-icon>close</mat-icon></button>
-                        </div>
-            
+                       
                     </div>
-                   
+                    <div>
+                        <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiser, workout?.id)">	<mat-icon>check</mat-icon></button>
+                        <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiser, workout?.id)">	<mat-icon>close</mat-icon></button>
+                    </div>
+        
                 </div>
             </div>
         </div>
