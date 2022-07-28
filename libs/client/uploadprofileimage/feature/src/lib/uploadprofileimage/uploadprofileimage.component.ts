@@ -95,7 +95,7 @@ export class UploadprofileimageComponent implements OnInit {
     const image = this.profileimage;
     this.ref = this.afStorage.ref("UserProfileImage/"+id);// can set this ref in to a cookie to get download url 
     this.task = this.ref.put(image); 
-    this.router.navigate(['/dashboard'])
+    this.router.navigate(['/strava/link'])
     //this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
    
 
