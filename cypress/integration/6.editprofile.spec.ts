@@ -1,4 +1,4 @@
-describe.only('training-buddy-client-editprofile-feature', () => {
+describe('training-buddy-client-editprofile-feature', () => {
 
     before(() => {
         
