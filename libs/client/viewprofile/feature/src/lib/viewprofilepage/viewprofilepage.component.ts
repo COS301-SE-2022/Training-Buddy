@@ -104,11 +104,7 @@ export class ViewprofilepageComponent implements OnInit {
 
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
-    const id = this.cookie.get('id');
-    this.ref = this.afStorage.ref("UserProfileImage/"+id);
-   this.ref.getDownloadURL().subscribe((downloadURL) => {
-    this.currentImage=downloadURL;
-    });
+    
     
   } 
 
@@ -117,7 +113,10 @@ export class ViewprofilepageComponent implements OnInit {
     this.buddiesLoaded = false;
     this.buddyCount = 0;
     this.activityCount = 0;
+    
     this.loading = true;
+    // const id = this.cookie.get('id');
+    
     this.router.navigate([`/profile/${id}`]);
   }
 
@@ -137,12 +136,17 @@ export class ViewprofilepageComponent implements OnInit {
       this.id = routerid
       if (routerid == null)
         this.id = this.cookie.get('id');
+        
 
       this.getCurrentUser().subscribe({
         next: (data : any) => {
           this.displayUser = data.data.getUser;
           this.loading = false;
           this.getData(this.displayUser.email);
+          this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
+          this.ref.getDownloadURL().subscribe((downloadURL) => {
+          this.currentImage=downloadURL;
+          });
         },
       })
     })
