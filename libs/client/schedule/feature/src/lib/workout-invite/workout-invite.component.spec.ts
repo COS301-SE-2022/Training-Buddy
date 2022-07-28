@@ -19,6 +19,7 @@ describe('WorkoutInviteComponent', () => {
       providers: [
         Apollo,
         CookieService,
+        MAT_DIALOG_DATA,
         MatDialogRef
       ]
     })
