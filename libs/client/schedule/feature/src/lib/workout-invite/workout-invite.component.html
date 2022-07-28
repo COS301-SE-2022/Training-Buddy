@@ -21,7 +21,9 @@
 <mat-list>
     <mat-list-item *ngFor="let buddy of buddies">
         <h4 mat-line class="truncate">{{ buddy?.userName }} {{ buddy?.userSurname }}</h4>
-        <mat-icon>add_circle</mat-icon>
+        <button class="text-center mx-5 button" (click)="sendRequest(buddy?.email)">
+            <mat-icon>add_circle</mat-icon>
+        </button>
     </mat-list-item>
 </mat-list>
 </div>
