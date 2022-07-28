@@ -21,7 +21,7 @@
           </mat-list>
           <div>
             <mat-chip-list>
-                <mat-chip *ngFor="let participant of participants">
+                <mat-chip *ngFor="let participant of participants"  (click)="viewProfile(participant.id)">
                   <img matChipAvatar src="{{participant.image}}" alt="picture"/>
                 {{participant.userName}} {{participant.userSurname}}
                 </mat-chip>
