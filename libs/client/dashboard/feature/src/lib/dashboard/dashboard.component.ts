@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { tap } from 'rxjs';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,7 +11,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 
 export class DashboardComponent implements OnInit {
-
+  ref!: AngularFireStorageReference;
   requests : any = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
@@ -21,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   email : string;
 
-  constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore) { 
+  constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore, private afStorage: AngularFireStorage) { 
     this.noBuddies = true;
     this.email = this.cookieService.get('email');
   }
@@ -359,7 +360,13 @@ export class DashboardComponent implements OnInit {
     });
   }
   getImage(user : any ){
-    console.log(user)
+    // this.ref = this.afStorage.ref("UserProfileImage/"+user.id);
+    // this.ref.getDownloadURL()
+    // .pipe(tap()).subscribe((downloadURL) => {
+    //  console.log(downloadURL)
+    //     return downloadURL;
+    //  });
+   
   }
 
 }
