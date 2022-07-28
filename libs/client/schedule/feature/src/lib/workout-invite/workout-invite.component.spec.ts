@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
@@ -14,13 +15,20 @@ describe('WorkoutInviteComponent', () => {
       declarations: [ WorkoutInviteComponent ],
       imports: [
         UiModule,
-        MatDialogModule
+        MatDialogModule,
+        BrowserAnimationsModule
       ],
       providers: [
         Apollo,
         CookieService,
-        MatDialogRef,
-        WorkoutInviteComponent
+        { 
+          provide: MatDialogRef,
+          useValue: []
+        }, 
+        { 
+          provide: MAT_DIALOG_DATA, 
+          useValue: [], 
+        }
       ]
     })
     .compileComponents();
