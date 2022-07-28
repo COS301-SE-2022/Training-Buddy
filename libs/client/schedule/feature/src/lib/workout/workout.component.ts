@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
+import { pipe, tap } from 'rxjs';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
 
 @Component({
@@ -19,6 +20,8 @@ export class WorkoutComponent implements OnInit {
   workout : any;
   workoutID !: string;
   email : string;
+  participants: any;
+
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog){
     this.email = cookieService.get('email');
@@ -67,38 +70,56 @@ export class WorkoutComponent implements OnInit {
     //     });
     this.getWorkout().subscribe({
       next: (data: any) =>{
-        // console.log(data.data.getWorkout);
-       
-       
-        console.log(data.data.getWorkout);
+        // console.log(data.data.getWorkout)
+        // const dummy: any[] = []; 
+        // data.data.participants.map((el : any) => {
+        //   dummy.push(el);
+        // });
+        this.fetchImages(data.data.getWorkout.participants).then((output : any[]) => {
+          console.log(output);
+          this.participants = output;
+        });
+  
         this.workout = this.convertQuery(data.data.getWorkout);
-        console.log(this.workout);
         this.loading = false;
-
       }
     });
 
   }
 
   convertQuery(data : any) : any {
+ 
   return {
       title: data.title,
       startTime: this.startDateTime(data.startTime),
       organiser: data.organiser,
-      participants: data.participants,
       activityType: data.activityType,
       startPoint: data.startPoint,
       proposedDistance: data.proposedDistance,
       proposedDuration: data.proposedDuration,
     }
   }
-  getImage(id: string){
-    // this.afStorage.ref("UserProfileImage/"+id).
-    // getDownloadURL().subscribe((downloadURL) => {
-    //   console.log(downloadURL);
-    //   return downloadURL;
-    // });
-  }
+  fetchImages(data : any[]) : Promise<any> {
+    return new Promise<any>((res, rej) => {
+     const o : any[] = [];
+     data.forEach((usr : any) => {
+       this.afStorage
+         .ref(`UserProfileImage/${usr.id}`)
+         .getDownloadURL()
+         .pipe(
+           tap((url : any) => {
+             const image = {image : url};
+             const p = {
+               ...usr,
+               ...image
+             }
+             o.push(p);
+           })
+         ).subscribe();
+     });
+     res(o);
+    })
+   }
 
   startDateTime(data: string): any{
     //write a function that returns the date and time 
