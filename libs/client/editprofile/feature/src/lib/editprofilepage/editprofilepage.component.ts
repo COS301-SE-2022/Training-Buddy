@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
-
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
 @Component({
   selector: 'training-buddy-edit-profile',
   templateUrl: './editprofilepage.component.html',
@@ -31,6 +31,7 @@ import {CookieService} from 'ngx-cookie-service';
 export class EditprofilepageComponent implements OnInit {
 
   user!: any;
+  task!: AngularFireUploadTask;
   updateForm!: FormGroup;
   frmBuilder! : FormBuilder;
   vicinity = '';
@@ -43,10 +44,15 @@ export class EditprofilepageComponent implements OnInit {
   newImage! : File;
   fileuploadflag = false; //assume the user won't upload a new image
   fileuploaderror = '';
-
-  constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService, private router : Router) {
+  ref!: AngularFireStorageReference;
+  constructor(private frm : FormBuilder, private apollo: Apollo, private cookie: CookieService, private router : Router,private afStorage: AngularFireStorage) {
     this.frmBuilder = frm;
-    this.currentImage = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
+    const id = this.cookie.get('id');
+    this.ref = this.afStorage.ref("UserProfileImage/"+id);
+    this.ref.getDownloadURL().subscribe((downloadURL) => {
+    this.currentImage=downloadURL;
+    });
+    
   }
 
   ngOnInit(): void {
@@ -234,6 +240,10 @@ export class EditprofilepageComponent implements OnInit {
 
     if (this.newImage != null) {
       //update to the photo
+    const id = this.cookie.get('id');
+    this.ref = this.afStorage.ref("UserProfileImage/"+id);// can set this ref in to a cookie to get download url 
+    this.task = this.ref.put(this.newImage); 
+
       this.Base64encode(this.newImage).then(encode => {
         this.updateUser(Name, Surname, Email, CellNumber, Gender, Location, encode).subscribe({
           next: () => {

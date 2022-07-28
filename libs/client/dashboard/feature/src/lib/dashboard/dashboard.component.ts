@@ -1,57 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-import { combineLatest, map, tap } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { fdatasync } from 'fs';
-import { use } from 'passport';
-import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { tap } from 'rxjs';
+import { resolve } from 'path';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
-  animations: [
-    trigger(
-      'fadeIn', [
-        transition(':enter', [
-          animate(300, keyframes([
-            style({
-              opacity: '0'
-            }),
-            style({
-              opacity: '1'
-            })
-          ]))
-        ]),
-      transition(':leave', [
-        animate(300, keyframes([
-          style({
-            opacity: '1'
-          }),
-          style({
-            opacity: '0'
-          })
-        ]))
-      ])
-      ]
-    ),
-
-  ]
+  styleUrls: ['./dashboard.component.scss']
 })
 
 export class DashboardComponent implements OnInit {
-
   requests : any = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
-  outgoingRequests: any[] = [];
+  outgoingRequests: any;
   pendingrequests = false;
   doneloading = false;
   noBuddies : boolean;
-
   email : string;
-
-  constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore) { 
+  constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore, private afStorage: AngularFireStorage) { 
     this.noBuddies = true;
     this.email = this.cookieService.get('email');
   }
@@ -68,14 +37,7 @@ export class DashboardComponent implements OnInit {
           }
         }
         `,
-      }).subscribe({
-        next: (data: any) => {
-          // console.log(data);
-        },
-        error: (err : any) => {
-          // console.log(err);
-        }
-      });
+      }).subscribe();
   }
 
   ifPendingRequests() : boolean {
@@ -84,102 +46,159 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getBuddieRecommended()
-    .subscribe({
-      next: (data : any) => {
-        this.buddies = data.data.findAll;
-        this.oldBuddies = this.buddies;
-        if (this.buddies.length != 0)
-          this.noBuddies = false;
-        this.doneloading = true;
-        this.removeConnections();
-        console.log(this.buddies);
+    this.getBuddieRecommended().subscribe({
+      next: async (data : any) => {
+        const d = data/
+        // const filter = this.removeOverlapConnections(data.data.findAll);
+        // await this.fetchImages(filter);
+        // await this.fetchImages(filter).then((o) => {
+        //   this.buddies = o;
+        //   if (this.buddies.length != 0)
+        //     this.noBuddies = false;
+        //   this.doneloading = true;
+        // })
+        // this.oldBuddies = await this.fetchImages(filter);
       }
     });
 
-    this.firestore
-      .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
-      .valueChanges()
-      .subscribe((incoming : any) => {
-
-        this.pendingrequests = incoming.length != 0;
-
-        console.log('inc requests : ', incoming, this.pendingrequests);
-
-        this.requests = [];
-
-        if (incoming.length != 0)
-          incoming.forEach((req : any) => {
-            this.firestore
-            .collection('Users', ref => ref.where('email', '==', req.sender))
-            .valueChanges()
-            .subscribe((currentusr : any) => {
-              this.requests.push(currentusr[0]);
-            });
-          });
-
-      });
-
-    //Getting Outgoing Requests:
-    this.firestore
-      .collection('BuddyRequests', ref => ref.where('sender', '==', this.email))
-      .valueChanges()
-      .subscribe((data : any) => {
-        this.outgoingRequests = data;
-      });
-
-  }
-
-  removeConnections() {
-    this.firestore
-      .collection('Users', ref => ref.where('email', '==', this.email))
-      .valueChanges()
-      .subscribe((data : any) => {
-        this.buddies = this.filterEmail(this.buddies, data[0].buddies);
-        this.oldBuddies = this.filterEmail(this.oldBuddies, data[0].buddies);
-      })
-  }
-
-  filterEmail(data : any[], em : string) {
-    return data.filter((usr : any) => {
-      return usr.email != em;
+    this.firestore.collection('BuddyRequests').valueChanges().subscribe(resp => {
+      this.requests = this.getUsersFromRequests(this.filterIncoming(resp));
+      this.outgoingRequests = this.filterOutgoing(resp);
     });
+
   }
 
-  trackById(i : number, usr : any) {
-    return usr.id;
-  }
-
-  removeRec(data : any) {
-    this.buddies = this.filterNotBuddy(this.buddies, data);
-    this.oldBuddies = this.filterNotBuddy(this.oldBuddies, data);
-    if (this.buddies.length == 0)
-      this.noBuddies = true;
-  }
-
-  filterNotBuddy(data : any, usr : any) {
-    return data.filter((el : any) => {
-      return el.email != usr.email;
-    });
-  }
-
-  removeAccepted(buddies : any[], reqs : any) : any[] {
+  fetchImages(data : any) {
+   return new Promise<any>((res, rej) => {
     const o : any[] = [];
+    data.forEach((usr : any) => {
+      this.afStorage
+        .ref(`UserProfileImage/${usr.id}`)
+        .getDownloadURL()
+        .pipe(
+          tap((url : any) => {
+            const image = {image : url};
+            const p = {
+              ...usr,
+              ...image
+            }
+            console.log('p', p)
+            o.push(p);
+          })
+        ).subscribe();
+    });
+    res(o);
+   })
+  }
 
-    buddies.map((bud : any) => {
+  //remove paired buddies
+  // removeOverlapConnections(data : any) : any[] {
+  //   if (data == null)
+  //     return [];
+  //   const o : any[] = [];
+  //   data.map((el : any) => {
+  //     let flag = true;
+  //     el.buddies.map((cons : any) => {
+  //       if (this.email == cons)
+  //         flag = false;
+  //     });
+  //     if (flag)
+  //     o.push(el);
+  //   });
+  //   return o;
+  // }
 
-      //filter outgoing to try
-      const temp = reqs.filter((el : any) => {
-        return el.receiver != bud.email;
-      })
-
-      if (temp.length != 0)
-        o.push(bud);
-
+  //filter outgoing
+  filterOutgoing(data : any) : any[] {
+    const o : any[] = [];
+    data.map((el : any) => {
+      if (el.sender == this.email)  
+        o.push(el);
     });
     return o;
   }
-  
+
+  //Get Incoming Requests login
+  async getUsersFromRequests(requests : any[]) {
+    const o : any[] = [];
+    this.firestore.collection('Users').valueChanges().subscribe(resp => {
+      requests.map((req : any) => {
+        resp.map((usr : any) => {
+          if (usr.email == req.sender) {
+            o.push(usr);
+            return;
+          }
+        });
+      });
+    });
+    return await this.fetchImages(o);
+  }
+
+  filterIncoming(data : any) : any[] {
+    const o : any[] = [];
+    data.map((el : any) => {
+      if (el.receiver == this.email)
+        o.push(el);
+    });
+    return o;
+  }
+
+  //old method
+  // getIncomingRequests() {
+  //   return this.apollo
+  //     .watchQuery({
+  //       query: gql`query{
+  //         getIncoming(
+  //           email: "${this.email}",
+  //       ){
+  //         userName,
+  //         userSurname,
+  //         location,
+  //         longitude,
+  //         latitude,
+  //         stravaToken,
+  //         dob,
+  //         gender,
+  //         email,
+  //         cellNumber,
+  //         bio,
+  //         metrics{lift , ride , run , swim},
+  //         buddies
+  //       }
+  //       }
+  //       `,
+  //       // pollInterval: 1000,
+  //       // fetchPolicy: 'network-only'
+  //     },
+  //     ).valueChanges;
+  // }
+
+  getOutgoing() {
+    return this.apollo
+      .query({
+        query: gql`query{
+          getOutgoing(
+            email: "${this.email}",
+        ){
+          userName,
+          userSurname,
+          location,
+          longitude,
+          latitude,
+          stravaToken,
+          dob,
+          gender,
+          email,
+          cellNumber,
+          bio,
+          metrics{lift , ride , run , swim},
+          buddies
+        }
+        }
+        `,
+      });
+  }
+
   getBuddieRecommended() {
     return this.apollo
       .query({
@@ -207,15 +226,16 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  inOutgoing(email : string) : boolean {
+  checkIfInOutgoing(email : string) : boolean {
     if (this.outgoingRequests == null)
-      return false;
+    return true;
     let flag = false;
     this.outgoingRequests.map((el : any) => {
       if (el.receiver == email) {
         flag = true;
       }
     });
+
     return flag;
   }
 
@@ -234,28 +254,7 @@ export class DashboardComponent implements OnInit {
     return retString;
   }
 
-  accept(email : string) {
-
-    this.requests = [];
-
-    //filters from current recs.
-    this.buddies = this.buddies.filter((el : any) => {
-      return el.email != email;
-    });
-    this.oldBuddies = this.oldBuddies.filter((el : any) => {
-      return el.email != email;
-    });
-
-    if (this.buddies.length == 0) {
-      this.noBuddies = true;
-    } else {
-      this.noBuddies = false;
-    }
-
-    this.requests = this.requests.filter((el : any) => {
-      return el.email != email;
-    })
-
+  accept(email : string){
     this.apollo
     .mutate({
       mutation: gql`mutation{
@@ -267,26 +266,41 @@ export class DashboardComponent implements OnInit {
       }
       }
       `,
-    }).subscribe();
+    }).subscribe({
+      next: (data : any) => {
+        this.requests.map((el : any, i : number) => {
+          if (el.email == email) {
+            this.requests.splice(i, 1);
+          }
+        });
+      }
+    });
   }
 
-  reject(email : string) {
-    this.requests = this.requests.filter((el : any) => {
-      return el.email != email;
-    });
-    this.pendingrequests = this.requests.length != 0;
+  reject(data : string){
+
     this.apollo
     .mutate({
       mutation: gql`mutation{
         reject(
-          Sender: "${email}",
+          Sender: "${data}",
           Receiver: "${this.email}"
       ){
        message
       }
       }
       `,
-    }).subscribe();
+    }).subscribe(() => {
+      this.requests.forEach((el : any, i : number) => {
+        if (el.email == data) {
+          this.requests.splice(i, 1);
+          if (this.requests.length == 0) {
+            this.pendingrequests = false;
+          }
+        }
+      })
+    });
+
   }
   
   getFriends(){
@@ -351,6 +365,19 @@ export class DashboardComponent implements OnInit {
     this.buddies = this.buddies.filter((el : any) => {
       return el.metrics[attr] == 1;
     });
+  }
+
+  async getImage(user : any ){
+    // this.ref = this.afStorage.ref("UserProfileImage/"+user.id);
+    // this.ref.getDownloadURL()
+    // .pipe(
+    //   tap((el : any) => {
+    //     console.log(el);
+    //   })
+    // ).subscribe().unsubscribe();
+   
+    // console.log(await this.afStorage.ref("UserProfileImage/"+user.id).getDownloadURL().);
+
   }
 
 }
