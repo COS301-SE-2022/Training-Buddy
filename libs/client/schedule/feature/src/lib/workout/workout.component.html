@@ -1,3 +1,38 @@
 <training-buddy-back-navbar title="Event"></training-buddy-back-navbar>
 <p>workout works!</p>
+<div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
+<div *ngIf="!loading"> 
+    <div class="px-4">
+        <mat-list>
+            <mat-list-item>Title: {{workout?.title}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Type: {{workout?.activityType}} </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Start time: {{workout?.startTime.day}} {{workout?.startTime.month}} {{workout?.startTime.year}} @ {{workout?.startTime.time}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Location: {{workout?.startPoint}} </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Distance: {{workout?.proposedDistance}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>Duration: {{workout?.proposedDuration}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>organiser: {{workout?.organiser}}</mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+          <div>
+            participants: 
+            <mat-chip-list>
+                <mat-chip *ngFor="let participant of workout?.participants">
+                  <img matChipAvatar src="{{participant.image}}" alt="picture"/>
+                {{participant.name}}
+                </mat-chip>
+                <mat-chip *ngFor="let participant of workout?.participants">
+                    <img matChipAvatar src="{{participant.image}}" alt="picture"/>
+                  {{participant.name}}
+                  </mat-chip>
+              </mat-chip-list>
+          </div>
+         
+    </div>
+</div>
 <training-buddy-navbar></training-buddy-navbar>
