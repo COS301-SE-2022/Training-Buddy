@@ -1,5 +1,5 @@
 
-describe.only('training-buddy-client-login-feature', () => {
+describe('training-buddy-client-login-feature', () => {
 
     before(() =>{
         
@@ -63,7 +63,7 @@ describe.only('training-buddy-client-login-feature', () => {
 
 
     it('should successfully allow user to login', () => {
-      
+
         cy.get('#userEmail')
           .should('have.value', '')
           .type('u1@gmail.com')
