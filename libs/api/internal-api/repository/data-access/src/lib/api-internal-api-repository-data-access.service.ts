@@ -397,7 +397,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //requests - DELETE
-    async deleteConnectionRequest(@Param() sender: string, @Param() receiver: string){
+    async deleteConnectionRequest(@Param() receiver: string, @Param() sender: string){
         return this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
             if(result.docs[0]) return this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
                 return true ;
@@ -416,6 +416,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({buddies: this.arrayUnion(user2)}).then(results => {
                 return this.usersCollection.where('email', '==', user2).get().then(async (result1) =>{
                     if(result1.docs[0]) return this.usersCollection.doc(result1.docs[0].id).update({buddies: this.arrayUnion(user1)}).then(results =>{
+                        this.deleteConnectionRequest
                         return true ;
                     })
                 });
@@ -564,13 +565,13 @@ export class ApiInternalApiRepositoryDataAccessService {
         await this.workoutInvitesCollection.where('receivers', 'array-contains', user).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
 
-                const recs = [] ;
-                doc.data().receivers.forEach((rec) => {
-                    recs.push(this.login(rec)) ;
-                })
+                // const recs = [] ;
+                // doc.data().receivers.forEach((rec) => {
+                //     recs.push(this.login(rec)) ;
+                // })
                 const data = {
                     sender: doc.data().sender,
-                    receivers: recs,
+                    receivers: doc.data().receivers,
                     workout: this.getWorkout(user, doc.data().workout)
                 }
                 invites.push(data);

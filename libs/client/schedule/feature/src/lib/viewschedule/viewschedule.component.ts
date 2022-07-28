@@ -53,18 +53,41 @@ export class ViewscheduleComponent implements OnInit {
       query: gql`
         query{
           getIncomingInvites(email: "${ email }"){
-              sender,
-              receivers,
-              workout{
-                title,
+            sender,
+            receivers,
+            workout{
+              title,
+              id,
+              startTime,
+              organiser,
+              participants{
+                userName,
+                userSurname,
+                location,
+                longitude,
+                latitude,
+                stravaToken,
+                dob,
+                gender,
+                email,
+                cellNumber,
                 id,
-                startTime,
-                activityType,
-                startPoint,
-                proposedDistance,
-                proposedDuration
+                bio,
+                metrics{
+                  lift,
+                  run,
+                  swim,
+                  ride
+                },
+                buddies,
+                distance
               }
+              activityType,
+              startPoint,
+              proposedDistance,
+              proposedDuration
             }
+          }
         }
       `
     })
@@ -81,14 +104,7 @@ export class ViewscheduleComponent implements OnInit {
         }`
     })
   }
-  getOrganiser(email: string): any{
-    this.getUserName(email).subscribe({
-      next: (data: any) =>{
-        // console.log(data.data.getOne.userName);
-        return data.data.getOne.userName;
-      }
-    })
-  }
+
   getData(email: string){ //this gets all the scheduled workouts
     //get all the invites
     this.getInvites(email).subscribe({
@@ -176,8 +192,7 @@ export class ViewscheduleComponent implements OnInit {
   convertInvitedToCard(data: any) : any{
     return{
    
-      organiser: this.getOrganiser(data.workout.organiser),
-      organiserEmail: data.workout.organiser,
+      organiser: data.sender,
       name: data.workout.title,
       id: data.workout.id,
       startPoint: data.workout.startPoint,
