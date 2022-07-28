@@ -1,6 +1,8 @@
 
-describe('training-buddy-client-login-feature', () => {
-    it('successfully loads login page', () => {
+describe.only('training-buddy-client-login-feature', () => {
+
+    
+    it.only('successfully loads login page', () => {
 
       cy.visit('/login') 
       cy.get('#userEmail').type('u1@gmail.com')
