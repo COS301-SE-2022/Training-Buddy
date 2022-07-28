@@ -122,18 +122,30 @@ export class ApiInternalApiRepositoryDataAccessService {
     async userConfig(@Param() userConfig: Userconfig){
         
         let run = 0 ;
+        let runGroup = -1;
         let ride = 0; 
+        let rideGroup = -1 ;
         let swim = 0; 
+        let swimGroup = -1 ;
         let lift = 0 ;
+        let liftGroup = -1 ;
 
-        if(userConfig.riding)
+        if(userConfig.riding){
             ride = 1 ;
-        if(userConfig.running)
+            rideGroup = 0 ;
+        }
+        if(userConfig.running){
             run = 1 ;
-        if(userConfig.swimming)
+            runGroup = 0 ;
+        }
+        if(userConfig.swimming){
             swim = 1 ;
-        if(userConfig.weightLifting)
+            swimGroup = 0 ;
+        }
+        if(userConfig.weightLifting){
             lift = 1 ;
+            liftGroup = 0 ;
+        }
         
         const data = {
             metrics: {
@@ -141,6 +153,12 @@ export class ApiInternalApiRepositoryDataAccessService {
                 ride : ride, 
                 swim : swim,
                 lift : lift
+            },
+            groups: {
+                runGroup: runGroup,
+                rideGroup: rideGroup,
+                swimGroup: swimGroup,
+                liftGroup: liftGroup
             },
             distance : userConfig.distance,
             bio : userConfig.bio 
@@ -467,7 +485,18 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async getWorkout(@Param() email: string, @Param() workoutID: string):Promise<any>{
         return this.scheduledWorkoutCollection.where('id', '==', workoutID).get().then(async (result) =>{
-            if(result.docs[0]) return result.docs[0].data() ;
+            if(result.docs[0]){
+                const data = result.docs[0].data() ;
+
+                const users = [] ;
+                data.participants.forEach((user) => {
+                    users.push(this.login(user)) ;
+                })
+                data.participants = users ;
+
+                return data ;
+                //return result.docs[0].data() ;
+            } 
             return false ;
         });
     }
@@ -534,9 +563,14 @@ export class ApiInternalApiRepositoryDataAccessService {
         const invites = [] ;
         await this.workoutInvitesCollection.where('receivers', 'array-contains', user).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
+
+                const recs = [] ;
+                doc.data().receivers.forEach((rec) => {
+                    recs.push(this.login(rec)) ;
+                })
                 const data = {
                     sender: doc.data().sender,
-                    receivers: doc.data().receivers,
+                    receivers: recs,
                     workout: this.getWorkout(user, doc.data().workout)
                 }
                 invites.push(data);
