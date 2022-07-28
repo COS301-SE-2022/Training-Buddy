@@ -76,11 +76,19 @@ export class WorkoutInviteComponent implements OnInit {
     }).subscribe({
       next: (data: any) => {
         console.log(data.data.sendInvite.message);
+      
+        this.buddiesOriginal.map((el : any, i : number) => {
+          if (el.email == email) {
+            this.buddiesOriginal.splice(i, 1);
+            this.buddies = this.buddiesOriginal;
+            console.log('here');
+          }
+        });
         if(data.data.sendInvite.message == "Failure"){
           //create invite 
           this.createInvite(email);
           //sendRequest
-          
+        
         }
       }
     });
