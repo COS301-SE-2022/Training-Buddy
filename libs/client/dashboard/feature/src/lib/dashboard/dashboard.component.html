@@ -12,7 +12,7 @@
                     <div [@fadeIn] *ngFor="let usr of requests; trackBy:trackById" class="dynamic max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
                         <div class="md:flex">
                             <div class="md:shrink-0">
-                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="getImage(usr)">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="{{usr.image}}">
                             </div>
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
