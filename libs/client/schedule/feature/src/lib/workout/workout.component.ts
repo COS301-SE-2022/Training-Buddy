@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import { pipe, tap } from 'rxjs';
@@ -23,7 +23,7 @@ export class WorkoutComponent implements OnInit {
   participants: any;
 
 
-  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog){
+  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
     this.email = cookieService.get('email');
   } 
   
@@ -87,6 +87,10 @@ export class WorkoutComponent implements OnInit {
 
   }
 
+  viewProfile(participantid: string){
+    console.log(participantid);
+    this.router.navigate([`/profile/${participantid}`]);
+  }
   convertQuery(data : any) : any {
  
   return {
