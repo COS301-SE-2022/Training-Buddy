@@ -397,7 +397,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //requests - DELETE
-    async deleteConnectionRequest(@Param() sender: string, @Param() receiver: string){
+    async deleteConnectionRequest(@Param() receiver: string, @Param() sender: string){
         return this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
             if(result.docs[0]) return this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
                 return true ;
