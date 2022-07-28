@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-import { tap } from 'rxjs';
 import { combineLatest, map, tap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { fdatasync } from 'fs';
@@ -101,28 +100,24 @@ export class DashboardComponent implements OnInit {
     this.firestore
       .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
       .valueChanges()
-      .subscribe((data : any) => {
-        this.pendingrequests = data.length != 0;
+      .subscribe((incoming : any) => {
+
+        this.pendingrequests = incoming.length != 0;
+
+        console.log('inc requests : ', incoming, this.pendingrequests);
+
         this.requests = [];
-        data.map((req : any) => {
 
-        incoming.forEach((req : any) => {
-
-          this.firestore
-          .collection('Users', ref => ref.where('email', '==', req.sender))
-          .collection('Users', ref => ref.where('email', '==', req.email))
-          .valueChanges()
-          ).subscribe();
-          .subscribe((currentusr : any) => {
-
-            console.log('imncoming requests : ', req)
-
-            // this.requests = [];
-            // this.firestore
-            //   .collection('Users', ref => ref.where('email', '==', requsr[0].email))
-            //   .valueChanges()
+        if (incoming.length != 0)
+          incoming.forEach((req : any) => {
+            this.firestore
+            .collection('Users', ref => ref.where('email', '==', req.sender))
+            .valueChanges()
+            .subscribe((currentusr : any) => {
+              this.requests.push(currentusr[0]);
+            });
           });
-        });
+
       });
 
     //Getting Outgoing Requests:
@@ -131,10 +126,6 @@ export class DashboardComponent implements OnInit {
       .valueChanges()
       .subscribe((data : any) => {
         this.outgoingRequests = data;
-        
-        //remove the accepted buddy from the recs:
-        this.buddies = this.removeAccepted(this.buddies, data);
-        this.oldBuddies = this.removeAccepted(this.oldBuddies, data);
       });
 
   }
@@ -244,6 +235,8 @@ export class DashboardComponent implements OnInit {
   }
 
   accept(email : string) {
+
+    this.requests = [];
 
     //filters from current recs.
     this.buddies = this.buddies.filter((el : any) => {
