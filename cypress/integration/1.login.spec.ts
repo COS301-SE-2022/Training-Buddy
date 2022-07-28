@@ -1,6 +1,7 @@
 
 describe('training-buddy-client-login-feature', () => {
 
+  
     before(() =>{
         
         cy.visit('/login') 
