@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
 import { Subject,take } from 'rxjs';
 import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
+import { tap } from 'rxjs';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
@@ -143,12 +144,13 @@ export class ViewprofilepageComponent implements OnInit {
           this.displayUser = data.data.getUser;
           this.loading = false;
           this.getData(this.displayUser.email);
-          this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
-          this.ref.getDownloadURL().subscribe((downloadURL) => {
-          this.currentImage=downloadURL;
-          });
+          // this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
+          // this.ref.getDownloadURL().subscribe((downloadURL) => {
+          // this.currentImage=downloadURL;
+          // });
         },
       })
+
     })
 
   }
@@ -157,7 +159,10 @@ export class ViewprofilepageComponent implements OnInit {
 
     this.getBuddies(email).subscribe({
       next: (data : any) => {
-        this.buddies = data.data.getConnections;
+        this.fetchImages(data.data.getConnections).then((out : any[]) => {
+          this.buddies = out;
+          this.buddiesOriginal = out;
+        });
         this.buddiesOriginal = this.buddies;
         this.buddiesLoaded = true;
         this.buddyCount = this.buddies.length;
@@ -187,6 +192,30 @@ export class ViewprofilepageComponent implements OnInit {
     );
 
   }
+
+  fetchImages(data : any[]) : Promise<any> {
+    console.log(data);
+    return new Promise<any>((res, rej) => {
+     const o : any[] = [];
+     data.forEach((usr : any) => {
+       this.afStorage
+         .ref(`UserProfileImage/${usr.id}`)
+         .getDownloadURL()
+         .pipe(
+           tap((url : any) => {
+             const image = {image : url};
+             const p = {
+               ...usr,
+               ...image
+             }
+             console.log(p)
+             o.push(p);
+           })
+         ).subscribe();
+     });
+     res(o);
+    })
+   }
 
   
   getCurrentUser() {

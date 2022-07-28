@@ -84,7 +84,7 @@
                                     <div class="m-3 row space-between align-content">
                             
                                         <div class="row align-content cursor" (click)="changeProfile(buddy.id)">
-                                            <div class="my-2 buddypic" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+                                            <div class="my-2 buddypic" src="buddy.image"></div>
                                             <div class="ml-6">
                                                 <div><h2>{{ buddy?.userName }} {{ buddy?.userSurname }}</h2></div>
                                                 <div><mat-hint>{{ buddy?.location }}</mat-hint></div>
