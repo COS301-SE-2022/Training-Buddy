@@ -30,7 +30,7 @@ describe('training-buddy-client-changepassword-feature', () => {
 
     })
 
-    it.only('should allow user to change password successfully', () => {
+    it('should allow user to change password successfully', () => {
         
         cy.get('#old')
           .should('have.not', '')
@@ -47,4 +47,19 @@ describe('training-buddy-client-changepassword-feature', () => {
           cy.get('#changepassword').click()
         
     });
+
+    it('should navigate to login', () => {
+
+      cy.reload()
+
+      cy.get('.mat-toolbar-row > .mat-icon').click()
+    })
+
+    it.only('should navigate to login', () => {
+      cy.visit('/settings')
+
+      cy.get(':nth-child(6) > .mat-card').click()
+
+
+    })
 })
