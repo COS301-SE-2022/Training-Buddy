@@ -22,8 +22,8 @@
             participants: 
             <mat-chip-list>
                 <mat-chip *ngFor="let participant of workout?.participants">
-                  <img matChipAvatar src="{{participant.image}}" alt="picture"/>
-                {{participant.name}}
+                  <img matChipAvatar src="{{ getImage(participant.id) }}" alt="picture"/>
+                {{participant.userName}} {{participant.userSurname}}
                 </mat-chip>
               </mat-chip-list>
           </div>
