@@ -78,14 +78,14 @@ export class WorkoutInviteComponent implements OnInit {
         console.log(data.data.sendInvite.message);
         if(data.data.sendInvite.message == "Failure"){
           //create invite 
-          this.createInvite();
+          this.createInvite(email);
           //sendRequest
-          this.sendRequest(email);
+          
         }
       }
     });
   }
-  createInvite(){
+  createInvite(email: string){
     this.apollo
     .mutate({
       mutation: gql`
@@ -101,6 +101,7 @@ export class WorkoutInviteComponent implements OnInit {
     }).subscribe({
       next: (data: any) =>{
         console.log(data.data.createInvite.message);
+        this.sendRequest(email);
       }
     })
   }
