@@ -1,9 +1,5 @@
 describe('training-buddy-client-athlete-profile-feature', () => {
 
-    before(() => {
-        cy.visit('/configureprofile/update') 
-    })
-
     it('should try to save without updates', () => {
 
         cy.get('#signup').click()
@@ -44,6 +40,8 @@ describe('training-buddy-client-athlete-profile-feature', () => {
         cy.get('#mat-input-0').type('I love running and riding, but would also like to get into swimming and weight lifting I am also a student @ Tuks')
 
         cy.get('#signup').click()
+
+        cy.get('.mat-toolbar-row > .mat-icon').click()
 
     });
     
