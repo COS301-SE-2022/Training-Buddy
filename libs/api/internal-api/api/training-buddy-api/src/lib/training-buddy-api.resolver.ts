@@ -166,9 +166,9 @@ export class TrainingBuddyApiResolver {
      * tested
      */
     @Mutation(()=>ErrorMessage)
-    accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
-        const val = this.trainingBuddyService.accept(userEmail, otherEmail);
-        this.subscriptionsRequest(userEmail, otherEmail)
+    accept(@Args('Sender')otherEmail: string ,  @Args('Receiver')userEmail: string){
+        const val = this.trainingBuddyService.accept(otherEmail, userEmail);
+        this.subscriptionsRequest(otherEmail, userEmail)
         return val;
     }
     /**
@@ -273,6 +273,7 @@ export class TrainingBuddyApiResolver {
     createInvite(@Args("email")userEmail:string ,@Args("workoutID")workoutID:string){
         return this.trainingBuddyService.createInvite(userEmail, workoutID);
     }
+
     /**
      * 
      * @param userEmail 
