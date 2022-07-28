@@ -38,8 +38,6 @@ export class ViewscheduleComponent implements OnInit {
             title,
             id,
             startTime,
-            organiser,
-            participants,
             activityType,
             startPoint,
             proposedDistance,
@@ -61,8 +59,6 @@ export class ViewscheduleComponent implements OnInit {
                 title,
                 id,
                 startTime,
-                organiser,
-                participants,
                 activityType,
                 startPoint,
                 proposedDistance,
@@ -103,6 +99,9 @@ export class ViewscheduleComponent implements OnInit {
         });
 
         //sort the data. 
+        if(swap.length == 0){
+          return;
+        }
         swap.sort(function(a,b){
           return a.startDate.timestamp - b.startDate.timestamp;
         });
@@ -137,36 +136,38 @@ export class ViewscheduleComponent implements OnInit {
           data.data.getScheduleWorkout.map((el : any) => {
             swap.push(this.convertWorkoutToCard(el));
           });
-
-          //sort the data.
-          swap.sort(function(a,b){
-            return a.startDate.timestamp - b.startDate.timestamp;
-          });
-
-          const dated: any[][] = [[]];
-          let x = 0;
-          let currentday = swap[0].startDate.day;
+          if(swap.length != 0){
+            swap.sort(function(a,b){
+              return a.startDate.timestamp - b.startDate.timestamp;
+            });
+  
+            const dated: any[][] = [[]];
+            let x = 0;
+            let currentday = swap[0].startDate.day;
+            
+            for(let w = 0; w < swap.length; w++  ){
+              if(swap[w].startDate.day == currentday){
+                dated[x].push(swap[w]);
+              }
+              else{
+                currentday = swap[w].startDate.day;
+                x++;
+                const temp: any[] = [];
+                dated.push(temp)
+                dated[x].push(swap[w]);
+              }
+            }
           
-          for(let w = 0; w < swap.length; w++  ){
-            if(swap[w].startDate.day == currentday){
-              dated[x].push(swap[w]);
-            }
-            else{
-              currentday = swap[w].startDate.day;
-              x++;
-              const temp: any[] = [];
-              dated.push(temp)
-              dated[x].push(swap[w]);
+            // console.log(dated);
+            this.workouts = dated;
+            this.workoutsLoaded = true;
+            this.workoutsCount = this.workouts.length;
+            if (this.workoutsCount != 0) {
+              this.upcomingEvents = true;
             }
           }
-        
-          // console.log(dated);
-          this.workouts = dated;
-          this.workoutsLoaded = true;
-          this.workoutsCount = this.workouts.length;
-          if (this.workoutsCount != 0) {
-            this.upcomingEvents = true;
-          }
+          //sort the data.
+          
           this.loading = false;
           // console.log(data)
       }
