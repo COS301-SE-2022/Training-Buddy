@@ -5,7 +5,8 @@ import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
 import { Subject,take } from 'rxjs';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
+import { tap } from 'rxjs';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
@@ -99,16 +100,12 @@ export class ViewprofilepageComponent implements OnInit {
   email! : string;
   id! : any;
   displayUser! : any;
-  currentImage! :any;
+  profileImage! :any;
 
 
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
-    const id = this.cookie.get('id');
-    this.ref = this.afStorage.ref("UserProfileImage/"+id);
-   this.ref.getDownloadURL().subscribe((downloadURL) => {
-    this.currentImage=downloadURL;
-    });
+    
     
   } 
 
@@ -117,7 +114,10 @@ export class ViewprofilepageComponent implements OnInit {
     this.buddiesLoaded = false;
     this.buddyCount = 0;
     this.activityCount = 0;
+    
     this.loading = true;
+    // const id = this.cookie.get('id');
+    
     this.router.navigate([`/profile/${id}`]);
   }
 
@@ -137,14 +137,20 @@ export class ViewprofilepageComponent implements OnInit {
       this.id = routerid
       if (routerid == null)
         this.id = this.cookie.get('id');
+        
 
-      this.getCurrentUser().subscribe({
-        next: (data : any) => {
-          this.displayUser = data.data.getUser;
-          this.loading = false;
-          this.getData(this.displayUser.email);
-        },
-      })
+    this.getCurrentUser().subscribe({
+      next: (data : any) => {
+        this.displayUser = data.data.getUser;
+        this.loading = false;
+        this.getData(this.displayUser.email);
+        this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
+        this.ref.getDownloadURL().subscribe((downloadURL) => {
+        this.profileImage=downloadURL;
+        });
+      },
+    })
+
     })
 
   }
@@ -153,7 +159,10 @@ export class ViewprofilepageComponent implements OnInit {
 
     this.getBuddies(email).subscribe({
       next: (data : any) => {
-        this.buddies = data.data.getConnections;
+        this.fetchImages(data.data.getConnections).then((out : any[]) => {
+          this.buddies = out;
+          this.buddiesOriginal = out;
+        });
         this.buddiesOriginal = this.buddies;
         this.buddiesLoaded = true;
         this.buddyCount = this.buddies.length;
@@ -183,6 +192,30 @@ export class ViewprofilepageComponent implements OnInit {
     );
 
   }
+
+  fetchImages(data : any[]) : Promise<any> {
+    console.log(data);
+    return new Promise<any>((res, rej) => {
+     const o : any[] = [];
+     data.forEach((usr : any) => {
+       this.afStorage
+         .ref(`UserProfileImage/${usr.id}`)
+         .getDownloadURL()
+         .pipe(
+           tap((url : any) => {
+             const image = {image : url};
+             const p = {
+               ...usr,
+               ...image
+             }
+             console.log(p)
+             o.push(p);
+           })
+         ).subscribe();
+     });
+     res(o);
+    })
+   }
 
   
   getCurrentUser() {
