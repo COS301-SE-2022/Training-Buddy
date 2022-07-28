@@ -1,5 +1,5 @@
 
-describe.only('training-buddy-client-athlete-profile-feature', () => {
+describe('training-buddy-client-athlete-profile-feature', () => {
     
     before(() => {
         cy.visit('/profile')  
