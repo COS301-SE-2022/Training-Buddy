@@ -75,15 +75,15 @@ jobs:
           yarn nx run-many --target=lint --all --skip-nx-cache --parallel
           yarn nx run-many --target=build --all --skip-nx-cache --parallel
           yarn nx run-many --target=test --all --skip-nx-cache --parallel --coverage
-          yarn nx run-many --target=e2e --all --skip-nx-cache --parallel --coverage
+        #yarn nx run-many --target=e2e --all --skip-nx-cache --parallel --coverage
           
       
       - name: Merge coverage reports
-        if: inputs.test == 'unit'   
+        if: inputs.test == 'all'   
         run: node merge-reports.js
 
       - uses: codecov/codecov-action@v2
-        if: inputs.test == 'unit' 
+        if: inputs.test == 'all' 
         with:
           # Training-Buddy codecov token to be placed below
           token: ${{ secrets.CODECOV_TOKEN }}
