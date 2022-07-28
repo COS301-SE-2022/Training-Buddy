@@ -1,0 +1,27 @@
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+  }
+
+  .pic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
+}
+
+#pagespinner {
+    top: 50%;
+    left: 50%;
+}
+
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1b1a1b;
+}
