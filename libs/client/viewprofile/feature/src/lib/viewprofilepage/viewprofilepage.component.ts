@@ -100,7 +100,7 @@ export class ViewprofilepageComponent implements OnInit {
   email! : string;
   id! : any;
   displayUser! : any;
-  currentImage! :any;
+  profileImage! :any;
 
 
 
@@ -139,17 +139,17 @@ export class ViewprofilepageComponent implements OnInit {
         this.id = this.cookie.get('id');
         
 
-      this.getCurrentUser().subscribe({
-        next: (data : any) => {
-          this.displayUser = data.data.getUser;
-          this.loading = false;
-          this.getData(this.displayUser.email);
-          // this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
-          // this.ref.getDownloadURL().subscribe((downloadURL) => {
-          // this.currentImage=downloadURL;
-          // });
-        },
-      })
+    this.getCurrentUser().subscribe({
+      next: (data : any) => {
+        this.displayUser = data.data.getUser;
+        this.loading = false;
+        this.getData(this.displayUser.email);
+        this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
+        this.ref.getDownloadURL().subscribe((downloadURL) => {
+        this.profileImage=downloadURL;
+        });
+      },
+    })
 
     })
 

@@ -17,7 +17,7 @@
                         <!-- profile image circle -->
                         <div class="profilecol">
                             
-                            <div id="profilepic" class="my-2" [ngStyle]="{'background-image': 'url(' + currentImage + ')'}"></div>
+                            <img id="profilepic" class="my-2 ml-2" [ngStyle]="{'background-image': 'url(' + profileImage + ')'}">
 
                         </div>
     
@@ -84,7 +84,7 @@
                                     <div class="m-3 row space-between align-content">
                             
                                         <div class="row align-content cursor" (click)="changeProfile(buddy.id)">
-                                            <div class="my-2 buddypic" src="buddy.image"></div>
+                                            <img class="my-2 buddypic" src="{{buddy.image}}">
                                             <div class="ml-6">
                                                 <div><h2>{{ buddy?.userName }} {{ buddy?.userSurname }}</h2></div>
                                                 <div><mat-hint>{{ buddy?.location }}</mat-hint></div>
