@@ -5,6 +5,51 @@ describe('training-buddy-client-addmanualactivity-feature', () => {
         cy.visit('/addactivity')  
     })
 
+    it('should try to add an empty activity', () => {
+
+        cy.get('#signup').click()
+        
+    });
+
+    it('should try to add activity only', () => {
+        cy.get('#name')
+        .should('have.not', '')
+        .type('Afternoon Run')
+
+        cy.get('#signup').click()
+
+        cy.get('#name').clear()
+
+    });
+
+    it('should try to add activity date only', () => {
+
+        cy.get('.mat-datepicker-toggle-default-icon').click()
+
+        cy.get('.mat-calendar-next-button').click()
+
+        cy.get(':nth-child(6) > [data-mat-col="3"] > .mat-calendar-body-cell').click()
+        
+        cy.get('#signup').click()
+
+        cy.get('#date').clear()
+
+    });
+
+    it('should try to add activity distance only', () => {
+        
+        cy.get('#distance')
+          .should('have.not', '')
+          .type('10')
+
+        cy.get('#signup').click()
+
+        cy.get('#distance').clear()
+
+    });
+
+
+
     it('should allow user to add a new activity', () => {
         
         cy.get('.mat-form-field.ng-tns-c90-0 > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix').type('Morning Run')
