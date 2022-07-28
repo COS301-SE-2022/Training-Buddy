@@ -40,14 +40,36 @@ export class WorkoutComponent implements OnInit {
           workoutID: "${ this.workoutID }",
         ){
           title,
+          id,
           startTime,
           organiser,
-          participants,
+          participants{
+            userName,
+            userSurname,
+            location,
+            longitude,
+            latitude,
+            stravaToken,
+            dob,
+            gender,
+            email,
+            cellNumber,
+            id,
+            bio,
+            metrics{
+              lift,
+              run,
+              swim,
+              ride
+            },
+            buddies,
+            distance
+          },
           activityType,
           startPoint,
           proposedDistance,
-          proposedDuration,
-        }
+          proposedDuration
+      }
       }`,
     })
   }
