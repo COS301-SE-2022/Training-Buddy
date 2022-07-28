@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
@@ -23,6 +23,7 @@ describe('WorkoutComponent', () => {
       ],
       providers: [
         Apollo,
+        MatDialog,
         CookieService,
         { provide: FIREBASE_OPTIONS, useValue:firebase }
       ],
