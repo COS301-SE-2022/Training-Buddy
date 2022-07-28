@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
@@ -19,8 +19,8 @@ describe('WorkoutInviteComponent', () => {
       providers: [
         Apollo,
         CookieService,
-        MAT_DIALOG_DATA,
-        MatDialogRef
+        MatDialogRef,
+        WorkoutInviteComponent
       ]
     })
     .compileComponents();
