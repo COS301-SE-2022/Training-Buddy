@@ -79,11 +79,11 @@ jobs:
           
       
       - name: Merge coverage reports
-        if: inputs.test == 'all'   
+        if: inputs.test == 'unit'   
         run: node merge-reports.js
 
       - uses: codecov/codecov-action@v2
-        if: inputs.test == 'all' 
+        if: inputs.test == 'unit' 
         with:
           # Training-Buddy codecov token to be placed below
           token: ${{ secrets.CODECOV_TOKEN }}
