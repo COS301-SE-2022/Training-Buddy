@@ -1,4 +1,4 @@
-describe.only('training-buddy-client-athlete-profile-feature', () => {
+describe('training-buddy-client-athlete-profile-feature', () => {
     
     before(() => {
         cy.visit('/settings')  
@@ -23,7 +23,7 @@ describe.only('training-buddy-client-athlete-profile-feature', () => {
 
     });
 
-    it('should allow user to logout', () => {
+    it.skip('should allow user to logout', () => {
 
         cy.get(':nth-child(6) > .mat-card').click()
         
