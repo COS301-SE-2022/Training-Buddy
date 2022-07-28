@@ -40,51 +40,19 @@ export class WorkoutComponent implements OnInit {
           workoutID: "${ this.workoutID }",
         ){
           title,
-          id,
           startTime,
           organiser,
           participants{
             userName,
             userSurname,
-            location,
-            longitude,
-            latitude,
-            stravaToken,
-            dob,
-            gender,
-            email,
-            cellNumber,
             id,
-            bio,
-            metrics{
-              lift,
-              run,
-              swim,
-              ride
-            },
-            buddies,
-            distance
           },
           activityType,
           startPoint,
           proposedDistance,
-          proposedDuration
-      }
-      }`,
-    })
-  }
-
-  getOneUser(email : string){
-    return this.apollo
-    .query({
-      query: gql`
-        query{
-        getOne(email: "${ email }"){
-          userName,
-          id,
+          proposedDuration,
         }
-      }
-      `,
+      }`,
     })
   }
   getData(){
@@ -113,37 +81,20 @@ export class WorkoutComponent implements OnInit {
   return {
       title: data.title,
       startTime: this.startDateTime(data.startTime),
-      organiser: this.getUserData(data.organiser),
-      participants: this.getPartcipants(data.participants),
+      organiser: data.organiser,
+      participants: data.participants,
       activityType: data.activityType,
       startPoint: data.startPoint,
       proposedDistance: data.proposedDistance,
       proposedDuration: data.proposedDuration,
     }
   }
-  getPartcipants(participants: any): any {
-    const users: any[] = [];
-    for(const participant in participants){
-      users.push(this.getUserData(participant));
-    }
-    // console.log(users);
-    return users;
-  }
-
-  getUserData(email: string): any {
-    this.getOneUser(email).subscribe({
-      next: (data: any) => {
-        console.log(data.data.getOne);
-        return{
-          name: data.data.getOne.userName,
-          image: this.getImage(data.data.getOne.id)
-        }
-      }
-    })
-  }
-
   getImage(id: string){
-    return this.afStorage.ref("UserProfileImage/"+id);
+    // this.afStorage.ref("UserProfileImage/"+id).
+    // getDownloadURL().subscribe((downloadURL) => {
+    //   console.log(downloadURL);
+    //   return downloadURL;
+    // });
   }
 
   startDateTime(data: string): any{

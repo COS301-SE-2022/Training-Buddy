@@ -80,3 +80,9 @@ h2 {
 .cursor:hover {
     cursor: pointer;
 }
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+}
