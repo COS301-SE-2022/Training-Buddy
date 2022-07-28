@@ -6,13 +6,13 @@
 
             <div id="incomingRequests" class="m-8" *ngIf="doneloading">
     
-                <h1 *ngIf="pendingrequests" class="text-center">Incoming Requests</h1>
+                <h1 [@fadeIn] *ngIf="pendingrequests" class="text-center">Incoming Requests</h1>
                 
                 <ng-container>
-                    <div *ngFor="let usr of requests" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
+                    <div [@fadeIn] *ngFor="let usr of requests; trackBy:trackById" class="dynamic max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
                         <div class="md:flex">
                             <div class="md:shrink-0">
-                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="getImage(usr)">
+                                <img class="h-48 w-full object-cover md:h-full md:w-48" src="{{usr.image}}">
                             </div>
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
@@ -32,55 +32,68 @@
 
             </div>
 
-            <div id="recBuddies" class="m-8 mt-2" *ngIf="doneloading">
-    
+            <div [@fadeIn] id="recBuddies" class="m-8 mt-2" *ngIf="doneloading">
                 <h1 class="text-center">Recommended</h1>
-
-                <mat-form-field id="filter" appearance="outline">
-                    <mat-label>Filter Sport Type</mat-label>
-                    <mat-select #toggle (selectionChange)="filter(toggle.value)" id="filter" name="filter">
-                        <mat-option value="None">None</mat-option>
-                        <mat-option value="Run">Run</mat-option>
-                        <mat-option value="Ride">Ride</mat-option>
-                        <mat-option value="Swim">Swim</mat-option>
-                        <mat-option value="Lift">Weights</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                
-                <div id="noresults" *ngIf="doneloading">
-                    <mat-hint *ngIf="noBuddies" class="text-center">No Recommended Buddies</mat-hint>
-                    <br />
-                    <ng-container *ngIf="noBuddies"><mat-hint class="text-center">Try another sport or increase your </mat-hint><a id="configurelink" routerLink="/configureprofile/update"><u>Buddy Distance</u></a></ng-container>
+                <div class="w-100 flex">
+                    <mat-form-field id="filter" class="max-w-md mx-auto rounded-xl overflow-hidden md:max-w-2xl" appearance="outline">
+                        <mat-label>Filter Sport Type</mat-label>
+                        <mat-select #toggle (selectionChange)="filter(toggle.value)" id="filter" name="filter">
+                            <mat-option value="None">None</mat-option>
+                            <mat-option value="Run">Run</mat-option>
+                            <mat-option value="Ride">Ride</mat-option>
+                            <mat-option value="Swim">Swim</mat-option>
+                            <mat-option value="Lift">Weights</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
 
-                <ng-container *ngIf="doneloading">
+                <div class="w-100 flex">
+                    <div id="noresults" class="max-w-md mx-auto overflow-hidden md:max-w-2xl">
+                        <mat-hint *ngIf="noBuddies" class="text-center">No Recommended Buddies</mat-hint>
+                        <br />
+                        <ng-container *ngIf="noBuddies"><mat-hint class="text-center">Try another sport or increase your </mat-hint><a id="configurelink" routerLink="/configureprofile/update"><u>Buddy Distance</u></a></ng-container>
+                    </div>
+                </div>
 
-                    <div *ngFor="let usr of buddies" class="mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                    <div [@fadeIn] *ngFor="let usr of buddies; trackBy:trackById" class="dynamic mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+                        
                         <div class="md:flex cursor">
                             <div class="md:shrink-0">
-                                <img routerLink="/profile/{{usr.id}}" class="h-48 w-full object-cover md:h-full md:w-48" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/develop/libs/client/shared/assets/stockImages/1.jpg?raw=true">
+                                <img routerLink="/profile/{{usr.id}}" class="h-48 w-full object-cover md:h-full md:w-48" src={{usr.image}}>
                             </div>
-                            <div class="mx-4 mb-3 mt-2">
+
+                            <div class="mb-2 px-4 pb-4 pt-2 mt-2 card-c">
                                 <div class="acceptTitle">
                                     <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p> 
-                                    <div>
-                                        <button *ngIf="!checkIfInOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
-                                        <button *ngIf="checkIfInOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
-                                    </div>
+                                    
                                 </div> 
-                                <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
+                                <div class="tracking-wide text-xs font-semibold"><p>{{ usr.location }}</p></div>
                                 <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
-                                <!-- <mat-icon> directions_bike</mat-icon> -->
-                                <p class="mt-2 text-slate-500">{{ getSportString(usr) }}</p>
+
+                                <div class="grid grid-cols-2 mt-2">
+                                    <div class="flex request-buttons">
+                                        <button class="pad-right mr-1" mat-raised-button (click)="removeRec(usr)">Not Interested</button>
+                                    </div>
+            
+                                    <div class="flex request-buttons flex-end">
+                                        <button class="pad-left action-color" *ngIf="!inOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
+                                        <button class="pad-left" *ngIf="inOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
+                                    </div>
+                                    
+                                </div>
+                            
                             </div>
+                            
                         </div>
+
                     </div>
 
-                </ng-container>
-                
             </div>
 
         </mat-grid-list>
+
+        <div *ngIf="!doneloading" class="spinner" id="spinner"><mat-spinner></mat-spinner></div>
+
 
     <training-buddy-navbar></training-buddy-navbar>
 
