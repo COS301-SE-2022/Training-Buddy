@@ -322,9 +322,7 @@ export class TrainingBuddyServiceService {
                 res =  await this.repoService.makeConnection(userEmail, otherEmail);
                 item.message = "Success Connection made"
                 return item;
-            }
-           
-    
+            }   
     }
     /**
      * 

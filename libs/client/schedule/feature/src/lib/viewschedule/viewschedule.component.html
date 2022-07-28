@@ -47,14 +47,18 @@
                                 {{workout?.organiser}} <br>
                                 {{workout?.startDate.time}} <br>
                                 <mat-icon> location_on</mat-icon>
-                                {{ workout?.startPoint }}
+                                <!-- <p class="truncate" >
+                                    {{ workout?.startPoint }}
+                                </p> -->
+                                {{ (workout?.startPoint.length>20)? (workout?.startPoint | slice:0:20)+'...':(workout?.startPoint) }}
                             </mat-hint>
                             </div>
                         </div>
+                       
                     </div>
                     <div>
-                        <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiserEmail, workout?.id)">	<mat-icon>check</mat-icon></button>
-                        <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiserEmail, workout?.id)">	<mat-icon>close</mat-icon></button>
+                        <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiser, workout?.id)">	<mat-icon>check</mat-icon></button>
+                        <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiser, workout?.id)">	<mat-icon>close</mat-icon></button>
                     </div>
         
                 </div>

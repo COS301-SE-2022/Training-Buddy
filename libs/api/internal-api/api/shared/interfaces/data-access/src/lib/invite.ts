@@ -1,5 +1,6 @@
 import { ResponseWorkout } from './response-workout'
 import {ObjectType , Field } from '@nestjs/graphql'
+import { UserEntity } from './user.entity'
 
 @ObjectType()
 export class Invite {
