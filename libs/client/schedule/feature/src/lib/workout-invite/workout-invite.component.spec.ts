@@ -1,37 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { MatDialog } from '@angular/material/dialog';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
-import firebase = require('firebase/compat');
 import { CookieService } from 'ngx-cookie-service';
+import { WorkoutInviteComponent } from './workout-invite.component';
 
-import { WorkoutComponent } from './workout.component';
-
-describe('WorkoutComponent', () => {
-  let component: WorkoutComponent;
-  let fixture: ComponentFixture<WorkoutComponent>;
+describe('WorkoutInviteComponent', () => {
+  let component: WorkoutInviteComponent;
+  let fixture: ComponentFixture<WorkoutInviteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkoutComponent ],
+      declarations: [ WorkoutInviteComponent ],
       imports: [
         UiModule,
-        RouterTestingModule,
+        MatDialogModule
       ],
       providers: [
         Apollo,
-        MatDialog,
         CookieService,
-        { provide: FIREBASE_OPTIONS, useValue:firebase }
-      ],
+        MAT_DIALOG_DATA,
+        MatDialogRef
+      ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkoutComponent);
+    fixture = TestBed.createComponent(WorkoutInviteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
+import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
 
 @Component({
   selector: 'training-buddy-workout',
@@ -17,7 +19,8 @@ export class WorkoutComponent implements OnInit {
   workout : any;
   workoutID !: string;
   email : string;
-  constructor(private activated : ActivatedRoute, private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage){
+
+  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog){
     this.email = cookieService.get('email');
   } 
   
@@ -111,6 +114,17 @@ export class WorkoutComponent implements OnInit {
       year: date.getFullYear(),
       time: formattedDate,
     }
+  }
+
+  openDialog(): void {
+  const dialogRef = this.dialog.open(WorkoutInviteComponent, {
+    width: '250px',
+    data: this.workoutID
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+  });
   }
   
 }
