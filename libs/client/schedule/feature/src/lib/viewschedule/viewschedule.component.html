@@ -40,13 +40,14 @@
                     <div class="row align-content cursor" (click)="fullWorkoutDetails(workout?.id)">
                         <div class="my-2 eventpic" [ngStyle]="{'background-image': 'url(' +  workout?.image + ')'}"></div>
                         <div class="ml-6">
-                            <div><h2>{{ workout?.name }} </h2></div>
+                            <div><h2>{{workout?.name}} </h2></div>
                             <div> 
 
                             <mat-hint>
                                 {{workout?.organiser}} <br>
                                 {{workout?.startDate.time}} <br>
-                                <mat-icon> location_on</mat-icon>{{ workout?.startPoint }}
+                                <mat-icon> location_on</mat-icon>
+                                {{ workout?.startPoint }}
                             </mat-hint>
                             </div>
                         </div>
@@ -85,7 +86,10 @@
                             <div> 
                             <mat-hint>
                                 {{workout?.startDate.time}} <br>
-                                <mat-icon> location_on</mat-icon>{{ workout?.startPoint }}
+                                <mat-icon> location_on</mat-icon>
+                                <p class="truncate" >
+                                    {{ workout?.startPoint }}
+                                </p>
                             </mat-hint>
                             </div>
                         </div>
