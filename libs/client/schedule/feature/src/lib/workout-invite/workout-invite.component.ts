@@ -79,9 +79,17 @@ export class WorkoutInviteComponent implements OnInit {
       
         this.buddiesOriginal.map((el : any, i : number) => {
           if (el.email == email) {
-            this.buddiesOriginal.splice(i, 1);
-            this.buddies = this.buddiesOriginal;
-            console.log('here');
+            if(this.buddyCount == 1){
+              this.buddiesOriginal = null;
+              this.buddies = null;
+              this.buddyCount = 0;
+              this.noBuddies = true;
+            }
+            else{
+              this.buddiesOriginal.splice(i, 1);
+              this.buddies = this.buddiesOriginal;
+              console.log('here');
+            }
           }
         });
         if(data.data.sendInvite.message == "Failure"){
