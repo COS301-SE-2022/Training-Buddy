@@ -32,6 +32,8 @@
 
             </div>
 
+
+
             <div id="recBuddies" class="m-8 mt-2" *ngIf="doneloading">
     
                 <h1 class="text-center">Recommended</h1>
@@ -58,7 +60,7 @@
                     <div *ngFor="let usr of buddies" class="mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
                         <div class="md:flex cursor">
                             <div class="md:shrink-0">
-                                <img routerLink="/profile/{{usr.id}}" class="h-48 w-full object-cover md:h-full md:w-48" src={{getImage(usr)}}>
+                                <img routerLink="/profile/{{usr.id}}" class="h-48 w-full object-cover md:h-full md:w-48" src={{usr.image}}>
                             </div>
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">

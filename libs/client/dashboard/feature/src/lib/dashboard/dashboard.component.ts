@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { tap } from 'rxjs';
+import { resolve } from 'path';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -11,7 +12,6 @@ import { tap } from 'rxjs';
 })
 
 export class DashboardComponent implements OnInit {
-  ref!: AngularFireStorageReference;
   requests : any = [];
   oldBuddies : any[] = [];
   buddies : any[] = [];
@@ -19,9 +19,7 @@ export class DashboardComponent implements OnInit {
   pendingrequests = false;
   doneloading = false;
   noBuddies : boolean;
-
   email : string;
-
   constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore, private afStorage: AngularFireStorage) { 
     this.noBuddies = true;
     this.email = this.cookieService.get('email');
@@ -39,49 +37,59 @@ export class DashboardComponent implements OnInit {
           }
         }
         `,
-      }).subscribe({
-        next: (data: any) => {
-          // console.log(data);
-        },
-        error: (err : any) => {
-          // console.log(err);
-        }
-      });
+      }).subscribe();
   }
 
   ifPendingRequests() : boolean {
     return this.requests == null;
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
 
     this.getBuddieRecommended().subscribe({
-      next: (data : any) => {
+      next: async (data : any) => {
         const filter = this.removeOverlapConnections(data.data.findAll);
-        this.buddies = filter;
-        this.oldBuddies = filter;
-        if (this.buddies.length != 0)
-          this.noBuddies = false;
-        this.doneloading = true;
+        // await this.fetchImages(filter);
+        await this.fetchImages(filter).then((o) => {
+          this.buddies = o;
+          console.log('buddies', o)
+          if (this.buddies.length != 0)
+            this.noBuddies = false;
+          this.doneloading = true;
+        })
+        this.oldBuddies = await this.fetchImages(filter);
+        
       }
     });
-
-    // old method through Graphqql
-    // this.getIncomingRequests().subscribe({
-    //   next: (data: any) => {
-    //     console.log(data)
-    //     this.pendingrequests = false;
-    //     this.requests = data.data.getIncoming;
-    //     if (this.requests.length != 0)
-    //       this.pendingrequests = true;
-    //   }
-    // });
 
     this.firestore.collection('BuddyRequests').valueChanges().subscribe(resp => {
       this.requests = this.getUsersFromRequests(this.filterIncoming(resp));
       this.outgoingRequests = this.filterOutgoing(resp);
     });
 
+  }
+
+  fetchImages(data : any) {
+   return new Promise<any>((res, rej) => {
+    const o : any[] = [];
+    data.forEach((usr : any) => {
+      this.afStorage
+        .ref(`UserProfileImage/${usr.id}`)
+        .getDownloadURL()
+        .pipe(
+          tap((url : any) => {
+            const image = {image : url};
+            const p = {
+              ...usr,
+              ...image
+            }
+            console.log('p', p)
+            o.push(p);
+          })
+        ).subscribe();
+    });
+    res(o);
+   })
   }
 
   //remove paired buddies
@@ -112,7 +120,7 @@ export class DashboardComponent implements OnInit {
   }
 
   //Get Incoming Requests login
-  getUsersFromRequests(requests : any[]) : any[] {
+  async getUsersFromRequests(requests : any[]) {
     const o : any[] = [];
     this.firestore.collection('Users').valueChanges().subscribe(resp => {
       requests.map((req : any) => {
@@ -124,7 +132,7 @@ export class DashboardComponent implements OnInit {
         });
       });
     });
-    return o;
+    return await this.fetchImages(o);
   }
 
   filterIncoming(data : any) : any[] {
@@ -359,14 +367,18 @@ export class DashboardComponent implements OnInit {
       return el.metrics[attr] == 1;
     });
   }
-  getImage(user : any ){
+  
+  async getImage(user : any ){
     // this.ref = this.afStorage.ref("UserProfileImage/"+user.id);
     // this.ref.getDownloadURL()
-    // .pipe(tap()).subscribe((downloadURL) => {
-    //  console.log(downloadURL)
-    //     return downloadURL;
-    //  });
+    // .pipe(
+    //   tap((el : any) => {
+    //     console.log(el);
+    //   })
+    // ).subscribe().unsubscribe();
    
+    // console.log(await this.afStorage.ref("UserProfileImage/"+user.id).getDownloadURL().);
+
   }
 
 }
