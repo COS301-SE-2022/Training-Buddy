@@ -27,6 +27,7 @@ export class ViewscheduleComponent implements OnInit {
   } 
   ngOnInit(): void {
     this.getData(this.email);
+ 
   }
  
   getWorkouts(email: string){
@@ -39,7 +40,28 @@ export class ViewscheduleComponent implements OnInit {
             id,
             startTime,
             organiser,
-            participants,
+            participants{
+              userName,
+              userSurname,
+              location,
+              longitude,
+              latitude,
+              stravaToken,
+              dob,
+              gender,
+              email,
+              cellNumber,
+              id,
+              bio,
+              metrics{
+                lift,
+                run,
+                swim,
+                ride
+              },
+              buddies,
+              distance
+            },
             activityType,
             startPoint,
             proposedDistance,
@@ -62,7 +84,28 @@ export class ViewscheduleComponent implements OnInit {
                 id,
                 startTime,
                 organiser,
-                participants,
+                participants{
+                  userName,
+                  userSurname,
+                  location,
+                  longitude,
+                  latitude,
+                  stravaToken,
+                  dob,
+                  gender,
+                  email,
+                  cellNumber,
+                  id,
+                  bio,
+                  metrics{
+                    lift,
+                    run,
+                    swim,
+                    ride
+                  },
+                  buddies,
+                  distance
+                },
                 activityType,
                 startPoint,
                 proposedDistance,
@@ -109,6 +152,10 @@ export class ViewscheduleComponent implements OnInit {
 
         const dated: any[][] = [[]];
         let x = 0;
+        if(swap.length<=0){
+          this.invitesAvailable = false;
+        }
+        if(swap.length>0){
         let currentday = swap[0].startDate.day;
         
         for(let w = 0; w < swap.length; w++  ){
@@ -129,6 +176,7 @@ export class ViewscheduleComponent implements OnInit {
         }
       
       }
+    }
     })
     //to do api call to get the schedule workouts
     this.getWorkouts(email).subscribe({
@@ -145,6 +193,12 @@ export class ViewscheduleComponent implements OnInit {
 
           const dated: any[][] = [[]];
           let x = 0;
+          
+          if(swap.length<=0){
+            this.upcomingEvents = false ;
+            this.loading = false;
+            return;
+          }
           let currentday = swap[0].startDate.day;
           
           for(let w = 0; w < swap.length; w++  ){
@@ -180,7 +234,7 @@ export class ViewscheduleComponent implements OnInit {
       name: data.workout.title,
       id: data.workout.id,
       startPoint: data.workout.startPoint,
-      startDate: this.startDateTime(data.workout.startTime),
+      startDate: this.startDateTime(data.workout.startDate),
       image: this.image(data.workout.activityType)
     }
   }
@@ -203,7 +257,7 @@ export class ViewscheduleComponent implements OnInit {
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
-    // console.log(formattedDate);
+ 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
    
     return{

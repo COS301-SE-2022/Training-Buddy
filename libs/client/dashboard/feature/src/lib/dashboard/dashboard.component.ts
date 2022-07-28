@@ -358,5 +358,8 @@ export class DashboardComponent implements OnInit {
       return el.metrics[attr] == 1;
     });
   }
+  getImage(user : any ){
+    console.log(user)
+  }
 
 }
