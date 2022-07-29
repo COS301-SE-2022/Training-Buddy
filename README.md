@@ -14,7 +14,7 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 ## Video Demo Links
 [Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing) <br />
 [Demo 2 Video](https://drive.google.com/file/d/16HGM6abDNq-PTmbMsWscwEkMdnlFbey5/view) <br />
-[Demo 3 Video]() 
+[Demo 3 Video](https://drive.google.com/file/d/1QhfkF6Se2Vh7Useu7G4fC1lsxzP24H38/view) 
 
 ## SRS Documentation 
 [SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation) <br />
