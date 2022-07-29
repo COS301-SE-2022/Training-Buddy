@@ -30,11 +30,11 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 [Coding Standards V2.0]()
 
 ## User Manual
-[User Manual V1.0]() <br />
-[User Manual V2.0]()
+[User Manual V1.0](https://drive.google.com/file/d/1e91Brcpey9gcpRX7sWTTVkQFFI2ISfT_/view?usp=sharing) <br />
+[User Manual V2.0](https://drive.google.com/file/d/1eVV3DswPrMxBuh9t8f9dCcnYcHnR4ijP/view?usp=sharing)
 
 ## Techical Installation Manual
-[Technical Installation Manual V1.0]()
+[Technical Installation Manual V1.0](https://drive.google.com/file/d/1S1eTzJuTcUshSHsP_U5ZVLyc221xTdLc/view?usp=sharing)
 
 ## Project Board
 [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
