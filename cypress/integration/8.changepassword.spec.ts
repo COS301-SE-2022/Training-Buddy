@@ -55,7 +55,7 @@ describe('training-buddy-client-changepassword-feature', () => {
       cy.get('.mat-toolbar-row > .mat-icon').click()
     })
 
-    it.only('should navigate to login', () => {
+    it('should navigate to login', () => {
       cy.visit('/settings')
 
       cy.get(':nth-child(6) > .mat-card').click()

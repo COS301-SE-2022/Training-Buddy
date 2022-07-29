@@ -1,4 +1,4 @@
-describe('training-buddy-client-athlete-profile-feature', () => {
+describe.only('training-buddy-client-athlete-profile-feature', () => {
 
     it('should try to save without updates', () => {
 
