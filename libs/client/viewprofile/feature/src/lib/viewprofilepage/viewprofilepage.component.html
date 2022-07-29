@@ -70,7 +70,7 @@
 
                         <!-- buddy component -->
                         <ng-container *ngIf="toggle">
-                            <div *ngIf="!noBuddies && buddiesLoaded" [@fadeIn]>
+                            <div *ngIf="buddyCount !== 0 && buddiesLoaded" [@fadeIn]>
                                 <mat-form-field class="mt-3" appearance="outline">
                                     <mat-label>Search</mat-label>
                                     <input id="search" matInput placeholder="Afternoon Run..." name="search" (focus)="showBuddiesClear()" (blur)="hideBuddiesClear()" #buddySearchBox (input)="searchBuddies(buddySearchBox)">
