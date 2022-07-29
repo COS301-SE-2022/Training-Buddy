@@ -165,10 +165,6 @@ export class ViewprofilepageComponent implements OnInit {
         });
         this.buddiesOriginal = this.buddies;
         this.buddiesLoaded = true;
-        this.buddyCount = this.buddies.length;
-        if (this.buddyCount == 0) {
-          this.noBuddies = true;
-        }
       }
     })
 
@@ -186,7 +182,7 @@ export class ViewprofilepageComponent implements OnInit {
           if (this.logs.length == 0) {
             this.noLogs = true;
           }
-          console.log('activities', this.logs);
+          // console.log('activities', this.logs);
         },
       }
     );
@@ -194,7 +190,8 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   fetchImages(data : any[]) : Promise<any> {
-    console.log(data);
+    // console.log(data);
+    this.buddyCount = 0;
     return new Promise<any>((res, rej) => {
      const o : any[] = [];
      data.forEach((usr : any) => {
@@ -208,8 +205,9 @@ export class ViewprofilepageComponent implements OnInit {
                ...usr,
                ...image
              }
-             console.log(p)
-             o.push(p);
+            //  console.log(p)
+              ++this.buddyCount;
+              o.push(p);
            })
          ).subscribe();
      });
