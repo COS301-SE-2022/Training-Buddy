@@ -8,14 +8,10 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(@Inject(Router) private router : Router) { }
+  // constructor(@Inject(Router) private router : Router) { }
 
   ngOnInit(): void {
-    console.log();
-  }
-
-  route(path : string) {
-    this.router.navigate([path]);
+    return;
   }
 
 }

@@ -6,6 +6,7 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,9 @@ import { Apollo } from 'apollo-angular';
     SignupComponent,
   ],
   providers: [
-    FormBuilder, Apollo
+    FormBuilder, 
+    Apollo,
+    CookieService
   ]
 })
 export class ClientSignupFeatureModule {}

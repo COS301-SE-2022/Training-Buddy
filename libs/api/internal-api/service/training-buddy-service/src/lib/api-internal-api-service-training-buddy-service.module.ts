@@ -5,6 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { LoginGuard } from './login.guard';
 import { JwtStrategy } from './jwt-strategy';
 import { JwtAuthGuard} from './jwt-auth.guard';
+import {CollaborativeFilter} from 'collaborative-filter'
 import { JwtModule } from '@nestjs/jwt';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 import {UserEntity} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';

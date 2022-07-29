@@ -4,22 +4,30 @@ import { UnsignednavbarComponent } from './unsignednavbar/unsignednavbar.compone
 import { SignedComponent } from './signed/signed.component';
 import { MaterialModule } from './material.module';
 import { NavbarComponent } from './navbar/navbar.component';
+import { SettingsnavbarComponent } from './settingsnavbar/settingsnavbar.component';
+import { RouterModule } from '@angular/router';
+import { BacknavbarComponent } from './backnavbar/backnavbar.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
+    RouterModule
   ],
   declarations: [
     UnsignednavbarComponent,
     SignedComponent,
-    NavbarComponent
+    NavbarComponent,
+    SettingsnavbarComponent,
+    BacknavbarComponent
   ],
   exports: [
     UnsignednavbarComponent,
     SignedComponent,
     MaterialModule,
-    NavbarComponent
+    NavbarComponent,
+    SettingsnavbarComponent,
+    BacknavbarComponent
   ]
 })
 export class UiModule {}

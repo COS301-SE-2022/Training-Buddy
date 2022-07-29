@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/uploadprofileimage/feature",
+  "sourceRoot": "libs/client/uploadprofileimage/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/uploadprofileimage/feature"],
+      "options": {
+        "jestConfig": "libs/client/uploadprofileimage/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/uploadprofileimage/feature/src/**/*.ts",
+          "libs/client/uploadprofileimage/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

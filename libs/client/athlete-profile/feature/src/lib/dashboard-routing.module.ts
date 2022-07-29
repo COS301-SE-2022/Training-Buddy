@@ -7,6 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: AthleteprofileComponent
+  },
+
+  {
+    path: ':flag',
+    component: AthleteprofileComponent
   }
 
 ];

@@ -1,0 +1,88 @@
+#addbutton {
+    background-color: #1b1a1b !important;
+    position: fixed;
+    top: 80%;
+    left: 80%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#pagespinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.eventpic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1b1a1b;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.align-content {
+    align-items: center;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}
+
+
+
+//buddy component css
+mat-form-field {
+    display: block;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+
+mat-spinner {
+    margin: auto;
+}
+
+h2 {
+    margin-bottom: 0% !important
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-content {
+    align-items: center;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+}

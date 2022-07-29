@@ -4,6 +4,7 @@ import { AddmanualactivityComponent } from './addmanualactivity/addmanualactivit
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { AddManualActivityRoutingModule } from './addmanualactivity-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -15,5 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AddmanualactivityComponent
   ],
+  providers: [
+    CookieService
+  ]
 })
 export class ClientAddmanualactivityFeatureModule {}

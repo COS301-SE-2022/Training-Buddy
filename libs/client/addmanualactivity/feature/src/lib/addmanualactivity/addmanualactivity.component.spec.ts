@@ -1,4 +1,3 @@
-import { OverlayModule } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -7,6 +6,7 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
 import { AddmanualactivityComponent } from './addmanualactivity.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {CookieService} from 'ngx-cookie-service';
 
 describe('AddmanualactivityComponent', () => {
   let component: AddmanualactivityComponent;
@@ -23,6 +23,7 @@ describe('AddmanualactivityComponent', () => {
       ],
       providers: [
         Apollo,
+        CookieService
       ],
       declarations: [ AddmanualactivityComponent ]
     })

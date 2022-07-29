@@ -63,8 +63,14 @@
       "@training-buddy/client/athlete-profile/feature": [
         "libs/client/athlete-profile/feature/src/index.ts"
       ],
+      "@training-buddy/client/changepassword/feature": [
+        "libs/client/changepassword/feature/src/index.ts"
+      ],
       "@training-buddy/client/dashboard/feature": [
         "libs/client/dashboard/feature/src/index.ts"
+      ],
+      "@training-buddy/client/editprofile/feature": [
+        "libs/client/editprofile/feature/src/index.ts"
       ],
       "@training-buddy/client/example/feature": [
         "libs/client/example/feature/src/index.ts"
@@ -72,8 +78,11 @@
       "@training-buddy/client/login/feature": [
         "libs/client/login/feature/src/index.ts"
       ],
-      "@training-buddy/client/profile/feature": [
-        "libs/client/profile/feature/src/index.ts"
+      "@training-buddy/client/pagenotfound": [
+        "libs/client/pagenotfound/src/index.ts"
+      ],
+      "@training-buddy/client/schedule/feature": [
+        "libs/client/schedule/feature/src/index.ts"
       ],
       "@training-buddy/client/scheduleworkout/feature": [
         "libs/client/scheduleworkout/feature/src/index.ts"
@@ -102,8 +111,17 @@
       "@training-buddy/client/strava/feature": [
         "libs/client/strava/feature/src/index.ts"
       ],
+      "@training-buddy/client/uploadprofileimage/feature": [
+        "libs/client/uploadprofileimage/feature/src/index.ts"
+      ],
+      "@training-buddy/client/viewprofile/feature": [
+        "libs/client/viewprofile/feature/src/index.ts"
+      ],
       "@training-buddy/shared/services/authentication/data-access/src/lib/image-generator": [
         "libs/client/shared/services/authentication/data-access/src/lib/image-generator.service"
+      ],
+      "@training-buddy/environment" : [
+        "apps/client/src/environments/environment.ts"
       ]
     }
   },

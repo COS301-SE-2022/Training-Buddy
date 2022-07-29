@@ -1,3 +1,6 @@
 {
-    "vsicons.presets.nestjs": true
+    "vsicons.presets.nestjs": true,
+    "cSpell.words": [
+        "metricact"
+    ]
 }

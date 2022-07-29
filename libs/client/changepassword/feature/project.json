@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/client/changepassword/feature",
+  "sourceRoot": "libs/client/changepassword/feature/src",
+  "prefix": "training-buddy",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/changepassword/feature"],
+      "options": {
+        "jestConfig": "libs/client/changepassword/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/changepassword/feature/src/**/*.ts",
+          "libs/client/changepassword/feature/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
