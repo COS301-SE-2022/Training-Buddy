@@ -23,7 +23,7 @@ describe('training-buddy-client-athlete-profile-feature', () => {
 
     });
 
-    it.skip('should allow user to logout', () => {
+    it('should allow user to logout', () => {
 
         cy.get(':nth-child(6) > .mat-card').click()
         
