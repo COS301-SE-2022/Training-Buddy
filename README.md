@@ -13,23 +13,32 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 
 ## Video Demo Links
 [Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing) <br />
-[Demo 2 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing)
+[Demo 2 Video](https://drive.google.com/file/d/16HGM6abDNq-PTmbMsWscwEkMdnlFbey5/view) <br />
+[Demo 3 Video](https://drive.google.com/file/d/1QhfkF6Se2Vh7Useu7G4fC1lsxzP24H38/view) 
 
 ## SRS Documentation 
 [SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation) <br />
-[SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view)
+[SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view) <br />
+[SRS Documentation V3.0]() 
 
 ## Architectural Requirements Documentation
-[Architectural Requirements Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view)
+[Architectural Requirements Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view) <br />
+[Architectural Requirements Documentation V2.0]()
 
 ## Coding Standards
-[Coding Standards V1.0](https://drive.google.com/file/d/1g6UESbQdgPT59G09W2i9J_fzj0e0kqNq/view)
+[Coding Standards V1.0](https://drive.google.com/file/d/1g6UESbQdgPT59G09W2i9J_fzj0e0kqNq/view) <br />
+[Coding Standards V2.0]()
+
+## User Manual
+[User Manual V1.0]() <br />
+[User Manual V2.0]()
+
+## Techical Installation Manual
+[Technical Installation Manual V1.0]()
 
 ## Project Board
 [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
 
-## Testing 
-[Testing Board](https://github.com/COS301-SE-2022/Training-Buddy/wiki/Testing)
 <br />
 ## Group Members
 
