@@ -18,20 +18,16 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 
 ## SRS Documentation 
 [SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation) <br />
-[SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view) <br />
-[SRS Documentation V3.0]() 
+[SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view) <br /> 
 
 ## Architectural Requirements Documentation
 [Architectural Requirements Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view) <br />
-[Architectural Requirements Documentation V2.0]()
 
 ## Coding Standards
 [Coding Standards V1.0](https://drive.google.com/file/d/1g6UESbQdgPT59G09W2i9J_fzj0e0kqNq/view) <br />
-[Coding Standards V2.0]()
 
 ## User Manual
 [User Manual V1.0]() <br />
-[User Manual V2.0]()
 
 ## Techical Installation Manual
 [Technical Installation Manual V1.0]()
