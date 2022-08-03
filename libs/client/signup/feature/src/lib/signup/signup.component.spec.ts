@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SignupComponent } from './signup.component';
 import { Apollo } from 'apollo-angular';
+import { CookieService } from 'ngx-cookie-service';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -20,7 +21,8 @@ describe('SignupComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        Apollo
+        Apollo,
+        CookieService
       ]
     })
     .compileComponents();

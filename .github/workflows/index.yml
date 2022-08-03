@@ -3,7 +3,7 @@ name: CI Tests
 
 on: 
   pull_request:
-    branches: [ main, develop, release/** ]
+    branches: [ develop, main ] #branches: [ main, develop, release/** ]
   #manual github action trigger with choices to run individual tests
   workflow_dispatch:
     inputs:
@@ -17,6 +17,7 @@ on:
         - build
         - unit
         - e2e
+        - all
 
 #jobs in the workflow with passed in parameters
 jobs:
@@ -47,3 +48,9 @@ jobs:
     with:
       test: 'affected'
       testtype: 'e2e'
+
+  test-all:
+    uses: ./.github/workflows/nxtest.yml
+    if: ${{ github.event.inputs.testchoice == 'all'}}
+    with:
+      test: 'all'

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'training-buddy-signup',
@@ -21,8 +21,8 @@ export class SignupComponent implements OnInit {
   longitude : number;
   vicinity : string;
 
-  constructor(private frm : FormBuilder, private apollo: Apollo, @Inject(Router) private router : Router) {
-    this.img = 'https://images.unsplash.com/photo-1530143311094-34d807799e8f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80';
+  constructor(private frm : FormBuilder, private apollo: Apollo, @Inject(Router) private router : Router, private cookieService: CookieService) {
+    this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     
     //injections
     this.frmBuilder = frm;
@@ -65,46 +65,29 @@ export class SignupComponent implements OnInit {
     const userDOB = this.signupFrm.controls['userDOB'].value;
     const userCellNumber = this.signupFrm.controls['userCellNumber'].value;
     const userGender = this.signupFrm.controls['userGender'].value;
-    ///////////////////////
     //global vars with location
     //this.longitude
     //this.latitude
     ///////////////////////
 
-    ////////////////
-    //testing values
-    // console.log(userNameSurname);
-    // console.log(userEmail);
-    // console.log(userPassword);
-    // console.log(userDOB );
-    // console.log(userCellNumber);
-    // console.log(userGender);
-    // console.log(this.latitude);
-    // console.log(this.longitude);
-    ////////////////
-
-    ///////////////////////
-    //API CALL HERE........
-    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity).then(res => {
-      // console.log(res);
-      //send to configureprofile
-      this.router.navigate(['/configureprofile']);
-    });
-    ///////////////////////
+    this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude)
+    .subscribe({
+      next: (data : any) => {
+        this.cookieService.set('id', data.data.signup.message);
+        this.cookieService.set('email', userEmail);
+        this.router.navigate(['/configureprofile']);
+      }
+    })
 
   }
 
-  ///////////////////////
-  //API CALL RETURN PROMISE
-  querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string) {
-
-    //TODO: Update the mutation to send through user location as GPS points
+  querySignup(userNameSurname : string, userEmail : string, userPassword : string, userDOB : string, userCellNumber : string, userGender : string, location : string, longitude :number , latitude :number ) {
 
     const userName = userNameSurname.split(' ')[0];
     const userSurname = userNameSurname.split(' ')[1];
-    return new Promise((resolve, _) => {
-      if (!(this.apollo.client === undefined))
-      this.apollo
+    const stravatokenTest= "myToken";
+
+    return this.apollo
         .mutate ({
           mutation: gql`
             mutation{
@@ -117,27 +100,23 @@ export class SignupComponent implements OnInit {
                 cellNumber: "${userCellNumber}",
                 password: "${userPassword}",
                 dob: "${userDOB}"
+                longitude: ${longitude}
+                latitude: ${latitude}
+                stravaToken: "${stravatokenTest}"
               }){
-                userName
+                message
               }
             }
           `,
         })
-        .subscribe ((result) => {
-          resolve(result);
-        });
-    });
   }
-  ///////////////////////
 
-  /////////////////////////////////////////////////////////////////
   //Google geocoding functions
   onAutocompleteSelected(event : any) {
     this.vicinity = event.vicinity;
   }
 
   onLocationSelected(event: any) {
-    //TO be used when moving to co-ordinate based location system.
     if (event != null) {
       this.latitude = event.latitude;
       this.longitude = event.longitude;

@@ -1,16 +1,17 @@
-<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+<!-- <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}"> -->
 
-    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+    <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
+    <training-buddy-back-navbar title="Add Activity"></training-buddy-back-navbar>
     
-    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
+    <mat-grid-list cols="1" rows="1" rowHeight="2:1" >
     
-        <mat-card>
+        <mat-card id="grid">
     
             <mat-card-content>
     
               <form [formGroup]="manualForm">
     
-                <h1 class="text-center">Add Activity Entry</h1>
+                <!-- <h1 class="text-center">Add Activity Entry</h1> -->
 
                 <!-- activity name -->
                 <mat-form-field appearance="outline">
@@ -47,12 +48,12 @@
 
                     <mat-form-field appearance="outline" class="col-span-1">
                         <mat-label>Minutes</mat-label>
-                        <input formControlName="minutes" id="minutes" matInput type="number"name="minutes">
+                        <input formControlName="minutes" id="minutes" matInput type="number" name="minutes">
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="col-span-1 ml-1">
                         <mat-label>Secs</mat-label>
-                        <input formControlName="seconds" id="seconds" matInput type="number"name="seconds">
+                        <input formControlName="seconds" id="seconds" matInput type="number" name="seconds">
                     </mat-form-field>
 
                 </div>
@@ -97,4 +98,4 @@
 
     <training-buddy-navbar></training-buddy-navbar>
     
-</div>
+<!-- </div> -->

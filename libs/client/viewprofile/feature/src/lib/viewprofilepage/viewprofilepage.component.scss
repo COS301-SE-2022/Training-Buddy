@@ -1,0 +1,160 @@
+#pagespinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#childspinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.animation-perform {
+    will-change: auto;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #1b1a1b;
+}
+
+.cont {
+    padding-bottom: 1px;
+}
+
+#container {
+    max-width: 400px;
+    width: 100%;
+    margin: 2em auto;
+    background-color: rgba(255, 255, 255, 1);
+    margin-bottom: 150px !important;
+}
+
+.padding {
+    padding: 20px !important;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.hrlight {
+    height: 1.5px;
+    background-color: #e4e6eb;
+    border: none;
+}
+
+.hrdark {
+    height: 1.5px;
+    background-color: #1b1a1b !important;
+    border: none;
+    // width:
+}
+
+.text-center {
+    text-align: center;
+}
+
+.logInLink:hover {
+    cursor: pointer;
+}
+
+h1, h3 {
+    margin-bottom: 0%;
+}
+
+h4 {
+    margin-bottom: 3%;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    margin-bottom: -1.25em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.statscol {
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.statsblock {
+    width: 70%;
+}
+
+p {
+    word-break: break-all;
+    white-space: normal;
+}
+
+#profilepic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
+}
+
+//buddy component css
+mat-form-field {
+    display: block;
+}
+
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+
+mat-spinner {
+    margin: auto;
+}
+
+h2 {
+    margin-bottom: 0% !important
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-content {
+    align-items: center;
+}
+
+.buddypic {
+    background-color: rgba(27, 26, 27, 0.075);
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 5% !important;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,79 @@
+<div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+
+    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+    
+    <mat-grid-list cols="1" rowHeight="fit">
+    
+        <mat-grid-tile>
+    
+          <mat-card>
+    
+            <mat-card-content>
+    
+                <form [formGroup]="uploadfrm" (ngSubmit)="upload($event)">
+
+                    <!-- file input -->
+                    <div class="fileupload mr-3 ml-3 mb-3">
+              
+                      <div class="text-center"><h1 id="title">Profile Image</h1></div>
+              
+                      <div class="w-full">
+              
+                        <div class="infotag text-center">Select or Drag and Drop your files</div>
+              
+                          <div  id="fileuploaddiv" class="my-2" [ngStyle]="{'background-image': 'url(' + url + ')'}">
+
+                              <!-- drag and drop file input -> thumbnail -->
+                              <!-- <input id="file" type="file" class="block w-full text-sm text-slate-600
+                                file:py-1 file:px-1
+                                file:rounded file:border-0
+                                file:text-sm
+                                py-8
+                                h-500
+                              "
+                                formControlName="thumbnail"
+                                [ngClass]="{'is-invalid': submit && uploadfrm.controls['thumbnail'].errors}"
+                                (change)="onFileUpload($event)"
+                              /> -->
+                                <div id="profileicon" *ngIf="!showuploaded"><mat-icon>person_outline</mat-icon></div>
+
+                                <div class="mt-2 infotext text-center" *ngIf="!showuploaded">Drag and drop <br /> or <br /> click here to select...</div>
+
+                                <input id="fileupload" name="fileupload" #uploadinput type="file" (change)="fileattatched($event)" formControlName="image" accept="image/x-png,image/gif,image/jpeg">
+                                <!-- <label for="fileupload"> this is the label </label> -->
+
+
+                          </div>
+                          <div *ngIf="showfilename" class="text-right error mb-1">
+                            {{ filename }}
+                          </div>
+                          <!-- no file selected error -->
+                          <div *ngIf="submit && fileuploadflag" class="text-right error mb-1">
+                            {{ fileuploaderror }}
+                          </div>
+              
+                          <button id="uploadbutton"  type="submit" class="text-center" mat-raised-button color="primary">Upload</button>
+
+                      </div>
+                    </div>
+              
+                    <!-- buttons, CANCEL and UPLOAD -->
+                    <!-- <div>
+                      <div class="grid grid-cols-2 place-content-center pb-3">
+                        <div class="flex justify-center"><button class="py-2.5 px-3 formbuttonblue rounded" (click)="cancelUpload()">Cancel</button></div>
+                        <div class="flex justify-center"><div *ngIf="loadwheel" class="loader"></div><button class="py-2.5 px-3 formbuttonblue rounded" type="submit">Submit</button></div>
+                      </div>
+                    </div> -->
+              
+                  </form>
+              
+    
+            </mat-card-content>
+    
+          </mat-card>
+    
+        </mat-grid-tile>
+    
+    </mat-grid-list>
+    
+    </div>

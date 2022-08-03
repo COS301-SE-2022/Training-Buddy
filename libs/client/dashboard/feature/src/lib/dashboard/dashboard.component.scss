@@ -3,6 +3,10 @@
     margin-bottom: 8px;
 }
 
+.configurelink {
+    text-decoration: underline !important;
+}
+
 mat-card {
     max-width: 600px;
     width: 90vw;
@@ -30,13 +34,63 @@ mat-icon:hover {
     cursor: pointer;
 }
 
+.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #000000;
+}
+
+.dynamic {
+    will-change: opacity;
+}
+
+#spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 #accept {
     color: rgb(42, 122, 42);
     font-size: 28px;
-
 }
 
 #reject {
     color: rgb(207, 63, 63);
     font-size: 28px;
+}
+
+#filter {
+    width: 100% !important;
+}
+
+#noresults {
+    width: 100% !important;
+}
+
+p {
+    word-break: break-all;
+    white-space: normal;
+    margin: 0px !important;
+    margin-bottom: 1% !important;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.card-c {
+    width: 100% !important;
+}
+
+.request-buttons > button {
+    width: 96% !important;
+}
+
+.flex-end {
+    justify-content: end !important;
+}
+
+.action-color {
+    color: white;
+    background-color: #1b1a1b7c !important;
 }

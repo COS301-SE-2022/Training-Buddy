@@ -42,10 +42,10 @@ const routes: Routes = [
   },
 
   {
-    path: 'profile',
+    path: 'editprofile',
     loadChildren: () =>
-      import('@training-buddy/client/profile/feature').then(
-        m => m.ClientProfileFeatureModule
+      import('@training-buddy/client/editprofile/feature').then(
+        m => m.ClientEditprofileFeatureModule
       ),
   },
 
@@ -86,6 +86,46 @@ const routes: Routes = [
     loadChildren: () =>
       import ('@training-buddy/client/addmanualactivity/feature').then(
         m => m.ClientAddmanualactivityFeatureModule
+      )
+  },
+
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('@training-buddy/client/viewprofile/feature').then(
+        m => m.ClientViewprofileFeatureModule
+      )
+  },
+
+  {
+    path: 'uploadimage',
+    loadChildren: () =>
+      import('@training-buddy/client/uploadprofileimage/feature').then(
+        m => m.ClientUploadprofileimageFeatureModule
+      )
+  },
+
+  {
+    path: 'changepassword',
+    loadChildren: () =>
+      import('@training-buddy/client/changepassword/feature').then(
+        m => m.ClientChangepasswordFeatureModule
+      )
+  },
+
+  {
+    path: 'schedule',
+    loadChildren: () =>
+      import('@training-buddy/client/schedule/feature').then(
+        m => m.ClientScheduleFeatureModule
+      )
+  },
+
+  {
+    path: '**',
+    loadChildren: () =>
+      import('@training-buddy/client/pagenotfound').then(
+        m => m.ClientPagenotfoundModule
       )
   }
 
