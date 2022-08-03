@@ -2,7 +2,7 @@ name: 'Meta Test'
 
 on: 
   pull_request:
-    branches: [ develop]
+    branches: [ develop, main]
     types: [ opened, reopened, labeled ]
 
 jobs:
