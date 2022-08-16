@@ -8,10 +8,18 @@ import { emit, send } from 'process';
 import { async } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
+import { Observable } from 'rxjs';
 import fs = require('fs') ;
+import {writeBatch} from 'firebase/firestore' ;
+
+//import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
+
+    // constructor(private fs : AngularFirestore) {
+
+    // }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
@@ -40,7 +48,9 @@ export class ApiInternalApiRepositoryDataAccessService {
             latitude : user.latitude,
             location : user.location,
             password : user.password,
-            buddies: []
+            buddies: [],
+            signUpStage : 0,
+            ratings: []
         }
 
         await this.usersCollection.doc().set(data)
@@ -161,7 +171,8 @@ export class ApiInternalApiRepositoryDataAccessService {
                 liftGroup: liftGroup
             },
             distance : userConfig.distance,
-            bio : userConfig.bio 
+            bio : userConfig.bio,
+            signUpStage: 1
         }
 
         return this.usersCollection.where('email', '==', userConfig.email).get().then(async (result) => {
@@ -170,6 +181,15 @@ export class ApiInternalApiRepositoryDataAccessService {
             }) ;
             return false ; 
         })
+    }
+
+    async addRating(@Param() email: string, @Param() rating: number){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({rating: this.arrayUnion(rating)}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })  
     }
 
     async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
@@ -338,6 +358,27 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
+    async logManyActivities(@Param() logs: ActivityLog[]){
+        const batch = firestore().batch() ;
+        logs.forEach(log => {
+
+            const data = {
+                user: log.email,
+                activityType: log.activityType,
+                dateComplete: log.dateCompleted,
+                distance: log.distance,
+                name: log.name,
+                speed: log.speed,
+                time: log.time
+            }
+
+            let docRef = this.activityLogsCollection.doc() ;
+            batch.set(docRef, data) ;
+        });
+
+        batch.commit() ;
+    }
+
     //activity logs - READ
     async getLogs(@Param() email: string){
         const logs = [] ;
@@ -382,7 +423,10 @@ export class ApiInternalApiRepositoryDataAccessService {
                 requests.push(doc.data());
             });
         });
-        return requests ;
+        return requests;
+        
+        //return this.fs.collection('BuddyRequests', ref => ref.where('receiver', '==', email)).valueChanges();
+               
     }
 
     //outgoing
