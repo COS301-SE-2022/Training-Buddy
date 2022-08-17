@@ -8,6 +8,7 @@ import BTree from 'sorted-btree'
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
+   
     
    
     /**
@@ -695,6 +696,22 @@ export class TrainingBuddyServiceService {
                 }})
     }     
     return recommended;
+    }
+     /**
+     * 
+     * @param workoutID 
+     * @returns ErrorMessage
+     */
+      async completeWorkout(workoutID: string) {
+        const val = await this.repoService.completeWorkout(workoutID);
+        const item = new ErrorMessage;
+       if(val==null) {
+           item.message = "failure"
+           return item;
+       }else{
+              item.message = "success"
+              return item;
+       }
     }
   
 

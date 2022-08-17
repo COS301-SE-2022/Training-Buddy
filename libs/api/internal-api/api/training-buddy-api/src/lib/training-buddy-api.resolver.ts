@@ -214,6 +214,15 @@ export class TrainingBuddyApiResolver {
     }
     /**
      * 
+     * @param workoutID 
+     * @returns 
+     */
+    @Mutation(()=>ErrorMessage)
+    completeWorkout(@Args("workoutID")workoutID:string){
+        return this.trainingBuddyService.completeWorkout(workoutID);
+    }
+    /**
+     * 
      * @param userEmail 
      * @returns 
      */
