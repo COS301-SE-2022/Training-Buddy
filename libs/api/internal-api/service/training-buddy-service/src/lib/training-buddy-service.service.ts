@@ -40,8 +40,18 @@ export class TrainingBuddyServiceService {
      * @returns Promise UserEntity
      */
     async findOne(email: string): Promise<any>{
+        let total = 0;
 
-        return await this.repoService.login(email)
+        const person =  await this.repoService.login(email);
+        if(person){
+            if(person.ratings.length > 0){
+                    person.ratings.forEach(element => {
+                        total += element;
+                });
+                person.ratings = total/person.ratings.length;
+            }
+        }
+        return person;
     }
     /**
      * 
