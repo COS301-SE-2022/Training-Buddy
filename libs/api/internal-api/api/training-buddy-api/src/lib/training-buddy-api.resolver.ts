@@ -58,6 +58,7 @@ export class TrainingBuddyApiResolver {
     }
     @Query(()=>UserEntity)
     getOne(@Args("email")email:string){
+       
         return this.trainingBuddyService.findOne(email);
     }
     /**
