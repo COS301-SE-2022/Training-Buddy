@@ -50,7 +50,8 @@ export class ApiInternalApiRepositoryDataAccessService {
             password : user.password,
             buddies: [],
             signUpStage : 0,
-            ratings: []
+            ratings: [],
+            rating: 0
         }
 
         await this.usersCollection.doc().set(data)
