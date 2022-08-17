@@ -372,7 +372,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 time: log.time
             }
 
-            let docRef = this.activityLogsCollection.doc() ;
+            const docRef = this.activityLogsCollection.doc() ;
             batch.set(docRef, data) ;
         });
 
