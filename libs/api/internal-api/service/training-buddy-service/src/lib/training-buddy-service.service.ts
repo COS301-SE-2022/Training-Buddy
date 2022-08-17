@@ -9,6 +9,7 @@ import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/i
 @Injectable()
 export class TrainingBuddyServiceService {
    
+   
     
    
     /**
@@ -712,6 +713,18 @@ export class TrainingBuddyServiceService {
               item.message = "success"
               return item;
        }
+    }
+    async addRating(userEmail: string, rating: number) {
+        const val = await this.repoService.addRating(userEmail, rating);
+        const item = new ErrorMessage;
+         if(val==false) {
+           item.message = "failure"
+           return item;
+        }
+        else{
+            item.message = "success"
+            return item;
+        }
     }
   
 

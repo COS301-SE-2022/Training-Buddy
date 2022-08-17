@@ -230,6 +230,10 @@ export class TrainingBuddyApiResolver {
     getWorkoutHistory(@Args("email")userEmail:string){
         return this.trainingBuddyService.getWorkoutHistory(userEmail);
     }
+    @Mutation(()=>ErrorMessage)
+    addRating(@Args("email")userEmail:string, @Args("rating")rating:number){
+        return this.trainingBuddyService.addRating(userEmail, rating);
+    }
     /**
      * 
      * @param userEmail 
