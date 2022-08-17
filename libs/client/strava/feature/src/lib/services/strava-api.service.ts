@@ -43,9 +43,7 @@ export class StravaAPIService {
   }
 
   getUserToken() {
-
     this.loading = true;
-
     const params = new HttpParams()
     .set('client_id', this.client_id)
     .set('client_secret', this.client_secret)
@@ -64,16 +62,16 @@ export class StravaAPIService {
             next: data => {
               // console.log(data);
               //redirect to the login
-              this.router.navigate(['dashboard']);
+              //this.router.navigate(['dashboard']);
             },
             error: err => {
               //push error to page here
             }
           });
           ///////////
-          // this.getActivities();
+          this.getActivities();
         },
-        error: err => {
+        error: (err : any) => {
           this.userToken = null;
         }
       }
@@ -106,23 +104,21 @@ export class StravaAPIService {
     //Api calls can be made for specific acitivity types in the future if required
     //to get after a date add ?after=x as a parameter where x=a epoch timestamp to return all activities after the date x.
 
-    this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=10&access_token=' + this.userToken.access_token).subscribe(
+    this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=200&access_token=' + this.userToken.access_token).subscribe(
       {
-        next: (data : any) => {
+        next: data => {
 
-          let count = 0;
-          
-          data.map((el : any) => {
-            this.sendActivity(el).subscribe(
-              {
-                next: (data : any) => {
-                  count++;
-                  if (count == 9)
-                    this.router.navigate(['dashboard']);
-                }
-              }
-            )
-          })
+          //data to be sent to api:
+          console.log(data);
+
+          ///////////
+          //
+          //  API call to add users latest activities to the database go here
+          //
+          //
+          //  After: Redirection to the dashboard will occour here
+          //
+          ///////////
 
         },
         error: err => {
