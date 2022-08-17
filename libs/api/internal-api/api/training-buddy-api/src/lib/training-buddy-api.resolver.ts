@@ -216,6 +216,15 @@ export class TrainingBuddyApiResolver {
      * 
      * @param userEmail 
      * @returns 
+     */
+    @Query(()=>[ResponseWorkout])
+    getWorkoutHistory(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getWorkoutHistory(userEmail);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
      * tested
      */
     @Query(()=>[ResponseLogs])
@@ -378,6 +387,7 @@ export class TrainingBuddyApiResolver {
         const val = pubsub.asyncIterator("getWorkoutSub")
         return val;
     }
+
 
 
 
