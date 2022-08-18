@@ -58,6 +58,7 @@ export class TrainingBuddyApiResolver {
     }
     @Query(()=>UserEntity)
     getOne(@Args("email")email:string){
+       
         return this.trainingBuddyService.findOne(email);
     }
     /**
@@ -211,6 +212,28 @@ export class TrainingBuddyApiResolver {
     @Query(()=>[ResponseWorkout])
     getScheduleWorkout(@Args("email")userEmail:string){
         return this.trainingBuddyService.getScheduleWorkout(userEmail);
+    }
+    /**
+     * 
+     * @param workoutID 
+     * @returns 
+     */
+    @Mutation(()=>ErrorMessage)
+    completeWorkout(@Args("workoutID")workoutID:string){
+        return this.trainingBuddyService.completeWorkout(workoutID);
+    }
+    /**
+     * 
+     * @param userEmail 
+     * @returns 
+     */
+    @Query(()=>[ResponseWorkout])
+    getWorkoutHistory(@Args("email")userEmail:string){
+        return this.trainingBuddyService.getWorkoutHistory(userEmail);
+    }
+    @Mutation(()=>ErrorMessage)
+    addRating(@Args("email")userEmail:string, @Args("rating")rating:number){
+        return this.trainingBuddyService.addRating(userEmail, rating);
     }
     /**
      * 
@@ -378,6 +401,7 @@ export class TrainingBuddyApiResolver {
         const val = pubsub.asyncIterator("getWorkoutSub")
         return val;
     }
+
 
 
 
