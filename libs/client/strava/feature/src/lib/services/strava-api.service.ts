@@ -55,10 +55,12 @@ export class StravaAPIService {
         next: data => {
           this.userToken = data;
           console.log(data);
-          ////////////
+          
           const access = this.userToken.access_token; //used to query the API
           const refresh = this.userToken.refresh_token; //used to get a access_token
-          this.sendTokens(access, refresh).subscribe({
+          const exp = this.userToken.expires_at; //used to show expiry of the access_token
+
+          this.sendTokens(access, refresh, exp).subscribe({
             next: data => {
               // console.log(data);
               //redirect to the login
@@ -68,8 +70,9 @@ export class StravaAPIService {
               //push error to page here
             }
           });
-          ///////////
-          this.getActivities();
+          
+          //this.getActivities();
+
         },
         error: (err : any) => {
           this.userToken = null;
@@ -79,47 +82,28 @@ export class StravaAPIService {
 
   }
 
-  sendTokens(access: string, refresh: string) {
+  sendTokens(access: string, refresh: string, exp : number) {
     return this.apollo
       .mutate({
         mutation: gql`mutation{
           saveTokens(
             email: "${this.cookie.get('email')}",
             access: "${access}",
-            refresh: "${refresh}"
+            refresh: "${refresh}",
+            exp: "${exp}"
         ){
           message
         }
         }
         `,
       });
-
   }
 
   getActivities() {
-
-    //NOTE the per_page is used to regulate the size of pages returned in an array of arrays of 100 objects:
-    //i.e. 200 activities = [ [ 0 - 99 ] , [ 100 - 199 ] ]
-
-    //Api calls can be made for specific acitivity types in the future if required
-    //to get after a date add ?after=x as a parameter where x=a epoch timestamp to return all activities after the date x.
-
     this.http.get('https://www.strava.com/api/v3/athlete/activities?per_page=200&access_token=' + this.userToken.access_token).subscribe(
       {
         next: data => {
-
-          //data to be sent to api:
           console.log(data);
-
-          ///////////
-          //
-          //  API call to add users latest activities to the database go here
-          //
-          //
-          //  After: Redirection to the dashboard will occour here
-          //
-          ///////////
-
         },
         error: err => {
           console.log(err);
@@ -154,30 +138,6 @@ export class StravaAPIService {
 
   isLoading() : boolean {
     return this.loading;
-  }
-
-  sendActivity(data : any) {
-
-    // const email = 'muziwandile@gmail.com';
-    const email = this.cookie.get('email');
-    return this.apollo
-      .mutate({
-        mutation: gql`mutation{
-          activityLog(Activitylog: {
-            name: "${data.name}",
-            distance: ${data.distance},
-            speed: ${data.average_speed},
-            time: ${data.moving_time},
-            dateCompleted: "${data.start_date}",
-            activityType: "${data.sport_type}",
-            email: "${email}",
-        }){
-          message
-        }
-        }
-         
-        `,
-      });
   }
 
 }
