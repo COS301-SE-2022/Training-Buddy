@@ -8,19 +8,30 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import * as admin from "firebase-admin"
-import * as dotenv from "dotenv";
-async function bootstrap() {
-  const serviceAccount = require('./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json')
-
+import {ExpressAdapter, NestExpressApplication} from '@nestjs/platform-express';
+import * as express from 'express';
+import * as functions from 'firebase-functions';
+const serviceAccount = require('./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json')
+const server: express.Express = express();
+export const createNestServer = async (expressInstance: express.Express) => {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId:process.env.PROJECT_ID,
-      privateKey: process.env.PRIVATE_KEY,
-      clientEmail: process.env.CLIENT_MAIL
-      
-    }),
+    credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.DATABASE_URL,
   });
+  const adapter = new ExpressAdapter(expressInstance);
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule, adapter, {},
+  );
+  app.enableCors();
+  return app.init();
+};
+createNestServer(server)
+  .then(v => console.log('Nest Ready'))
+  .catch(err => console.error('Nest broken', err));
+export const api: functions.HttpsFunction = functions.https.onRequest(server);
+async function bootstrap() {
+ 
+
 
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
