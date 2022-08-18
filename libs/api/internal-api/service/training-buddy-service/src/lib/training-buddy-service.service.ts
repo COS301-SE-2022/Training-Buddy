@@ -9,6 +9,9 @@ import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/i
 @Injectable()
 export class TrainingBuddyServiceService {
    
+   
+    
+   
     /**
      * 
      * @param jwtService 
@@ -37,8 +40,18 @@ export class TrainingBuddyServiceService {
      * @returns Promise UserEntity
      */
     async findOne(email: string): Promise<any>{
+        let total = 0;
 
-        return await this.repoService.login(email)
+        const person =  await this.repoService.login(email);
+        if(person){
+            if(person.ratings.length > 0){
+                    person.ratings.forEach(element => {
+                        total += element;
+                });
+                person.ratings = total/person.ratings.length;
+            }
+        }
+        return person;
     }
     /**
      * 
@@ -403,6 +416,22 @@ export class TrainingBuddyServiceService {
     /**
      * 
      * @param userEmail 
+     * @return [ResponseWorkout]
+     */
+    async getWorkoutHistory(userEmail: string) {
+        let arr =[];
+        const user = await this.findOne(userEmail);
+         if(!user){
+            return arr;
+        }
+        else{
+            arr = await this.repoService.getWorkoutHistory(userEmail);
+            return arr;
+        }
+    }
+    /**
+     * 
+     * @param userEmail 
      * @return [userEntities]
      */
     async getConnections(userEmail: string) {
@@ -678,6 +707,34 @@ export class TrainingBuddyServiceService {
                 }})
     }     
     return recommended;
+    }
+     /**
+     * 
+     * @param workoutID 
+     * @returns ErrorMessage
+     */
+      async completeWorkout(workoutID: string) {
+        const val = await this.repoService.completeWorkout(workoutID);
+        const item = new ErrorMessage;
+       if(val==null) {
+           item.message = "failure"
+           return item;
+       }else{
+              item.message = "success"
+              return item;
+       }
+    }
+    async addRating(userEmail: string, rating: number) {
+        const val = await this.repoService.addRating(userEmail, rating);
+        const item = new ErrorMessage;
+         if(val==false) {
+           item.message = "failure"
+           return item;
+        }
+        else{
+            item.message = "success"
+            return item;
+        }
     }
   
 
