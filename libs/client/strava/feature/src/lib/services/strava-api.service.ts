@@ -90,7 +90,7 @@ export class StravaAPIService {
             email: "${this.cookie.get('email')}",
             access: "${access}",
             refresh: "${refresh}",
-            exp: "${exp}"
+            exp: ${Number(exp)}
         ){
           message
         }

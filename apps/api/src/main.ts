@@ -9,6 +9,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import * as admin from "firebase-admin"
 import * as dotenv from "dotenv";
+import { HttpClient } from '@angular/common/http';
 async function bootstrap() {
   const serviceAccount = require('./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json')
 
