@@ -1,4 +1,4 @@
-import { Injectable, Param } from '@nestjs/common';
+import { HttpStatus, Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
@@ -11,15 +11,11 @@ import uuid = require('uuid') ;
 import { Observable } from 'rxjs';
 import fs = require('fs') ;
 import {writeBatch} from 'firebase/firestore' ;
+import axios from 'axios';
 
-//import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
-
-    // constructor(private fs : AngularFirestore) {
-
-    // }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
@@ -51,7 +47,9 @@ export class ApiInternalApiRepositoryDataAccessService {
             buddies: [],
             signUpStage : 0,
             ratings: [],
-            rating: 0
+            stravaAccess: null,
+            stravaRefresh: null,
+            exp: null            
         }
 
         await this.usersCollection.doc().set(data)
@@ -104,10 +102,11 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //user - SAVE STRAVA TOKENS
 
-    async saveTokens(@Param() email: string, access: string, refresh: string){
+    async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number){
         const data = {
             stravaAccess: access,
-            stravaRefresh: refresh
+            stravaRefresh: refresh,
+            exp: exp
         }
 
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
@@ -381,7 +380,41 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //activity logs - READ
+    async getActivities(accessToken : any) {
+        return new Promise((resolve, reject) => {
+
+            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=200&access_token=' + accessToken).then((res : any) => {
+                resolve(res);
+            });
+
+        });
+      }
+
     async getLogs(@Param() email: string){
+
+        //get users strava tokens
+        const user = await this.login(email) ;
+
+        //check if token is expired
+        
+        let access = user.stravaAccess ;
+        console.log(access) ;
+        console.log("hello")
+        // if((user.exp < Date.now())){
+        //     //get new token
+        // }else {
+        //     access = user.stravaAccess ;
+        //     console.log(access) ;
+        // }
+
+        //fetch strava activities
+        this.getActivities(access).then((activities : any) => {
+            console.log(activities) ;
+        }) ;
+
+        //add strava activities
+
+
         const logs = [] ;
         await this.activityLogsCollection.where('user', '==', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
