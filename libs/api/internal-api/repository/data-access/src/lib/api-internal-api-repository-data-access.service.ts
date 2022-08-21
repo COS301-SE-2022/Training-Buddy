@@ -383,7 +383,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async getActivities(accessToken : any) {
         return new Promise((resolve, reject) => {
 
-            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=200&access_token=' + accessToken).then((res : any) => {
+            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=30&access_token=' + accessToken).then((res : any) => {
                 resolve(res);
             });
 
@@ -394,23 +394,22 @@ export class ApiInternalApiRepositoryDataAccessService {
 
         //get users strava tokens
         const user = await this.login(email) ;
+        console.log(user.exp) ;
+        console.log(Date.now()/1000) ;
+        console.log((user.exp < Date.now()/1000)) ;
 
         //check if token is expired
         
         let access = user.stravaAccess ;
-        console.log(access) ;
-        console.log("hello")
-        // if((user.exp < Date.now())){
-        //     //get new token
-        // }else {
-        //     access = user.stravaAccess ;
-        //     console.log(access) ;
-        // }
+        if((user.exp < Date.now()/1000)){
+            //get new token
+            console.log("expired");
+        }
 
         //fetch strava activities
-        this.getActivities(access).then((activities : any) => {
-            console.log(activities) ;
-        }) ;
+        // this.getActivities(access).then((activities : any) => {
+        //     console.log(activities) ;
+        // }) ;
 
         //add strava activities
 
