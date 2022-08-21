@@ -392,7 +392,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async getActivities(accessToken : any) {
         return new Promise((resolve, reject) => {
 
-            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=30&access_token=' + accessToken).then((res : any) => {
+            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=10&access_token=' + accessToken).then((res : any) => {
                 resolve(res);
             });
 
@@ -415,22 +415,56 @@ export class ApiInternalApiRepositoryDataAccessService {
     async getLogs(@Param() email: string){
 
         //get users strava tokens
-        const user = await this.login(email) ;
+        let user = await this.login(email) ;
 
         //check if token is expired
-        
-        if((user.strava.exp > Date.now()/1000)){
+        if((user.strava.exp < Date.now()/1000)){
             //get new token
-            console.log("expired");
             await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
                 this.updateAccessToken(access.data.access_token, user.email) ;
             });
         }
 
+        user = await this.login(email) ;
+        const access = user.strava.stravaAccess ;
+
         //fetch strava activities
-        // this.getActivities(access).then((activities : any) => {
-        //     console.log(activities) ;
-        // }) ;
+        this.getActivities(access).then((activities : any) => {
+            //console.log(activities.data) ;
+
+            activities.data.forEach(activity => {
+
+                let valid = false ;
+                let type = "" ;
+                if(activity.type == "Run"){
+                    valid = true ;
+                    type = "run" ;
+                }else if(activity.type == "Ride"){
+                    valid = true ;
+                    type = "ride" ;
+                }else if(activity.type == "Swim"){
+                    valid = true ;
+                    type = "swim" ;
+                }else if(activity.type == "Workout"){
+                    valid = true ;
+                    type = "lift" ;
+                }
+
+                if(valid){
+                    const date = new Date(activity.start_date).valueOf() ;
+                    const log = {
+                        user: user.email,
+                        activityType: type,
+                        dateComplete: date/1000,
+                        distance: activity.distance,
+                        name: activity.name,
+                        speed: activity.average_speed,
+                        time: activity.moving_time
+                    }
+                    console.log(log) ;
+                }
+            });
+        }) ;
 
         //add strava activities
 
