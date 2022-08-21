@@ -402,7 +402,10 @@ export class ApiInternalApiRepositoryDataAccessService {
     async getNewToken(refreshToken : any, clientId: any, clientSecret: any) {
         return new Promise((resolve, reject) => {
 
-            axios.post('https://www.strava.com/api/v3/oauth/token?client_id=' + clientId + '&client_secret=' + clientSecret + '&grant_type=refresh_token&refresh_token=' + refreshToken).then((res : any) => {
+            const payload = {'client_id': clientId, 'client_secret': clientSecret, 'grant_type': 'refresh_token', 'refresh_token': refreshToken} ;
+
+
+            axios.post('https://www.strava.com/api/v3/oauth/token', payload).then((res : any) => {
                 resolve(res);
             });
 
@@ -416,12 +419,12 @@ export class ApiInternalApiRepositoryDataAccessService {
 
         //check if token is expired
         
-        let access = user.strava.stravaAccess ;
-        if((user.strava.exp < Date.now()/1000)){
+        if((user.strava.exp > Date.now()/1000)){
             //get new token
             console.log("expired");
             await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
-                await this.updateAccessToken(access, user.email) ;
+                //this.updateAccessToken(access, user.email) ;
+                console.log(access.data.access_token) ;
             });
         }
 
