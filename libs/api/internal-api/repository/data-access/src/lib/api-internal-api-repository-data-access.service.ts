@@ -332,7 +332,14 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
-
+    async updateAccessToken(@Param() token: string, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"strava.stravaAccess": token}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
 
     //user - DELETE
     
@@ -406,16 +413,16 @@ export class ApiInternalApiRepositoryDataAccessService {
 
         //get users strava tokens
         const user = await this.login(email) ;
-        console.log(user.exp) ;
-        console.log(Date.now()/1000) ;
-        console.log((user.exp < Date.now()/1000)) ;
 
         //check if token is expired
         
-        let access = user.stravaAccess ;
-        if((user.exp < Date.now()/1000)){
+        let access = user.strava.stravaAccess ;
+        if((user.strava.exp < Date.now()/1000)){
             //get new token
             console.log("expired");
+            await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
+                await this.updateAccessToken(access, user.email) ;
+            });
         }
 
         //fetch strava activities
