@@ -46,10 +46,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             password : user.password,
             buddies: [],
             signUpStage : 0,
-            ratings: [],
-            stravaAccess: null,
-            stravaRefresh: null,
-            exp: null            
+            ratings: [],           
         }
 
         await this.usersCollection.doc().set(data)
@@ -102,11 +99,16 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //user - SAVE STRAVA TOKENS
 
-    async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number){
+    async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number, @Param() clientId: any, @Param() clientSecret: any){
         const data = {
+
+            strava: {
             stravaAccess: access,
             stravaRefresh: refresh,
-            exp: exp
+            exp: exp,
+            clientId: clientId,
+            clientSecret: clientSecret
+            }
         }
 
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
@@ -388,7 +390,17 @@ export class ApiInternalApiRepositoryDataAccessService {
             });
 
         });
-      }
+    }
+
+    async getNewToken(refreshToken : any, clientId: any, clientSecret: any) {
+        return new Promise((resolve, reject) => {
+
+            axios.post('https://www.strava.com/api/v3/oauth/token?client_id=' + clientId + '&client_secret=' + clientSecret + '&grant_type=refresh_token&refresh_token=' + refreshToken).then((res : any) => {
+                resolve(res);
+            });
+
+        });
+    }
 
     async getLogs(@Param() email: string){
 

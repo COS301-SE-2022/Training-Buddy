@@ -59,10 +59,12 @@ export class StravaAPIService {
           const access = this.userToken.access_token; //used to query the API
           const refresh = this.userToken.refresh_token; //used to get a access_token
           const exp = this.userToken.expires_at; //used to show expiry of the access_token
+          const clientId = this.client_id ;
+          const clientSecret = this.client_secret ;
 
-          this.sendTokens(access, refresh, exp).subscribe({
+          this.sendTokens(access, refresh, exp, clientId, clientSecret).subscribe({
             next: data => {
-              // console.log(data);
+              console.log(data);
               //redirect to the login
               //this.router.navigate(['dashboard']);
             },
@@ -82,7 +84,7 @@ export class StravaAPIService {
 
   }
 
-  sendTokens(access: string, refresh: string, exp : number) {
+  sendTokens(access: string, refresh: string, exp : number, clientId : string, clientSecret : string) {
     return this.apollo
       .mutate({
         mutation: gql`mutation{
@@ -90,7 +92,9 @@ export class StravaAPIService {
             email: "${this.cookie.get('email')}",
             access: "${access}",
             refresh: "${refresh}",
-            exp: ${Number(exp)}
+            exp: ${Number(exp)},
+            clientId: "${clientId}",
+            clientSecret: "${clientSecret}"
         ){
           message
         }
