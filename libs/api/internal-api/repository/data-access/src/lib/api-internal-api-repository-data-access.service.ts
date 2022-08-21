@@ -367,14 +367,14 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
-    async logManyActivities(@Param() logs: ActivityLog[]){
+    async logManyActivities(@Param() logs: any[]){
         const batch = firestore().batch() ;
         logs.forEach(log => {
 
             const data = {
-                user: log.email,
+                user: log.user,
                 activityType: log.activityType,
-                dateComplete: log.dateCompleted,
+                dateComplete: log.dateComplete,
                 distance: log.distance,
                 name: log.name,
                 speed: log.speed,
@@ -432,6 +432,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         this.getActivities(access).then((activities : any) => {
             //console.log(activities.data) ;
 
+            const logs = [] ;
             activities.data.forEach(activity => {
 
                 let valid = false ;
@@ -461,13 +462,14 @@ export class ApiInternalApiRepositoryDataAccessService {
                         speed: activity.average_speed,
                         time: activity.moving_time
                     }
-                    console.log(log) ;
+                    //console.log(log) ;
+                    logs.push(log) ;
                 }
             });
+
+            //log strava activities
+            this.logManyActivities(logs) ;
         }) ;
-
-        //add strava activities
-
 
         const logs = [] ;
         await this.activityLogsCollection.where('user', '==', email).get().then(async (querySnapshot) =>{
