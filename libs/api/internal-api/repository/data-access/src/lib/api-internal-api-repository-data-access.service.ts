@@ -423,8 +423,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             //get new token
             console.log("expired");
             await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
-                //this.updateAccessToken(access, user.email) ;
-                console.log(access.data.access_token) ;
+                this.updateAccessToken(access.data.access_token, user.email) ;
             });
         }
 
