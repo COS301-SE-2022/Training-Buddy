@@ -2,9 +2,7 @@
 
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 <div *ngIf="!loading" class="px-4"> 
-    <div *ngIf="!upcomingEvents && !invitesAvailable" class="my-6">
-        <mat-hint class="text-center">No workouts scheduled</mat-hint>
-    </div>
+   
     <!-- <div *ngFor="let workout of workouts" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
                             
         <div class="m-3 row space-between align-content">
@@ -67,9 +65,69 @@
         
     </div>
   
-    <div  *ngIf="upcomingEvents" class="px-4">
+    <!-- Add the choice to pick the workout history -->
+    <!-- Page toggle -->
+    <div class="row space-around mt-5">
+        <div class="fullwidth text-center">
+            <h4 (click)="toggleUpcomingWorkouts()" class="link" #toggleCurrentWorkouts>Upcoming workouts</h4>
+            <ng-container *ngIf="toggle"><hr class="hrdark animation-perform" [@swipeLeft] /></ng-container>
+            <ng-container *ngIf="!toggle"><hr class="hrlight animation-perform" /></ng-container>
+        </div>
+        <div class="fullwidth text-center">
+            <h4 (click)="toggleWorkoutHistory()" class="link" #togglWorkoutHistory>History</h4>
+            <ng-container *ngIf="toggle"><hr class="hrlight animation-perform" /></ng-container>
+            <ng-container *ngIf="!toggle" ><hr class="hrdark animation-perform" [@swipeRight]/></ng-container>
+        </div>
+    </div>
+    <ng-container *ngIf="toggle">
+        <div *ngIf="!upcomingEvents" class="my-6">
+            <mat-hint class="text-center">No workouts scheduled</mat-hint>
+        </div>
+        <div  *ngIf="upcomingEvents" class="px-4">
+            <h2 class="text-center">
+                Upcoming Workouts
+            </h2>
+            <!-- for date -->
+            <div *ngFor="let day of workouts">
+                <div class="text-center ">
+                    <h2>
+                        {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
+                    </h2>
+    
+                </div>
+                <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3" (click)="fullWorkoutDetails(workout?.id)">
+                                
+                    <div class="m-3 row space-between align-content">
+            
+                        <div class="row align-content cursor" >
+                            <div class="my-2 eventpic" [ngStyle]="{'background-image': 'url(' +  workout?.image + ')'}"></div>
+                            <div class="ml-6">
+                                <div><h2>{{ workout?.name }} </h2></div>
+                                <div> 
+                                <mat-hint>
+                                    {{workout?.startDate.time}} <br>
+                                    <mat-icon> location_on</mat-icon>
+                                    <p class="truncate" >
+                                        {{ workout?.startPoint }}
+                                    </p>
+                                </mat-hint>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!toggle">
+        <div *ngIf="!upcomingEvents" class="my-6">
+            <mat-hint class="text-center">Workouts you finish will apear here.</mat-hint>
+        </div>
+        <div  *ngIf="upcomingEvents" class="px-4">
         <h2 class="text-center">
-            Upcoming Workouts
+            Workout History
         </h2>
         <!-- for date -->
         <div *ngFor="let day of workouts">
@@ -104,6 +162,8 @@
         </div>
       
     </div>
+    </ng-container>
+    
         <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
             <mat-icon>add</mat-icon>
         </button>
