@@ -533,7 +533,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         const workouts = [] ;
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                if(doc.data().startTime < Date.now())
+                if(doc.data().startTime < Date.now()/1000)
                     workouts.push(doc.data());
             });
         });

@@ -70,10 +70,12 @@ export class ViewscheduleComponent implements OnInit {
 
   // constructor() { }
   upcomingEvents = false;
+  pastEvents = false;
   loading = true;
   user!: any;
   workouts: any;
   workoutInvites: any;
+  workoutHistory: any;
   invitesAvailable = false;
   workoutsLoaded = false;
   workoutsCount = 0;
@@ -93,6 +95,24 @@ export class ViewscheduleComponent implements OnInit {
       query: gql`
         query{
           getScheduleWorkout(email: "${ email }"){
+            title,
+            id,
+            startTime,
+            activityType,
+            startPoint,
+            proposedDistance,
+            proposedDuration
+            }
+        }`,
+    })
+  }
+
+  getWorkoutHistory(email: string){
+    return this.apollo
+    .query({
+     query: gql`
+        query{
+          getWorkoutHistory(email: "${ email }"){
             title,
             id,
             startTime,
@@ -246,6 +266,47 @@ export class ViewscheduleComponent implements OnInit {
           // console.log(data)
       }
     })
+    this.getWorkoutHistory(email).subscribe({
+      next: (data : any) => {
+          const swap: any[] = [];
+          data.data.getWorkoutHistory.map((el : any) => {
+            swap.push(this.convertWorkoutToCard(el));
+          });
+          if(swap.length != 0){
+            swap.sort(function(a,b){
+              return a.startDate.timestamp - b.startDate.timestamp;
+            });
+  
+            const dated: any[][] = [[]];
+            let x = 0;
+            let currentday = swap[0].startDate.day;
+            
+            for(let w = 0; w < swap.length; w++  ){
+              if(swap[w].startDate.day == currentday){
+                dated[x].push(swap[w]);
+              }
+              else{
+                currentday = swap[w].startDate.day;
+                x++;
+                const temp: any[] = [];
+                dated.push(temp)
+                dated[x].push(swap[w]);
+              }
+            }
+          
+            // console.log(dated);
+            this.workoutHistory = dated;
+            if(this.workoutHistory.length != 0) {
+              this.pastEvents= true;
+            }
+          }
+          //sort the data.
+          
+          this.loading = false;
+          // console.log(data)
+      }
+        
+    })
   }
   convertInvitedToCard(data: any) : any{
     return{
@@ -370,7 +431,7 @@ export class ViewscheduleComponent implements OnInit {
   toggleUpcomingWorkouts(){
     this.toggle = true;
   }
-  
+
   toggleWorkoutHistory(){
     this.toggle = false;
   }
