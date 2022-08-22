@@ -122,15 +122,15 @@
         </div>
     </ng-container>
     <ng-container *ngIf="!toggle">
-        <div *ngIf="!upcomingEvents" class="my-6">
+        <div *ngIf="!pastEvents" class="my-6">
             <mat-hint class="text-center">Workouts you finish will apear here.</mat-hint>
         </div>
-        <div  *ngIf="upcomingEvents" class="px-4">
+        <div  *ngIf="pastEvents" class="px-4">
         <h2 class="text-center">
             Workout History
         </h2>
         <!-- for date -->
-        <div *ngFor="let day of workouts">
+        <div *ngFor="let day of workoutHistory">
             <div class="text-center ">
                 <h2>
                     {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
