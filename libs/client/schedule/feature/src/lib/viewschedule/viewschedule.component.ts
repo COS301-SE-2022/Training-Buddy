@@ -1,3 +1,4 @@
+import { trigger, transition, animate, keyframes, style } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,20 +8,79 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'training-buddy-view-schedule',
   templateUrl: './viewschedule.component.html',
-  styleUrls: ['./viewschedule.component.scss']
+  styleUrls: ['./viewschedule.component.scss'],
+   animations: [
+
+    trigger(
+      'swipeRight', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              transform: 'translate3d(-100%, 0, 0)',
+              visibility: 'visible'
+            }),
+            style({
+              transform: 'translate3d(0, 0, 0)'
+            })
+        ]))
+        ]),
+        transition(':leave', [
+          
+        ])
+      ]
+    ),
+
+    trigger(
+      'swipeLeft', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              transform: 'translate3d(100%, 0, 0)',
+              visibility: 'visible'
+            }),
+            style({
+              transform: 'translate3d(0, 0, 0)'
+            })
+        ]))
+        ]),
+        transition(':leave', [
+          
+        ])
+      ]
+    ),
+
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ])
+      ]
+    )
+
+  ]
 })
 export class ViewscheduleComponent implements OnInit {
 
   // constructor() { }
   upcomingEvents = false;
+  pastEvents = false;
   loading = true;
   user!: any;
   workouts: any;
   workoutInvites: any;
+  workoutHistory: any;
   invitesAvailable = false;
   workoutsLoaded = false;
   workoutsCount = 0;
   email : string;
+  toggle = true;
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private cookieService:CookieService){
     this.email = this.cookieService.get('email');
@@ -35,6 +95,24 @@ export class ViewscheduleComponent implements OnInit {
       query: gql`
         query{
           getScheduleWorkout(email: "${ email }"){
+            title,
+            id,
+            startTime,
+            activityType,
+            startPoint,
+            proposedDistance,
+            proposedDuration
+            }
+        }`,
+    })
+  }
+
+  getWorkoutHistory(email: string){
+    return this.apollo
+    .query({
+     query: gql`
+        query{
+          getWorkoutHistory(email: "${ email }"){
             title,
             id,
             startTime,
@@ -188,6 +266,47 @@ export class ViewscheduleComponent implements OnInit {
           // console.log(data)
       }
     })
+    this.getWorkoutHistory(email).subscribe({
+      next: (data : any) => {
+          const swap: any[] = [];
+          data.data.getWorkoutHistory.map((el : any) => {
+            swap.push(this.convertWorkoutToCard(el));
+          });
+          if(swap.length != 0){
+            swap.sort(function(a,b){
+              return a.startDate.timestamp - b.startDate.timestamp;
+            });
+  
+            const dated: any[][] = [[]];
+            let x = 0;
+            let currentday = swap[0].startDate.day;
+            
+            for(let w = 0; w < swap.length; w++  ){
+              if(swap[w].startDate.day == currentday){
+                dated[x].push(swap[w]);
+              }
+              else{
+                currentday = swap[w].startDate.day;
+                x++;
+                const temp: any[] = [];
+                dated.push(temp)
+                dated[x].push(swap[w]);
+              }
+            }
+          
+            // console.log(dated);
+            this.workoutHistory = dated;
+            if(this.workoutHistory.length != 0) {
+              this.pastEvents= true;
+            }
+          }
+          //sort the data.
+          
+          this.loading = false;
+          // console.log(data)
+      }
+        
+    })
   }
   convertInvitedToCard(data: any) : any{
     return{
@@ -307,4 +426,14 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
   }
+
+
+  toggleUpcomingWorkouts(){
+    this.toggle = true;
+  }
+
+  toggleWorkoutHistory(){
+    this.toggle = false;
+  }
+
 }
