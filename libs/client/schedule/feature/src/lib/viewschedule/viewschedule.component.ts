@@ -1,3 +1,4 @@
+import { trigger, transition, animate, keyframes, style } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +8,63 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'training-buddy-view-schedule',
   templateUrl: './viewschedule.component.html',
-  styleUrls: ['./viewschedule.component.scss']
+  styleUrls: ['./viewschedule.component.scss'],
+   animations: [
+
+    trigger(
+      'swipeRight', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              transform: 'translate3d(-100%, 0, 0)',
+              visibility: 'visible'
+            }),
+            style({
+              transform: 'translate3d(0, 0, 0)'
+            })
+        ]))
+        ]),
+        transition(':leave', [
+          
+        ])
+      ]
+    ),
+
+    trigger(
+      'swipeLeft', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              transform: 'translate3d(100%, 0, 0)',
+              visibility: 'visible'
+            }),
+            style({
+              transform: 'translate3d(0, 0, 0)'
+            })
+        ]))
+        ]),
+        transition(':leave', [
+          
+        ])
+      ]
+    ),
+
+    trigger(
+      'fadeIn', [
+        transition(':enter', [
+          animate(120, keyframes([
+            style({
+              opacity: '0'
+            }),
+            style({
+              opacity: '1'
+            })
+          ]))
+        ])
+      ]
+    )
+
+  ]
 })
 export class ViewscheduleComponent implements OnInit {
 
@@ -21,6 +78,7 @@ export class ViewscheduleComponent implements OnInit {
   workoutsLoaded = false;
   workoutsCount = 0;
   email : string;
+  toggle = true;
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private cookieService:CookieService){
     this.email = this.cookieService.get('email');
@@ -307,4 +365,14 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
   }
+
+
+  toggleUpcomingWorkouts(){
+    this.toggle = true;
+  }
+  
+  toggleWorkoutHistory(){
+    this.toggle = false;
+  }
+
 }
