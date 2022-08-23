@@ -378,11 +378,21 @@ export class ApiInternalApiRepositoryDataAccessService {
         return true ;
     }
 
+    async activityExists(@Param() id: number){
+        return await this.activityLogsCollection.where('id', '==', id).get().then(async (result) =>{
+            if(result.docs[0]){
+                console.log(result.docs[0]);
+                return true ;
+            }
+            return false ;
+        });
+    }
+
     //activity logs - READ
     async getActivities(accessToken : any) {
         return new Promise((resolve, reject) => {
 
-            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=10&access_token=' + accessToken).then((res : any) => {
+            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=20&access_token=' + accessToken).then((res : any) => {
                 resolve(res);
             });
 
@@ -417,7 +427,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 });
             }
 
-            user = await this.login(email) ;
+            user = await this.login(email) ; //BUG - this executes before updateAccessToken
             const access = user.strava.stravaAccess ;
 
             const toLog = [] ;
@@ -443,9 +453,17 @@ export class ApiInternalApiRepositoryDataAccessService {
                         type = "lift" ;
                     }
 
+                    //const exists = this.activityExists(activity.id) ;
+                    // if(this.activityExists(activity.id)){
+                    //     console.log("exists") ;
+                    //     valid = false ;
+                    // }
+
                     if(valid){
                         const date = new Date(activity.start_date).valueOf() ;
+                        console.log(activity) ;
                         const log = {
+                            id: activity.id,
                             user: user.email,
                             activityType: type,
                             dateComplete: date/1000,
@@ -604,7 +622,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         const workouts = [] ;
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                if(+doc.data().startTime >= +Date.now())
+                if(doc.data().startTime >= Date.now()/1000)
                     workouts.push(doc.data());
             });
         });
