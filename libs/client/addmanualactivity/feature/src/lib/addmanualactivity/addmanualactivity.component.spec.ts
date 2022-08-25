@@ -75,21 +75,35 @@ describe('AddmanualactivityComponent', () => {
      * Test calculateSpeed Function
      */
     describe('calculateSpeed', () => {
-      
-      it('should successfully calculate and return speed', () => {
-          const distance = 30;
-          const time = 5;
+      let distance, time, expectedValue;
 
-          const expectedValue = distance / time;
+      it('should successfully calculate and return speed', () => {
+          distance = 30;
+          time = 5
+
+          expectedValue = distance / time;
 
           expect(component.calculateSpeed(time, distance)).toEqual(expectedValue);
 
       });
-      
+
+      /**
+       * Test with negative values
+       */
+      // it('should not successfully calculate speed[throw exception]', () => {
+      //   distance = -30;
+      //   time = 5;
+
+      //   expectedValue = distance / time;
+
+      //   if (expectedValue < 0 || distance < 0 || time < 0) {
+      //     expectedValue = expectedValue * -1; 
+
+      //     expect(component.calculateSpeed(time, distance)).toEqual(expectedValue);
+        
+      //   }      
+      // });
 
     });
-
   });
-
-
 });
