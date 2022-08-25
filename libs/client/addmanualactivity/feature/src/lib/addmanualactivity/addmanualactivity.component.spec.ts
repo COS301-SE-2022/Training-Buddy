@@ -71,6 +71,24 @@ describe('AddmanualactivityComponent', () => {
       
     // });
 
+    /**
+     * Test calculateSpeed Function
+     */
+    describe('calculateSpeed', () => {
+      
+      it('should successfully calculate and return speed', () => {
+          const distance = 30;
+          const time = 5;
+
+          const expectedValue = distance / time;
+
+          expect(component.calculateSpeed(time, distance)).toEqual(expectedValue);
+
+      });
+      
+
+    });
+
   });
 
 
