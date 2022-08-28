@@ -461,13 +461,13 @@ export class ApiInternalApiRepositoryDataAccessService {
                     // }
 
                     if(valid){
-                        const date = new Date(activity.start_date).valueOf() ;
-                        console.log(activity) ;
+                        const date = new Date(activity.start_date) ;
+                        //console.log(activity) ;
                         const log = {
                             id: activity.id,
                             user: user.email,
                             activityType: type,
-                            dateComplete: date/1000,
+                            dateComplete: date,
                             distance: activity.distance,
                             name: activity.name,
                             speed: activity.average_speed,
