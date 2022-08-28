@@ -108,7 +108,8 @@ export class ApiInternalApiRepositoryDataAccessService {
             exp: exp,
             clientId: clientId,
             clientSecret: clientSecret
-            }
+            },
+            signUpStage: 3
         }
 
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
