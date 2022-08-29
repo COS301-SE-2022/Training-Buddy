@@ -67,6 +67,7 @@ h2 {
 .row {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .space-between {
@@ -85,4 +86,23 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 70%;
+}
+.animation-perform {
+    will-change: auto;
+}
+
+.hrlight {
+    height: 1.5px;
+    background-color: #e4e6eb;
+    border: none;
+}
+
+.hrdark {
+    height: 1.5px;
+    background-color: #1b1a1b !important;
+    border: none;
+    // width:
+}
+.fullwidth {
+    width: 100%;
 }
