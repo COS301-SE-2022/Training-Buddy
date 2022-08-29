@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import { pipe, tap } from 'rxjs';
+import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
 
 @Component({
@@ -52,6 +53,7 @@ export class WorkoutComponent implements OnInit {
             userName,
             userSurname,
             id,
+            email
           },
           activityType,
           startPoint,
@@ -146,10 +148,18 @@ export class WorkoutComponent implements OnInit {
     width: '250px',
     data: this.workoutID
   });
-
   dialogRef.afterClosed().subscribe(result => {
     console.log('The dialog was closed');
   });
+  }
+  rateUser(email: string): void {
+    const dialogRef = this.dialog.open(RatingComponent, {
+      width: '250px',
+      data: email,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
   
 }
