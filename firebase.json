@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "public": "./dist/apps/client",
+        "public": "./libs/training-buddy/dist/apps/client",
         "ignore": [
             "firebase.json",
             "**/.*",
@@ -19,11 +19,15 @@
         "indexes": "firestore.indexes.json"
     },
     "functions": {
-        "source": ".",
+
+        "source": "./libs",
+
+
         "predeploy": [
-            "npm --prefix \"$RESOURCE_DIR\" run lint",
-            "npm --prefix \"$RESOURCE_DIR\" run build"
+
+
         ]
+
     },
     "storage": {
         "rules": "storage.rules"
