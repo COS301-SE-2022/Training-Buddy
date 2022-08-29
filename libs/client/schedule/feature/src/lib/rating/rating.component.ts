@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Apollo, gql } from 'apollo-angular';
 
 @Component({
   selector: 'training-buddy-rating',
@@ -8,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class RatingComponent implements OnInit {
   numberofStars = 5;
-  constructor(public dialogRef: MatDialogRef<RatingComponent>,
+  constructor(public dialogRef: MatDialogRef<RatingComponent>,private apollo : Apollo,
     @Inject(MAT_DIALOG_DATA) public user: any) { }
 
   ngOnInit(): void {
@@ -38,7 +39,27 @@ export class RatingComponent implements OnInit {
     }
     return false;
   }
+
+
   add():void{
-    console.log("adding rating to "+ this.user.email);
+    this.apollo
+    .mutate({
+      mutation: gql`
+      mutation{
+        addRating(
+          email:"${ this.user.email }",
+          rating: ${ this.numberofStars },
+        ){
+          message
+        }
+      }
+      `
+    }).subscribe({
+      next: (data: any) =>{
+        console.log(data.data.addRating.message);
+        this.dialogRef.close();
+      }
+    })
   }
+
 }
