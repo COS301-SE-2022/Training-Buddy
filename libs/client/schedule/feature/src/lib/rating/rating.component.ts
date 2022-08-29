@@ -38,4 +38,7 @@ export class RatingComponent implements OnInit {
     }
     return false;
   }
+  add():void{
+    console.log("adding rating to "+ this.user.email);
+  }
 }
