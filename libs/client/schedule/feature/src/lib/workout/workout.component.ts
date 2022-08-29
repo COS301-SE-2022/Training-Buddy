@@ -26,8 +26,8 @@ export class WorkoutComponent implements OnInit {
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
     this.email = cookieService.get('email');
-  } 
-  
+  }
+
   ngOnInit(): void {
     // console.log('it works');
     this.activated.params.subscribe((param : any) => {
@@ -73,7 +73,7 @@ export class WorkoutComponent implements OnInit {
     this.getWorkout().subscribe({
       next: (data: any) =>{
         // console.log(data.data.getWorkout)
-        // const dummy: any[] = []; 
+        // const dummy: any[] = [];
         // data.data.participants.map((el : any) => {
         //   dummy.push(el);
         // });
@@ -81,7 +81,7 @@ export class WorkoutComponent implements OnInit {
           console.log(output);
           this.participants = output;
         });
-  
+
         this.workout = this.convertQuery(data.data.getWorkout);
         this.loading = false;
       }
@@ -94,7 +94,7 @@ export class WorkoutComponent implements OnInit {
     this.router.navigate([`/profile/${participantid}`]);
   }
   convertQuery(data : any) : any {
- 
+
   return {
       title: data.title,
       startTime: this.startDateTime(data.startTime),
@@ -128,13 +128,13 @@ export class WorkoutComponent implements OnInit {
    }
 
   startDateTime(data: string): any{
-    //write a function that returns the date and time 
+    //write a function that returns the date and time
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
     // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-   
+
     return{
       day: date.getDate(),
       month:  months[date.getMonth()],
@@ -152,14 +152,14 @@ export class WorkoutComponent implements OnInit {
     console.log('The dialog was closed');
   });
   }
-  rateUser(email: string): void {
+  rateUser(user: any): void {
     const dialogRef = this.dialog.open(RatingComponent, {
       width: '250px',
-      data: email,
+      data: user,
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
-  
+
 }
