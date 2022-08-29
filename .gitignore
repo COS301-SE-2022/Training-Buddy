@@ -41,3 +41,7 @@ Thumbs.db
 .angular
 
 *.zip
+libs/training-buddy/
+libs/yarn.lock
+.firebase
+libs/package.json
