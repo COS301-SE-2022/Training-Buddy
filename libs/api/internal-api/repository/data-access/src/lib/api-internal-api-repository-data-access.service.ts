@@ -100,6 +100,50 @@ export class ApiInternalApiRepositoryDataAccessService {
     //user - SAVE STRAVA TOKENS
 
     async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number, @Param() clientId: any, @Param() clientSecret: any){
+
+        const toLog = [] ;
+        //fetch strava activities
+        await this.getActivities(access).then((activities : any) => {
+            //console.log(activities.data) ;
+
+            activities.data.forEach(activity => {
+                let valid = false ;
+                let type = "" ;
+                if(activity.type == "Run"){
+                    valid = true ;
+                    type = "run" ;
+                }else if(activity.type == "Ride"){
+                    valid = true ;
+                    type = "ride" ;
+                }else if(activity.type == "Swim"){
+                    valid = true ;
+                    type = "swim" ;
+                }else if(activity.type == "Workout"){
+                    valid = true ;
+                    type = "lift" ;
+                }
+
+                if(valid){
+                    const date = new Date(activity.start_date) ;
+                    //console.log(activity) ;
+                    const log = {
+                        id: activity.id,
+                        user: email,
+                        activityType: type,
+                        dateComplete: date,
+                        distance: activity.distance,
+                        name: activity.name,
+                        speed: activity.average_speed,
+                        time: activity.moving_time
+                    }
+                    //console.log(log) ;
+                    toLog.push(log) ;
+                }
+            });
+        }) ;
+
+        await this.logManyActivities(toLog) ;
+
         const data = {
 
             strava: {
@@ -414,74 +458,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     async getLogs(@Param() email: string){
-
-        //get users strava tokens
-        let user = await this.login(email) ;
-        
-        if(user.strava){ //if user has linked strava
-            //check if token is expired
-            if((user.strava.exp < Date.now()/1000)){
-                //get new token
-                await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
-                    console.log(access.data.access_token) ;
-                    this.updateAccessToken(access.data.access_token, user.email) ;
-                });
-            }
-
-            user = await this.login(email) ; //BUG - this executes before updateAccessToken
-            const access = user.strava.stravaAccess ;
-
-            const toLog = [] ;
-            //fetch strava activities
-            await this.getActivities(access).then((activities : any) => {
-                //console.log(activities.data) ;
-
-                activities.data.forEach(activity => {
-
-                    let valid = false ;
-                    let type = "" ;
-                    if(activity.type == "Run"){
-                        valid = true ;
-                        type = "run" ;
-                    }else if(activity.type == "Ride"){
-                        valid = true ;
-                        type = "ride" ;
-                    }else if(activity.type == "Swim"){
-                        valid = true ;
-                        type = "swim" ;
-                    }else if(activity.type == "Workout"){
-                        valid = true ;
-                        type = "lift" ;
-                    }
-
-                    //const exists = this.activityExists(activity.id) ;
-                    // if(this.activityExists(activity.id)){
-                    //     console.log("exists") ;
-                    //     valid = false ;
-                    // }
-
-                    if(valid){
-                        const date = new Date(activity.start_date) ;
-                        //console.log(activity) ;
-                        const log = {
-                            id: activity.id,
-                            user: user.email,
-                            activityType: type,
-                            dateComplete: date,
-                            distance: activity.distance,
-                            name: activity.name,
-                            speed: activity.average_speed,
-                            time: activity.moving_time
-                        }
-                        //console.log(log) ;
-                        toLog.push(log) ;
-                    }
-                });
-            }) ;
-
-            await this.logManyActivities(toLog) ;
-        }
-
         const logs = [] ;
         await this.activityLogsCollection.where('user', '==', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
