@@ -7,4 +7,10 @@ export class Tokens {
     stravaAccess:string 
     @Field()
     stravaRefresh:string
+    @Field()
+    exp: number
+    @Field()
+    clientId: string
+    @Field()
+    clientSecret: string
 }
