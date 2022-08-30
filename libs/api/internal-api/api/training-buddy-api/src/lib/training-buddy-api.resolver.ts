@@ -254,8 +254,8 @@ export class TrainingBuddyApiResolver {
      */
 
     @Mutation(()=>ErrorMessage)
-    saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken:string ){
-        return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken);
+    saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken: string, @Args("exp")exp:number,  @Args("clientId")clientId:string,  @Args("clientSecret")clientSecret:string ){
+        return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken, exp, clientId, clientSecret);
     }
     /**
      * 
