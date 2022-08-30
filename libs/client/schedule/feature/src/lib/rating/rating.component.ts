@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo, gql } from 'apollo-angular';
 
 @Component({
@@ -9,7 +10,7 @@ import { Apollo, gql } from 'apollo-angular';
 })
 export class RatingComponent implements OnInit {
   numberofStars = 5;
-  constructor(public dialogRef: MatDialogRef<RatingComponent>,private apollo : Apollo,
+  constructor(public dialogRef: MatDialogRef<RatingComponent>,private apollo : Apollo,private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public user: any) { }
 
   ngOnInit(): void {
@@ -57,6 +58,7 @@ export class RatingComponent implements OnInit {
     }).subscribe({
       next: (data: any) =>{
         console.log(data.data.addRating.message);
+        this.snackBar.open("Success!","", {duration: 2000});
         this.dialogRef.close();
       }
     })
