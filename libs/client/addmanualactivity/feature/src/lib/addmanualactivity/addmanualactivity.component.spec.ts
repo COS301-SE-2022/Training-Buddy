@@ -47,6 +47,8 @@ describe('AddmanualactivityComponent', () => {
    * Test activityToggle function
    */
   describe('activityToggle', () => {
+
+    //Sets "WightLifting" to true in activityToggle function
     it('should execute the callback, setting "WeightLifting " to true', () => {
       
         jest.spyOn(component, 'activityToggle');
@@ -58,6 +60,20 @@ describe('AddmanualactivityComponent', () => {
         expect(component.isWeightLifting).toBe(true);
 
     })
+
+
+    //Sets "WeightLifting" to false in activityToggle function
+    it('should execute the callback, setting "WeightLifting " to false', () => {
+        
+          jest.spyOn(component, 'activityToggle');
+  
+          component.activityToggle('Running');
+  
+          expect(component.activityToggle).toHaveBeenCalledWith('Running');
+  
+          expect(component.isWeightLifting).toBe(false);
+  
+      })
   })
   
 
