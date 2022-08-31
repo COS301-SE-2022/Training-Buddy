@@ -43,6 +43,24 @@ describe('AddmanualactivityComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  /**
+   * Test activityToggle function
+   */
+  describe('activityToggle', () => {
+    it('should execute the callback, setting "WeightLifting " to true', () => {
+      
+        jest.spyOn(component, 'activityToggle');
+
+        component.activityToggle('WeightLifting');
+
+        expect(component.activityToggle).toHaveBeenCalledWith('WeightLifting');
+
+        expect(component.isWeightLifting).toBe(true);
+
+    })
+  })
+  
+
   describe('calculateSeconds', () => {
     it('should successfully calculate seconds', () => {
       const seconds = 30;
