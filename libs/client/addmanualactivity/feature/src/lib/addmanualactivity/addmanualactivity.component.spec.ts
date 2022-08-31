@@ -43,6 +43,21 @@ describe('AddmanualactivityComponent', () => {
     expect(component).toBeTruthy();
   });
 
+
+  /**
+   * Test ngOnInIt function
+   */
+
+  it('should call ngOnInit function', () => {
+
+    const spy = jest.spyOn(component, 'ngOnInit');
+
+    component.ngOnInit();
+
+    expect(spy).toHaveBeenCalled();
+
+  });
+
   /**
    * Test activityToggle function
    */
