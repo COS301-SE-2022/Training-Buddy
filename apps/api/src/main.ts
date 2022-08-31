@@ -38,36 +38,6 @@ async function bootstrap() {
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
-
-  // //WEBHOOKS
-  // //create http server and set port
-  // const server = express().use(bodyParser.json) ;
-  // server.listen(4040, () => console.log('webhook listening')) ;
-
-  // //create endpoint for webhook
-  // server.post('/webhook',(req,res) => {
-  //   console.log('webhook event received!', req.query, req.body) ;
-  //   res.status(200).send('EVENT_RECEIVED') ;
-  // })
-
-  // //add support for GET requests to webhook
-
-  // server.get('/webhook',(req,res) => {
-  //   const VERIFY_TOKEN = "STRAVA" ;
-  //   console.log("get request received") ;
-  //   let mode = req.query['hub.mode'];
-  //   let token = req.query['hub.verify_token'];
-  //   let challenge = req.query['hub.challenge'];
-
-  //   if(mode && token){
-  //     if(mode === 'subscribe' && token === VERIFY_TOKEN){
-  //       console.log('WEBHOOK_VERIFIED') ;
-  //       res.json({"hub.challenge":challenge}) ;
-  //     }else {
-  //       res.sendStatus(403) ;
-  //     }
-  //   }
-  // })
 }
 
 bootstrap();
