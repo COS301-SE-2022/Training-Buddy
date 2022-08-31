@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGaurdService } from './auth-gaurd.service';
 
 const routes: Routes = [
 
@@ -15,6 +16,9 @@ const routes: Routes = [
       import('@training-buddy/client/login/feature').then(
         m => m.ClientLoginFeatureModule
       ),
+      canActivate: [
+        //AuthGaurdService
+      ]
   },
 
   {
