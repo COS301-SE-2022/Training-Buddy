@@ -45,6 +45,17 @@ describe('AddmanualactivityComponent', () => {
 
 
   /**
+   * Test add function
+   */
+
+  //test add function
+  it('should add activity', () => {
+    component.add();
+    expect(component.add).toBeTruthy();
+  } );
+
+
+  /**
    * Test ngOnInIt function
    */
 
