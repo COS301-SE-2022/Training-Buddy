@@ -49,7 +49,7 @@ async function bootstrap() {
 
   // Creates the endpoint for our webhook
   webhookServer.post('/webhook', (req, res) => {
-    console.log("webhook event received!", req.query, req.body);
+    console.log("webhook event received!", req.query, req.body.data);
     res.status(200).send('EVENT_RECEIVED');
   });
 
@@ -58,9 +58,9 @@ async function bootstrap() {
     // Your verify token. Should be a random string.
     const VERIFY_TOKEN = "STRAVA";
     // Parses the query params
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
     // Checks if a token and mode is in the query string of the request
     if (mode && token) {
       // Verifies that the mode and token sent are valid
