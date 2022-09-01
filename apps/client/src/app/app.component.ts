@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import { AuthGaurdService } from './auth-gaurd.service';
 
 @Component({
   selector: 'training-buddy-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = "client";
+
+  // constructor(private auth : AuthGaurdService) {
+  //   auth.authStatus.on('connection', (val) => {
+  //     console.log(val);
+  //   });
+  // }
+
 }

@@ -1,15 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
+import { EventEmitter } from 'stream';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGaurdService {
 
-  constructor() { }
+  state = false;
+  authStatus = new EventEmitter();
+
+  constructor() { return }
 
   canActivate() {
-    console.log('in auth gaurd');
-    return true;
+    // this.authStatus.emit('event', this.state);
+  }
+
+  logIn() {
+    this.state = true;
+  }
+
+  logOut() {
+    this.state = false;
   }
 
 }
