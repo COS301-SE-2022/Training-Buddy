@@ -59,8 +59,9 @@ const firebase = {
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'http://localhost:3333/graphql',
+            uri: 'https://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
           }),
+        fetchOptions: {'mode': 'no-cors'},
         };
       },
       deps: [HttpLink],
