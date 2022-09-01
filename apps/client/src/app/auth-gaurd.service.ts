@@ -1,5 +1,5 @@
 import { Injectable, Output } from '@angular/core';
-import { EventEmitter } from 'stream';
+import { EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class AuthGaurdService {
   constructor() { return }
 
   canActivate() {
-    // this.authStatus.emit('event', this.state);
+    this.authStatus.emit(this.state);
   }
 
   logIn() {

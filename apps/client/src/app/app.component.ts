@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-// import { AuthGaurdService } from './auth-gaurd.service';
+import { Router } from '@angular/router';
+import { AuthGaurdService } from './auth-gaurd.service';
 
 @Component({
   selector: 'training-buddy-root',
@@ -8,10 +9,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  // constructor(private auth : AuthGaurdService) {
-  //   auth.authStatus.on('connection', (val) => {
-  //     console.log(val);
-  //   });
-  // }
+  constructor(private auth : AuthGaurdService, private router : Router) {
+    auth.authStatus.subscribe((val) => {
+      if (!val) {
+        //user tried accing a protercted route and was not logged in:
+        router.navigate(['/login']);
+      }
+    });
+  }
 
 }

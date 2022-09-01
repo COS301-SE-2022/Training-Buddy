@@ -71,7 +71,7 @@ export class AddmanualactivityComponent implements OnInit {
         // return;
 
         //API call for weight lifting:
-        this.addActivity(type, date, null, name, null, time, email).then(() => {
+        this.addActivity(type, date, null, name, null, time, email).subscribe(() => {
           this.resetForm();
           this.snackBar.open('Activity Added', 'X', {
             duration: 2000
@@ -101,11 +101,18 @@ export class AddmanualactivityComponent implements OnInit {
     // });
     // return;
 
-    this.addActivity(type, date, distance, name, speed, time, this.email).then(() => {
-      this.resetForm();
-      this.snackBar.open('Activity Added', 'X', {
-        duration: 3000
-      });
+    this.addActivity(type, date, distance, name, speed, time, this.email).subscribe({
+      next: () => {
+        this.resetForm();
+        this.snackBar.open('Activity Added', 'X', {
+          duration: 2000
+        });
+      },
+      error: () => {
+        this.snackBar.open('Add activity failed, please try again.', 'X', {
+          duration: 2000
+        });
+      }
     });
 
   }
@@ -118,9 +125,7 @@ export class AddmanualactivityComponent implements OnInit {
   }
 
   addActivity(type : string, date : string, distance : any, name : string, speed : any, time : number, email: string) {
-    return new Promise((resolve, _) => {
-      if (!(this.apollo.client === undefined))
-      this.apollo
+      return this.apollo
         .mutate ({
           mutation: gql`
             mutation{
@@ -138,13 +143,7 @@ export class AddmanualactivityComponent implements OnInit {
               
             }
           `,
-        })
-        .subscribe ((result) => {
-          const res: any  = result
-          console.log(res.data)
-           resolve(res.data);
-         });
-     });
+        });
   }
 
   calulateSeconds(hours : number, minutes : number, seconds : number) : number {
