@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthGaurdService } from './auth-gaurd.service';
 
 @Component({
@@ -9,12 +9,16 @@ import { AuthGaurdService } from './auth-gaurd.service';
 })
 export class AppComponent {
 
-  constructor(private auth : AuthGaurdService, private router : Router) {
+  constructor(private auth : AuthGaurdService, private router : Router, private activated : ActivatedRoute) {
     auth.authStatus.subscribe((val) => {
       if (!val) {
         //user tried accing a protercted route and was not logged in:
         router.navigate(['/login']);
       }
+    });
+
+    activated.params.subscribe(() => {
+
     });
   }
 
