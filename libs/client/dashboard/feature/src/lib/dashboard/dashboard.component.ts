@@ -5,6 +5,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { tap } from 'rxjs';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'training-buddy-dashboard',
   templateUrl: './dashboard.component.html',
@@ -46,7 +47,7 @@ export class DashboardComponent implements OnInit {
   doneloading = false;
   noBuddies : boolean;
   email : string;
-  constructor(private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore, private afStorage: AngularFireStorage) { 
+  constructor(private snackBar : MatSnackBar, private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore, private afStorage: AngularFireStorage) { 
     this.noBuddies = true;
     this.email = this.cookieService.get('email');
   }
@@ -63,7 +64,13 @@ export class DashboardComponent implements OnInit {
           }
         }
         `,
-      }).subscribe();
+      }).subscribe({
+        next: () => {
+          this.snackBar.open('Invitation successfully sent.', 'X', {
+            duration: 3000
+          });
+        }
+      });
   }
 
   ifPendingRequests() : boolean {
@@ -345,7 +352,18 @@ export class DashboardComponent implements OnInit {
       }
       }
       `,
-    }).subscribe();
+    }).subscribe({
+      next: () => {
+        this.snackBar.open('Request accepted.', 'X', {
+          duration: 2000
+        });
+      },
+      error: () => {
+        this.snackBar.open('Request rejected.', 'X', {
+          duration: 2000
+        });
+      }
+    });
   }
 
   reject(data : string){
