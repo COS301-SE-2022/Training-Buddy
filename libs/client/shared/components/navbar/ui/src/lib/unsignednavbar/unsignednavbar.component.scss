@@ -11,5 +11,10 @@ mat-toolbar {
 }
 
 span {
-    color : white;
+    color: white;
+}
+
+#logo > div > svg {
+    height: 240px;
+    width: 70px;
 }

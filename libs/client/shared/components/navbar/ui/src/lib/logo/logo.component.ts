@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'training-buddy-logo',
@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoComponent implements OnInit {
 
-  constructor() { }
+  @Input() height : number;
+  @Input() width : number;
+  @ViewChild('svg') svgChild : any;
+
+  constructor() {
+    this.height = 100;
+    this.width = 74.29228361827322;
+  }
 
   ngOnInit(): void {
+    return;
+  }
+
+  ngAfterViewInit() {
+    
+    this.svgChild.nativeElement.style.width = this.width;
   }
 
 }
