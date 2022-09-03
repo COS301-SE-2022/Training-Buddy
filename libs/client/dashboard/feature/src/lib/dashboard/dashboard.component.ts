@@ -117,25 +117,33 @@ export class DashboardComponent implements OnInit {
       .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
       .valueChanges()
       .subscribe((inRequests : any) => {
+
         this.requests = [];
         this.pendingrequests = false;
+
         //get the users the requests came from:
+
         if (inRequests.length != 0) {
+
           this.pendingrequests = true;
+
           inRequests.forEach((req : any) => {
+            
             this.firestore
             .collection('Users', ref => ref.where('email', '==', req.sender))
             .valueChanges()
             .subscribe((incomingUsrs : any) => {
               this.requests = [];
-              this.removeOverlapConnections(incomingUsrs).forEach((usr : any) => {
+              incomingUsrs.forEach((usr : any) => {
                 this.fetchSingleImage(usr).then((imgUsr : any) => {
                   this.requests.push(imgUsr);
                 }); 
               });
             })
           })
+
         }
+
       })
 
     //getting outgoing for disabling request button on current client

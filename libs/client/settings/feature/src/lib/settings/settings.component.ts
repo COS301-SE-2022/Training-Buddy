@@ -2,6 +2,7 @@ import { animate, keyframes, style, transition, trigger } from '@angular/animati
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthGaurdService } from '@training-buddy/authgaurd';
 
 @Component({
   selector: 'training-buddy-settings',
@@ -28,7 +29,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(private cookie : CookieService, private router : Router) { 
+  constructor(private auth : AuthGaurdService, private cookie : CookieService, private router : Router) { 
   }
 
   ngOnInit(): void {
@@ -37,6 +38,7 @@ export class SettingsComponent implements OnInit {
 
   logout() {
     this.cookie.deleteAll('/'); //delete all paths of cookies
+    this.auth.logOut();
     this.router.navigate(['login']);
   }
 

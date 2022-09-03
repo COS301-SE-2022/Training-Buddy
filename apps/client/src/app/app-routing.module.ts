@@ -36,7 +36,7 @@ const routes: Routes = [
         m => m.ClientDashboardFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        AuthGaurdService
       ]
   },
 
@@ -67,10 +67,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/athlete-profile/feature').then(
         m => m.ClientAthleteProfileFeatureModule
-      ),
-      canActivate: [
-        //AuthGaurdService
-      ]
+      )
   },
 
   {

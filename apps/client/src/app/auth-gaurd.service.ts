@@ -1,5 +1,6 @@
 import { Injectable, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,12 @@ export class AuthGaurdService {
   state = false;
   authStatus = new EventEmitter();
 
-  constructor() { return }
+  constructor(private router : Router) { }
 
   canActivate() {
-    this.authStatus.emit(this.state);
+    if (this.state == false) {
+      this.router.navigate(['/login']);
+    }
   }
 
   logIn() {
