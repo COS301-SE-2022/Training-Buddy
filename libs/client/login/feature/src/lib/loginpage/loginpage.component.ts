@@ -14,6 +14,7 @@ import { AuthGaurdService } from '@training-buddy/authgaurd';
 export class LoginpageComponent implements OnInit {
 
   hide : boolean;
+  loginFailed = false;
   img : string;
   userEmail : string;
   userPassword : string;
@@ -22,7 +23,7 @@ export class LoginpageComponent implements OnInit {
 
   constructor(private auth : AuthGaurdService, private snack : MatSnackBar, private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService : CookieService) {
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
-  
+
     //injections
     this.frmBuilder = frm;
 
@@ -37,7 +38,7 @@ export class LoginpageComponent implements OnInit {
       userEmail : ['', Validators.required],
       userPassword : ['', Validators.required]
     });
-  } 
+  }
 
   login() {
 
@@ -46,18 +47,15 @@ export class LoginpageComponent implements OnInit {
         return;
       }
     }
-    
+    this.loginFailed = false;
     this.userEmail = this.loginFrm.controls['userEmail'].value;
     this.userPassword = this.loginFrm.controls['userPassword'].value;
 
     this.queryLogin().subscribe((response : any) => {
       console.log(response.data.login.user.email);
       if(response.data?.login.user.email == null){
-        // console.log("invalid credentials"); //make this a notification
-        this.auth.logIn();
-        this.snack.open('email/password was incorrect.', 'X', {
-          duration: 2000
-        });
+        console.log("invalid credentials"); //make this a notification
+        this.loginFailed = true;
 
       } else {
         this.cookieService.set('email', response.data.login.user.email);
