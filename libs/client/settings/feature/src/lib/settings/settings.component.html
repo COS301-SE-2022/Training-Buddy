@@ -2,9 +2,9 @@
 
     <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
     <training-buddy-back-navbar title="Settings"></training-buddy-back-navbar>
-    
+
     <mat-card class="mainCard mt-12">
-       
+
         <!-- <figure class="relative flex flex-col-reverse bg-zinc-900 rounded-lg p-6 darkbg-zinc-900 dark:highlight-white/5">
             <blockquote class="mt-6 text-slate-700 dark:text-slate-300">
                 <p>{{theUser.status}}</p>
@@ -27,15 +27,15 @@
                 </div>
                 <div class="mx-4 mb-3 mt-2">
                     <div class="acceptTitle">
-                        <p class="block mt-1 text-2xl leading-tight font-medium text-black">Sarah King</p> 
-                    </div> 
+                        <p class="block mt-1 text-2xl leading-tight font-medium text-black">Sarah King</p>
+                    </div>
                     <div class="tracking-wide text-xs font-semibold">Hatfield, Pretoria</div>
                     <p class="mt-2 text-slate-500">I'm an avid cyclist - I especially enjoy long distance mountain biking. Looking for friends to join an adventurous cycling group.</p>
                     <mat-icon> directions_run</mat-icon><mat-icon> directions_bike</mat-icon>
                 </div>
             </div>
         </div> -->
-      
+
         <mat-card-content [@fadeIn]>
 
             <!-- <div class="flex"> -->
@@ -53,8 +53,8 @@
                         </mat-grid-list>
                     </mat-card>
                 </section>
-                
-                    <section>
+
+                <section>
                         <mat-card routerLink="/configureprofile/update" class="option my-3">
                             <mat-grid-list cols="5" rowHeight="2:1">
                                 <mat-grid-tile><mat-icon>directions_bike</mat-icon></mat-grid-tile>
@@ -62,7 +62,18 @@
                                 <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
                             </mat-grid-list>
                         </mat-card>
-                    </section>
+                </section>
+
+                <section>
+                  <mat-card routerLink="/strava/link" class="option my-3">
+                      <mat-grid-list cols="5" rowHeight="2:1">
+                          <mat-grid-tile><mat-icon>link</mat-icon></mat-grid-tile>
+                          <mat-grid-tile [colspan]="3">Link Strava</mat-grid-tile>
+                          <mat-grid-tile><mat-icon>arrow_forward_ios</mat-icon></mat-grid-tile>
+                      </mat-grid-list>
+                  </mat-card>
+                </section>
+
                 <section>
                     <mat-card routerLink="/changepassword" class="option my-3">
                         <mat-grid-list cols="5" rowHeight="2:1">
@@ -72,7 +83,7 @@
                         </mat-grid-list>
                     </mat-card>
                 </section>
-        
+
                 <section>
                     <mat-card routerLink="/#" class="option my-3">
                         <mat-grid-list cols="5" rowHeight="2:1">
@@ -82,7 +93,7 @@
                         </mat-grid-list>
                     </mat-card>
                 </section>
-        
+
                 <section>
                     <mat-card routerLink="/#" class="option my-3">
                         <mat-grid-list cols="5" rowHeight="2:1">
@@ -92,7 +103,7 @@
                         </mat-grid-list>
                     </mat-card>
                 </section>
-        
+
                 <section>
                     <mat-card (click)="logout()" class="option my-3">
                         <mat-grid-list cols="5" rowHeight="2:1">
@@ -102,9 +113,9 @@
                         </mat-grid-list>
                     </mat-card>
                 </section>
-                
+
             </div>
-     
+
         </mat-card-content>
       </mat-card>
     <training-buddy-navbar></training-buddy-navbar>
