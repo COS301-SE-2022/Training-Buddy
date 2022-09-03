@@ -1,7 +1,7 @@
 <training-buddy-back-navbar title="Event"></training-buddy-back-navbar>
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
-<div *ngIf="!loading"> 
-    <div class="px-4">
+<div *ngIf="!loading">
+    <!-- <div class="px-4">
         <mat-list>
             <mat-list-item>Title: {{workout?.title}}</mat-list-item>
             <mat-divider></mat-divider>
@@ -27,10 +27,93 @@
                 </mat-chip>
               </mat-chip-list>
           </div>
-         
+
     </div>
     <button id="addbutton"  (click)="openDialog()" mat-fab>
       <mat-icon>add</mat-icon>
-  </button>
+  </button> -->
+  <div class="dark:divide-undefined dark:divide-undefined">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center">
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900">{{workout?.title}}</p>
+      </div>
+      <div class="mt-10">
+        <dl class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 text-gray-900 dark:text-gray-900 font-bold"><mat-icon>date_range</mat-icon> When</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class="">{{workout?.startTime.day}} {{workout?.startTime.month}} {{workout?.startTime.year}} {{workout?.startTime.time}}</p>
+            </dd>
+          </div>
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 text-gray-900 dark:text-gray-900 font-bold">	<mat-icon> directions_bike</mat-icon> Activity Type</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class=""> {{workout?.startPoint}} </p>
+            </dd>
+          </div>
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900"><mat-icon> location_on</mat-icon> Where</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class=""> {{workout?.startPoint}} </p>
+            </dd>
+          </div>
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:divide-undefined dark:text-gray-900"><mat-icon>timelapse</mat-icon> Duration</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class=""> {{workout?.proposedDuration}} </p>
+            </dd>
+          </div>
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900"><mat-icon>date_range</mat-icon> Distance</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class=""> {{workout?.proposedDistance}} </p>
+            </dd>
+          </div>
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900">	<mat-icon> email</mat-icon> Organiser</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class="">takumuguti@gmail.com</p>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="py-8 pb-24 px-4 mx-auto sm:max-w-xl sm:py-14 md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+    <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12">
+      <p class=" text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900">Participants
+         <button mat-raised-button id="addbutton"  class="text-white text-sm rounded-lg"(click)="openDialog()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </p>
+      <p class="md:text-lg">These are all the participants of your workout please rate their kindness.</p>
+    </div>
+    <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngFor="let participant of participants" class="flex"><img alt="No alt" src="{{participant.image}}" class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
+        <div class="flex flex-col justify-center">
+          <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
+
+          <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile class="bg-slate-900 text-white rounded-xl" (click)="rateUser(participant)" >Rate</mat-grid-tile>
+            <mat-grid-tile class="bg-slate-900 text-white rounded-xl" (click)="viewProfile(participant)">Profile</mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <training-buddy-navbar></training-buddy-navbar>
+
