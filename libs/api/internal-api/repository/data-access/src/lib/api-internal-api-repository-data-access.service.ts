@@ -561,7 +561,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({buddies: this.arrayUnion(user2)}).then(results => {
                 return this.usersCollection.where('email', '==', user2).get().then(async (result1) =>{
                     if(result1.docs[0]) return this.usersCollection.doc(result1.docs[0].id).update({buddies: this.arrayUnion(user1)}).then(results =>{
-                        this.deleteConnectionRequest
+                        this.deleteConnectionRequest(user2, user1) ;
                         return true ;
                     })
                 });
