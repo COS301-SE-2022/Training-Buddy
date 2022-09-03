@@ -45,3 +45,8 @@ libs/training-buddy/
 libs/yarn.lock
 .firebase
 libs/package.json
+ui-debug.log
+pubsub-debug.log
+
+database-debug.log
+.env
