@@ -1,37 +1,6 @@
 <training-buddy-back-navbar title="Event"></training-buddy-back-navbar>
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 <div *ngIf="!loading">
-    <!-- <div class="px-4">
-        <mat-list>
-            <mat-list-item>Title: {{workout?.title}}</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Type: {{workout?.activityType}} </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Start time: {{workout?.startTime.day}} {{workout?.startTime.month}} {{workout?.startTime.year}} @ {{workout?.startTime.time}}</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Location: {{workout?.startPoint}} </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Distance: {{workout?.proposedDistance}}</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Duration: {{workout?.proposedDuration}}</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>Organiser: {{workout?.organiser}}</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>participants: </mat-list-item>
-          </mat-list>
-          <div>
-            <mat-chip-list>
-                <mat-chip *ngFor="let participant of participants"  (click)="rateUser(participant)">
-                  <img matChipAvatar src="{{participant.image}}" alt="picture"/>
-                {{participant.userName}} {{participant.userSurname}}
-                </mat-chip>
-              </mat-chip-list>
-          </div>
-
-    </div>
-    <button id="addbutton"  (click)="openDialog()" mat-fab>
-      <mat-icon>add</mat-icon>
-  </button> -->
   <div class="dark:divide-undefined dark:divide-undefined">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center">
