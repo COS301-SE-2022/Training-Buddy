@@ -18,7 +18,9 @@
           <form [formGroup]="loginFrm">
 
             <h1 class="text-center">Log In</h1>
-
+            <mat-error *ngIf="loginFailed">
+              <p class="text-center">Login failed. Incorrect credentials provided.</p>
+            </mat-error>
             <!-- email -->
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>

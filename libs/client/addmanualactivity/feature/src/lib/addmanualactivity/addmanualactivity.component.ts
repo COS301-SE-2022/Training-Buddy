@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Apollo, gql } from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
@@ -31,7 +31,7 @@ export class AddmanualactivityComponent implements OnInit {
       name: ['', [Validators.required]],
       type: ['Running', [Validators.required]],
 
-      hours: ['01', [Validators.required]],
+      hours: ['01', [this.validateHours]],
       minutes: ['00', [Validators.required]],
       seconds: ['00', [Validators.required]],
 
@@ -40,6 +40,17 @@ export class AddmanualactivityComponent implements OnInit {
     });
   }
 
+  //validate hours
+  validateHours(input : FormControl):  {[valtype : string] : string} | null{
+    if (input.value < 0) {
+      return {'hours' : 'Hours cannot be negative'};
+    }
+
+    if( input.value == null){
+      return {'hours' : 'Hours cannot be empty'};
+    }
+    return null;
+  }
   activityToggle(value : string) {
     this.isWeightLifting = true;
     if (value != "WeightLifting") {
@@ -79,7 +90,7 @@ export class AddmanualactivityComponent implements OnInit {
         });
 
         return;
-      }      
+      }
 
     }
 
@@ -91,7 +102,7 @@ export class AddmanualactivityComponent implements OnInit {
     const distance = this.manualForm.controls['distance'].value * 1000;
     const time = this.calulateSeconds(hours, minutes, seconds);
     const speed = this.calculateSpeed(time, distance);
-    const email = this.email 
+    const email = this.email
     console.log(time);
     console.log(speed);
     //to be removed when moving to API call:
@@ -126,7 +137,7 @@ export class AddmanualactivityComponent implements OnInit {
             mutation{
               activityLog(Activitylog:{
                 name : "${name}",
-                distance : ${distance}, 
+                distance : ${distance},
                 speed: ${speed},
                 time : ${time},
                 dateCompleted: "${date}",
@@ -135,7 +146,7 @@ export class AddmanualactivityComponent implements OnInit {
               }){
                 message
               }
-              
+
             }
           `,
         })
