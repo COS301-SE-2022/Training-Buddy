@@ -34,19 +34,42 @@ export const createNestServer = async (expressInstance: express.Express) => {
   app.enableCors();
   return app.init();
 };
+
+//create endpoint for webhook
+  server.post('/webhook',(req,res) => {
+    console.log('webhook event received!', req.query, req.body) ;
+    res.status(200).send('EVENT_RECEIVED') ;
+  })
+
+//add support for GET requests to webhook
+
+server.get('/webhook',(req,res) => {
+  const VERIFY_TOKEN = "STRAVA" ;
+  console.log("get request received") ;
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if(mode && token){
+    if(mode === 'subscribe' && token === VERIFY_TOKEN){
+      console.log('WEBHOOK_VERIFIED') ;
+      res.json({"hub.challenge":challenge}) ;
+    }else {
+      res.sendStatus(403) ;
+    }
+  }
+});
+
 createNestServer(server)
   .then(v => console.log('Nest Ready'))
   .catch(err => console.error('Nest broken', err));
 export const api: functions.HttpsFunction = functions.https.onRequest(server);
 
 async function bootstrap() {
- 
-
-
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'graphql';
   app.setGlobalPrefix(globalPrefix);
-  const port =80;
+  const port =3333;
 
   await app.listen(port);
   Logger.log(
@@ -57,31 +80,6 @@ async function bootstrap() {
   // //create http server and set port
   // const server = express().use(bodyParser.json) ;
   // server.listen(4040, () => console.log('webhook listening')) ;
-
-  // //create endpoint for webhook
-  // server.post('/webhook',(req,res) => {
-  //   console.log('webhook event received!', req.query, req.body) ;
-  //   res.status(200).send('EVENT_RECEIVED') ;
-  // })
-
-  // //add support for GET requests to webhook
-
-  // server.get('/webhook',(req,res) => {
-  //   const VERIFY_TOKEN = "STRAVA" ;
-  //   console.log("get request received") ;
-  //   let mode = req.query['hub.mode'];
-  //   let token = req.query['hub.verify_token'];
-  //   let challenge = req.query['hub.challenge'];
-
-  //   if(mode && token){
-  //     if(mode === 'subscribe' && token === VERIFY_TOKEN){
-  //       console.log('WEBHOOK_VERIFIED') ;
-  //       res.json({"hub.challenge":challenge}) ;
-  //     }else {
-  //       res.sendStatus(403) ;
-  //     }
-  //   }
-  // })
 }
 
 bootstrap();
