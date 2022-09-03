@@ -47,6 +47,7 @@ libs/yarn.lock
 libs/package.json
 ui-debug.log
 pubsub-debug.log
-
-database-debug.log
 .env
+database-debug.log
+
+libs/package.json
