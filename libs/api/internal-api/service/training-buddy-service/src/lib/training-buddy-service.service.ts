@@ -4,6 +4,7 @@ import {JwtService} from '@nestjs/jwt'
 import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
 import BTree from 'sorted-btree'
+import * as SendGrid from '@sendgrid/mail';
 
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
@@ -17,6 +18,23 @@ export class TrainingBuddyServiceService {
      * @param jwtService 
      */
     constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
+    async sendEmail(mail: SendGrid.MailDataRequired) {
+        SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
+        const transport = await SendGrid.send(mail);
+        console.log(`Email successfully dispatched to ${mail.to}`)
+        return transport;
+    }
+    async sendActivityRequestEmail(email : string , user : UserEntity){
+        const mail = {
+            to: email,
+            subject: 'Activity Invite From '+ user.userName ,
+            from: 'trainingbuddy@gmail.com',
+            text: 'Hello you have been invited to a work out by ' + user.userName,
+            html: '<h1>Hello World from NestJS Sendgrid</h1>'
+        };
+
+        return await this.sendEmail(mail);
+    }
     /**
      * 
      * @param email 
@@ -566,6 +584,7 @@ export class TrainingBuddyServiceService {
             const val = await this.repoService.sendInvite(email,arr,workoutID)
             if(val){
                 item.message = "Success";
+                this.sendActivityRequestEmail(email , user);
                 return item
             }else{
                 item.message = "Failure";
