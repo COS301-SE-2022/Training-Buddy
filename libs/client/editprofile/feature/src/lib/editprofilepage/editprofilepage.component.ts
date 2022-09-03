@@ -274,7 +274,7 @@ export class EditprofilepageComponent implements OnInit {
         .mutate({
           mutation: gql`
               mutation{
-              updateProfile(userDto: {
+              updateProfile(updates: {
                 oldemail: "${this.originalEmail}",
                 userName: "${Name}",
                 userSurname: "${Surname}",
