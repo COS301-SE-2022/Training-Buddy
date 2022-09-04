@@ -91,7 +91,8 @@ export class ApiInternalApiRepositoryDataAccessService {
         const users = [] ;
         await this.usersCollection.get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                users.push(doc.data());
+                if(doc.data().signUpStage > 0)
+                    users.push(doc.data());
             });
         });
         return users ;

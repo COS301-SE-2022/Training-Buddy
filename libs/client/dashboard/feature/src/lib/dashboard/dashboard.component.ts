@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
             .valueChanges()
             .subscribe((incomingUsrs : any) => {
               this.requests = [];
-              this.removeOverlapConnections(incomingUsrs).forEach((usr : any) => {
+              incomingUsrs.forEach((usr : any) => {
                 this.fetchSingleImage(usr).then((imgUsr : any) => {
                   this.requests.push(imgUsr);
                 }); 
