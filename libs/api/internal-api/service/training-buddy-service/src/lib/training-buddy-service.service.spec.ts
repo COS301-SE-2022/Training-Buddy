@@ -151,32 +151,6 @@ describe('TrainingBuddyServiceService', () => {
    * Test createActivityStat 
    */
 
-  describe('createActivityStat', () => {
-
-    it('should allow user to createActivityStat', async () => {
-
-      jest.spyOn(service, 'createActivityStat').mockImplementation(service.createActivityStat);
-
-      expect(async () => service.createActivityStat(ActivityStatModule)).toReturn;
-
-    });
-
-  });
-
-  /**
-   * Test fetchUserStat 
-   */
-  describe('fetchUserStat', () => {
-    
-    it('should fetch user statistics', async () => {
-      
-      jest.spyOn(service, 'fetchUserStat').mockImplementation(service.fetchUserStat);
-
-      expect(async () => service.fetchUserStat(UserDtoModule.email)).toReturn;
-
-    });
-  });
-
   /**
    * Test updateUser
    */
