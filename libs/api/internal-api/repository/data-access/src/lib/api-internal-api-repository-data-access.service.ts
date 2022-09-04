@@ -763,18 +763,4 @@ export class ApiInternalApiRepositoryDataAccessService {
         }
 
     }
-
-
-    //REDUNDANT
-    async createActivityStatistic(@Param() activity: ActivityStat){
-        //Update to activity logs
-        return false;
-    }
-
-    async getAllActivityStatistics(@Param() email: string){
-        //redundant
-    }
-
-
-
 }
