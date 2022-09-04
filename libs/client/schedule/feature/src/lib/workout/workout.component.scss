@@ -7,11 +7,18 @@
 
 #addbutton {
     background-color: #1b1a1b !important;
-    position: fixed;
-    top: 80%;
-    left: 80%;
+    // position: fixed;
+    // top: 80%;
+    // left: 80%;
 }
 
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
     stroke: #1b1a1b;
+}
+
+.with-icon {
+  display: flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
