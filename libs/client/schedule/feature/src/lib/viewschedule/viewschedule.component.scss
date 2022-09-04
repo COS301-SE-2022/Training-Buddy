@@ -106,3 +106,9 @@ h2 {
 .fullwidth {
     width: 100%;
 }
+.with-icon {
+  display: flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
