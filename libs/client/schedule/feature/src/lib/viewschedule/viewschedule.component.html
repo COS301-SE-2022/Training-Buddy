@@ -65,9 +65,6 @@
             <mat-hint class="text-center">No workouts scheduled</mat-hint>
         </div>
         <div  *ngIf="upcomingEvents" class="px-4">
-            <h2 class="text-center">
-                Upcoming Workouts
-            </h2>
             <!-- for date -->
             <div *ngFor="let day of workouts">
                 <div class="text-center ">
@@ -99,9 +96,6 @@
             <mat-hint class="text-center">Workouts you finish will apear here.</mat-hint>
         </div>
         <div  *ngIf="pastEvents" class="px-4">
-        <h2 class="text-center">
-            Workout History
-        </h2>
         <!-- for date -->
         <div *ngFor="let day of workoutHistory">
             <div class="text-center ">
