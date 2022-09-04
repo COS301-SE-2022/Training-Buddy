@@ -51,25 +51,10 @@ export class TrainingBuddyApiResolver {
      * @param activityStat 
      * @returns ErrorMessage
      */
-    @Mutation(()=>ErrorMessage)
-    //@UseGuards(JwtAuthGuard)
-    activityStat(@Args('activityStat')activityStat: ActivityStat){
-        return this.trainingBuddyService.createActivityStat(activityStat)
-    }
     @Query(()=>UserEntity)
     getOne(@Args("email")email:string){
        
         return this.trainingBuddyService.findOne(email);
-    }
-    /**
-     * 
-     * @param email 
-     * @returns userStatRes
-     */
-    @Query(()=>[UserStatRes])
-    //@UseGuards(JwtAuthGuard)
-    fetchUserStats(@Args('email')email:string){
-        return this.trainingBuddyService.fetchUserStat(email);
     }
     /**
      * 
