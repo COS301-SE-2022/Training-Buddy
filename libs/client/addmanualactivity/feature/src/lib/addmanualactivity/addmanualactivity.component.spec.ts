@@ -7,11 +7,16 @@ import { Apollo } from 'apollo-angular';
 import { AddmanualactivityComponent } from './addmanualactivity.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
+import { 
+  ApolloTestingModule,
+  ApolloTestingController,
+ } from 'apollo-angular/testing';
 
 
 describe('AddmanualactivityComponent', () => {
   let component: AddmanualactivityComponent;
   let fixture: ComponentFixture<AddmanualactivityComponent>;
+  let controller: ApolloTestingController;
 
 
   beforeEach(async () => {
@@ -21,7 +26,8 @@ describe('AddmanualactivityComponent', () => {
         ReactiveFormsModule,
         MatSnackBarModule,
         UiModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ApolloTestingModule,
       ],
       providers: [
         Apollo,
@@ -30,7 +36,11 @@ describe('AddmanualactivityComponent', () => {
       declarations: [ AddmanualactivityComponent ]
     })
     .compileComponents();
+
+    controller = TestBed.inject(ApolloTestingController);
+
   });
+
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddmanualactivityComponent);
@@ -39,35 +49,60 @@ describe('AddmanualactivityComponent', () => {
 
   });
 
+  afterEach(() => {
+    controller.verify();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-
   /**
    * Test add function
    */
+  describe('add', () => {
+    it('should allow user to add activity', () => {
+      
+      component.add();
 
-  //test add function
-  it('should add activity', () => {
-    component.add();
-    expect(component.add).toBeTruthy();
-  } );
-
+      if(component.isWeightLifting)
+      {
+        const op = controller.expectOne('/graphql');
+        expect(op.operation.operationName).toBe('addWeightLiftingActivity');
+        op.flush({
+          data: {
+            addWeightLiftingActivity: {
+              id: '1',
+              name: 'test',
+              type: 'WeightLifting',
+              date: '2022-10-10',
+              email: 'tester@gmail.com',
+              weight: 10,
+              reps: 10,
+              sets: 10
+            }
+          }
+        });
+      }
+    });
+  });
 
   /**
    * Test ngOnInIt function
    */
+  describe('ngOnInIt', () => {
+    it('should call ngOnInit function', () => {
 
-  it('should call ngOnInit function', () => {
-
-    const spy = jest.spyOn(component, 'ngOnInit');
-
-    component.ngOnInit();
-
-    expect(spy).toHaveBeenCalled();
-
+      const spy = jest.spyOn(component, 'ngOnInit');
+  
+      component.ngOnInit();
+  
+      expect(spy).toHaveBeenCalled();
+  
+    });
+    
   });
+ 
 
   /**
    * Test activityToggle function
@@ -101,7 +136,14 @@ describe('AddmanualactivityComponent', () => {
   
       })
   })
+
+  /**
+   * Test add activity function
+   */
   
+
+  //Test addactivity function
+
 
   describe('calculateSeconds', () => {
     it('should successfully calculate seconds', () => {
