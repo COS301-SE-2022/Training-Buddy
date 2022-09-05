@@ -41,4 +41,21 @@ describe('AthleteprofileComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  /**
+   * Test ngOnInIt function
+   */
+   describe('ngOnInIt', () => {
+    it('should call ngOnInit function', () => {
+
+      const spy = jest.spyOn(component, 'ngOnInit');
+  
+      component.ngOnInit();
+  
+      expect(spy).toHaveBeenCalled();
+  
+    });
+    
+  });
+
 });
