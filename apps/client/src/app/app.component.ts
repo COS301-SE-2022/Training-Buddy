@@ -17,9 +17,7 @@ export class AppComponent {
       }
     });
 
-    activated.params.subscribe(() => {
 
-    });
   }
 
 }

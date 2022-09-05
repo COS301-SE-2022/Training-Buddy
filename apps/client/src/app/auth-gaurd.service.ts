@@ -1,4 +1,4 @@
-import { Injectable, Output } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
