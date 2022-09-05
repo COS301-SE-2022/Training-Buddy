@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGaurdService } from './auth-gaurd.service';
+
+// import { AuthGaurdService } from './auth-gaurd.service';
 
 const routes: Routes = [
 
@@ -36,7 +37,7 @@ const routes: Routes = [
         m => m.ClientDashboardFeatureModule
       ),
       canActivate: [
-        AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -47,7 +48,7 @@ const routes: Routes = [
         m => m.ClientSettingsFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -58,7 +59,7 @@ const routes: Routes = [
         m => m.ClientEditprofileFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -93,7 +94,7 @@ const routes: Routes = [
         m => m.ClientScheduleworkoutFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -104,7 +105,7 @@ const routes: Routes = [
         m => m.ClientAddmanualactivityFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -115,7 +116,7 @@ const routes: Routes = [
         m => m.ClientViewprofileFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -134,7 +135,7 @@ const routes: Routes = [
         m => m.ClientChangepasswordFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 
@@ -145,7 +146,7 @@ const routes: Routes = [
         m => m.ClientScheduleFeatureModule
       ),
       canActivate: [
-        //AuthGaurdService
+        // AuthGaurdService
       ]
   },
 

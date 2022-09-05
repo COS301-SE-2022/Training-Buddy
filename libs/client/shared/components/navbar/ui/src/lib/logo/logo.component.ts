@@ -7,22 +7,24 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 })
 export class LogoComponent implements OnInit {
 
-  @Input() height : number;
-  @Input() width : number;
+  @Input() height : any;
+
   @ViewChild('svg') svgChild : any;
+
+  vert = false;
+  blck = false;
 
   constructor() {
     this.height = 100;
-    this.width = 74.29228361827322;
   }
-
+  
   ngOnInit(): void {
-    return;
   }
 
   ngAfterViewInit() {
     
-    this.svgChild.nativeElement.style.width = this.width;
+    this.svgChild.nativeElement.style.height = this.height;
+
   }
 
 }

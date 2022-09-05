@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import {Apollo, gql} from 'apollo-angular';
 import {CookieService} from 'ngx-cookie-service';
 
-import { AuthGaurdService } from '@training-buddy/authgaurd';
+// import { AuthGaurdService } from '@training-buddy/authgaurd';
+
 @Component({
   selector: 'training-buddy-loginpage',
   templateUrl: './loginpage.component.html',
@@ -21,7 +22,7 @@ export class LoginpageComponent implements OnInit {
   loginFrm! : FormGroup;
   frmBuilder! : FormBuilder;
 
-  constructor(private auth : AuthGaurdService, private snack : MatSnackBar, private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService : CookieService) {
+  constructor(private snack : MatSnackBar, private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService : CookieService) {
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
 
     //injections
