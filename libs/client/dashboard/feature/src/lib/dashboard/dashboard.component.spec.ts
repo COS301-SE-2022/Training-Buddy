@@ -6,6 +6,8 @@ import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import firebase = require('firebase/compat');
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -22,7 +24,8 @@ describe('DashboardComponent', () => {
       ],
       providers: [
         Apollo,
-        CookieService
+        CookieService,
+        { provide: FIREBASE_OPTIONS, useValue:firebase }
       ]
     })
     .compileComponents();
