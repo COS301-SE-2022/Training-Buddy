@@ -8,7 +8,7 @@ import { AuthGaurdService } from './auth-gaurd.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
+  title='client'
   constructor(private auth : AuthGaurdService, private router : Router, private activated : ActivatedRoute) {
     auth.authStatus.subscribe((val) => {
       if (!val) {
