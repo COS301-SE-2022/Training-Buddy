@@ -1,6 +1,6 @@
 <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 
-<training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+<!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
 
 <!-- <picture>
   <source media='(min-width:0px)' srcset="https://material.angular.io/assets/img/examples/shiba2.jpg">
@@ -17,6 +17,14 @@
 
           <form [formGroup]="loginFrm">
 
+
+            <div class="center w-100">
+
+              <training-buddy-logo dark="true" height="80"></training-buddy-logo>
+
+            </div>
+            <br>
+            <br>
             <h1 class="text-center">Log In</h1>
             <mat-error *ngIf="loginFailed">
               <p class="text-center">Login failed. Incorrect credentials provided.</p>
