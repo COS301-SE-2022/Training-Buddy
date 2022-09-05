@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
             .valueChanges()
             .subscribe((incomingUsrs : any) => {
               this.requests = [];
-              this.removeOverlapConnections(incomingUsrs).forEach((usr : any) => {
+              incomingUsrs.forEach((usr : any) => {
                 this.fetchSingleImage(usr).then((imgUsr : any) => {
                   this.requests.push(imgUsr);
                 }); 
@@ -400,6 +400,7 @@ export class DashboardComponent implements OnInit {
   filter(value : any) {
 
     this.noBuddies = true;
+    this.buddies = this.oldBuddies ;
 
     if (value == 'None') {
       this.buddies = this.oldBuddies;
@@ -425,6 +426,7 @@ export class DashboardComponent implements OnInit {
 
     if (this.buddies.length != 0) {
       this.noBuddies = false;
+      return;
     }
 
   }

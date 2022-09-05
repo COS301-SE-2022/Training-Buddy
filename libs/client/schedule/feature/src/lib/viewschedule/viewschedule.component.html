@@ -5,7 +5,7 @@
 
     <div  *ngIf="invitesAvailable" class="px-4">
         <h2 class="text-center">
-            Workout Invites
+            You have been invited
         </h2>
         <!-- for date -->
         <div *ngFor="let day of workoutInvites">
@@ -15,33 +15,32 @@
                 </h2>
 
             </div>
-            <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3" >
+            <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white hover:scale-105 ease-in duration-200 rounded-xl shadow-md shadow-sky-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
+              <div class="flex p-[0px] m-[0px] mb-2">
+                <img alt="No alt" [src]="workout?.image" class=" my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-4 border-sky-200 border-x-sky-500" />
+                <div class="flex flex-col justify-center w-full">
+                  <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
+                  <div class="with-icon">
+                    <mat-icon>access_time</mat-icon> {{workout?.startDate.time}}
+                  </div>
+                  <div class="with-icon">
+                    <mat-icon>location_on</mat-icon> {{workout?.startPoint}}
+                  </div>
 
-                <div class="m-3 row space-between align-content">
-
-                    <div class="row align-content cursor" (click)="fullWorkoutDetails(workout?.id)">
-                        <div class="my-2 eventpic" [ngStyle]="{'background-image': 'url(' +  workout?.image + ')'}"></div>
-                        <div class="ml-6">
-                            <div><h2>{{workout?.name}} </h2></div>
-                            <div>
-
-                            <mat-hint>
-                                {{workout?.organiser}} <br>
-                                <mat-icon>access_time</mat-icon> {{workout?.startDate.time}} <br>
-                                <mat-icon> location_on</mat-icon>
-                          {{ (workout?.startPoint.length>20)? (workout?.startPoint | slice:0:17)+'...':(workout?.startPoint) }}
-                            </mat-hint>
-                            </div>
-                        </div>
-
+                  <div class="grid grid-cols-2 mt-2">
+                    <div class="flex request-buttons">
+                        <button class="pad-right mr-1" class="bg-sky-500 hover:bg-sky-700 text-white" mat-raised-button (click) = "acceptInvite(workout?.organiser, workout?.id)">Accept</button>
                     </div>
-                    <div>
-                        <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiser, workout?.id)">	<mat-icon>check</mat-icon></button>
-                        <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiser, workout?.id)">	<mat-icon>close</mat-icon></button>
+
+                    <div class="flex request-buttons flex-end">
+                        <button class="pad-left action-color" class="bg-sky-500 hover:bg-sky-700 text-white" (click)="rejectInvite(workout?.organiser, workout?.id)" mat-raised-button>Decline</button>
+
                     </div>
 
                 </div>
-            </div>
+                </div>
+              </div>
+        </div>
         </div>
 
     </div>
@@ -66,16 +65,16 @@
         </div>
         <div  *ngIf="upcomingEvents" class="px-4">
             <!-- for date -->
-            <div *ngFor="let day of workouts">
+            <div *ngFor="let day of workouts" >
                 <div class="text-center ">
                     <h2>
                         {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
                     </h2>
 
                 </div>
-                <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-gray-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
-                      <div class="flex p-[0px] m-[0px]">
-                        <img alt="No alt" [src]="workout?.image" class="object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
+                <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-sky-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8  hover:scale-105 ease-in duration-200" (click)="fullWorkoutDetails(workout?.id)">
+                      <div class="flex p-[0px] m-[0px] mb-2">
+                        <img alt="No alt" [src]="workout?.image" class="my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-4 border-sky-200 border-x-sky-500" />
                         <div class="flex flex-col justify-center w-full">
                           <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
                           <div class="with-icon">
@@ -97,16 +96,16 @@
         </div>
         <div  *ngIf="pastEvents" class="px-4">
         <!-- for date -->
-        <div *ngFor="let day of workoutHistory">
+        <div *ngFor="let day of workoutHistory" >
             <div class="text-center ">
                 <h2>
                     {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
                 </h2>
 
             </div>
-            <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-gray-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
-              <div class="flex p-[0px] m-[0px]">
-                <img alt="No alt" [src]="workout?.image" class="object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
+            <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-sky-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8  hover:scale-105 ease-in duration-200" (click)="fullWorkoutDetails(workout?.id)">
+              <div class="flex p-[0px] m-[0px] mb-2">
+                <img alt="No alt" [src]="workout?.image" class="my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-4 border-sky-200 border-x-sky-500" />
                 <div class="flex flex-col justify-center w-full">
                   <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
                   <div class="with-icon">
