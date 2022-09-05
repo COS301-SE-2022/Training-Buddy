@@ -8,17 +8,23 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 export class LogoComponent implements OnInit {
 
   @Input() height : any;
-
+  @Input() dark : any;
+  f = false;
   @ViewChild('svg') svgChild : any;
 
   vert = false;
   blck = false;
 
   constructor() {
-    this.height = 100;
+    return;
   }
   
   ngOnInit(): void {
+    this.height = 100;
+    console.log(this.dark);
+    this.f = this.dark == 'true';
+    console.log(this.f);
+    return;
   }
 
   ngAfterViewInit() {
