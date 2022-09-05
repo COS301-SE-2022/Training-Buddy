@@ -5,7 +5,7 @@
 
     <div  *ngIf="invitesAvailable" class="px-4">
         <h2 class="text-center">
-            Workout Invites
+            You have been invited
         </h2>
         <!-- for date -->
         <div *ngFor="let day of workoutInvites">
@@ -15,7 +15,7 @@
                 </h2>
 
             </div>
-            <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3" >
+            <!-- <div *ngFor="let workout of day" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3" >
 
                 <div class="m-3 row space-between align-content">
 
@@ -33,15 +33,49 @@
                             </mat-hint>
                             </div>
                         </div>
+                        <div>
+                          <button class="" (click) = "acceptInvite(workout?.organiser, workout?.id)">	<mat-icon>check</mat-icon></button>
+                          <button class="" (click) = "rejectInvite(workout?.organiser, workout?.id)">	<mat-icon>close</mat-icon></button>
+                        </div>
 
                     </div>
-                    <div>
-                        <button class="text-center mx-5 button" (click) = "acceptInvite(workout?.organiser, workout?.id)">	<mat-icon>check</mat-icon></button>
-                        <button class="text-center mx-5 button" (click) = "rejectInvite(workout?.organiser, workout?.id)">	<mat-icon>close</mat-icon></button>
+
+
+                </div>
+            </div> -->
+            <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-gray-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
+              <div class="flex p-[0px] m-[0px]">
+                <img alt="No alt" [src]="workout?.image" class=" my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
+                <div class="flex flex-col justify-center w-full">
+                  <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
+                  <div class="with-icon">
+                    <mat-icon>access_time</mat-icon> {{workout?.startDate.time}}
+                  </div>
+                  <div class="with-icon">
+                    <mat-icon>location_on</mat-icon> {{workout?.startPoint}}
+                  </div>
+                  <!-- <mat-grid-list cols="2" rowHeight="2:1" [gutterSize]="'10px'">
+                    <mat-list-item>
+                      <button mat-raised-button color="primary" class="text-white" (click) = "acceptInvite(workout?.organiser, workout?.id)">	Accept </button>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <button mat-raised-button color="primary" class="text-white" (click) = "rejectInvite(workout?.organiser, workout?.id)">	Reject </button>
+                    </mat-list-item>
+                  </mat-grid-list> -->
+                  <div class="grid grid-cols-2 mt-2">
+                    <div class="flex request-buttons">
+                        <button class="pad-right mr-1" class="bg-black text-white" mat-raised-button (click) = "acceptInvite(workout?.organiser, workout?.id)">Accept</button>
+                    </div>
+
+                    <div class="flex request-buttons flex-end">
+                        <button class="pad-left action-color" class="bg-black text-white" (click)="rejectInvite(workout?.organiser, workout?.id)" mat-raised-button>Decline</button>
+
                     </div>
 
                 </div>
-            </div>
+                </div>
+              </div>
+        </div>
         </div>
 
     </div>
@@ -75,7 +109,7 @@
                 </div>
                 <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-gray-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
                       <div class="flex p-[0px] m-[0px]">
-                        <img alt="No alt" [src]="workout?.image" class="object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
+                        <img alt="No alt" [src]="workout?.image" class="my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
                         <div class="flex flex-col justify-center w-full">
                           <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
                           <div class="with-icon">
@@ -106,7 +140,7 @@
             </div>
             <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white rounded-xl shadow-md shadow-gray-700 p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
               <div class="flex p-[0px] m-[0px]">
-                <img alt="No alt" [src]="workout?.image" class="object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
+                <img alt="No alt" [src]="workout?.image" class="my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-2 border-gray-700" />
                 <div class="flex flex-col justify-center w-full">
                   <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
                   <div class="with-icon">
