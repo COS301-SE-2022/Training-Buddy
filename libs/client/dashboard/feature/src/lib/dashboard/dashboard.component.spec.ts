@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DashboardComponent } from './dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Apollo } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +17,7 @@ describe('DashboardComponent', () => {
       imports: [
         ReactiveFormsModule,
         UiModule,
+        BrowserAnimationsModule,
         RouterTestingModule
       ],
       providers: [
