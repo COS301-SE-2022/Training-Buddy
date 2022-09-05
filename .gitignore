@@ -41,3 +41,13 @@ Thumbs.db
 .angular
 
 *.zip
+libs/training-buddy/
+libs/yarn.lock
+.firebase
+libs/package.json
+ui-debug.log
+pubsub-debug.log
+.env
+database-debug.log
+
+libs/package.json

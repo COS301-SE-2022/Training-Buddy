@@ -1,4 +1,4 @@
-import { Injectable, Param } from '@nestjs/common';
+import { HttpStatus, Injectable, Param } from '@nestjs/common';
 import { Field } from '@nestjs/graphql';
 import { UserDto, ActivityStat, Userconfig, ActivityLog, ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import * as admin from 'firebase-admin'
@@ -11,15 +11,11 @@ import uuid = require('uuid') ;
 import { Observable } from 'rxjs';
 import fs = require('fs') ;
 import {writeBatch} from 'firebase/firestore' ;
+import axios from 'axios';
 
-//import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
-
-    // constructor(private fs : AngularFirestore) {
-
-    // }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
@@ -50,7 +46,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             password : user.password,
             buddies: [],
             signUpStage : 0,
-            ratings: []
+            ratings: []       
         }
 
         await this.usersCollection.doc().set(data)
@@ -103,10 +99,17 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //user - SAVE STRAVA TOKENS
 
-    async saveTokens(@Param() email: string, access: string, refresh: string){
+    async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number, @Param() clientId: any, @Param() clientSecret: any){
         const data = {
+
+            strava: {
             stravaAccess: access,
-            stravaRefresh: refresh
+            stravaRefresh: refresh,
+            exp: exp,
+            clientId: clientId,
+            clientSecret: clientSecret
+            },
+            signUpStage: 3
         }
 
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
@@ -330,7 +333,14 @@ export class ApiInternalApiRepositoryDataAccessService {
         })
     }
 
-
+    async updateAccessToken(@Param() token: string, @Param() email: string){
+        return this.usersCollection.where('email', '==', email).get().then(async (result) => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"strava.stravaAccess": token}).then(results => {
+                return true ;
+            }) ;
+            return false ;
+        })
+    }
 
     //user - DELETE
     
@@ -358,29 +368,120 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
-    async logManyActivities(@Param() logs: ActivityLog[]){
+    async logManyActivities(@Param() logs: any[]){
         const batch = firestore().batch() ;
         logs.forEach(log => {
-
-            const data = {
-                user: log.email,
-                activityType: log.activityType,
-                dateComplete: log.dateCompleted,
-                distance: log.distance,
-                name: log.name,
-                speed: log.speed,
-                time: log.time
-            }
-
             const docRef = this.activityLogsCollection.doc() ;
-            batch.set(docRef, data) ;
+            batch.set(docRef, log) ;
         });
 
-        batch.commit() ;
+        await batch.commit() ;
+        return true ;
+    }
+
+    async activityExists(@Param() id: number){
+        return await this.activityLogsCollection.where('id', '==', id).get().then(async (result) =>{
+            if(result.docs[0]){
+                console.log(result.docs[0]);
+                return true ;
+            }
+            return false ;
+        });
     }
 
     //activity logs - READ
+    async getActivities(accessToken : any) {
+        return new Promise((resolve, reject) => {
+
+            axios.get('https://www.strava.com/api/v3/athlete/activities?per_page=20&access_token=' + accessToken).then((res : any) => {
+                resolve(res);
+            });
+
+        });
+    }
+
+    async getNewToken(refreshToken : any, clientId: any, clientSecret: any) {
+        return new Promise((resolve, reject) => {
+
+            const payload = {'client_id': clientId, 'client_secret': clientSecret, 'grant_type': 'refresh_token', 'refresh_token': refreshToken} ;
+
+
+            axios.post('https://www.strava.com/api/v3/oauth/token', payload).then((res : any) => {
+                resolve(res);
+            });
+
+        });
+    }
+
     async getLogs(@Param() email: string){
+
+        //get users strava tokens
+        let user = await this.login(email) ;
+        
+        if(user.strava){ //if user has linked strava
+            //check if token is expired
+            if((user.strava.exp < Date.now()/1000)){
+                //get new token
+                await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
+                    console.log(access.data.access_token) ;
+                    this.updateAccessToken(access.data.access_token, user.email) ;
+                });
+            }
+
+            user = await this.login(email) ; //BUG - this executes before updateAccessToken
+            const access = user.strava.stravaAccess ;
+
+            const toLog = [] ;
+            //fetch strava activities
+            await this.getActivities(access).then((activities : any) => {
+                //console.log(activities.data) ;
+
+                activities.data.forEach(activity => {
+
+                    let valid = false ;
+                    let type = "" ;
+                    if(activity.type == "Run"){
+                        valid = true ;
+                        type = "run" ;
+                    }else if(activity.type == "Ride"){
+                        valid = true ;
+                        type = "ride" ;
+                    }else if(activity.type == "Swim"){
+                        valid = true ;
+                        type = "swim" ;
+                    }else if(activity.type == "Workout"){
+                        valid = true ;
+                        type = "lift" ;
+                    }
+
+                    //const exists = this.activityExists(activity.id) ;
+                    // if(this.activityExists(activity.id)){
+                    //     console.log("exists") ;
+                    //     valid = false ;
+                    // }
+
+                    if(valid){
+                        const date = new Date(activity.start_date) ;
+                        //console.log(activity) ;
+                        const log = {
+                            id: activity.id,
+                            user: user.email,
+                            activityType: type,
+                            dateComplete: date,
+                            distance: activity.distance,
+                            name: activity.name,
+                            speed: activity.average_speed,
+                            time: activity.moving_time
+                        }
+                        //console.log(log) ;
+                        toLog.push(log) ;
+                    }
+                });
+            }) ;
+
+            await this.logManyActivities(toLog) ;
+        }
+
         const logs = [] ;
         await this.activityLogsCollection.where('user', '==', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
@@ -460,7 +561,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({buddies: this.arrayUnion(user2)}).then(results => {
                 return this.usersCollection.where('email', '==', user2).get().then(async (result1) =>{
                     if(result1.docs[0]) return this.usersCollection.doc(result1.docs[0].id).update({buddies: this.arrayUnion(user1)}).then(results =>{
-                        this.deleteConnectionRequest
+                        this.deleteConnectionRequest(user2, user1) ;
                         return true ;
                     })
                 });
@@ -522,7 +623,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         const workouts = [] ;
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                if(+doc.data().startTime >= +Date.now())
+                if(doc.data().startTime >= Date.now()/1000)
                     workouts.push(doc.data());
             });
         });

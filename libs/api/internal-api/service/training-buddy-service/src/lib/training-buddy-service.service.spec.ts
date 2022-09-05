@@ -351,7 +351,7 @@ describe('TrainingBuddyServiceService', () => {
       
       jest.spyOn(service, 'saveTokens').mockImplementation(service.saveTokens);
 
-      expect(async () => service.saveTokens(UserDtoModule.email, TokensModule.stravaAccess, TokensModule.stravaRefresh)).toReturn;
+      expect(async () => service.saveTokens(UserDtoModule.email, TokensModule.stravaAccess, TokensModule.stravaRefresh, TokensModule.exp, TokensModule.clientId, TokensModule.clientSecret)).toReturn;
 
     });
   });
