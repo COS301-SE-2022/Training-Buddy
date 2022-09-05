@@ -148,10 +148,6 @@ describe('TrainingBuddyServiceService', () => {
   });
 
   /**
-   * Test createActivityStat 
-   */
-
-  /**
    * Test updateUser
    */
 

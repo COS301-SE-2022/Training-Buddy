@@ -46,11 +46,7 @@ export class TrainingBuddyApiResolver {
     findAll(@Args('email')email:string){
         return this.trainingBuddyService.getAll(email);
     }
-    /**
-     * 
-     * @param activityStat 
-     * @returns ErrorMessage
-     */
+   
     @Query(()=>UserEntity)
     getOne(@Args("email")email:string){
        

@@ -413,16 +413,4 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
           fail(error);
         }
       });
-
-      /**
-       * Test createActivityStatistic functionality
-       */
-      describe('createActivityStatistic', () => {
-        it('should return false', async () => {
-          
-          expect(service.createActivityStatistic(mockActivityStat)).toReturn;
- 
-        });
-      });
-
-});
+    });

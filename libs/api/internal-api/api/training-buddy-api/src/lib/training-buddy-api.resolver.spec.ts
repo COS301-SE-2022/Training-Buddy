@@ -101,32 +101,6 @@ describe('TrainingBuddyApiResolver', () => {
 
   });
 
-  /**
-   * Test activityStat function
-   */
-  describe('activityStat', () => {
-    it('should return an error from activityStat', async () => {
-      jest.spyOn(resolver, 'activityStat')
-      .mockImplementation(resolver.activityStat);
-
-      expect(resolver.activityStat).toReturn;
-
-    });
-  });
-
-  /**
-   * Test fetchUserStat function
-   */
-
-  describe('fetchUserStat', () => {
-    it('should return userStatRes',async () => {
-      jest.spyOn(resolver, 'fetchUserStats')
-      .mockImplementation(resolver.fetchUserStats);
-
-      expect(resolver.fetchUserStats).toReturn;
-
-    });
-  });
 
   /**
    * Test updateProfile function
