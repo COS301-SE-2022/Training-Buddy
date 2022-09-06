@@ -137,43 +137,6 @@ export class TrainingBuddyServiceService {
     }
     /**
      * 
-     * @param act 
-     * @returns ErrorMessage
-     */
-    async createActivityStat(act: ActivityStat){
-        const user = await this.findOne(act.email);
-        const response = new ErrorMessage;
-        if(user){
-           const item = await this.repoService.createActivityStatistic(act);
-           if(item){
-               response.message = "Activity Successfully added";
-               return response;
-           }else{
-               response.message= "Activity Addition failure";
-               return response;
-           }
-        }else{
-            response.message = "Could not find The user failure"
-            return response;
-        }
-    }
-    /**
-     * 
-     * @param email 
-     * @returns Array of activityStat
-     */
-    async fetchUserStat(email : string){
-        const user = await this.findOne(email);
-        if(user){
-            const stat = await this.repoService.getAllActivityStatistics(email);
-            return stat;
-
-        }else{
-            return;
-        }
-    }
-    /**
-     * 
      * @param user 
      * @returns Response
      */

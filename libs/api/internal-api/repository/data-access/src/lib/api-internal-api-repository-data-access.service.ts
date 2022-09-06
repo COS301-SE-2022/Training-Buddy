@@ -91,7 +91,8 @@ export class ApiInternalApiRepositoryDataAccessService {
         const users = [] ;
         await this.usersCollection.get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                users.push(doc.data());
+                if(doc.data().signUpStage > 0)
+                    users.push(doc.data());
             });
         });
         return users ;
@@ -762,18 +763,4 @@ export class ApiInternalApiRepositoryDataAccessService {
         }
 
     }
-
-
-    //REDUNDANT
-    async createActivityStatistic(@Param() activity: ActivityStat){
-        //Update to activity logs
-        return false;
-    }
-
-    async getAllActivityStatistics(@Param() email: string){
-        //redundant
-    }
-
-
-
 }
