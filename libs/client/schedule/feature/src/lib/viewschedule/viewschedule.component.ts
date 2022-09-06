@@ -183,15 +183,13 @@ export class ViewscheduleComponent implements OnInit {
     })
   }
 
-  getData(email: string){ //this gets all the scheduled workouts
-    //get all the invites
+  getData(email: string){
     this.getInvites(email).subscribe({
       next: (data: any) =>{
         const swap: any[]= [];
         data.data.getIncomingInvites.map((el : any) => {
           swap.push(this.convertInvitedToCard(el));
         });
-
         //sort the data.
         if(swap.length == 0){
           return;
@@ -223,7 +221,6 @@ export class ViewscheduleComponent implements OnInit {
 
       }
     })
-    //to do api call to get the schedule workouts
     this.getWorkouts(email).subscribe({
       next: (data : any) => {
           const swap: any[] = [];
@@ -251,8 +248,6 @@ export class ViewscheduleComponent implements OnInit {
                 dated[x].push(swap[w]);
               }
             }
-
-            // console.log(dated);
             this.workouts = dated;
             this.workoutsLoaded = true;
             this.workoutsCount = this.workouts.length;
@@ -260,10 +255,7 @@ export class ViewscheduleComponent implements OnInit {
               this.upcomingEvents = true;
             }
           }
-          //sort the data.
-
           this.loading = false;
-          // console.log(data)
       }
     })
     this.getWorkoutHistory(email).subscribe({
@@ -293,24 +285,18 @@ export class ViewscheduleComponent implements OnInit {
                 dated[x].push(swap[w]);
               }
             }
-
-            // console.log(dated);
             this.workoutHistory = dated;
             if(this.workoutHistory.length != 0) {
               this.pastEvents= true;
             }
           }
-          //sort the data.
-
           this.loading = false;
-          // console.log(data)
       }
 
     })
   }
   convertInvitedToCard(data: any) : any{
     return{
-
       organiser: data.sender,
       name: data.workout.title,
       id: data.workout.id,
@@ -322,7 +308,6 @@ export class ViewscheduleComponent implements OnInit {
   convertWorkoutToCard(data: any) : any {
     //to do write function to convert the data to a card
     return{
-      //name: data.name,
       name: data.title,
       id: data.id,
       startPoint: data.startPoint,
@@ -338,7 +323,6 @@ export class ViewscheduleComponent implements OnInit {
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
-    // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     return{
@@ -389,7 +373,6 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
     this.workoutInvites.map((el : any, i : number) => {
-      // console.log("checking if ", el[0].organiserEmail, "==", email);
         if (el[0].organiserEmail == email) {
           this.workoutInvites.splice(i, 1);
         }
@@ -420,7 +403,6 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
   this.workoutInvites.map((el : any, i : number) => {
-    // console.log("checking if ", el[0].organiserEmail, "==", email);
       if (el[0].organiserEmail == email) {
         this.workoutInvites.splice(i, 1);
       }
