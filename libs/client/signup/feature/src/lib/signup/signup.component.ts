@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
@@ -21,7 +22,7 @@ export class SignupComponent implements OnInit {
   longitude : number;
   vicinity : string;
 
-  constructor(private frm : FormBuilder, private apollo: Apollo, @Inject(Router) private router : Router, private cookieService: CookieService) {
+  constructor(private snack : MatSnackBar, private frm : FormBuilder, private apollo: Apollo, @Inject(Router) private router : Router, private cookieService: CookieService) {
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
     
     //injections
@@ -76,6 +77,11 @@ export class SignupComponent implements OnInit {
         this.cookieService.set('id', data.data.signup.message);
         this.cookieService.set('email', userEmail);
         this.router.navigate(['/configureprofile']);
+      },
+      error: () => {
+        this.snack.open('Signup failed, please try again.', 'X', {
+          duration: 2000
+        });
       }
     })
 

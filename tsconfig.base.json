@@ -122,6 +122,9 @@
       ],
       "@training-buddy/environment" : [
         "apps/client/src/environments/environment.ts"
+      ],
+      "@training-buddy/authgaurd" : [
+        "apps/client/src/app/auth-gaurd.service.ts"
       ]
     }
   },

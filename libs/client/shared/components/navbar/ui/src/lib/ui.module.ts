@@ -7,6 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsnavbarComponent } from './settingsnavbar/settingsnavbar.component';
 import { RouterModule } from '@angular/router';
 import { BacknavbarComponent } from './backnavbar/backnavbar.component';
+import { LogoComponent } from './logo/logo.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { BacknavbarComponent } from './backnavbar/backnavbar.component';
     SignedComponent,
     NavbarComponent,
     SettingsnavbarComponent,
-    BacknavbarComponent
+    BacknavbarComponent,
+    LogoComponent
   ],
   exports: [
     UnsignednavbarComponent,
@@ -27,7 +29,8 @@ import { BacknavbarComponent } from './backnavbar/backnavbar.component';
     MaterialModule,
     NavbarComponent,
     SettingsnavbarComponent,
-    BacknavbarComponent
+    BacknavbarComponent,
+    LogoComponent
   ]
 })
 export class UiModule {}

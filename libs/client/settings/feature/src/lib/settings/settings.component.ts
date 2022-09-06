@@ -36,7 +36,7 @@ export class SettingsComponent implements OnInit {
   }
 
   logout() {
-    this.cookie.deleteAll();
+    this.cookie.deleteAll('/'); //delete all paths of cookies
     this.router.navigate(['login']);
   }
 

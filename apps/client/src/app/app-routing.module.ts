@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+// import { AuthGaurdService } from './auth-gaurd.service';
+
 const routes: Routes = [
 
   {
@@ -15,6 +17,9 @@ const routes: Routes = [
       import('@training-buddy/client/login/feature').then(
         m => m.ClientLoginFeatureModule
       ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -22,7 +27,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/signup/feature').then(
         m => m.ClientSignupFeatureModule
-      ),
+      )
   },
 
   {
@@ -31,6 +36,9 @@ const routes: Routes = [
       import('@training-buddy/client/dashboard/feature').then(
         m => m.ClientDashboardFeatureModule
       ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -39,6 +47,9 @@ const routes: Routes = [
       import('@training-buddy/client/settings/feature').then(
         m => m.ClientSettingsFeatureModule
       ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -47,6 +58,9 @@ const routes: Routes = [
       import('@training-buddy/client/editprofile/feature').then(
         m => m.ClientEditprofileFeatureModule
       ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -54,7 +68,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/athlete-profile/feature').then(
         m => m.ClientAthleteProfileFeatureModule
-      ),
+      )
   },
 
   {
@@ -62,7 +76,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/strava/feature').then(
         m => m.ClientStravaFeatureModule
-      ),
+      )
   },
 
   {
@@ -70,7 +84,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/strava/feature').then(
         m => m.ClientStravaFeatureModule
-      ),
+      )
   },
 
   {
@@ -79,6 +93,9 @@ const routes: Routes = [
       import ('@training-buddy/client/scheduleworkout/feature').then(
         m => m.ClientScheduleworkoutFeatureModule
       ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -86,7 +103,10 @@ const routes: Routes = [
     loadChildren: () =>
       import ('@training-buddy/client/addmanualactivity/feature').then(
         m => m.ClientAddmanualactivityFeatureModule
-      )
+      ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -94,7 +114,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/viewprofile/feature').then(
         m => m.ClientViewprofileFeatureModule
-      )
+      ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -110,7 +133,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/changepassword/feature').then(
         m => m.ClientChangepasswordFeatureModule
-      )
+      ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
@@ -118,7 +144,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('@training-buddy/client/schedule/feature').then(
         m => m.ClientScheduleFeatureModule
-      )
+      ),
+      canActivate: [
+        // AuthGaurdService
+      ]
   },
 
   {
