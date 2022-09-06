@@ -25,7 +25,7 @@ import { CookieService } from 'ngx-cookie-service';
         ]))
         ]),
         transition(':leave', [
-          
+
         ])
       ]
     ),
@@ -44,7 +44,7 @@ import { CookieService } from 'ngx-cookie-service';
         ]))
         ]),
         transition(':leave', [
-          
+
         ])
       ]
     ),
@@ -84,11 +84,11 @@ export class ViewscheduleComponent implements OnInit {
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private cookieService:CookieService){
     this.email = this.cookieService.get('email');
-  } 
+  }
   ngOnInit(): void {
     this.getData(this.email);
   }
- 
+
   getWorkouts(email: string){
     return this.apollo
     .query({
@@ -183,16 +183,14 @@ export class ViewscheduleComponent implements OnInit {
     })
   }
 
-  getData(email: string){ //this gets all the scheduled workouts
-    //get all the invites
+  getData(email: string){
     this.getInvites(email).subscribe({
       next: (data: any) =>{
         const swap: any[]= [];
         data.data.getIncomingInvites.map((el : any) => {
           swap.push(this.convertInvitedToCard(el));
         });
-
-        //sort the data. 
+        //sort the data.
         if(swap.length == 0){
           return;
         }
@@ -203,7 +201,7 @@ export class ViewscheduleComponent implements OnInit {
         const dated: any[][] = [[]];
         let x = 0;
         let currentday = swap[0].startDate.day;
-        
+
         for(let w = 0; w < swap.length; w++  ){
           if(swap[w].startDate.day == currentday){
             dated[x].push(swap[w]);
@@ -220,10 +218,9 @@ export class ViewscheduleComponent implements OnInit {
         if(this.workoutInvites.length != 0){
           this.invitesAvailable = true;
         }
-      
+
       }
     })
-    //to do api call to get the schedule workouts
     this.getWorkouts(email).subscribe({
       next: (data : any) => {
           const swap: any[] = [];
@@ -234,11 +231,11 @@ export class ViewscheduleComponent implements OnInit {
             swap.sort(function(a,b){
               return a.startDate.timestamp - b.startDate.timestamp;
             });
-  
+
             const dated: any[][] = [[]];
             let x = 0;
             let currentday = swap[0].startDate.day;
-            
+
             for(let w = 0; w < swap.length; w++  ){
               if(swap[w].startDate.day == currentday){
                 dated[x].push(swap[w]);
@@ -251,8 +248,6 @@ export class ViewscheduleComponent implements OnInit {
                 dated[x].push(swap[w]);
               }
             }
-          
-            // console.log(dated);
             this.workouts = dated;
             this.workoutsLoaded = true;
             this.workoutsCount = this.workouts.length;
@@ -260,10 +255,7 @@ export class ViewscheduleComponent implements OnInit {
               this.upcomingEvents = true;
             }
           }
-          //sort the data.
-          
           this.loading = false;
-          // console.log(data)
       }
     })
     this.getWorkoutHistory(email).subscribe({
@@ -274,13 +266,13 @@ export class ViewscheduleComponent implements OnInit {
           });
           if(swap.length != 0){
             swap.sort(function(a,b){
-              return a.startDate.timestamp - b.startDate.timestamp;
+              return b.startDate.timestamp - a.startDate.timestamp;
             });
-  
+
             const dated: any[][] = [[]];
             let x = 0;
             let currentday = swap[0].startDate.day;
-            
+
             for(let w = 0; w < swap.length; w++  ){
               if(swap[w].startDate.day == currentday){
                 dated[x].push(swap[w]);
@@ -293,24 +285,18 @@ export class ViewscheduleComponent implements OnInit {
                 dated[x].push(swap[w]);
               }
             }
-          
-            // console.log(dated);
             this.workoutHistory = dated;
             if(this.workoutHistory.length != 0) {
               this.pastEvents= true;
             }
           }
-          //sort the data.
-          
           this.loading = false;
-          // console.log(data)
       }
-        
+
     })
   }
   convertInvitedToCard(data: any) : any{
     return{
-   
       organiser: data.sender,
       name: data.workout.title,
       id: data.workout.id,
@@ -322,7 +308,6 @@ export class ViewscheduleComponent implements OnInit {
   convertWorkoutToCard(data: any) : any {
     //to do write function to convert the data to a card
     return{
-      //name: data.name,
       name: data.title,
       id: data.id,
       startPoint: data.startPoint,
@@ -334,13 +319,12 @@ export class ViewscheduleComponent implements OnInit {
 
 
   startDateTime(data: string): any{
-    //write a function that returns the date and time 
+    //write a function that returns the date and time
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
-    // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-   
+
     return{
       timestamp: data,
       day: date.getDate(),
@@ -352,7 +336,7 @@ export class ViewscheduleComponent implements OnInit {
 
   image(data: string): string{
     // return this.currentImage;
-    if (data == 'run') 
+    if (data == 'run')
     return "https://img.icons8.com/ios/50/000000/running.png";
     if (data == 'ride')
       return "https://img.icons8.com/ios-filled/50/000000/bicycle.png";
@@ -369,10 +353,10 @@ export class ViewscheduleComponent implements OnInit {
     this.apollo
     .mutate({
       mutation: gql`
-        mutation{ 
+        mutation{
           acceptInvite(
             email: "${ this.email }",
-            sender: "${ email }", 
+            sender: "${ email }",
             workoutID: "${ workoutID }"
           ){
           message
@@ -389,7 +373,6 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
     this.workoutInvites.map((el : any, i : number) => {
-      // console.log("checking if ", el[0].organiserEmail, "==", email);
         if (el[0].organiserEmail == email) {
           this.workoutInvites.splice(i, 1);
         }
@@ -400,10 +383,10 @@ export class ViewscheduleComponent implements OnInit {
     this.apollo
     .mutate({
       mutation: gql`
-        mutation{ 
+        mutation{
           rejectInvite(
             email: "${ this.email }",
-            sender: "${ email }", 
+            sender: "${ email }",
             workoutID: "${ workoutID }"
           ){
           message
@@ -420,7 +403,6 @@ export class ViewscheduleComponent implements OnInit {
       }
     });
   this.workoutInvites.map((el : any, i : number) => {
-    // console.log("checking if ", el[0].organiserEmail, "==", email);
       if (el[0].organiserEmail == email) {
         this.workoutInvites.splice(i, 1);
       }

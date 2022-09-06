@@ -1,5 +1,4 @@
 <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
-
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 <div *ngIf="!loading" class="px-4">
 
@@ -68,7 +67,7 @@
             <div *ngFor="let day of workouts" >
                 <div class="text-center ">
                     <h2>
-                        {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
+                        {{day[0]?.startDate.day}} {{day[0]?.startDate.month}} {{day[0]?.startDate.year}}
                     </h2>
 
                 </div>
@@ -99,7 +98,7 @@
         <div *ngFor="let day of workoutHistory" >
             <div class="text-center ">
                 <h2>
-                    {{day[0]?.startDate.day}} {{day[0]?.startDate.month}}
+                    {{day[0]?.startDate.day}} {{day[0]?.startDate.month}} {{day[0]?.startDate.year}}
                 </h2>
 
             </div>
@@ -121,10 +120,12 @@
 
     </div>
     </ng-container>
+    <div *ngIf="toggle">
+      <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
 
-        <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
-            <mat-icon>add</mat-icon>
-        </button>
 </div>
 
 <training-buddy-navbar></training-buddy-navbar>
