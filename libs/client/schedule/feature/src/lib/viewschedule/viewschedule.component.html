@@ -121,10 +121,12 @@
 
     </div>
     </ng-container>
+    <div *ngIf="toggle">
+      <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
 
-        <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
-            <mat-icon>add</mat-icon>
-        </button>
 </div>
 
 <training-buddy-navbar></training-buddy-navbar>
