@@ -58,6 +58,38 @@ describe('AddmanualactivityComponent', () => {
   });
 
   /**
+   * Test resetForm
+   */
+  describe('resetForm', () => {
+   it('should reset form', () => {
+  
+      expect(component.manualForm.value).toEqual({
+        name: '',
+        type: 'Running',
+        hours: '01',
+        minutes: '00',
+        seconds: '00',
+        distance: '',
+        date: '',
+      });
+
+      component.resetForm();
+
+      expect(component.manualForm.value).toEqual({
+        name: null,
+        type: null,
+        hours: null,
+        minutes: null,
+        seconds: null,
+        distance: null,
+        date: null,
+      });
+
+    });
+  });
+
+
+  /**
    * Test add function
    */
   describe('add', () => {
