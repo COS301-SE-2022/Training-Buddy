@@ -32,7 +32,7 @@
 }
 
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #1b1a1b;
+    stroke: #0284c7 !important;
 }
 
 .row {
@@ -57,7 +57,7 @@ mat-form-field {
 }
 
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #000000;
+    stroke: #0284c7 !important;
 }
 
 mat-spinner {

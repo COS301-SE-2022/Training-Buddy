@@ -25,7 +25,7 @@ import { CookieService } from 'ngx-cookie-service';
         ]))
         ]),
         transition(':leave', [
-          
+
         ])
       ]
     ),
@@ -44,7 +44,7 @@ import { CookieService } from 'ngx-cookie-service';
         ]))
         ]),
         transition(':leave', [
-          
+
         ])
       ]
     ),
@@ -84,11 +84,11 @@ export class ViewscheduleComponent implements OnInit {
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private cookieService:CookieService){
     this.email = this.cookieService.get('email');
-  } 
+  }
   ngOnInit(): void {
     this.getData(this.email);
   }
- 
+
   getWorkouts(email: string){
     return this.apollo
     .query({
@@ -192,7 +192,7 @@ export class ViewscheduleComponent implements OnInit {
           swap.push(this.convertInvitedToCard(el));
         });
 
-        //sort the data. 
+        //sort the data.
         if(swap.length == 0){
           return;
         }
@@ -203,7 +203,7 @@ export class ViewscheduleComponent implements OnInit {
         const dated: any[][] = [[]];
         let x = 0;
         let currentday = swap[0].startDate.day;
-        
+
         for(let w = 0; w < swap.length; w++  ){
           if(swap[w].startDate.day == currentday){
             dated[x].push(swap[w]);
@@ -220,7 +220,7 @@ export class ViewscheduleComponent implements OnInit {
         if(this.workoutInvites.length != 0){
           this.invitesAvailable = true;
         }
-      
+
       }
     })
     //to do api call to get the schedule workouts
@@ -234,11 +234,11 @@ export class ViewscheduleComponent implements OnInit {
             swap.sort(function(a,b){
               return a.startDate.timestamp - b.startDate.timestamp;
             });
-  
+
             const dated: any[][] = [[]];
             let x = 0;
             let currentday = swap[0].startDate.day;
-            
+
             for(let w = 0; w < swap.length; w++  ){
               if(swap[w].startDate.day == currentday){
                 dated[x].push(swap[w]);
@@ -251,7 +251,7 @@ export class ViewscheduleComponent implements OnInit {
                 dated[x].push(swap[w]);
               }
             }
-          
+
             // console.log(dated);
             this.workouts = dated;
             this.workoutsLoaded = true;
@@ -261,7 +261,7 @@ export class ViewscheduleComponent implements OnInit {
             }
           }
           //sort the data.
-          
+
           this.loading = false;
           // console.log(data)
       }
@@ -274,13 +274,13 @@ export class ViewscheduleComponent implements OnInit {
           });
           if(swap.length != 0){
             swap.sort(function(a,b){
-              return a.startDate.timestamp - b.startDate.timestamp;
+              return b.startDate.timestamp - a.startDate.timestamp;
             });
-  
+
             const dated: any[][] = [[]];
             let x = 0;
             let currentday = swap[0].startDate.day;
-            
+
             for(let w = 0; w < swap.length; w++  ){
               if(swap[w].startDate.day == currentday){
                 dated[x].push(swap[w]);
@@ -293,7 +293,7 @@ export class ViewscheduleComponent implements OnInit {
                 dated[x].push(swap[w]);
               }
             }
-          
+
             // console.log(dated);
             this.workoutHistory = dated;
             if(this.workoutHistory.length != 0) {
@@ -301,16 +301,16 @@ export class ViewscheduleComponent implements OnInit {
             }
           }
           //sort the data.
-          
+
           this.loading = false;
           // console.log(data)
       }
-        
+
     })
   }
   convertInvitedToCard(data: any) : any{
     return{
-   
+
       organiser: data.sender,
       name: data.workout.title,
       id: data.workout.id,
@@ -334,13 +334,13 @@ export class ViewscheduleComponent implements OnInit {
 
 
   startDateTime(data: string): any{
-    //write a function that returns the date and time 
+    //write a function that returns the date and time
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
     // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-   
+
     return{
       timestamp: data,
       day: date.getDate(),
@@ -352,7 +352,7 @@ export class ViewscheduleComponent implements OnInit {
 
   image(data: string): string{
     // return this.currentImage;
-    if (data == 'run') 
+    if (data == 'run')
     return "https://img.icons8.com/ios/50/000000/running.png";
     if (data == 'ride')
       return "https://img.icons8.com/ios-filled/50/000000/bicycle.png";
@@ -369,10 +369,10 @@ export class ViewscheduleComponent implements OnInit {
     this.apollo
     .mutate({
       mutation: gql`
-        mutation{ 
+        mutation{
           acceptInvite(
             email: "${ this.email }",
-            sender: "${ email }", 
+            sender: "${ email }",
             workoutID: "${ workoutID }"
           ){
           message
@@ -400,10 +400,10 @@ export class ViewscheduleComponent implements OnInit {
     this.apollo
     .mutate({
       mutation: gql`
-        mutation{ 
+        mutation{
           rejectInvite(
             email: "${ this.email }",
-            sender: "${ email }", 
+            sender: "${ email }",
             workoutID: "${ workoutID }"
           ){
           message
