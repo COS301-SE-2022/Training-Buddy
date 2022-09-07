@@ -1,13 +1,13 @@
 <div id="background">
 
-    <training-buddy-signed-navbar></training-buddy-signed-navbar>
+    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
 
         <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="py-12">
 
             <div id="incomingRequests" class="m-8" *ngIf="doneloading">
-    
+
                 <h1 [@fadeIn] *ngIf="pendingrequests" class="text-center">Incoming Requests</h1>
-                
+
                 <ng-container>
                     <div [@fadeIn] *ngFor="let usr of requests; trackBy:trackById" class="dynamic max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
                         <div class="md:flex">
@@ -16,12 +16,12 @@
                             </div>
                             <div class="mx-4 mb-3 mt-2">
                                 <div class="acceptTitle">
-                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">{{ usr.userName }} {{ usr.userSurname }}</p> 
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black">{{ usr.userName }} {{ usr.userSurname }}</p>
                                     <div class="mr-4">
                                         <mat-icon (click)="accept(usr.email)" class="mr-1" id="accept">done</mat-icon>
                                         <mat-icon (click)="reject(usr.email)" id="reject">close</mat-icon>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
                                 <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
                                 <p class="mt-2 text-slate-500">{{ getSportString(usr) }}</p>
@@ -56,7 +56,7 @@
                 </div>
 
                     <div [@fadeIn] *ngFor="let usr of buddies; trackBy:trackById" class="dynamic mb-5 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-                        
+
                         <div class="md:flex cursor">
                             <div class="md:shrink-0">
                                 <img routerLink="/profile/{{usr.id}}" class="h-48 w-full object-cover md:h-full md:w-48" src={{usr.image}}>
@@ -64,9 +64,9 @@
 
                             <div class="mb-2 px-4 pb-4 pt-2 mt-2 card-c">
                                 <div class="acceptTitle">
-                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p> 
-                                    
-                                </div> 
+                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p>
+
+                                </div>
                                 <div class="tracking-wide text-xs font-semibold"><p>{{ usr.location }}</p></div>
                                 <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
 
@@ -74,16 +74,16 @@
                                     <div class="flex request-buttons">
                                         <button class="pad-right mr-1" mat-raised-button (click)="removeRec(usr)">Not Interested</button>
                                     </div>
-            
+
                                     <div class="flex request-buttons flex-end">
                                         <button class="pad-left action-color" *ngIf="!inOutgoing(usr.email)" (click)="sendRequest(usr.email)" mat-raised-button>Request</button>
                                         <button class="pad-left" *ngIf="inOutgoing(usr.email)" mat-raised-button disabled>Pending</button>
                                     </div>
-                                    
+
                                 </div>
-                            
+
                             </div>
-                            
+
                         </div>
 
                     </div>
