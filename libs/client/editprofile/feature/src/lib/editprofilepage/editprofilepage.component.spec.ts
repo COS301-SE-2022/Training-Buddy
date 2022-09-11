@@ -92,5 +92,39 @@ describe('EditprofilepageComponent', () => {
     });
   });
 
+  /**
+   * Test getCurrentUser function
+   */
+  describe('getCurrentUser', () => {
+    it('should call getCurrentUser', () => {
+      jest.spyOn(component, 'getCurrentUser');
+
+      component.getCurrentUser();
+
+      //Test getCurrentUser graphql query
+      component.getCurrentUser().subscribe({
+        next: (data: any) => {
+          expect(data.data.getOne).toEqual({
+            userName: 'TesterName',
+            userSurname: 'TesterSurname',
+            location: 'Hatfield',
+            longitude: 0,
+            latitude: 0,
+            dob: '1990-01-01',
+            gender: 'Male',
+            email: 'tester@gmail.com',
+            CellNumber: '0123456789',
+            bio: '',
+            metrics: {lift: 1, ride: 0, run: 1, swim: 0},
+            buddies: []
+          });
+        }
+      });
+
+      expect(component.getCurrentUser).toHaveBeenCalled();
+      
+    });
+  });
+
 
 });
