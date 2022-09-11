@@ -5,7 +5,6 @@ import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
 import BTree from 'sorted-btree'
 import * as SendGrid from '@sendgrid/mail';
-
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
 @Injectable()
 export class TrainingBuddyServiceService {
@@ -305,7 +304,8 @@ export class TrainingBuddyServiceService {
      * @param otherEmail 
      * @return ErrorMessage
      */
-    async accept(userEmail: string, otherEmail: string) {
+    async accept(otherEmail: string, userEmail: string) {
+        console.log("accepting")
         let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){

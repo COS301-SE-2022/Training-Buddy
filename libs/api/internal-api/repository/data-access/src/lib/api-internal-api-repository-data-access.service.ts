@@ -10,12 +10,20 @@ import internal = require('stream');
 import uuid = require('uuid') ;
 import { Observable } from 'rxjs';
 import fs = require('fs') ;
-import {writeBatch} from 'firebase/firestore' ;
+import {getFirestore, writeBatch} from 'firebase/firestore' ;
 import axios from 'axios';
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
+
+    constructor(){
+
+        // const a = this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
+        //     console.log(querySnapshot) ;
+        // });
+    }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
@@ -27,7 +35,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     buddyRequestsCollection = this.firestore.collection('/BuddyRequests') ;
     scheduledWorkoutCollection = this.firestore.collection('/ScheduledWorkouts') ;
     workoutInvitesCollection = this.firestore.collection('/WorkoutInvites')
-
 
     //USERS
     //users - CREATE
@@ -515,6 +522,8 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
+    
+
     //requests - READ
 
     //incoming
@@ -546,8 +555,10 @@ export class ApiInternalApiRepositoryDataAccessService {
     async deleteConnectionRequest(@Param() receiver: string, @Param() sender: string){
         return this.buddyRequestsCollection.where('sender', '==', sender).where('receiver','==',receiver).get().then(async (result) => {
             if(result.docs[0]) return this.buddyRequestsCollection.doc(result.docs[0].id).delete().then(results => {
+                console.log("deleted") ;
                 return true ;
             }) ;
+            console.log("delete problem") ;
             return false ;
         })
     }
@@ -562,7 +573,6 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({buddies: this.arrayUnion(user2)}).then(results => {
                 return this.usersCollection.where('email', '==', user2).get().then(async (result1) =>{
                     if(result1.docs[0]) return this.usersCollection.doc(result1.docs[0].id).update({buddies: this.arrayUnion(user1)}).then(results =>{
-                        this.deleteConnectionRequest(user2, user1) ;
                         return true ;
                     })
                 });

@@ -148,8 +148,8 @@ export class TrainingBuddyApiResolver {
      * tested
      */
     @Mutation(()=>ErrorMessage)
-    accept(@Args('Sender')userEmail: string ,  @Args('Receiver')otherEmail: string){
-        const val = this.trainingBuddyService.accept(userEmail, otherEmail);
+    accept(@Args('Sender')otherEmail: string ,  @Args('Receiver')userEmail: string){
+        const val = this.trainingBuddyService.accept(otherEmail, userEmail);
         this.subscriptionsRequest(userEmail, otherEmail)
         return val;
     }
