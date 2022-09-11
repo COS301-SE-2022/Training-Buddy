@@ -6,6 +6,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AthleteprofileComponent } from './athleteprofile.component';
 import { CookieService } from 'ngx-cookie-service';
+import { 
+  ApolloTestingModule,
+ } from 'apollo-angular/testing';
 
 
 describe('AthleteprofileComponent', () => {
@@ -20,6 +23,7 @@ describe('AthleteprofileComponent', () => {
         UiModule,
         NoopAnimationsModule,
         RouterTestingModule,
+        ApolloTestingModule,
        
       ],
       providers: [
@@ -30,6 +34,7 @@ describe('AthleteprofileComponent', () => {
       ]
     })
     .compileComponents();
+
   });
 
   beforeEach(() => {
@@ -37,6 +42,8 @@ describe('AthleteprofileComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -55,7 +62,44 @@ describe('AthleteprofileComponent', () => {
       expect(spy).toHaveBeenCalled();
   
     });
-    
   });
 
+  /**
+   * Test getCurrentUser function
+   */
+  describe('getCurrentUser', () => {
+    it('should call getCurrentUser function', () => {
+
+      const spy = jest.spyOn(component, 'getCurrentUser');
+  
+      component.getCurrentUser().subscribe();
+
+      const op = component.getCurrentUser().subscribe();
+      op.add(() => {
+        expect(component.getCurrentUser).toEqual({
+          userName: 'Tester',
+          userSurname: 'TesterSurname',
+          location: 'Hatfield',
+          longitude: 1,
+          latitude: 1,
+          stravaToken: '123456789',
+          dob: '1990-01-01',
+          gender: 'male',
+          email: 'tester@gmail.com',	
+          cellNumber: '0812634568',
+          bio: 'I love to run and write software',
+          metrics: { lift: 1, ride: 1, run: 1, swim: 1 },
+          buddies: [],
+          distance: 10,
+          });
+      });
+
+      expect(spy).toHaveBeenCalled();
+
+    });
+  });
+
+
+
+  
 });
