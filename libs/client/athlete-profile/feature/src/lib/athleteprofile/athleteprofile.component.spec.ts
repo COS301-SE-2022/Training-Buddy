@@ -113,4 +113,34 @@ describe('AthleteprofileComponent', () => {
 
     });
   });
+
+  /**
+   * Test save Function
+   */
+  describe('save', () => {
+    it('should call save function', () => {
+
+      const spy = jest.spyOn(component, 'save');
+
+      component.save();
+
+      
+      if(component.update){
+
+        component.updateProfile('tester', true, false, false, false,'', 10);
+        expect(component.update).toEqual(true);
+        
+      }
+
+      component.setProfile('tester', true, false, false, false,'', 10);
+      expect(component.update).toEqual(false);
+      
+      expect(spy).toHaveBeenCalled();
+
+    });
+  });
+
+
+
+
 });
