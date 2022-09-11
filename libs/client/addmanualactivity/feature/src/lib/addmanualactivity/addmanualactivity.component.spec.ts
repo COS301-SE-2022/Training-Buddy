@@ -59,8 +59,7 @@ describe('AddmanualactivityComponent', () => {
 
   /**
    * Test resetForm
-   */
-  describe('resetForm', () => {
+   */  describe('resetForm', () => {
    it('should reset form', () => {
   
       expect(component.manualForm.value).toEqual({
@@ -140,8 +139,6 @@ describe('AddmanualactivityComponent', () => {
    * Test activityToggle function
    */
   describe('activityToggle', () => {
-
-    //Sets "WightLifting" to true in activityToggle function
     it('should execute the callback, setting "WeightLifting " to true', () => {
       
         jest.spyOn(component, 'activityToggle');
@@ -153,9 +150,6 @@ describe('AddmanualactivityComponent', () => {
         expect(component.isWeightLifting).toBe(true);
 
     })
-
-
-    //Sets "WeightLifting" to false in activityToggle function
     it('should execute the callback, setting "WeightLifting " to false', () => {
         
           jest.spyOn(component, 'activityToggle');
@@ -168,14 +162,6 @@ describe('AddmanualactivityComponent', () => {
   
       })
   })
-
-  /**
-   * Test add activity function
-   */
-  
-
-  //Test addactivity function
-
 
   describe('calculateSeconds', () => {
     it('should successfully calculate seconds', () => {
