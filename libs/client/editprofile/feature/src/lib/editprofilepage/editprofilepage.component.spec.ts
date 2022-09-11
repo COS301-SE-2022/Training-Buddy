@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { Component } from '@angular/core';
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
   authDomain: 'training-buddy-2022.firebaseapp.com',
@@ -18,6 +19,7 @@ const firebase = {
   appId: '445917436',
   measurementId: 'G-K7WPZTL3FJ'
 }
+
 describe('EditprofilepageComponent', () => {
   let component: EditprofilepageComponent;
   let fixture: ComponentFixture<EditprofilepageComponent>;
@@ -122,9 +124,28 @@ describe('EditprofilepageComponent', () => {
       });
 
       expect(component.getCurrentUser).toHaveBeenCalled();
-      
+
     });
   });
 
+  /**
+   * Test onAutocompleteSelected function
+   */
+  describe('onAutocompleteSelected', () => {
+    it('should test onAutocompleteSelected functionality', () => {
+      jest.spyOn(component, 'onAutocompleteSelected');
+
+      jest.spyOn(component, 'onAutocompleteSelected').mockImplementation(() => {
+        component.vicinity = 'Hatfield';
+      });
+
+      component.onAutocompleteSelected('Hatfield');
+
+      expect(component.onAutocompleteSelected).toHaveBeenCalled();
+
+      expect(component.vicinity).toEqual('Hatfield');
+
+    });
+  });
 
 });
