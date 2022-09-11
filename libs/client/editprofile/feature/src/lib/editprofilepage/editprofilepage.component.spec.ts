@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EditprofilepageComponent } from './editprofilepage.component';
 import { Apollo } from 'apollo-angular';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -50,4 +50,47 @@ describe('EditprofilepageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  /**
+   * Test ngOnInit function
+   */
+  describe('ngOnInIt', () => {
+    it('should call ngOnInit', () => {
+      jest.spyOn(component, 'ngOnInit');
+
+      component.ngOnInit();
+
+      component.updateForm = component.frmBuilder.group({
+        userName: new FormControl('TesterName'),
+        userEmail: new FormControl('TesterSurname'),
+        userCellNumber: new FormControl('0123456789'),
+        userGender: new FormControl('Female'),
+        userLocation: new FormControl('Hatfield'),
+      });
+
+      component.getCurrentUser().subscribe({
+        next: (data: any) => {
+
+          component.user = data.data.getOne;
+
+          component.originalEmail = component.user.email;
+          component.oldLocation = component.user.location;
+          component.longitude = component.user.longitude;
+          component.latitude = component.user.latitude;
+          component.updateForm.setValue({
+            userName: component.user.userName,
+            userEmail: component.user.userEmail,
+            userCellNumber: component.user.userCellNumber,
+            userGender: component.user.userGender,
+            userLocation: component.user.userLocation,
+          });
+        }
+      });
+      
+      expect(component.ngOnInit).toHaveBeenCalled();
+
+    });
+  });
+
+
 });
