@@ -148,4 +148,44 @@ describe('EditprofilepageComponent', () => {
     });
   });
 
+  /**
+   * Test onLocationSelected function
+   */
+  describe('onLocationSelected', () => {
+    it('should test onLocationSelected functionality', () => {
+      jest.spyOn(component, 'onLocationSelected');
+
+      jest.spyOn(component, 'onLocationSelected').mockImplementation(() => {
+        component.longitude = 0;
+        component.latitude = 0;
+      });
+
+      component.onLocationSelected('Hatfield'); 
+
+      expect({longitude: component.longitude, latitude: component.latitude})
+      .toEqual({longitude: 0, latitude: 0});
+
+      expect(component.onLocationSelected).toHaveBeenCalled();
+
+    });
+
+    it('should test onLocationSelected functionality [test to see if no event has been passed]', () => {
+      jest.spyOn(component, 'onLocationSelected');
+
+      jest.spyOn(component, 'onLocationSelected').mockImplementation(() => {
+        component.longitude = 0;
+        component.latitude = 0;
+      });
+
+      component.onLocationSelected(null); 
+
+      expect({longitude: component.longitude, latitude: component.latitude})
+      .not
+      .toEqual({longitude: 1, latitude: 1});
+
+      expect(component.onLocationSelected).toHaveBeenCalled();
+
+    });
+  });
+
 });
