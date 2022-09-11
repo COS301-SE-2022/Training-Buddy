@@ -305,7 +305,7 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async accept(otherEmail: string, userEmail: string) {
-        console.log("accepting")
+        //console.log("accepting")
         let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){

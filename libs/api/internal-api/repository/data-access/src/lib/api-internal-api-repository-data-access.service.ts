@@ -390,7 +390,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     async activityExists(@Param() id: number){
         return await this.activityLogsCollection.where('id', '==', id).get().then(async (result) =>{
             if(result.docs[0]){
-                console.log(result.docs[0]);
+                //console.log(result.docs[0]);
                 return true ;
             }
             return false ;
