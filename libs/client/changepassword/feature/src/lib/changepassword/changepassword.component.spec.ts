@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -72,5 +72,32 @@ describe('ChangepasswordComponent', () => {
 
   });
 
+  
+  /**
+   * Test validatePassword function
+   */
+
+  describe('validatePassword', () => {
+      
+      it('should return error message [password is invalid]', () => {
+  
+        jest.spyOn(component, 'validatePassword');
+
+        expect(component.validatePassword(new FormControl('123456789'))).toEqual({ 'error_msg' : 'Min length 8, 1x Uppercase, 1x Lowercase, 1x Special Char' });
+
+        expect(component.validatePassword).toHaveBeenCalled();
+  
+      });
+
+      it('should return null [password is valid]', () => {
+                  
+          jest.spyOn(component, 'validatePassword');
+  
+          expect(component.validatePassword(new FormControl('123456789Aa!'))).toEqual(null);
+  
+          expect(component.validatePassword).toHaveBeenCalled();
+    
+        });                       
+    });
 
 });
