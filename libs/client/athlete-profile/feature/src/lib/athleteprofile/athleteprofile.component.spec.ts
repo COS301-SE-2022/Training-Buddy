@@ -99,7 +99,18 @@ describe('AthleteprofileComponent', () => {
     });
   });
 
+  /**
+   * Test update error function
+   */
+  describe('updateError', () => {
+    it('should call updateError function', () => {
 
-
+      const spy = jest.spyOn(component, 'updateError');
   
+      component.updateError();
+
+      expect(spy).toHaveBeenCalled();
+
+    });
+  });
 });
