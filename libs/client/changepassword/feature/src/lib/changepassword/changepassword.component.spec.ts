@@ -33,4 +33,44 @@ describe('ChangepasswordComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  /**
+   * Test ngOnInIt function
+   */
+  describe('ngOnInIt', () => {
+
+    it('should call the ngOnInIt function', () => {
+
+      jest.spyOn(component, 'ngOnInit');
+      component.ngOnInit();
+
+        component.passwordFrm = component.frmBuilder.group({
+          old: [''],
+          one: ['', component.validatePassword],
+          two: ['']
+        });
+
+
+        component.passwordFrm.valueChanges.subscribe({
+          next: (data : any) => {
+              if (data.two.length != 0) {
+                if (data.one == data.two) {
+                  component.passwordFrm.controls['two'].setErrors(null);
+                } else {
+                  component.passwordFrm.controls['two'].setErrors({
+                    'incorrect' : true
+                  });
+                }
+              }
+          }
+        });
+
+
+      expect(component.ngOnInit).toHaveBeenCalled();
+
+    });
+
+  });
+
+
 });
