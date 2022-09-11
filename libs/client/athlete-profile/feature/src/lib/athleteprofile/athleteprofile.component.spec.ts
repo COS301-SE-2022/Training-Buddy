@@ -8,14 +8,12 @@ import { AthleteprofileComponent } from './athleteprofile.component';
 import { CookieService } from 'ngx-cookie-service';
 import { 
   ApolloTestingModule,
-  ApolloTestingController,
  } from 'apollo-angular/testing';
 
 
 describe('AthleteprofileComponent', () => {
   let component: AthleteprofileComponent;
   let fixture: ComponentFixture<AthleteprofileComponent>;
-  let controller: ApolloTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,7 +33,7 @@ describe('AthleteprofileComponent', () => {
     })
     .compileComponents();
 
-    controller = TestBed.inject(ApolloTestingController);
+
 
   });
 
@@ -44,13 +42,6 @@ describe('AthleteprofileComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  
-  // afterEach(() => {
-  //   controller.verify();
-  // });
-
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
