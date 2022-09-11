@@ -188,4 +188,29 @@ describe('EditprofilepageComponent', () => {
     });
   });
 
+  /**
+   * Test validateNameSurname function
+   */
+  describe('validateNameSurname', () => {
+    it('should succesfully set valid username', () => {
+      jest.spyOn(component, 'validateNameSurname');
+
+      expect(component.validateNameSurname(new FormControl('Tester Name')))
+      .toEqual(null);
+
+      expect(component.validateNameSurname).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error message if invalid name is set', () => {
+      jest.spyOn(component, 'validateNameSurname');
+
+      expect(component.validateNameSurname(new FormControl('TesterName123')))
+      .toEqual({'error_msg' : 'Name and surname is required'});
+
+      expect(component.validateNameSurname).toHaveBeenCalled();
+
+    });
+  });
+
 });
