@@ -8,12 +8,14 @@ import { AthleteprofileComponent } from './athleteprofile.component';
 import { CookieService } from 'ngx-cookie-service';
 import { 
   ApolloTestingModule,
+  ApolloTestingController,
  } from 'apollo-angular/testing';
 
 
 describe('AthleteprofileComponent', () => {
   let component: AthleteprofileComponent;
   let fixture: ComponentFixture<AthleteprofileComponent>;
+  let controller: ApolloTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,11 +31,11 @@ describe('AthleteprofileComponent', () => {
       providers: [
         Apollo,
         CookieService,
-
-       
       ]
     })
     .compileComponents();
+
+    controller = TestBed.inject(ApolloTestingController);
 
   });
 
@@ -42,6 +44,11 @@ describe('AthleteprofileComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
+  
+  // afterEach(() => {
+  //   controller.verify();
+  // });
 
 
 
@@ -134,13 +141,38 @@ describe('AthleteprofileComponent', () => {
 
       component.setProfile('tester', true, false, false, false,'', 10);
       expect(component.update).toEqual(false);
-      
+
       expect(spy).toHaveBeenCalled();
 
     });
   });
 
 
+  /**
+   * Test setProfile Function
+   */
+  describe('setProfile', () => {
+    it('should call setProfile function', () => {
 
+      const spy = jest.spyOn(component, 'setProfile');
 
+      const op = component.setProfile('tester', true, false, false, false,'', 10).subscribe();
+      op.add(() => {
+        expect(component.setProfile).toEqual({
+          userConfig: {
+            email: 'tester@gmail.com',	
+            distance: 10,
+            riding: false,
+            running: true,
+            swimming: false,
+            lifting: false,
+            bio: '',
+            },
+          });
+      });
+
+      expect(spy).toHaveBeenCalled();
+
+    });
+  });
 });
