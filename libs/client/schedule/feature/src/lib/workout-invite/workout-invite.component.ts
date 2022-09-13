@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
+import { pipe, tap } from 'rxjs';
 
 @Component({
   selector: 'training-buddy-workout-invite',
@@ -16,8 +18,8 @@ export class WorkoutInviteComponent implements OnInit {
   noBuddies = false;
   email: string;
 
-  constructor(public dialogRef: MatDialogRef<WorkoutInviteComponent>, private apollo: Apollo, private cookieService: CookieService,
-    @Inject(MAT_DIALOG_DATA) public workoutID: string){
+  constructor(public dialogRef: MatDialogRef<WorkoutInviteComponent>, private apollo: Apollo, private cookieService: CookieService, private afStorage: AngularFireStorage,
+    @Inject(MAT_DIALOG_DATA) public workoutID: string, ){
     this.email = this.cookieService.get('email');
   }
 
@@ -33,8 +35,10 @@ export class WorkoutInviteComponent implements OnInit {
 
     this.getBuddies(email).subscribe({
       next: (data : any) => {
-        this.buddies = data.data.getConnections;
-        this.buddiesOriginal = this.buddies;
+        this.fetchImages(data.data.getConnections).then((out : any[]) => {
+          this.buddies = out;
+          this.buddiesOriginal = out;
+        });
         this.loading = false;
         this.buddyCount = this.buddies.length;
         if (this.buddyCount == 0) {
@@ -52,8 +56,18 @@ export class WorkoutInviteComponent implements OnInit {
       ){
         userName,
         userSurname,
-        id,
-        email
+        location,
+        longitude,
+        latitude,
+        stravaToken,
+        dob,
+        gender,
+        email,
+        cellNumber,
+        bio,
+        metrics{lift , ride , run , swim},
+        buddies,
+        id
       }
       }
       `,
@@ -76,7 +90,7 @@ export class WorkoutInviteComponent implements OnInit {
     }).subscribe({
       next: (data: any) => {
         console.log(data.data.sendInvite.message);
-      
+
         this.buddiesOriginal.map((el : any, i : number) => {
           if (el.email == email) {
             if(this.buddyCount == 1){
@@ -93,10 +107,10 @@ export class WorkoutInviteComponent implements OnInit {
           }
         });
         if(data.data.sendInvite.message == "Failure"){
-          //create invite 
+          //create invite
           this.createInvite(email);
           //sendRequest
-        
+
         }
       }
     });
@@ -121,4 +135,25 @@ export class WorkoutInviteComponent implements OnInit {
       }
     })
   }
+  fetchImages(data : any[]) : Promise<any> {
+    return new Promise<any>((res, rej) => {
+     const o : any[] = [];
+     data.forEach((usr : any) => {
+       this.afStorage
+         .ref(`UserProfileImage/${usr.id}`)
+         .getDownloadURL()
+         .pipe(
+           tap((url : any) => {
+             const image = {image : url};
+             const p = {
+               ...usr,
+               ...image
+             }
+             o.push(p);
+           })
+         ).subscribe();
+     });
+     res(o);
+    })
+   }
 }

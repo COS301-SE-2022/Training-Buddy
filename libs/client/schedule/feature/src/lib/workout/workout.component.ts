@@ -145,7 +145,8 @@ export class WorkoutComponent implements OnInit {
 
   openDialog(): void {
   const dialogRef = this.dialog.open(WorkoutInviteComponent, {
-    width: '250px',
+    minWidth: '300px',
+    maxWidth: '80%',
     data: this.workoutID
   });
   dialogRef.afterClosed().subscribe(result => {

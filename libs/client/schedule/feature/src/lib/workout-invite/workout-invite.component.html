@@ -1,29 +1,91 @@
+<mat-dialog-content>
+    <mat-form-field class="mt-3 w-full" appearance="outline">
+        <mat-label>Search</mat-label>
+        <input id="search" matInput placeholder="Search for buddies to add" name="search" >
+    </mat-form-field>
 
-<!-- <mat-form-field class="mt-3" appearance="outline">
-    <mat-label>Search</mat-label>
-    <input id="search" matInput placeholder="Afternoon Run..." name="search" (focus)="showLogsClear()" (blur)="hideLogsClear()" #logSearchBox (input)="searchLogs(logSearchBox)">
-    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="hideLogsClear()" *ngIf="clearLogsbutton">
-        <mat-icon>close</mat-icon>
-    </button>
-</mat-form-field> -->
+    <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
+    <div *ngIf="!loading">
+    <div *ngIf="noBuddies" class="my-6">
+        <mat-hint class="text-center">No buddies available to add</mat-hint>
+    </div>
+    <!-- <mat-list>
+        <mat-list-item *ngFor="let buddy of buddies">
+            <h4 mat-line >{{ buddy?.userName }} {{ buddy?.userSurname }}</h4>
+            <button class="text-center mx-5 button" (click)="sendRequest(buddy?.email)">
+                <mat-icon>add_circle</mat-icon>
+            </button>
+        </mat-list-item>
+    </mat-list> -->
+    <!-- <mat-selection-list #buddiesList [multiple]="true">
+        <mat-list-option *ngFor="let buddy of buddies" [value]="buddy">
 
-<mat-form-field class="mt-3" appearance="outline">
-    <mat-label>Search</mat-label>
-    <input id="search" matInput placeholder="Search for buddies to add" name="search" >
+            <h4 mat-line >{{ buddy?.userName }} {{ buddy?.userSurname }}</h4>
+        </mat-list-option>
+    </mat-selection-list> -->
+       <!-- Card body -->
+       <div class="w-full max-w-2xl mx-auto bg-white">
+        <div class="p-3">
+              <table class="table-auto w-full">
+                  <tbody class="text-sm divide-y divide-gray-100">
+                      <tr *ngFor="let buddy of buddies">
+                          <td class="p-2 whitespace-nowrap">
+                              <div class="flex items-center">
+                                  <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full w-10 h-10" src="{{buddy?.image}}" width="40" height="40" alt="pic"></div>
+                                  <div class="font-medium text-gray-800">{{ buddy?.userName }} {{ buddy?.userSurname }}</div>
+                              </div>
+                          </td>
+                          <td class="p-2 whitespace-nowrap">
+                            <button class="text-center mx-5 button" (click)="sendRequest(buddy?.email)">
+                              <mat-icon>add_circle</mat-icon>
+                            </button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+        </div>
+    </div>
+    </div>
+</mat-dialog-content>
 
-</mat-form-field>
+<!-- <mat-icon matListIcon>folder</mat-icon>
+<h3 matLine> {{buddy?.userName}} </h3>
+<p matLine>
+  <span> {{buddy?.userSurname}} </span>
+  <span class="demo-2"> -- {{buddy?.email}} </span>
+</p> -->
 
-<div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
-<div *ngIf="!loading"> 
-<div *ngIf="noBuddies" class="my-6">
-    <mat-hint class="text-center">No buddies available to add</mat-hint>
-</div>
-<mat-list>
-    <mat-list-item *ngFor="let buddy of buddies">
-        <h4 mat-line >{{ buddy?.userName }} {{ buddy?.userSurname }}</h4>
-        <button class="text-center mx-5 button" (click)="sendRequest(buddy?.email)">
-            <mat-icon>add_circle</mat-icon>
-        </button>
-    </mat-list-item>
-</mat-list>
-</div>
+<!--
+Include Tailwind JIT CDN compiler
+More info: https://beyondco.de/blog/tailwind-jit-compiler-via-cdn
+-->
+<!-- <script src="https://unpkg.com/tailwindcss-jit-cdn"></script> -->
+
+<!-- Specify a custom Tailwind configuration -->
+<!-- <script type="tailwind-config">
+{
+  theme: {
+    extend: {
+      colors: {
+        gray: colors.blueGray,
+      }
+    }
+  }
+}
+</script> -->
+
+
+<!--
+Include Tailwind JIT CDN compiler
+More info: https://beyondco.de/blog/tailwind-jit-compiler-via-cdn
+-->
+<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+
+<!-- Snippet -->
+
+
+
+<!--
+Include Tailwind JIT CDN compiler
+More info: https://beyondco.de/blog/tailwind-jit-compiler-via-cdn
+-->
