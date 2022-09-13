@@ -101,9 +101,7 @@ describe('EditprofilepageComponent', () => {
     it('should call getCurrentUser', () => {
       jest.spyOn(component, 'getCurrentUser');
 
-      component.getCurrentUser();
 
-      //Test getCurrentUser graphql query
       component.getCurrentUser().subscribe({
         next: (data: any) => {
           expect(data.data.getOne).toEqual({
@@ -238,5 +236,89 @@ describe('EditprofilepageComponent', () => {
     });
 
   });
+
+  /**
+   * Test validateCellNumber function
+   */
+  describe('validateCellNumber', () => {
+    it('should succesfully set valid cell number', () => {
+      jest.spyOn(component, 'validateCellNumber');
+
+      expect(component.validateCellNumber(new FormControl('0123456789')))
+      .toEqual(null);
+
+      expect(component.validateCellNumber).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error message if invalid cell number is set', () => {
+      jest.spyOn(component, 'validateCellNumber');
+
+      expect(component.validateCellNumber(new FormControl('012345678')))
+      .toEqual({'error_msg' : 'Valid phone number is required'});
+
+      expect(component.validateCellNumber).toHaveBeenCalled();
+
+    });
+  });
+
+  /**
+   * Test validateGender function
+   */
+  describe('validateGender', () => {
+    it('should succesfully set valid gender', () => {
+      jest.spyOn(component, 'validateGender');
+
+      expect(component.validateGender(new FormControl('M')))
+      .toEqual(null);
+
+      expect(component.validateGender(new FormControl('F')))
+      .toEqual(null);
+
+      expect(component.validateGender).toHaveBeenCalledTimes(2);
+
+    });
+
+    it('should succesfully return error', () =>  {
+      jest.spyOn(component, 'validateGender');
+
+      expect(component.validateGender(new FormControl('N')))
+      .toEqual({'error_msg' : 'Valid choice required'});
+
+      expect(component.validateGender).toHaveBeenCalled();
+    });
+
+  });
+
+
+  /**
+   * Test validateLocaton function
+   */
+  describe('validateLocation', () => {
+
+    it('should succesfully set valid location', () => {
+      jest.spyOn(component, 'validateLocation');
+
+      expect(component.validateLocation(new FormControl('Hatfield')))
+      .toEqual(null);
+
+      expect(component.validateLocation).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error', () =>  {
+      jest.spyOn(component, 'validateLocation');
+
+      expect(component.validateLocation(new FormControl('')))
+      .toEqual({'error_msg' : 'Location is required'});
+
+      expect(component.validateLocation).toHaveBeenCalled();
+
+    });
+
+  });
+
+   
+
 
 });
