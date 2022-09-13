@@ -213,4 +213,30 @@ describe('EditprofilepageComponent', () => {
     });
   });
 
+  /**
+   * Test validateEmail function
+   */
+  describe('validateEmail', () => {
+    it('should succesfully set valid email', () => {
+      jest.spyOn(component, 'validateEmail');
+
+      expect(component.validateEmail(new FormControl('tester@gmail.com')))
+      .toEqual(null);
+
+      expect(component.validateEmail).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error message if invalid email is set', () => {	
+      jest.spyOn(component, 'validateEmail');
+
+      expect(component.validateEmail(new FormControl('tester')))
+      .toEqual({'error_msg' : 'Valid email is required'});
+
+      expect(component.validateEmail).toHaveBeenCalled();
+
+    });
+
+  });
+
 });

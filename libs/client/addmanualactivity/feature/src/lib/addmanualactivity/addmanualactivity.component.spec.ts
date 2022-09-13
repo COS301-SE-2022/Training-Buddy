@@ -59,7 +59,8 @@ describe('AddmanualactivityComponent', () => {
 
   /**
    * Test resetForm
-   */  describe('resetForm', () => {
+   */  
+  describe('resetForm', () => {
    it('should reset form', () => {
   
       expect(component.manualForm.value).toEqual({
