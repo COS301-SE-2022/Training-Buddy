@@ -57,6 +57,9 @@
       "@training-buddy/api/shell/feature": [
         "libs/api/shell/feature/src/index.ts"
       ],
+      "@training-buddy/authgaurd": [
+        "apps/client/src/app/auth-gaurd.service.ts"
+      ],
       "@training-buddy/client/addmanualactivity/feature": [
         "libs/client/addmanualactivity/feature/src/index.ts"
       ],
@@ -74,6 +77,9 @@
       ],
       "@training-buddy/client/example/feature": [
         "libs/client/example/feature/src/index.ts"
+      ],
+      "@training-buddy/client/landingpage/feature": [
+        "libs/client/landingpage/feature/src/index.ts"
       ],
       "@training-buddy/client/login/feature": [
         "libs/client/login/feature/src/index.ts"
@@ -117,14 +123,11 @@
       "@training-buddy/client/viewprofile/feature": [
         "libs/client/viewprofile/feature/src/index.ts"
       ],
-      "@training-buddy/shared/services/authentication/data-access/src/lib/image-generator": [
-        "libs/client/shared/services/authentication/data-access/src/lib/image-generator.service"
-      ],
-      "@training-buddy/environment" : [
+      "@training-buddy/environment": [
         "apps/client/src/environments/environment.ts"
       ],
-      "@training-buddy/authgaurd" : [
-        "apps/client/src/app/auth-gaurd.service.ts"
+      "@training-buddy/shared/services/authentication/data-access/src/lib/image-generator": [
+        "libs/client/shared/services/authentication/data-access/src/lib/image-generator.service"
       ]
     }
   },

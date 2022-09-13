@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthGaurdService } from './auth-gaurd.service';
+import { AuthGaurdService } from './auth-guard.service';
 
 @Component({
   selector: 'training-buddy-root',
