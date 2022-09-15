@@ -1,16 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EditprofilepageComponent } from './editprofilepage.component';
-import { Apollo } from 'apollo-angular';
+import { Apollo, gql } from 'apollo-angular';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { Component } from '@angular/core';
-import { HttpContextToken } from '@angular/common/http';
-import { encode } from 'punycode';
+
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
   authDomain: 'training-buddy-2022.firebaseapp.com',
@@ -348,8 +346,6 @@ describe('EditprofilepageComponent', () => {
   /**
    * Test save function
    */
-
-  //Integration test save function
   describe('save', () => {
     it('should succesfully save data', () => {
       jest.spyOn(component, 'save');
@@ -376,14 +372,60 @@ describe('EditprofilepageComponent', () => {
             }
         });
       } 
-      
+
       expect(component.save).toHaveBeenCalled();
 
     });
   });
 
+  /**
+   * Test updateUser function
+   */
+  describe('updateUser', () => {
+    it('should succesfully update user', () => {
+      jest.spyOn(component, 'updateUser');
 
+      component.updateUser('TesterName', 'TesterSurname', 'tester@gmail.com', '0123456789', 'M', 'Hatfield', null)
 
+      const query = gql`
+        mutation{
+          updateProfile(UserDto: {
+            oldEmail: "oldTester@gmail.com",
+            userName: "TesterName",
+            userSurname: "TesterSurname",
+            location: "Hatfield",
+            gender: "M",
+            email: "tester@gmail.com",
+            cellNumber: "0123456789",
+            image: null
+          }){
+            message
+          }
+        }
+        `;
 
+        expect(component.updateUser).toHaveBeenCalled();   
+
+    });
+
+  });
+
+  /**
+   * Test Base64encode function
+   */
+  describe('Base64encode', () => {
+    it('should succesfully encode image', () => {
+      jest.spyOn(component, 'Base64encode');
+
+      const file = new File([''], 'test.jpg', {type: 'image/jpeg'});
+
+      component.Base64encode(file);
+
+      expect(component.Base64encode(file)).resolves.toEqual('data:image/jpeg;base64,');
+
+      expect(component.Base64encode).toHaveBeenCalled();
+           
+    });
+  });
 
 });
