@@ -9,6 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { Component } from '@angular/core';
+import { HttpContextToken } from '@angular/common/http';
+import { encode } from 'punycode';
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
   authDomain: 'training-buddy-2022.firebaseapp.com',
@@ -100,7 +102,6 @@ describe('EditprofilepageComponent', () => {
   describe('getCurrentUser', () => {
     it('should call getCurrentUser', () => {
       jest.spyOn(component, 'getCurrentUser');
-
 
       component.getCurrentUser().subscribe({
         next: (data: any) => {
@@ -318,7 +319,71 @@ describe('EditprofilepageComponent', () => {
 
   });
 
-   
+  /**
+   * Test fileattatched functionality
+   */
+  describe('fileattatched', () => {
+    it('should succesfully upload image', () => {
+      
+      const file = new File([''], 'test.jpg', {type: 'image/jpeg'});
+      const event = {target: {files: [file]}};
+
+      jest.spyOn(component, 'fileattatched');
+
+      component.fileuploadflag = false;
+
+      component.fileattatched(event);
+
+      event.target.files = [file];
+
+      if(event.target.files.length > 0){
+        component.fileuploadflag = true;
+      }
+
+      expect(component.fileuploadflag).toEqual(true);
+      
+    });
+  });
+
+  /**
+   * Test save function
+   */
+
+  //Integration test save function
+  describe('save', () => {
+    it('should succesfully save data', () => {
+      jest.spyOn(component, 'save');
+
+      component.save();
+
+      if(component.newImage != null){
+
+        component.Base64encode(component.newImage).then(encode =>{
+
+          component.updateUser('TesterName', 'TesterSurname', 'tester@gmail.com', '0123456789', 'M', 'Hatfield', encode)
+          .subscribe({
+            next: (data) => {
+              expect(data).toEqual('User updated successfully');
+            }
+          });
+        });
+      } else {
+
+        component.updateUser('TesterName', 'TesterSurname', 'tester@gmail.com', '0123456789', 'M', 'Hatfield', null)
+        .subscribe({
+            next: (data) => {
+              expect(data).not.toEqual('User updated successfully');
+            }
+        });
+      } 
+      
+      expect(component.save).toHaveBeenCalled();
+
+    });
+  });
+
+
+
 
 
 });

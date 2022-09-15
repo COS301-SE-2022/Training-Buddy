@@ -103,8 +103,7 @@ describe('AddmanualactivityComponent', () => {
         expect(op.operation.operationName).toBe('addWeightLiftingActivity');
         op.flush({
           data: {
-            addWeightLiftingActivity: {
-              id: '1',
+()            addWeightLiftingActivity: {
               name: 'test',
               type: 'WeightLifting',
               date: '2022-10-10',
