@@ -87,7 +87,6 @@ describe('LoginpageComponent', () => {
   describe('queryLogin', () => {
     it('should successfully return login query', async () => {
         
-      //Apollo create
       const apollo = TestBed.inject(Apollo);
 
       return apollo.mutate({
@@ -107,7 +106,8 @@ describe('LoginpageComponent', () => {
         }
         `,
       }).subscribe((result) => {
-        expect(result).toEqual({ data: { login: { username: 'tester', password: 'password' } } });
+        expect(result)
+        .toEqual({ data: { login: { username: 'tester', password: 'password' } } });
       });
 
     });
