@@ -25,7 +25,7 @@ import {CookieService} from 'ngx-cookie-service';
         ])
       ]
     )
-    
+
   ]
 })
 export class AthleteprofileComponent implements OnInit {
@@ -41,18 +41,40 @@ export class AthleteprofileComponent implements OnInit {
 
   //trainig radius
   radius : number;
+  runRating : number;
+  swimRating : number;
+  cycleRating : number;
+  liftRating : number;
+
+
 
   update = false;
   sliderDefault = 2;
+  rateDefault = 0;
 
   sliderMove(value: any) {
     this.radius = value;
   }
 
-  constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService, private activated : ActivatedRoute, private cookie : CookieService) { 
+  moveRun(value: any) {
+    this.runRating = value;
+  }
+
+  moveRide(value: any) {
+    this.cycleRating = value;
+  }
+
+  moveSwim(value: any) {
+    this.swimRating = value;
+  }
+
+  moveLift(value: any) {
+    this.liftRating = value;
+  }
+  constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService, private activated : ActivatedRoute, private cookie : CookieService) {
 
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
-    
+
     const flag = this.activated.snapshot.paramMap.get('flag');
 
     if (flag != null) {
@@ -64,6 +86,10 @@ export class AthleteprofileComponent implements OnInit {
     this.frmBuilder = frm;
     this.noActivityChosen = false;
     this.radius = 2;
+    this.runRating = 0;
+    this.liftRating = 0;
+    this.swimRating = 0;
+    this.cycleRating = 0;
     this.email = this.cookieService.get('email');
   }
 
@@ -106,7 +132,7 @@ export class AthleteprofileComponent implements OnInit {
     return this.apollo
     .query({
       query: gql`query{getOne(
-        email:"${this.email}" 
+        email:"${this.email}"
       ){
           userName,
           userSurname,
@@ -127,7 +153,7 @@ export class AthleteprofileComponent implements OnInit {
       `,
       // //pollInterval: 25000
     })
-    
+
   }
 
   updateError() {
