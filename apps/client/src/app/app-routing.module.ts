@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// import { AuthGaurdService } from './auth-gaurd.service';
+// import { AuthGuardService } from './auth-gaurd.service';
 
 const routes: Routes = [
 
@@ -18,7 +18,7 @@ const routes: Routes = [
         m => m.ClientLoginFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -37,7 +37,7 @@ const routes: Routes = [
         m => m.ClientDashboardFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -48,7 +48,7 @@ const routes: Routes = [
         m => m.ClientSettingsFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -59,7 +59,7 @@ const routes: Routes = [
         m => m.ClientEditprofileFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -94,7 +94,7 @@ const routes: Routes = [
         m => m.ClientScheduleworkoutFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -105,7 +105,7 @@ const routes: Routes = [
         m => m.ClientAddmanualactivityFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -116,7 +116,7 @@ const routes: Routes = [
         m => m.ClientViewprofileFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -135,7 +135,7 @@ const routes: Routes = [
         m => m.ClientChangepasswordFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
       ]
   },
 
@@ -146,7 +146,18 @@ const routes: Routes = [
         m => m.ClientScheduleFeatureModule
       ),
       canActivate: [
-        // AuthGaurdService
+        // AuthGuardService
+      ]
+  },
+
+  {
+    path: 'landing',
+    loadChildren: () =>
+      import('@training-buddy/client/landingpage/feature').then(
+        m => m.ClientLandingpageFeatureModule
+      ),
+      canActivate: [
+        // AuthGuardService
       ]
   },
 

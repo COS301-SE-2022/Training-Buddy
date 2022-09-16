@@ -24,6 +24,7 @@
     "client-e2e": "apps/client-e2e",
     "client-editprofile-feature": "libs/client/editprofile/feature",
     "client-example-feature": "libs/client/example/feature",
+    "client-landingpage-feature": "libs/client/landingpage/feature",
     "client-login-feature": "libs/client/login/feature",
     "client-pagenotfound": "libs/client/pagenotfound",
     "client-schedule-feature": "libs/client/schedule/feature",

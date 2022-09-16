@@ -15,7 +15,7 @@ import { AgmCoreModule } from '@agm/core';
 //firestore
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AuthGaurdService } from './auth-gaurd.service';
+import { AuthGaurdService } from './auth-guard.service';
 
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
