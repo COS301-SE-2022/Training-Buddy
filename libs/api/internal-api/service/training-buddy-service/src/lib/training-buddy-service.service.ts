@@ -727,6 +727,20 @@ export class TrainingBuddyServiceService {
         rankings.reverse();
         return rankings;
     }
+   getFullDatasetFromRecommended(dataset,recommended){
+        var newDataset: any= []
+        recommended.forEach(i =>{
+            if(i.value > 0.50){
+                dataset.forEach(element => {
+                    if(element.email == i.name){
+                        newDataset.push(element)
+                    }
+                })
+            }
+        }
+    )
+    return newDataset;
+   }
 
     
     async collaborativeFiltering(people: any[]  , email: string){
