@@ -17,23 +17,23 @@ export class TrainingBuddyServiceService {
      * @param jwtService 
      */
     constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
-    async sendEmail(mail: SendGrid.MailDataRequired) {
-        SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
-        const transport = await SendGrid.send(mail);
-        console.log(`Email successfully dispatched to ${mail.to}`)
-        return transport;
-    }
-    async sendActivityRequestEmail(email : string , user : UserEntity){
-        const mail = {
-            to: email,
-            subject: 'Activity Invite From '+ user.userName ,
-            from: 'trainingbuddy@gmail.com',
-            text: 'Hello you have been invited to a work out by ' + user.userName,
-            html: '<h1>Hello World from NestJS Sendgrid</h1>'
-        };
+    // async sendEmail(mail: SendGrid.MailDataRequired) {
+    //     SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
+    //     const transport = await SendGrid.send(mail);
+    //     console.log(`Email successfully dispatched to ${mail.to}`)
+    //     return transport;
+    // }
+    // async sendActivityRequestEmail(email : string , user : UserEntity){
+    //     const mail = {
+    //         to: email,
+    //         subject: 'Activity Invite From '+ user.userName ,
+    //         from: 'trainingbuddy@gmail.com',
+    //         text: 'Hello you have been invited to a work out by ' + user.userName,
+    //         html: '<h1>Hello World from NestJS Sendgrid</h1>'
+    //     };
 
-        return await this.sendEmail(mail);
-    }
+    //     return await this.sendEmail(mail);
+    // }
     /**
      * 
      * @param email 
@@ -118,6 +118,7 @@ export class TrainingBuddyServiceService {
                 }
             }
         }
+        console.log(people);
         
         return this.collaborativeFiltering(people , email);
     }
@@ -547,7 +548,7 @@ export class TrainingBuddyServiceService {
             const val = await this.repoService.sendInvite(email,arr,workoutID)
             if(val){
                 item.message = "Success";
-                this.sendActivityRequestEmail(email , user);
+                //this.sendActivityRequestEmail(email , user);
                 return item
             }else{
                 item.message = "Failure";
