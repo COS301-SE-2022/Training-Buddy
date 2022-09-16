@@ -672,7 +672,38 @@ export class TrainingBuddyServiceService {
         }
         return len;
     }
-    
+    pearson_correlation(dataset,p1,p2){
+        var existp1p2 = {};
+        for(item in dataset[p1]){
+                    if(item in dataset[p2]){
+                        existp1p2[item] = 1
+                    }
+                }
+                var num_existence = this.len(existp1p2);
+        if(num_existence ==0) return 0;
+                var p1_sum=0,
+                    p2_sum=0,
+                    p1_sq_sum=0,
+                    p2_sq_sum=0,
+                    prod_p1p2 = 0;
+                for(var item in existp1p2){
+                    p1_sum += dataset[p1][item];
+                    p2_sum += dataset[p2][item];
+        p1_sq_sum += Math.pow(dataset[p1][item],2);
+                    p2_sq_sum += Math.pow(dataset[p2][item],2);
+        prod_p1p2 += dataset[p1][item]*dataset[p2][item];
+                }
+                var numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
+        var st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
+                var st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
+        var denominator = Math.sqrt(st1*st2);
+        if(denominator ==0) return 0;
+                else {
+                    var val = numerator / denominator;
+                    //recommended.push({name:p2, value:val});
+                    return val;
+                }
+    }
 
     
     async collaborativeFiltering(people: any[]  , email: string){
