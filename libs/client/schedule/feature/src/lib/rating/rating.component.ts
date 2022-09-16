@@ -9,7 +9,7 @@ import { Apollo, gql } from 'apollo-angular';
   styleUrls: ['./rating.component.scss']
 })
 export class RatingComponent implements OnInit {
-  numberofStars = 5;
+  numberofStars = 0;
   constructor(public dialogRef: MatDialogRef<RatingComponent>,private apollo : Apollo,private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public user: any) { }
 
