@@ -652,6 +652,20 @@ export class TrainingBuddyServiceService {
            
         }
     }
+    /**
+     * 
+     * @param dataset 
+     * @returns newDataset
+     */
+    cleanDataset (dataset){
+        let newDataset = {};
+        for(let i in dataset){
+            const email = dataset[i].email;
+            newDataset[email] = dataset[i].metrics;
+        }
+        return newDataset;
+    }
+
     
     async collaborativeFiltering(people: any[]  , email: string){
         if(people.length <=0){
