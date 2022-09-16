@@ -3,6 +3,7 @@ import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,Activ
 import {JwtService} from '@nestjs/jwt'
 import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
+import { sha256 } from 'js-sha256';
 import BTree from 'sorted-btree'
 import * as SendGrid from '@sendgrid/mail';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
@@ -43,8 +44,10 @@ export class TrainingBuddyServiceService {
     async validateUser(email: string , password: string):Promise<any> {
         const user = await this.findOne(email);
         let valid = false;
-        if(user)
-            valid = await bcrypt.compare(password, user?.password)
+        if(user){
+            const encrypted = sha256(password);
+            valid = await bcrypt.compare(encrypted, user?.password)
+        }
         if(user && valid){ 
             const{password , ...result} = user;
             return result;
@@ -83,7 +86,8 @@ export class TrainingBuddyServiceService {
             return item;
         }
         else{
-            const password = await bcrypt.hash(userdto.password, 10)
+            const encrypted = sha256(userdto.password);
+            const password = await bcrypt.hash(encrypted, 10)
             user = {...userdto, password };
             const ret = await this.repoService.createUser(user);
             const item = new ErrorMessage;
