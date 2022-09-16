@@ -704,6 +704,29 @@ export class TrainingBuddyServiceService {
                     return val;
                 }
     }
+    getRecommendations(dataset,person){
+        var totals = {};
+        var simSums = {};
+        for(var other in dataset){
+            if(other == person) continue;
+            var sim = this.pearson_correlation(dataset,person,other);
+            if(sim<=0) continue;
+            for(var item in dataset[other]){
+                if(item in dataset[person]) continue;
+                totals[item] = totals[item] || 0;
+                totals[item] += dataset[other][item]*sim;
+                simSums[item] = simSums[item] || 0;
+                simSums[item] += sim;
+            }
+        }
+        var rankings: any= [];
+        for(var item in totals){
+            rankings.push([totals[item],item]);
+        }
+        rankings.sort();
+        rankings.reverse();
+        return rankings;
+    }
 
     
     async collaborativeFiltering(people: any[]  , email: string){
