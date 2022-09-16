@@ -208,7 +208,7 @@ export class AthleteprofileComponent implements OnInit {
       return;
     }
 
-    this.setProfile(this.email, running, riding, swimming, weightLifting, bio , this.radius).subscribe({
+    this.setProfile(this.email, bio , this.radius).subscribe({
       next: () => {
         this.router.navigate(['/uploadimage']);
       }
@@ -225,17 +225,17 @@ export class AthleteprofileComponent implements OnInit {
       });
   }
 
-  setProfile(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string , distance: number ) {
+  setProfile(email : string, bio : string , distance: number ) {
     return this.apollo
       .mutate({
         mutation: gql`mutation{
         userConfig(userConfig:{
           email : "${email}",
           distance : ${distance},
-          riding: ${riding},
-          running: ${running},
-          swimming: ${swimming},
-          weightLifting: ${weightLifiting},
+          riding: ${this.cycleRating},
+          running: ${this.runRating},
+          swimming: ${this.swimRating},
+          weightLifting: ${this.liftRating},
           bio: "${bio}",
         }){
           message
