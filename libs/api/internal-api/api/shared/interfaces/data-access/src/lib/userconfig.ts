@@ -6,13 +6,13 @@ export class Userconfig {
     @Field()
     email:string
     @Field()
-    running: boolean
+    running: number
     @Field()
-    riding: boolean
+    riding: number
     @Field()
-    swimming: boolean
+    swimming: number
     @Field()
-    weightLifting: boolean
+    weightLifting: number
     @Field()
     distance:number
     @Field()
