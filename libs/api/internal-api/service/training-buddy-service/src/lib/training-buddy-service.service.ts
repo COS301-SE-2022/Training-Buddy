@@ -665,6 +665,14 @@ export class TrainingBuddyServiceService {
         }
         return newDataset;
     }
+    len(obj){
+        var len=0;
+        for(var i in obj){
+            len++
+        }
+        return len;
+    }
+    
 
     
     async collaborativeFiltering(people: any[]  , email: string){
