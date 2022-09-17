@@ -80,18 +80,31 @@ export class AthleteprofileComponent implements OnInit {
 
   toggleRunning() {
     this.running = !this.running;
+    if(!this.running){
+      this.runRating = 0;
+    }
   }
 
   toggleRiding() {
     this.riding = !this.riding;
+    if(!this.riding){
+      this.cycleRating = 0;
+    }
   }
 
   toggleSwimming() {
     this.swimming = !this.swimming;
+    if(!this.swimming){
+      this.swimRating = 0;
+    }
   }
 
   toggleLifting() {
     this.lifting = !this.lifting;
+    if(!this.lifting){
+      this.liftRating = 0;
+    }
+
   }
 
   constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService, private activated : ActivatedRoute, private cookie : CookieService) {
