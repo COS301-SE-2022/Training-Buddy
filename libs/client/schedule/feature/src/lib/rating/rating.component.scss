@@ -38,11 +38,12 @@
    height: 100%;
    text-align: center;
    font-size: $size;
-   animation: 1s pulse ease;
+   animation: 0.5s pulse ease;
   }
   &:hover:after {
    color: lighten($empty-color, 10%);
    text-shadow: 0 0 15px lighten($empty-color, 10%);
+   transform: scale(1.1);
   }
  }
  input {
