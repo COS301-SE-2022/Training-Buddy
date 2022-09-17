@@ -747,42 +747,11 @@ export class TrainingBuddyServiceService {
         if(people.length <=0){
             return people;
         }
-        const collaborativeFilter = await import("collaborative-filter")
-        const tree = new BTree;
-        let  person = await this.findOne(email)
-        const metric = [];
-        const recommended = [];
-        let metricact = [];
-        let peoplebtree ;
-        for(let count = 0 ; count < people.length ; count++){
-            metricact.push(people[count].metrics.lift)
-            metricact.push(people[count].metrics.ride)
-            metricact.push(people[count].metrics.run)
-            metricact.push(people[count].metrics.swim)
-            metric.push(metricact)
-            metricact = []
-            peoplebtree = people[count];
-            tree.set(peoplebtree.email, people[count].metrics) 
+        const recommended = this.getFullDatasetFromRecommended(people,this.getRecommendations( this.cleanDataset(people),email));
+        if(recommended.length <=0){
+            return people;
         }
 
-       let res= []
-       res=  collaborativeFilter.cFilter(metric,0)
-       if(res.length<=0){
-        return people;
-       }else{
-        person=[]
-        tree.forEachPair((k, v) => {
-            let count = 0;
-            person = this.findOne(k)
-            res.forEach( async element => {
-                person = await this.findOne(k)
-                if(person.metrics[element]==0){
-                    count ++;
-                }});
-                if(count<= 2 ){
-                    recommended.push(person)
-                }})
-    }     
     return recommended;
     }
      /**
