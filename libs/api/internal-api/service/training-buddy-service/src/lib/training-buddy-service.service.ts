@@ -741,13 +741,24 @@ export class TrainingBuddyServiceService {
     )
     return newDataset;
    }
+   sortRecommended(recommended){
+    recommended.sort(function(a,b){
+        return b.value - a.value;
+    })
+    return recommended;
+    }
 
     
     async collaborativeFiltering(people: any[]  , email: string){
         if(people.length <=0){
             return people;
         }
-        const recommended = this.getFullDatasetFromRecommended(people,this.getRecommendations( this.cleanDataset(people),email));
+        const recommended = this.sortRecommended(
+            this.getFullDatasetFromRecommended(people,
+                this.getRecommendations( 
+                    this.cleanDataset(people),email)
+                )
+            )
         if(recommended.length <=0){
             return people;
         }
