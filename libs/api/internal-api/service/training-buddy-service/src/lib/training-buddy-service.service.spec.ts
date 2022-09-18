@@ -612,4 +612,12 @@ describe('collaborativeFiltering', () => {
 })
 
 
+describe('sortRecommended', () => {
+  it('should get sortRecommended', async () => {
+    jest.spyOn(service, 'sortRecommended').mockImplementation(service.sortRecommended);
+    expect(async () => service.sortRecommended (dataset)).toReturn;
+  })
+})
+
+
 });
