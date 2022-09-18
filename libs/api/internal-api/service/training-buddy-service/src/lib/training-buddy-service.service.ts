@@ -659,7 +659,6 @@ export class TrainingBuddyServiceService {
             const email = dataset[i].email;
             newDataset[email] = dataset[i].metrics;
         }
-        console.log(newDataset)
         return newDataset;
     }
     len(obj){
@@ -671,9 +670,7 @@ export class TrainingBuddyServiceService {
     }
     pearson_correlation(dataset,p1,p2){
         var existp1p2 = {};
-        console.log(dataset)
         for(item in dataset[p1]){
-                    console.log(item)
                     if(item in dataset[p2]){
                         existp1p2[item] = 1
                     }
@@ -699,7 +696,6 @@ export class TrainingBuddyServiceService {
         if(denominator ==0) return 0;
                 else {
                     var val = numerator / denominator;
-                    console.log({name:p2, value:val});
                     recommended.push({name:p2, value:val});
                     return val;
                 }
@@ -710,7 +706,6 @@ export class TrainingBuddyServiceService {
         for(var other in dataset){
             if(other == person) continue;
             var sim = this.pearson_correlation(dataset,person,other);
-            console.log("similarity between "+person+" and "+other+" is "+sim);
             if(sim<=0) continue;
             for(var item in dataset[other]){
                 if(item in dataset[person]) continue;
@@ -755,11 +750,8 @@ export class TrainingBuddyServiceService {
             return people;
         }
         this.getRecommendations(this.cleanDataset(people),email)
-        console.log(recommended)
         this.sortRecommended(recommended)
-        console.log(recommended)
         const newset = this.getFullDatasetFromRecommended(people,recommended)
-     
         if(recommended.length <=0){
             return people;
         }
