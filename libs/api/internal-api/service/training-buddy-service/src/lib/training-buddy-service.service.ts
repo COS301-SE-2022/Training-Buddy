@@ -7,7 +7,7 @@ import { sha256 } from 'js-sha256';
 import BTree from 'sorted-btree'
 import * as SendGrid from '@sendgrid/mail';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
-let recommended : any [] =[]
+const recommended : any [] =[]
 @Injectable()
 export class TrainingBuddyServiceService {
    
@@ -654,8 +654,8 @@ export class TrainingBuddyServiceService {
      * @returns newDataset
      */
     cleanDataset (dataset){
-        let newDataset = {};
-        for(let i in dataset){
+        const  newDataset = {};
+        for(const i in dataset){
             const email = dataset[i].email;
             newDataset[email] = dataset[i].metrics;
         }
@@ -663,51 +663,51 @@ export class TrainingBuddyServiceService {
     }
     len(obj){
         let len=0;
-        for(let i in obj){
+        for(const i in obj){
             len++
         }
         return len;
     }
     pearson_correlation(dataset,p1,p2){
-        let existp1p2 = {};
-        for(let item in dataset[p1]){
+        const existp1p2 = {};
+        for(const item in dataset[p1]){
                     if(item in dataset[p2]){
                         existp1p2[item] = 1
                     }
                 }
-                let num_existence = this.len(existp1p2);
+               const num_existence = this.len(existp1p2);
         if(num_existence ==0) return 0;
                 let p1_sum=0,
                     p2_sum=0,
                     p1_sq_sum=0,
                     p2_sq_sum=0,
                     prod_p1p2 = 0;
-                for(let item in existp1p2){
+                for(const item in existp1p2){
                     p1_sum += dataset[p1][item];
                     p2_sum += dataset[p2][item];
                     p1_sq_sum += Math.pow(dataset[p1][item],2);
                     p2_sq_sum += Math.pow(dataset[p2][item],2);
                     prod_p1p2 += dataset[p1][item]*dataset[p2][item];
                 }
-                let numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
-                let st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
-                let st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
-                let denominator = Math.sqrt(st1*st2);
+                const numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
+                const  st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
+                const  st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
+                const  denominator = Math.sqrt(st1*st2);
         if(denominator ==0) return 0;
                 else {
-                    let val = numerator / denominator;
+                    const val = numerator / denominator;
                     recommended.push({name:p2, value:val});
                     return val;
                 }
     }
     getRecommendations(dataset,person){
-        let totals = {};
-        let simSums = {};
-        for(let other in dataset){
+        const totals = {};
+        const simSums = {};
+        for(const other in dataset){
             if(other == person) continue;
-            let sim = this.pearson_correlation(dataset,person,other);
+            const sim = this.pearson_correlation(dataset,person,other);
             if(sim<=0) continue;
-            for(let item in dataset[other]){
+            for(const item in dataset[other]){
                 if(item in dataset[person]) continue;
                 totals[item] = totals[item] || 0;
                 totals[item] += dataset[other][item]*sim;
@@ -715,8 +715,8 @@ export class TrainingBuddyServiceService {
                 simSums[item] += sim;
             }
         }
-        let rankings: any= [];
-        for(let item in totals){
+        const rankings: any= [];
+        for(const item in totals){
             rankings.push([totals[item],item]);
         }
         rankings.sort();
@@ -724,7 +724,7 @@ export class TrainingBuddyServiceService {
         return rankings;
     }
    getFullDatasetFromRecommended(dataset,recommended){
-        let newDataset: any= []
+        const newDataset: any= []
         recommended.forEach(i =>{
             if(i.value > 0.50){
                 dataset.forEach(element => {
