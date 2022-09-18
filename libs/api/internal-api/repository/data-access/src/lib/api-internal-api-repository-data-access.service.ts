@@ -152,19 +152,19 @@ export class ApiInternalApiRepositoryDataAccessService {
         let liftGroup = -1 ;
 
         if(userConfig.riding){
-            ride = 1 ;
+            ride = userConfig.riding;
             rideGroup = 0 ;
         }
         if(userConfig.running){
-            run = 1 ;
+            run = userConfig.running;
             runGroup = 0 ;
         }
         if(userConfig.swimming){
-            swim = 1 ;
+            swim =userConfig.swimming;
             swimGroup = 0 ;
         }
         if(userConfig.weightLifting){
-            lift = 1 ;
+            lift =userConfig.weightLifting;
             liftGroup = 0 ;
         }
         
