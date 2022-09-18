@@ -194,23 +194,16 @@ describe('TrainingBuddyServiceService', () => {
    * Test toRad
    */
 
-  // describe('toRad', () => {
-    
-  //   /**
-  //    * Positive Test
-  //    */
-  //   it('should convert number to rad', async () => {
-  //     const positiveResult = 10;
+  describe('toRad', () => {
       
-  //     jest.spyOn(service, 'toRad').mockImplementation(service.toRad);
-
-  //     const returedResult = async () =>  service.toRad(positiveResult);
-
-  //     expect(returedResult).toEqual((positiveResult * Math.PI / 180));
-
-  //   });
-
-  // });
+      it('should convert to radian', async () => {
+        
+        jest.spyOn(service, 'toRad').mockImplementation(service.toRad);
+  
+        expect(async () => service.toRad(UserDtoModule.latitude)).toReturn;
+  
+      });
+  })
 
   /**
    * Test activitySchedule
@@ -470,5 +463,6 @@ describe('TrainingBuddyServiceService', () => {
 
     });
   });
+
 
 });
