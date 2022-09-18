@@ -662,52 +662,52 @@ export class TrainingBuddyServiceService {
         return newDataset;
     }
     len(obj){
-        var len=0;
-        for(var i in obj){
+        let len=0;
+        for(let i in obj){
             len++
         }
         return len;
     }
     pearson_correlation(dataset,p1,p2){
-        var existp1p2 = {};
-        for(item in dataset[p1]){
+        let existp1p2 = {};
+        for(let item in dataset[p1]){
                     if(item in dataset[p2]){
                         existp1p2[item] = 1
                     }
                 }
-                var num_existence = this.len(existp1p2);
+                let num_existence = this.len(existp1p2);
         if(num_existence ==0) return 0;
-                var p1_sum=0,
+                let p1_sum=0,
                     p2_sum=0,
                     p1_sq_sum=0,
                     p2_sq_sum=0,
                     prod_p1p2 = 0;
-                for(var item in existp1p2){
+                for(let item in existp1p2){
                     p1_sum += dataset[p1][item];
                     p2_sum += dataset[p2][item];
                     p1_sq_sum += Math.pow(dataset[p1][item],2);
                     p2_sq_sum += Math.pow(dataset[p2][item],2);
                     prod_p1p2 += dataset[p1][item]*dataset[p2][item];
                 }
-                var numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
-                var st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
-                var st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
-                var denominator = Math.sqrt(st1*st2);
+                let numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
+                let st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
+                let st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
+                let denominator = Math.sqrt(st1*st2);
         if(denominator ==0) return 0;
                 else {
-                    var val = numerator / denominator;
+                    let val = numerator / denominator;
                     recommended.push({name:p2, value:val});
                     return val;
                 }
     }
     getRecommendations(dataset,person){
-        var totals = {};
-        var simSums = {};
-        for(var other in dataset){
+        let totals = {};
+        let simSums = {};
+        for(let other in dataset){
             if(other == person) continue;
-            var sim = this.pearson_correlation(dataset,person,other);
+            let sim = this.pearson_correlation(dataset,person,other);
             if(sim<=0) continue;
-            for(var item in dataset[other]){
+            for(let item in dataset[other]){
                 if(item in dataset[person]) continue;
                 totals[item] = totals[item] || 0;
                 totals[item] += dataset[other][item]*sim;
@@ -715,8 +715,8 @@ export class TrainingBuddyServiceService {
                 simSums[item] += sim;
             }
         }
-        var rankings: any= [];
-        for(var item in totals){
+        let rankings: any= [];
+        for(let item in totals){
             rankings.push([totals[item],item]);
         }
         rankings.sort();
@@ -724,7 +724,7 @@ export class TrainingBuddyServiceService {
         return rankings;
     }
    getFullDatasetFromRecommended(dataset,recommended){
-        var newDataset: any= []
+        let newDataset: any= []
         recommended.forEach(i =>{
             if(i.value > 0.50){
                 dataset.forEach(element => {
