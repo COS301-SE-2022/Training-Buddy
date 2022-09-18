@@ -752,10 +752,21 @@ export class TrainingBuddyServiceService {
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
         const newset = this.getFullDatasetFromRecommended(people,recommended)
+        const dataset = this.removeUser(newset,email)
+    
         if(recommended.length <=0){
-            return people;
+            return this.removeUser(people,email);
         }
-    return newset;
+    return dataset;
+    }
+    removeUser(dataset,email){
+        const newDataset = [];
+        dataset.forEach(element => {
+            if(dataset.email != email){
+                newDataset.push(element)
+            }
+        });
+        return newDataset;
     }
      /**
      * 
