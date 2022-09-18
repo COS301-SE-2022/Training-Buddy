@@ -31,4 +31,19 @@ describe('PagenotfoundComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  /**
+   * Test ngOnInit function
+   */
+  describe('ngOnInit', () => {
+    it('should create', () => {
+
+      jest.spyOn(component, 'ngOnInit');
+  
+      component.ngOnInit();
+
+      expect(component.ngOnInit).toHaveBeenCalled();
+    });
+  });
+  
 });
