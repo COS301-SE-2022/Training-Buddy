@@ -7,6 +7,7 @@ import { sha256 } from 'js-sha256';
 import BTree from 'sorted-btree'
 import * as SendGrid from '@sendgrid/mail';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
+let recommended : any [] =[]
 @Injectable()
 export class TrainingBuddyServiceService {
    
@@ -92,7 +93,6 @@ export class TrainingBuddyServiceService {
             const ret = await this.repoService.createUser(user);
             const item = new ErrorMessage;
             item.message = ret.id;
-            console.log(item.message);
             return item;
         }
     }
@@ -122,8 +122,7 @@ export class TrainingBuddyServiceService {
                 }
             }
         }
-        console.log(people);
-        
+        people.push(await this.findOne(email));
         return this.collaborativeFiltering(people , email);
     }
     /**
@@ -154,7 +153,6 @@ export class TrainingBuddyServiceService {
             }
             if(user.email){
                 response = await this.repoService.updateEmail(user.email, user.oldemail);
-                console.log(response);
             }
             if(user.location){
                 response = await this.repoService.updateLocation(user.location, user.oldemail);
@@ -214,7 +212,6 @@ export class TrainingBuddyServiceService {
     async userConfig(config: Userconfig){
         const val =  await this.repoService.userConfig(config);
         const item = new ErrorMessage;
-        console.log(val)
         if(val == false){
             item.message = "failure"
             return item;
@@ -310,7 +307,6 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async accept(otherEmail: string, userEmail: string) {
-        //console.log("accepting")
         let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){
@@ -663,6 +659,7 @@ export class TrainingBuddyServiceService {
             const email = dataset[i].email;
             newDataset[email] = dataset[i].metrics;
         }
+        console.log(newDataset)
         return newDataset;
     }
     len(obj){
@@ -674,7 +671,9 @@ export class TrainingBuddyServiceService {
     }
     pearson_correlation(dataset,p1,p2){
         var existp1p2 = {};
+        console.log(dataset)
         for(item in dataset[p1]){
+                    console.log(item)
                     if(item in dataset[p2]){
                         existp1p2[item] = 1
                     }
@@ -689,18 +688,19 @@ export class TrainingBuddyServiceService {
                 for(var item in existp1p2){
                     p1_sum += dataset[p1][item];
                     p2_sum += dataset[p2][item];
-        p1_sq_sum += Math.pow(dataset[p1][item],2);
+                    p1_sq_sum += Math.pow(dataset[p1][item],2);
                     p2_sq_sum += Math.pow(dataset[p2][item],2);
-        prod_p1p2 += dataset[p1][item]*dataset[p2][item];
+                    prod_p1p2 += dataset[p1][item]*dataset[p2][item];
                 }
                 var numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
-        var st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
+                var st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
                 var st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
-        var denominator = Math.sqrt(st1*st2);
+                var denominator = Math.sqrt(st1*st2);
         if(denominator ==0) return 0;
                 else {
                     var val = numerator / denominator;
-                    //recommended.push({name:p2, value:val});
+                    console.log({name:p2, value:val});
+                    recommended.push({name:p2, value:val});
                     return val;
                 }
     }
@@ -710,6 +710,7 @@ export class TrainingBuddyServiceService {
         for(var other in dataset){
             if(other == person) continue;
             var sim = this.pearson_correlation(dataset,person,other);
+            console.log("similarity between "+person+" and "+other+" is "+sim);
             if(sim<=0) continue;
             for(var item in dataset[other]){
                 if(item in dataset[person]) continue;
@@ -753,17 +754,16 @@ export class TrainingBuddyServiceService {
         if(people.length <=0){
             return people;
         }
-        const recommended = this.sortRecommended(
-            this.getFullDatasetFromRecommended(people,
-                this.getRecommendations( 
-                    this.cleanDataset(people),email)
-                )
-            )
+        this.getRecommendations(this.cleanDataset(people),email)
+        console.log(recommended)
+        this.sortRecommended(recommended)
+        console.log(recommended)
+        const newset = this.getFullDatasetFromRecommended(people,recommended)
+     
         if(recommended.length <=0){
             return people;
         }
-
-    return recommended;
+    return newset;
     }
      /**
      * 
