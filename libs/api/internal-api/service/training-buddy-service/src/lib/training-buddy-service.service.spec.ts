@@ -619,5 +619,19 @@ describe('sortRecommended', () => {
   })
 })
 
+const data= {
+  'takumuguti@gmail.com': { swim: 3.5, run: 4.5, ride: 1.2, lift: 4.7 },
+  'amy@gmail.com': { swim: 1.5, run: 2.5, ride: 2.2, lift: 2.7, rowing: 3.5 },
+  'sarahaking2014@gmail.com': { swim: 3.5, run: 4.5, ride: 1.2, lift: 4.7, hiking: 4.5 },
+  'matthewgotte@gmail.com': { swim: 1.5, run: 5, ride: 2.2, lift: 4.2, kickboxing: 4.5 },
+  'harry@gmail.com': { swim: 4.5, run: 3.5, ride: 3.2, lift: 4.2 },
+  'john@yahoo.com': { swim: 3.2, run: 3.3, ride: 4, lift: 0.2, skiing: 4.5 }
+}
+describe('getFullDatasetFromRecommended', () => {
+  it('should get getFullDatasetFromRecommended', async () => {
+    jest.spyOn(service, 'getFullDatasetFromRecommended').mockImplementation(service.getFullDatasetFromRecommended);
+    expect(async () => service.getFullDatasetFromRecommended (dataset,data)).toReturn;
+  })
+})
 
 });
