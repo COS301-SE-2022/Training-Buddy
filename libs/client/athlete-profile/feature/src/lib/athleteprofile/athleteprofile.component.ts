@@ -41,11 +41,17 @@ export class AthleteprofileComponent implements OnInit {
 
   //trainig radius
   radius : number;
+
+  //ratings
   runRating : number;
   swimRating : number;
   cycleRating : number;
   liftRating : number;
-
+  //check box values:
+  running : boolean;
+  swimming : boolean;
+  riding : boolean;
+  lifting : boolean;
 
 
   update = false;
@@ -71,6 +77,36 @@ export class AthleteprofileComponent implements OnInit {
   moveLift(value: any) {
     this.liftRating = value;
   }
+
+  toggleRunning() {
+    this.running = !this.running;
+    if(!this.running){
+      this.runRating = 0;
+    }
+  }
+
+  toggleRiding() {
+    this.riding = !this.riding;
+    if(!this.riding){
+      this.cycleRating = 0;
+    }
+  }
+
+  toggleSwimming() {
+    this.swimming = !this.swimming;
+    if(!this.swimming){
+      this.swimRating = 0;
+    }
+  }
+
+  toggleLifting() {
+    this.lifting = !this.lifting;
+    if(!this.lifting){
+      this.liftRating = 0;
+    }
+
+  }
+
   constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService, private activated : ActivatedRoute, private cookie : CookieService) {
 
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
@@ -91,6 +127,11 @@ export class AthleteprofileComponent implements OnInit {
     this.swimRating = 0;
     this.cycleRating = 0;
     this.email = this.cookieService.get('email');
+    this.running = false;
+    this.riding = false;
+    this.swimming = false;
+    this.lifting = false;
+
   }
 
   ngOnInit(): void {

@@ -12,15 +12,15 @@
             <form [formGroup]="prefFrm">
 
               <!-- <h1 class="text-center">LOGO HERE</h1> -->
-              <mat-label> Give us an approximate rain</mat-label>
+              <mat-label> Rate your proficiency for each activity</mat-label>
 
 
               <mat-label>Add Activities: </mat-label>
               <br />
               <mat-hint>These will be updated as you do activities later.</mat-hint>
               <br />
-              <mat-checkbox (change)="updateError()" class="mt-2" formControlName="running">Running</mat-checkbox>
-              <div class="grid grid-flow-row-dense grid-cols-8">
+              <mat-checkbox (change)="updateError()" (click) = "toggleRunning()" class="mt-2" formControlName="running">Running</mat-checkbox>
+              <div *ngIf="running" class="grid grid-flow-row-dense grid-cols-8">
 
                 <div class="col-span-7">
                   <mat-slider
@@ -37,8 +37,8 @@
 
               </div>
               <br />
-              <mat-checkbox (change)="updateError()" formControlName="riding">Riding</mat-checkbox>
-              <div class="grid grid-flow-row-dense grid-cols-8">
+              <mat-checkbox (change)="updateError()" (click) = "toggleRiding()" formControlName="riding">Riding</mat-checkbox>
+              <div *ngIf="riding" class="grid grid-flow-row-dense grid-cols-8">
 
                 <div class="col-span-7">
                   <mat-slider
@@ -55,8 +55,8 @@
 
               </div>
               <br />
-              <mat-checkbox (change)="updateError()" formControlName="swimming">Swimming</mat-checkbox>
-              <div class="grid grid-flow-row-dense grid-cols-8">
+              <mat-checkbox (change)="updateError()" (click) = "toggleSwimming()" formControlName="swimming">Swimming</mat-checkbox>
+              <div *ngIf="swimming" class="grid grid-flow-row-dense grid-cols-8">
 
                 <div class="col-span-7">
                   <mat-slider
@@ -73,8 +73,8 @@
 
               </div>
               <br />
-              <mat-checkbox (change)="updateError()" formControlName="weightLifting">Weight Lifting</mat-checkbox>
-              <div class="grid grid-flow-row-dense grid-cols-8">
+              <mat-checkbox (change)="updateError()" (click) = "toggleLifting()" formControlName="weightLifting">Weight Lifting</mat-checkbox>
+              <div *ngIf="lifting" class="grid grid-flow-row-dense grid-cols-8">
 
                 <div class="col-span-7">
                   <mat-slider
