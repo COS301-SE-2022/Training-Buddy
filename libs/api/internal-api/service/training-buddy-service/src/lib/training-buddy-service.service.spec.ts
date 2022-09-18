@@ -633,5 +633,60 @@ describe('getFullDatasetFromRecommended', () => {
     expect(async () => service.getFullDatasetFromRecommended (dataset,data)).toReturn;
   })
 })
+describe('getRecommendations', () => {
+  it('should get getRecommendations', async () => {
+    jest.spyOn(service, 'getRecommendations').mockImplementation(service.getRecommendations);
+    expect(async () => service.getRecommendations (dataset,UserDtoModule.email)).toReturn;
+  })
+})
+describe('pearson_correlation', () => {
+  it('should get pearson_correlation', async () => {
+    jest.spyOn(service, 'pearson_correlation').mockImplementation(service.pearson_correlation);
+    expect(async () => service.pearson_correlation (dataset,UserDtoModule.email, 'takumuguti@gmail.com')).toReturn;
+  })
+})
+describe('cleanDataset', () => {
+  it('should get cleanDataset', async () => {
+    jest.spyOn(service, 'cleanDataset').mockImplementation(service.cleanDataset);
+    expect(async () => service.cleanDataset (dataset)).toReturn;
+  })
+})
+describe('len', () =>{
+  it('should be called length', async ()=>{
+    jest.spyOn(service, 'len').mockImplementation(service.len);
+    expect(service.len).toHaveBeenCalled
+  } )
+})
+describe('len', () =>{
+  it('should get length', async ()=>{
+    jest.spyOn(service, 'len').mockImplementation(service.len);
+    expect(async ()=> service.len(dataset)).toReturn
+  } )
+})
+
+describe('getWorkoutHistory', () => {
+  it('should get all workout histories', async () => {
+    jest.spyOn(service, 'getWorkoutHistory').mockImplementation(service.getWorkoutHistory);
+    expect(async () => service.getWorkoutHistory(UserDtoModule.email)).toReturn;  
+  })});
+
+describe('addRating', () => {
+  it('should add rating to workout', async () => {
+    jest.spyOn(service, 'addRating').mockImplementation(service.addRating);
+    expect(async () => service.addRating(UserDtoModule.email,  5)).toReturn;
+  });
+})
+describe('getUser', () => {
+  it('should get user', async () => {
+    jest.spyOn(service, 'getUser').mockImplementation(service.getUser);
+    expect(async () => service.getUser(UserDtoModule.email)).toReturn;
+  });
+});
+describe('completeWorkout', () => {
+  it('should complete workout', async () => {
+    jest.spyOn(service, 'completeWorkout').mockImplementation(service.completeWorkout);
+    expect(async () => service.completeWorkout (ResponseWorkoutModule.id)).toReturn;
+  });
+})
 
 });
