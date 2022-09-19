@@ -2,7 +2,7 @@ export * from './lib/api-internal-api-repository-data-access.service';
 export * from './lib/api-internal-api-repository-data-access.module';
 import { Observable } from 'rxjs';
 
-import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
+import { ApiInternalApiRepositoryDataAccessService } from './lib/api-internal-api-repository-data-access.service';
 
 const repo = new ApiInternalApiRepositoryDataAccessService() ;
 
