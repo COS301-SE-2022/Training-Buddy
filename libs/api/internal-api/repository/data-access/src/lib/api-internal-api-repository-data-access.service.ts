@@ -25,6 +25,10 @@ export class ApiInternalApiRepositoryDataAccessService {
                 subscriber.next(querySnapshot) ;
             });
 
+            this.activityLogsCollection.onSnapshot((querySnapshot) => {
+                subscriber.next(querySnapshot) ;
+            });
+
             
         })
     }
