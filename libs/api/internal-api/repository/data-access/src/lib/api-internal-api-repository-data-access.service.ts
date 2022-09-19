@@ -18,56 +18,8 @@ import { subscribe } from 'graphql';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
-
-    constructor(){
-        const scheduledWorkoutsWatch = new Observable((subscriber) => {
-            this.scheduledWorkoutCollection.onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) =>{
-                    subscriber.next(doc.data()) ;
-                })
-            });
-        })
-
-        const activityLogsWatch = new Observable((subscriber) => {
-            this.activityLogsCollection.onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) =>{
-                    subscriber.next(doc.data()) ;
-                })
-            });
-        })
-
-        const workoutInvitesWatch = new Observable((subscriber) => {
-            this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) =>{
-                    subscriber.next(doc.data()) ;
-                })
-            });
-        })
-
-        const buddyRequestsWatch = new Observable((subscriber) => {
-            this.buddyRequestsCollection.onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) =>{
-                    subscriber.next(doc.data()) ;
-                })
-            });
-        })
-
-        const buddyConnectionsWatch = new Observable((subscriber) => {
-            this.buddyConnectionsCollection.onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) =>{
-                    subscriber.next(doc.data()) ;
-                })
-            });
-        })
-
-        const usersWatch = new Observable((subscriber) => {
-            this.usersCollection.onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) =>{
-                    subscriber.next(doc.data()) ;
-                })
-            });
-        })           
-    }
+    
+    constructor(){}
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
@@ -78,8 +30,11 @@ export class ApiInternalApiRepositoryDataAccessService {
     buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
     buddyRequestsCollection = this.firestore.collection('/BuddyRequests') ;
     scheduledWorkoutCollection = this.firestore.collection('/ScheduledWorkouts') ;
-    workoutInvitesCollection = this.firestore.collection('/WorkoutInvites')
+    workoutInvitesCollection = this.firestore.collection('/WorkoutInvites') ;
 
+    async getActivityScheduleCollection() {
+        return this.scheduledWorkoutCollection ;
+    }
     //USERS
     //users - CREATE
     async createUser(@Param() user: UserDto) {
