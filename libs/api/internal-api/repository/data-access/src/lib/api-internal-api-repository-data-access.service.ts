@@ -33,6 +33,10 @@ export class ApiInternalApiRepositoryDataAccessService {
                 subscriber.next(querySnapshot) ;
             });
 
+            this.buddyRequestsCollection.onSnapshot((querySnapshot) => {
+                subscriber.next(querySnapshot) ;
+            });
+
             
         })
     }
