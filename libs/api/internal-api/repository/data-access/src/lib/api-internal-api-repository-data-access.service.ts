@@ -30,31 +30,41 @@ export class ApiInternalApiRepositoryDataAccessService {
 
         const activityLogsWatch = new Observable((subscriber) => {
             this.activityLogsCollection.onSnapshot((querySnapshot) => {
-                subscriber.next(querySnapshot) ;
+                querySnapshot.forEach((doc) =>{
+                    subscriber.next(doc.data()) ;
+                })
             });
         })
 
         const workoutInvitesWatch = new Observable((subscriber) => {
             this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
-                subscriber.next(querySnapshot) ;
+                querySnapshot.forEach((doc) =>{
+                    subscriber.next(doc.data()) ;
+                })
             });
         })
 
         const buddyRequestsWatch = new Observable((subscriber) => {
             this.buddyRequestsCollection.onSnapshot((querySnapshot) => {
-                subscriber.next(querySnapshot) ;
+                querySnapshot.forEach((doc) =>{
+                    subscriber.next(doc.data()) ;
+                })
             });
         })
 
         const buddyConnectionsWatch = new Observable((subscriber) => {
             this.buddyConnectionsCollection.onSnapshot((querySnapshot) => {
-                subscriber.next(querySnapshot) ;
+                querySnapshot.forEach((doc) =>{
+                    subscriber.next(doc.data()) ;
+                })
             });
         })
 
         const usersWatch = new Observable((subscriber) => {
             this.usersCollection.onSnapshot((querySnapshot) => {
-                subscriber.next(querySnapshot) ;
+                querySnapshot.forEach((doc) =>{
+                    subscriber.next(doc.data()) ;
+                })
             });
         })           
     }
