@@ -20,31 +20,43 @@ import { subscribe } from 'graphql';
 export class ApiInternalApiRepositoryDataAccessService {
 
     constructor(){
-        const dbWatch = new Observable((subscriber) => {
+        const scheduledWorkoutsWatch = new Observable((subscriber) => {
             this.scheduledWorkoutCollection.onSnapshot((querySnapshot) => {
-                subscriber.next(querySnapshot) ;
+                querySnapshot.forEach((doc) =>{
+                    subscriber.next(doc.data()) ;
+                })
             });
+        })
 
+        const activityLogsWatch = new Observable((subscriber) => {
             this.activityLogsCollection.onSnapshot((querySnapshot) => {
                 subscriber.next(querySnapshot) ;
             });
+        })
 
+        const workoutInvitesWatch = new Observable((subscriber) => {
             this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
                 subscriber.next(querySnapshot) ;
             });
+        })
 
+        const buddyRequestsWatch = new Observable((subscriber) => {
             this.buddyRequestsCollection.onSnapshot((querySnapshot) => {
                 subscriber.next(querySnapshot) ;
             });
+        })
 
+        const buddyConnectionsWatch = new Observable((subscriber) => {
             this.buddyConnectionsCollection.onSnapshot((querySnapshot) => {
                 subscriber.next(querySnapshot) ;
             });
+        })
 
+        const usersWatch = new Observable((subscriber) => {
             this.usersCollection.onSnapshot((querySnapshot) => {
                 subscriber.next(querySnapshot) ;
             });
-        })
+        })           
     }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
