@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
 import passport = require('passport');
 import { emit, send } from 'process';
-import { async } from 'rxjs';
+import { async, observable } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
 import { Observable } from 'rxjs';
@@ -13,19 +13,20 @@ import fs = require('fs') ;
 import {getFirestore, writeBatch} from 'firebase/firestore' ;
 import axios from 'axios';
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { subscribe } from 'graphql';
 
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
 
     constructor(){
+        const dbWatch = new Observable((subscriber) => {
+            this.scheduledWorkoutCollection.onSnapshot((querySnapshot) => {
+                subscriber.next(querySnapshot) ;
+            });
 
-        const a = this.scheduledWorkoutCollection.onSnapshot((querySnapshot) => {
-            console.log("NEW SNAPSHOT") ;
-            querySnapshot.forEach((doc) => {
-                console.log(doc.data())
-            })
-        });
+            
+        })
     }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
