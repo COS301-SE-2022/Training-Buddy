@@ -37,7 +37,9 @@ export class ApiInternalApiRepositoryDataAccessService {
                 subscriber.next(querySnapshot) ;
             });
 
-            
+            this.buddyConnectionsCollection.onSnapshot((querySnapshot) => {
+                subscriber.next(querySnapshot) ;
+            });
         })
     }
     
