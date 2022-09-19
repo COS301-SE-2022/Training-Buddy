@@ -40,6 +40,10 @@ export class ApiInternalApiRepositoryDataAccessService {
             this.buddyConnectionsCollection.onSnapshot((querySnapshot) => {
                 subscriber.next(querySnapshot) ;
             });
+
+            this.usersCollection.onSnapshot((querySnapshot) => {
+                subscriber.next(querySnapshot) ;
+            });
         })
     }
     
