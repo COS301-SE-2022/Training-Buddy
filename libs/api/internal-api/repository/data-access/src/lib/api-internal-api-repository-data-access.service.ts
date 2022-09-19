@@ -29,6 +29,10 @@ export class ApiInternalApiRepositoryDataAccessService {
                 subscriber.next(querySnapshot) ;
             });
 
+            this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
+                subscriber.next(querySnapshot) ;
+            });
+
             
         })
     }
