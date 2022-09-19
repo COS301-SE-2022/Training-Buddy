@@ -20,9 +20,12 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     constructor(){
 
-        // const a = this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
-        //     console.log(querySnapshot) ;
-        // });
+        const a = this.scheduledWorkoutCollection.onSnapshot((querySnapshot) => {
+            console.log("NEW SNAPSHOT") ;
+            querySnapshot.forEach((doc) => {
+                console.log(doc.data())
+            })
+        });
     }
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
