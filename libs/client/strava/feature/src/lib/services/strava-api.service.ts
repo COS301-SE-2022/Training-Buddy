@@ -66,7 +66,7 @@ export class StravaAPIService {
             next: data => {
               console.log(data);
               //redirect to the login
-              //this.router.navigate(['dashboard']);
+              this.router.navigate(['dashboard']);
             },
             error: err => {
               //push error to page here

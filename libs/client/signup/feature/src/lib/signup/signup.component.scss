@@ -25,9 +25,22 @@ mat-grid-list {
     }
 }
 
+.flex {
+    display: flex;
+}
+
+.row {
+    flex-direction: row !important;
+}
+
 mat-card {
-    width: 90vw;
+    // width: 90vw;
+    // max-width: 400px;
+}
+
+#form {
     max-width: 400px;
+    width: 80vw !important;
 }
 
 .text-center {
