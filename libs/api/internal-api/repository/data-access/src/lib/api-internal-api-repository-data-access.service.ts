@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin'
 import { firestore } from 'firebase-admin';
 import passport = require('passport');
 import { emit, send } from 'process';
-import { async } from 'rxjs';
+import { async, observable } from 'rxjs';
 import internal = require('stream');
 import uuid = require('uuid') ;
 import { Observable } from 'rxjs';
@@ -13,17 +13,12 @@ import fs = require('fs') ;
 import {getFirestore, writeBatch} from 'firebase/firestore' ;
 import axios from 'axios';
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { subscribe } from 'graphql';
 
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
-
-    constructor(){
-
-        // const a = this.workoutInvitesCollection.onSnapshot((querySnapshot) => {
-        //     console.log(querySnapshot) ;
-        // });
-    }
+    
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
@@ -34,8 +29,11 @@ export class ApiInternalApiRepositoryDataAccessService {
     buddyConnectionsCollection = this.firestore.collection('/BuddyConnections') ;
     buddyRequestsCollection = this.firestore.collection('/BuddyRequests') ;
     scheduledWorkoutCollection = this.firestore.collection('/ScheduledWorkouts') ;
-    workoutInvitesCollection = this.firestore.collection('/WorkoutInvites')
+    workoutInvitesCollection = this.firestore.collection('/WorkoutInvites') ;
 
+    async getActivityScheduleCollection() {
+        return this.scheduledWorkoutCollection ;
+    }
     //USERS
     //users - CREATE
     async createUser(@Param() user: UserDto) {
