@@ -1,6 +1,5 @@
 
-<div id="background">
-    <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
+<div id="back" class="background-filter" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 
     <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
     
@@ -14,21 +13,19 @@
                     <!-- <mat-card-content >
                         hi
                     </mat-card-content> -->
-                    <div id="imagecard">
-                        
-                    </div>
+                    <!-- <div id="imagecard"> -->
+                        <training-buddy-logo id="logo" dark="true"></training-buddy-logo>
+                    <!-- </div> -->
                     <!-- <img id="imagecard" [src]="img"> -->
                 </div>
 
-            <mat-card>
-    
-
-                    <!-- right form -->
+                <mat-card>
+        
                     <div id="form">
                         <mat-card-content>
         
                             <form [formGroup]="signupFrm">
-                  
+                
                                 <h1 class="text-center">Sign Up</h1>
                     
                                 <!-- Name and Surname -->
@@ -119,12 +116,11 @@
                                     <button id="signup" (click)="signup()" class="text-center ml-1" mat-raised-button color="primary">Sign Up</button>
                                     <div class="logIn"><p>Have An Account?</p><p routerLink="/login" class="logInLink">Log In</p></div>
                                 </div>
-                  
+                
                             </form>
-                  
-                          </mat-card-content>
+                
+                        </mat-card-content>
                     </div>
-
                     
                 </mat-card>
             </div>
@@ -133,4 +129,4 @@
     
     </mat-grid-list>
     
-    </div>
+</div>

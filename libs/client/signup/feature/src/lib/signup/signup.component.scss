@@ -13,7 +13,7 @@ mat-grid-list {
     min-height: 800px;
 
     position: relative;
-    top: 4.5%;
+    top: 4%;
 }
 
 @media (max-width: 300px) {
@@ -47,10 +47,16 @@ mat-card {
 
 #imagecard {
     height: 100% !important;
+    width: 100% !important;
+
     object-fit: cover;
     border-radius: 10px 0px 0px 10px;
     background-color: white;
 }
+
+// #logo > div > svg {
+//     margin: 0px !important;
+// }
 
 @media (max-width: 980px) {
 
@@ -59,10 +65,14 @@ mat-card {
         border-radius: 10px;
     }
 
-    #imagecard {
+    #visual {
         display: none !important;
     }
 
+}
+
+#logo > div {
+    width: fit-content !important;
 }
 
 #form {
@@ -71,9 +81,10 @@ mat-card {
     border-radius: 10px;
 }
 
-#imagecard {
+#visual {
     max-width: 500px;
     width: 80vw !important;
+    background-color: white;
 }
 
 .text-center {
@@ -142,7 +153,7 @@ p {
     width: 100% !important;
 }
 
-#background {
+#background, #back {
     width: 100vw !important;
     height: 100%;
     object-fit: cover;
