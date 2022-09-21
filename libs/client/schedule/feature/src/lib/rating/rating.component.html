@@ -1,11 +1,11 @@
-<div class="">
+ <div class="">
   <div class="py-3 sm:max-w-xl sm:mx-auto">
     <div class="min-w-1xl flex flex-col rounded-xl">
       <div class="w-full flex flex-col items-center">
         <div class="flex flex-col items-center py-6 space-y-3">
           <span class="text-lg text-gray-800 text-center">How would you rate {{user.userName}} {{user.userSurname}}?</span>
         </div>
-        <div>
+        <!-- <div>
           <ul class="flex justify-center">
             <li (click)="setStars(1)">
               <div *ngIf="greater(1); else elseBlock">
@@ -72,7 +72,25 @@
 
             </li>
           </ul>
-        </div>
+        </div> -->
+        <div class="rating">
+
+          <input type="radio" name="rating" id="r1" (click)="setStars(1)">
+          <label for="r1"></label>
+
+          <input type="radio" name="rating" id="r2" (click)="setStars(2)">
+          <label for="r2"></label>
+
+          <input type="radio" name="rating" id="r3" (click)="setStars(3)">
+          <label for="r3"></label>
+
+          <input type="radio" name="rating" id="r4" (click)="setStars(4)">
+          <label for="r4"></label>
+
+          <input type="radio" name="rating" id="r5" (click)="setStars(5)">
+          <label for="r5"></label>
+
+         </div>
         <div class="w-3/4 flex flex-col">
           <button class="py-3 my-8 text-lg bg-black rounded-xl text-white"  (click)="add()">Rate now</button>
         </div>
