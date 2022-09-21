@@ -485,7 +485,7 @@ export class TrainingBuddyServiceService {
      * @param refresh 
      * @returns ErrorMessage
      */
-    async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any ){
+    async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any, id:any){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         if(!user ){
@@ -493,7 +493,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-             await this.repoService.saveTokens(email , access , refresh, exp, clientId, clientSecret)
+             await this.repoService.saveTokens(email , access , refresh, exp, clientId, clientSecret, id)
              item.message = "Success User Tokens Saved "
              return item;
          }
