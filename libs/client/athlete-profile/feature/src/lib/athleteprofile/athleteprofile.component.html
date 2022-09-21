@@ -2,7 +2,7 @@
   <training-buddy-unsigned-navbar *ngIf="!update"></training-buddy-unsigned-navbar>
   <training-buddy-back-navbar *ngIf="update" title="Activity Settings"></training-buddy-back-navbar>
 
-  <mat-grid-list cols="1" rows="1" rowHeight="2:1" [@fadeIn] >
+  <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="pb-20" [@fadeIn] >
 
       <mat-card>
 
@@ -22,7 +22,7 @@
                   step="0.1"
                   min="0"
                   max="5"
-                  aria-label="units" value="{{rateDefault}}"></mat-slider>
+                  aria-label="units" value="{{runRating}}"></mat-slider>
                 </div>
 
                 <div class="content-center">
@@ -40,11 +40,11 @@
                   step="0.1"
                   min="0"
                   max="5"
-                  aria-label=" units" value="{{rateDefault}}"></mat-slider>
+                  aria-label=" units" value="{{rideRating}}"></mat-slider>
                 </div>
 
                 <div class="content-center">
-                  <div class=" mt-3 ml-1"><mat-label>{{ cycleRating }}/5 </mat-label></div>
+                  <div class=" mt-3 ml-1"><mat-label>{{ rideRating }}/5 </mat-label></div>
                 </div>
 
               </div>
@@ -58,7 +58,7 @@
                   step="0.1"
                   min="0"
                   max="5"
-                  aria-label="units" value="{{rateDefault}}"></mat-slider>
+                  aria-label="units" value="{{swimRating}}"></mat-slider>
                 </div>
 
                 <div class="content-center">
@@ -76,7 +76,7 @@
                   step="0.1"
                   min="0"
                   max="5"
-                  aria-label="units" value="{{rateDefault}}"></mat-slider>
+                  aria-label="units" value="{{liftRating}}"></mat-slider>
                 </div>
 
                 <div class="content-center">

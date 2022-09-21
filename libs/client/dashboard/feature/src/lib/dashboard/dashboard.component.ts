@@ -1,3 +1,4 @@
+import { Subscription } from '@nestjs/graphql';
 import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
@@ -285,9 +286,10 @@ export class DashboardComponent implements OnInit {
         `,
       });
   }
-
+ 
   getBuddieRecommended() {
-    return this.apollo
+  
+  return  this.apollo
       .query({
         query: gql`query{
           findAll(
@@ -310,7 +312,9 @@ export class DashboardComponent implements OnInit {
         }
         }
         `,
-      });
+      })
+    
+    
   }
 
   inOutgoing(email : string) : boolean {
@@ -459,7 +463,7 @@ export class DashboardComponent implements OnInit {
 
   filterMap(attr : string) {
     this.buddies = this.buddies.filter((el : any) => {
-      return el.metrics[attr] == 1;
+      return el.metrics[attr] > 0;
     });
   }
 

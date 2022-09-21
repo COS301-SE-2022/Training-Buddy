@@ -2976,7 +2976,7 @@ const jwt_1 = __webpack_require__("@nestjs/jwt");
 const bcrypt = __webpack_require__("bcrypt");
 const js_sha256_1 = __webpack_require__("js-sha256");
 const data_access_2 = __webpack_require__("./libs/api/internal-api/repository/data-access/src/index.ts");
-const recommended = [];
+let recommended = [];
 let TrainingBuddyServiceService = class TrainingBuddyServiceService {
     /**
      *
@@ -2987,21 +2987,25 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
         this.repoService = repoService;
         this.user = user;
     }
-    // async sendEmail(mail: SendGrid.MailDataRequired) {
-    //     SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
-    //     const transport = await SendGrid.send(mail);
-    //     console.log(`Email successfully dispatched to ${mail.to}`)
-    //     return transport;
-    // }
-    // async sendActivityRequestEmail(email : string , user : UserEntity){
+    // async sendEmail(email : string , user : UserEntity) {
+    //     const apiKey = `${process.env.SENDGRID_API_KEY}`;
+    //     console.log(apiKey)
+    //     SendGrid.setApiKey(apiKey);
     //     const mail = {
     //         to: email,
     //         subject: 'Activity Invite From '+ user.userName ,
-    //         from: 'trainingbuddy@gmail.com',
+    //         from: 'trainingbuddy2022@gmail.com',
     //         text: 'Hello you have been invited to a work out by ' + user.userName,
     //         html: '<h1>Hello World from NestJS Sendgrid</h1>'
-    //     };
-    //     return await this.sendEmail(mail);
+    //     }
+    //     SendGrid.
+    //     send(mail)
+    //     .then(() => {
+    //         console.log('Email sent')
+    //     })
+    //     .catch((error) => {
+    //         console.error(error)
+    //     })
     // }
     /**
      *
@@ -3087,7 +3091,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 }
             }
             for (let i = 0; i < arr.length; i++) {
-                if (arr[i].email != email) {
+                if (arr[i].email != email && arr[i].metrics != null) {
                     if ((yield this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)) <= distance) {
                         people.push(arr[i]);
                     }
@@ -3550,7 +3554,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 const val = yield this.repoService.sendInvite(email, arr, workoutID);
                 if (val) {
                     item.message = "Success";
-                    //this.sendActivityRequestEmail(email , user);
+                    // this.sendEmail(email , user);
                     return item;
                 }
                 else {
@@ -3764,6 +3768,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             if (people.length <= 0) {
                 return people;
             }
+            recommended = [];
             this.getRecommendations(this.cleanDataset(people), email);
             this.sortRecommended(recommended);
             const newset = this.getFullDatasetFromRecommended(people, recommended);
