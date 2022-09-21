@@ -1,7 +1,7 @@
 <training-buddy-back-navbar title="Event"></training-buddy-back-navbar>
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 <div *ngIf="!loading">
-  <div class="dark:divide-undefined dark:divide-undefined">
+  <div class="dark:divide-undefined dark:divide-undefined rounded-xl shadow-md p-4 m-4">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center">
         <p class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900">{{workout?.title}}</p>
@@ -60,7 +60,7 @@
       </div>
     </div>
   </div>
-  <div class="py-8 pb-24 px-4 mx-auto sm:max-w-xl sm:py-14 md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+  <div class="rounded-xl shadow-md p-4 m-4 py-8 pb-24 px-4 mx-auto sm:max-w-xl sm:py-14 md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
     <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12">
       <p class=" text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900">Participants
          <button mat-raised-button id="addbutton"  class="text-white text-sm rounded-lg"(click)="openDialog()">
