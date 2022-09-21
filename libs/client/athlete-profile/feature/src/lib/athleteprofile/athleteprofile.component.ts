@@ -43,10 +43,10 @@ export class AthleteprofileComponent implements OnInit {
   radius : number;
 
   //ratings
-  runRating : number;
-  swimRating : number;
-  rideRating : number;
-  liftRating : number;
+  runRating = 0 ;
+  swimRating = 0;
+  rideRating = 0;
+  liftRating = 0;
   //check box values:
   running : boolean;
   swimming : boolean;
@@ -56,7 +56,6 @@ export class AthleteprofileComponent implements OnInit {
 
   update = false;
   sliderDefault = 2;
-  rateDefault = 0;
 
   sliderMove(value: any) {
     this.radius = value;
