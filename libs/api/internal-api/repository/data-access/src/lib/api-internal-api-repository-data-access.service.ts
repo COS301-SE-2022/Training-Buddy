@@ -19,7 +19,6 @@ import { subscribe } from 'graphql';
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
     
-    constructor(){}
     
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
