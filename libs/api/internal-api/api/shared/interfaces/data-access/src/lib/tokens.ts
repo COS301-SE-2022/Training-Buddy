@@ -13,4 +13,6 @@ export class Tokens {
     clientId: string
     @Field()
     clientSecret: string
+    @Field()
+    id: string
 }

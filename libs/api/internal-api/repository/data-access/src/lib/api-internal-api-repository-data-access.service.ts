@@ -106,7 +106,14 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     //user - SAVE STRAVA TOKENS
 
-    async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number, @Param() clientId: any, @Param() clientSecret: any){
+    async findByStravaId(@Param() id: string){
+        return this.usersCollection.where('strava.ownerId', '==', id).get().then(async (result) =>{
+            if(result.docs[0]) return result.docs[0].data() ;
+            return false ;
+        });
+    }
+
+    async saveTokens(@Param() email: string, @Param() access: string, @Param() refresh: string, @Param() exp: number, @Param() clientId: any, @Param() clientSecret: any, @Param() id:any){
         const data = {
 
             strava: {
@@ -114,10 +121,61 @@ export class ApiInternalApiRepositoryDataAccessService {
             stravaRefresh: refresh,
             exp: exp,
             clientId: clientId,
-            clientSecret: clientSecret
+            clientSecret: clientSecret,
+            ownerId: id
             },
             signUpStage: 3
         }
+
+        const toLog = [] ;
+            //fetch strava activities
+            await this.getActivities(access).then((activities : any) => {
+                //console.log(activities.data) ;
+
+                activities.data.forEach(activity => {
+
+                    let valid = false ;
+                    let type = "" ;
+                    if(activity.type == "Run"){
+                        valid = true ;
+                        type = "run" ;
+                    }else if(activity.type == "Ride"){
+                        valid = true ;
+                        type = "ride" ;
+                    }else if(activity.type == "Swim"){
+                        valid = true ;
+                        type = "swim" ;
+                    }else if(activity.type == "Workout"){
+                        valid = true ;
+                        type = "lift" ;
+                    }
+
+                    //const exists = this.activityExists(activity.id) ;
+                    // if(this.activityExists(activity.id)){
+                    //     console.log("exists") ;
+                    //     valid = false ;
+                    // }
+
+                    if(valid){
+                        const date = new Date(activity.start_date) ;
+                        //console.log(activity) ;
+                        const log = {
+                            id: activity.id,
+                            user: email,
+                            activityType: type,
+                            dateComplete: date,
+                            distance: activity.distance,
+                            name: activity.name,
+                            speed: activity.average_speed,
+                            time: activity.moving_time
+                        }
+                        //console.log(log) ;
+                        toLog.push(log) ;
+                    }
+                });
+            }) ;
+
+            await this.logManyActivities(toLog) ;
 
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
@@ -357,6 +415,93 @@ export class ApiInternalApiRepositoryDataAccessService {
     //ACTIVITY LOGS
 
     //activity logs - CREATE
+    async logStrava(@Param() activityId: any, @Param() ownerId: any){
+
+        const user = await this.findByStravaId(ownerId) ;
+
+        if(user){
+            //check if token is expired
+            console.log("exists");
+            if((user.strava.exp < Date.now()/1000)){
+                //get new token
+                await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
+                    console.log(access.data.access_token) ;
+                    this.updateAccessToken(access.data.access_token, user.email).then((newAccess) => {
+                        axios.get('https://www.strava.com/api/v3/activities/' + activityId + '?access_token=' + newAccess).then((res : any) => {
+                            console.log("new access token", res) ;
+                            let valid = false ;
+                            let type = "" ;
+                            if(res.data.type == "Run"){
+                                valid = true ;
+                                type = "run" ;
+                            }else if(res.data.type == "Ride"){
+                                valid = true ;
+                                type = "ride" ;
+                            }else if(res.data.type == "Swim"){
+                                valid = true ;
+                                type = "swim" ;
+                            }else if(res.data.type == "Workout"){
+                                valid = true ;
+                                type = "lift" ;
+                            }
+
+                            if(valid){
+                                const date = new Date(res.data.start_date) ; 
+                                const log = {
+                                    id: res.data.id,
+                                    user: user.email,
+                                    activityType: type,
+                                    dateComplete: date,
+                                    distance: res.data.distance,
+                                    name: res.data.name,
+                                    speed: res.data.average_speed,
+                                    time: res.data.moving_time
+                                }
+                                //console.log(log) ;
+                                this.activityLogsCollection.doc().set(log) ;
+                            }
+                        })
+                    }) ;
+                });
+            }else{
+                const origAccess = user.strava.stravaAccess ;
+                axios.get('https://www.strava.com/api/v3/activities/' + activityId + '?access_token=' + origAccess).then((res : any) => {
+                    console.log("old access token", res) ;
+                    let valid = false ;
+                    let type = "" ;
+                    if(res.data.type == "Run"){
+                        valid = true ;
+                            type = "run" ;
+                        }else if(res.data.type == "Ride"){
+                            valid = true ;
+                            type = "ride" ;
+                        }else if(res.data.type == "Swim"){
+                            valid = true ;
+                            type = "swim" ;
+                        }else if(res.data.type == "Workout"){
+                            valid = true ;
+                            type = "lift" ;
+                        }
+                        if(valid){
+                            const date = new Date(res.data.start_date) ; 
+                            const log = {
+                                id: res.data.id,
+                                user: user.email,
+                                activityType: type,
+                                dateComplete: date,
+                                distance: res.data.distance,
+                                name: res.data.name,
+                                speed: res.data.average_speed,
+                                time: res.data.moving_time
+                            }
+                            //console.log(log) ;
+                            this.activityLogsCollection.doc().set(log) ;
+                        }
+                })
+            }
+        }
+    }
+
     async logActivity(@Param() log: ActivityLog){
         const data = {
             user: log.email,
@@ -421,73 +566,6 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     async getLogs(@Param() email: string){
-
-        //get users strava tokens
-        let user = await this.login(email) ;
-        
-        if(user.strava){ //if user has linked strava
-            //check if token is expired
-            if((user.strava.exp < Date.now()/1000)){
-                //get new token
-                await this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access : any) => {
-                    console.log(access.data.access_token) ;
-                    this.updateAccessToken(access.data.access_token, user.email) ;
-                });
-            }
-
-            user = await this.login(email) ; //BUG - this executes before updateAccessToken
-            const access = user.strava.stravaAccess ;
-
-            const toLog = [] ;
-            //fetch strava activities
-            await this.getActivities(access).then((activities : any) => {
-                //console.log(activities.data) ;
-
-                activities.data.forEach(activity => {
-
-                    let valid = false ;
-                    let type = "" ;
-                    if(activity.type == "Run"){
-                        valid = true ;
-                        type = "run" ;
-                    }else if(activity.type == "Ride"){
-                        valid = true ;
-                        type = "ride" ;
-                    }else if(activity.type == "Swim"){
-                        valid = true ;
-                        type = "swim" ;
-                    }else if(activity.type == "Workout"){
-                        valid = true ;
-                        type = "lift" ;
-                    }
-
-                    //const exists = this.activityExists(activity.id) ;
-                    // if(this.activityExists(activity.id)){
-                    //     console.log("exists") ;
-                    //     valid = false ;
-                    // }
-
-                    if(valid){
-                        const date = new Date(activity.start_date) ;
-                        //console.log(activity) ;
-                        const log = {
-                            id: activity.id,
-                            user: user.email,
-                            activityType: type,
-                            dateComplete: date,
-                            distance: activity.distance,
-                            name: activity.name,
-                            speed: activity.average_speed,
-                            time: activity.moving_time
-                        }
-                        //console.log(log) ;
-                        toLog.push(log) ;
-                    }
-                });
-            }) ;
-
-            await this.logManyActivities(toLog) ;
-        }
 
         const logs = [] ;
         await this.activityLogsCollection.where('user', '==', email).get().then(async (querySnapshot) =>{
