@@ -1,8 +1,8 @@
 <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 <div *ngIf="!loading" class="px-4">
-
-    <div  *ngIf="invitesAvailable" class="px-4">
+  <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="pb-20">
+  <div  *ngIf="invitesAvailable" class="px-4">
         <h2 class="text-center">
             You have been invited
         </h2>
@@ -125,7 +125,7 @@
         <mat-icon>add</mat-icon>
       </button>
     </div>
-
+  </mat-grid-list>
 </div>
 
 <training-buddy-navbar></training-buddy-navbar>
