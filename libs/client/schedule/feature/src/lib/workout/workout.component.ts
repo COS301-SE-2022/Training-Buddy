@@ -22,6 +22,7 @@ export class WorkoutComponent implements OnInit {
   workoutID !: string;
   email : string;
   participants: any;
+  organiser = false;
 
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
@@ -77,12 +78,16 @@ export class WorkoutComponent implements OnInit {
         // data.data.participants.map((el : any) => {
         //   dummy.push(el);
         // });
+
         this.fetchImages(data.data.getWorkout.participants).then((output : any[]) => {
           console.log(output);
           this.participants = output;
         });
 
         this.workout = this.convertQuery(data.data.getWorkout);
+        if(this.workout.organiser.email === this.email){
+          this.organiser = true;
+        }
         this.loading = false;
       }
     });
