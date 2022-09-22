@@ -19,3 +19,9 @@
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #0284c7 !important;
 }
+
+.right-align{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
