@@ -50,6 +50,7 @@ export class WorkoutComponent implements OnInit {
           startTime,
           organiser,
           participants{
+            complete,
             userName,
             userSurname,
             id,
