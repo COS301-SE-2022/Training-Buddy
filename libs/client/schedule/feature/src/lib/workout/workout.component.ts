@@ -167,5 +167,11 @@ export class WorkoutComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+  isCurrentUser(user: any): boolean{
+    if(user.email === this.email){
+      return true;
+    }
+    return false;
+  }
 
 }

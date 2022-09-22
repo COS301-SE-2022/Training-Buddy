@@ -74,16 +74,18 @@
       <p class="md:text-lg mt-10">These are all the participants of your workout please rate their kindness.</p>
     </div>
     <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-1 lg:grid-cols-2">
-      <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-max bg-white">
+      <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
         <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
         <div class="flex flex-col justify-center">
           <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
 
-          <mat-grid-list cols="1" rowHeight="2:1">
-            <mat-grid-tile class=" text-black underline">
-              <button mat-raised-button color="primary" (click)="rateUser(participant)">Rate</button>
-            </mat-grid-tile>
-          </mat-grid-list>
+          <ng-container *ngIf="isCurrentUser(participant)">
+            <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
+          </ng-container>
+          <ng-container *ngIf="!isCurrentUser(participant)">
+            <p class="text-sm text-gray-600 dark:text-gray-600">You can't rate yourself</p>
+          </ng-container>
+
         </div>
       </div>
     </div>
