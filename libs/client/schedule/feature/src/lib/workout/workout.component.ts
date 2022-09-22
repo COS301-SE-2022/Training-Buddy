@@ -33,7 +33,7 @@ export class WorkoutComponent implements OnInit {
     // console.log('it works');
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
-      // console.log(this.workoutID);
+      console.log(this.workoutID);
       this.getData();
 
     })
