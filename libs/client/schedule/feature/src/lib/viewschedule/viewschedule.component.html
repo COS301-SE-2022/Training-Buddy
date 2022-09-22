@@ -28,11 +28,11 @@
 
                   <div class="grid grid-cols-2 mt-2">
                     <div class="flex request-buttons">
-                        <button class="pad-right mr-1" class="bg-sky-500 hover:bg-sky-700 text-white" mat-raised-button (click) = "acceptInvite(workout?.organiser, workout?.id)">Accept</button>
+                        <button class="pad-right mr-1"  color="primary" class=" text-white" mat-raised-button (click) = "acceptInvite(workout?.organiser, workout?.id)">Accept</button>
                     </div>
 
                     <div class="flex request-buttons flex-end">
-                        <button class="pad-left action-color" class="bg-sky-500 hover:bg-sky-700 text-white" (click)="rejectInvite(workout?.organiser, workout?.id)" mat-raised-button>Decline</button>
+                        <button class="pad-left action-color" color="primary" class=" text-white" (click)="rejectInvite(workout?.organiser, workout?.id)" mat-raised-button>Decline</button>
 
                     </div>
 
@@ -121,7 +121,7 @@
     </div>
     </ng-container>
     <div *ngIf="toggle">
-      <button id="addbutton" [routerLink]="['../scheduleworkout']" mat-fab>
+      <button id="addbutton" color="primary" [routerLink]="['../scheduleworkout']" mat-fab>
         <mat-icon>add</mat-icon>
       </button>
     </div>
