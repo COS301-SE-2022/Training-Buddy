@@ -62,15 +62,13 @@
     </div>
   </div>
   <div class=" bg-slate-600 m-4 sm:max-w-xl p-4 md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8 rounded-xl shadow-md ">
-    <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12">
-      <p class=" mt-2 pt-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900">Participants
-        <ng-container *ngIf="organiser">
-          <button mat-raised-button id="addbutton"  class="text-white text-sm rounded-lg"(click)="openDialog()">
-            <mat-icon>add</mat-icon>
-          </button>
-        </ng-container>
-
-      </p>
+    <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12 items-center">
+      <p class=" mt-2 pt-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900 ">Participants</p>
+      <ng-container *ngIf="organiser" >
+        <button mat-raised-button color="primary" class="text-white text-sm rounded-lg m-4"(click)="openDialog()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </ng-container>
       <p class="md:text-lg mt-10">These are all the participants of your workout please rate their kindness.</p>
     </div>
     <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-1 lg:grid-cols-2">
