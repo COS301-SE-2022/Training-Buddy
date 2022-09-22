@@ -86,8 +86,61 @@ export class ViewscheduleComponent implements OnInit {
     this.email = this.cookieService.get('email');
   }
   ngOnInit(): void {
+   this.getData2(this.email)
     this.getData(this.email);
+
+   
+   
+    
   }
+  //Subscriptions 
+  getInvites2(email: string){
+    return this.apollo
+      .subscribe({
+        query: gql`
+          subscription{
+            getIncomingInviteSub{
+              sender,
+              receivers,
+              workout{
+                title,
+                id,
+                startTime,
+                organiser,
+                participants{
+                  userName,
+                  userSurname,
+                  location,
+                  longitude,
+                  latitude,
+                  stravaToken,
+                  dob,
+                  gender,
+                  email,
+                  cellNumber,
+                  id,
+                  bio,
+                  metrics{
+                    lift,
+                    run,
+                    swim,
+                    ride
+                  },
+                  buddies,
+                  distance
+                }
+                activityType,
+                startPoint,
+                proposedDistance,
+                proposedDuration
+              }
+            }
+          }
+        `
+      })
+    }
+   
+
 
   getWorkouts(email: string){
     return this.apollo
@@ -125,11 +178,12 @@ export class ViewscheduleComponent implements OnInit {
     })
   }
 
+
   getInvites(email: string){
-    return this.apollo
+    const val2 = this.apollo
     .query({
       query: gql`
-        query{
+       query{
           getIncomingInvites(email: "${ email }"){
             sender,
             receivers,
@@ -169,7 +223,9 @@ export class ViewscheduleComponent implements OnInit {
         }
       `
     })
+    return val2
   }
+ 
 
   getUserName(email: string){
     return this.apollo
@@ -182,12 +238,126 @@ export class ViewscheduleComponent implements OnInit {
         }`
     })
   }
+  getData2(email: string){
+    this.getInvites2(email).subscribe({
+      next: (data: any) =>{
+        const swap: any[]= [];
+        data.data.getIncomingInviteSub.map((el : any) => {
+
+          swap.push(this.convertInvitedToCard(el));
+        });
+        //sort the data.
+        if(swap.length == 0){
+          return;
+        }
+        swap.sort(function(a,b){
+          return a.startDate.timestamp - b.startDate.timestamp;
+        });
+
+        const dated: any[][] = [[]];
+        let x = 0;
+        let currentday = swap[0].startDate.day;
+
+        for(let w = 0; w < swap.length; w++  ){
+          if(swap[w].startDate.day == currentday){
+            dated[x].push(swap[w]);
+          }
+          else{
+            currentday = swap[w].startDate.day;
+            x++;
+            const temp: any[] = [];
+            dated.push(temp)
+            dated[x].push(swap[w]);
+          }
+        }
+        this.workoutInvites = dated;
+        if(this.workoutInvites.length != 0){
+          this.invitesAvailable = true;
+        }
+
+      }
+    })
+    this.getWorkouts(email).subscribe({
+      next: (data : any) => {
+          const swap: any[] = [];
+          data.data.getScheduleWorkout.map((el : any) => {
+            swap.push(this.convertWorkoutToCard(el));
+          });
+          if(swap.length != 0){
+            swap.sort(function(a,b){
+              return a.startDate.timestamp - b.startDate.timestamp;
+            });
+
+            const dated: any[][] = [[]];
+            let x = 0;
+            let currentday = swap[0].startDate.day;
+
+            for(let w = 0; w < swap.length; w++  ){
+              if(swap[w].startDate.day == currentday){
+                dated[x].push(swap[w]);
+              }
+              else{
+                currentday = swap[w].startDate.day;
+                x++;
+                const temp: any[] = [];
+                dated.push(temp)
+                dated[x].push(swap[w]);
+              }
+            }
+            this.workouts = dated;
+            this.workoutsLoaded = true;
+            this.workoutsCount = this.workouts.length;
+            if (this.workoutsCount != 0) {
+              this.upcomingEvents = true;
+            }
+          }
+          this.loading = false;
+      }
+    })
+    this.getWorkoutHistory(email).subscribe({
+      next: (data : any) => {
+          const swap: any[] = [];
+          data.data.getWorkoutHistory.map((el : any) => {
+            swap.push(this.convertWorkoutToCard(el));
+          });
+          if(swap.length != 0){
+            swap.sort(function(a,b){
+              return b.startDate.timestamp - a.startDate.timestamp;
+            });
+
+            const dated: any[][] = [[]];
+            let x = 0;
+            let currentday = swap[0].startDate.day;
+
+            for(let w = 0; w < swap.length; w++  ){
+              if(swap[w].startDate.day == currentday){
+                dated[x].push(swap[w]);
+              }
+              else{
+                currentday = swap[w].startDate.day;
+                x++;
+                const temp: any[] = [];
+                dated.push(temp)
+                dated[x].push(swap[w]);
+              }
+            }
+            this.workoutHistory = dated;
+            if(this.workoutHistory.length != 0) {
+              this.pastEvents= true;
+            }
+          }
+          this.loading = false;
+      }
+
+    })
+  }
 
   getData(email: string){
     this.getInvites(email).subscribe({
       next: (data: any) =>{
         const swap: any[]= [];
         data.data.getIncomingInvites.map((el : any) => {
+
           swap.push(this.convertInvitedToCard(el));
         });
         //sort the data.
