@@ -160,7 +160,7 @@ export class WorkoutComponent implements OnInit {
   }
   rateUser(user: any): void {
     const dialogRef = this.dialog.open(RatingComponent, {
-      width: '250px',
+      width: '350px',
       data: user,
     });
     dialogRef.afterClosed().subscribe(result => {
