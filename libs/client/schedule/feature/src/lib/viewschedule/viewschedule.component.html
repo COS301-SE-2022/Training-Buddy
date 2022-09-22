@@ -14,9 +14,9 @@
                 </h2>
 
             </div>
-            <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white  rounded-xl shadow-md p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" (click)="fullWorkoutDetails(workout?.id)">
+            <div *ngFor="let workout of day" class="px-4 py-16 mx-auto my-4 bg-white  rounded-xl shadow-md p-[0px] pb-[4px] m-[0px] pt-[4px] shadow- sm:max-w-xl sm:py-14 md:max-w-full md:px-24 md:p-[3px] lg:max-w-screen-xl lg:px-8" >
               <div class="flex p-[0px] m-[0px] mb-2">
-                <img alt="No alt" [src]="workout?.image" class=" my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-4 border-sky-200 border-x-sky-500" />
+                <img alt="No alt" (click)="fullWorkoutDetails(workout?.id)" [src]="workout?.image" class=" my-auto object-scale-down w-20 h-20 mr-4 rounded-full shadow bg-white border-4 border-sky-200 border-x-sky-500" />
                 <div class="flex flex-col justify-center w-full">
                   <p class="text-lg font-bold text-slate-900 dark:text-slate-800 text-left">{{workout?.name}}</p>
                   <div class="with-icon">
