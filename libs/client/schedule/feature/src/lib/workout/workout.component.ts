@@ -85,7 +85,9 @@ export class WorkoutComponent implements OnInit {
         });
 
         this.workout = this.convertQuery(data.data.getWorkout);
-        if(this.workout.organiser.email === this.email){
+        console.log("organiser", this.workout.organiser);
+        console.log("this email", this.email);
+        if(this.workout.organiser === this.email){
           this.organiser = true;
         }
         this.loading = false;

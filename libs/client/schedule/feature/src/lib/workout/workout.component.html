@@ -75,14 +75,14 @@
     </div>
     <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-1 lg:grid-cols-2">
       <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
-        <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
+        <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant.id)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
         <div class="flex flex-col justify-center">
           <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
 
-          <ng-container *ngIf="isCurrentUser(participant)">
+          <ng-container *ngIf="!isCurrentUser(participant)">
             <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
           </ng-container>
-          <ng-container *ngIf="!isCurrentUser(participant)">
+          <ng-container *ngIf="isCurrentUser(participant)">
             <p class="text-sm text-gray-600 dark:text-gray-600">You can't rate yourself</p>
           </ng-container>
 
