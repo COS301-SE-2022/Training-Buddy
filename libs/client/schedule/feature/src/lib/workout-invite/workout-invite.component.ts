@@ -24,8 +24,6 @@ export class WorkoutInviteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("sheeesh");
-    console.log(this.workoutID);
     this.getData(this.email);
   }
   onNoClick(): void {

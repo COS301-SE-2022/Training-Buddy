@@ -139,7 +139,23 @@ export class ViewscheduleComponent implements OnInit {
         `
       })
     }
-   
+    getWorkouts2(email: string){
+      return this.apollo
+      .subscribe({
+        query: gql`
+          subscription{
+            getAllWorkouts{
+              title,
+              id,
+              startTime,
+              activityType,
+              startPoint,
+              proposedDistance,
+              proposedDuration
+              }
+          }`,
+      })
+    }
 
 
   getWorkouts(email: string){
@@ -277,10 +293,10 @@ export class ViewscheduleComponent implements OnInit {
 
       }
     })
-    this.getWorkouts(email).subscribe({
+    this.getWorkouts2(email).subscribe({
       next: (data : any) => {
           const swap: any[] = [];
-          data.data.getScheduleWorkout.map((el : any) => {
+          data.data.getAllWorkouts.map((el : any) => {
             swap.push(this.convertWorkoutToCard(el));
           });
           if(swap.length != 0){
