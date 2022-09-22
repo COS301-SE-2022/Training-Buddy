@@ -689,14 +689,12 @@ export class ApiInternalApiRepositoryDataAccessService {
             id: uuid.v1().toString(),
             title: workout.title,
             organiser: workout.email,
-            participants: [workout.email],
+            participants: [{email: workout.email, complete: false}],
             startTime: workout.time,
             activityType: workout.activity,
             startPoint: workout.location,
             proposedDistance: workout.distance,
             proposedDuration: workout.duration,
-            complete: false,
-            logs: [] 
         }
 
         await this.scheduledWorkoutCollection.doc().set(data)
@@ -735,7 +733,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
                 const users = [] ;
                 data.participants.forEach((user) => {
-                    users.push(this.login(user)) ;
+                    users.push(this.login(user.email), user.complete);
                 })
                 data.participants = users ;
 

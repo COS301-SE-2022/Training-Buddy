@@ -2374,14 +2374,12 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                 id: uuid.v1().toString(),
                 title: workout.title,
                 organiser: workout.email,
-                participants: [workout.email],
+                participants: [{ email: workout.email, complete: false }],
                 startTime: workout.time,
                 activityType: workout.activity,
                 startPoint: workout.location,
                 proposedDistance: workout.distance,
                 proposedDuration: workout.duration,
-                complete: false,
-                logs: []
             };
             yield this.scheduledWorkoutCollection.doc().set(data)
                 .then(results => {
@@ -2421,7 +2419,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                     const data = result.docs[0].data();
                     const users = [];
                     data.participants.forEach((user) => {
-                        users.push(this.login(user));
+                        users.push(this.login(user.email), user.complete);
                     });
                     data.participants = users;
                     return data;
