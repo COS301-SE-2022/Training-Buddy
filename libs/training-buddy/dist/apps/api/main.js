@@ -572,6 +572,10 @@ let ResponseWorkout = class ResponseWorkout {
     (0, graphql_1.Field)(),
     (0, tslib_1.__metadata)("design:type", String)
 ], ResponseWorkout.prototype, "proposedDuration", void 0);
+(0, tslib_1.__decorate)([
+    (0, graphql_1.Field)(type => [Boolean], { nullable: true }),
+    (0, tslib_1.__metadata)("design:type", Array)
+], ResponseWorkout.prototype, "complete", void 0);
 ResponseWorkout = (0, tslib_1.__decorate)([
     (0, graphql_1.ObjectType)()
 ], ResponseWorkout);
@@ -2391,7 +2395,9 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     getScheduledWorkouts(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const workouts = [];
-            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            const map = new Map();
+            map.set(false, email);
+            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': false }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
                     if (doc.data().startTime >= Date.now() / 1000)
                         workouts.push(doc.data());
@@ -2403,7 +2409,13 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     getWorkoutHistory(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const workouts = [];
-            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': false }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+                querySnapshot.docs.forEach((doc) => {
+                    if (doc.data().startTime < Date.now() / 1000)
+                        workouts.push(doc.data());
+                });
+            }));
+            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': true }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
                     if (doc.data().startTime < Date.now() / 1000)
                         workouts.push(doc.data());
@@ -2418,10 +2430,13 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                 if (result.docs[0]) {
                     const data = result.docs[0].data();
                     const users = [];
+                    const completeVals = [];
                     data.participants.forEach((user) => {
-                        users.push(this.login(user.email), user.complete);
+                        users.push(this.login(user.email));
+                        completeVals.push(this.login(user.complete));
                     });
                     data.participants = users;
+                    data.complete = completeVals;
                     return data;
                     //return result.docs[0].data() ;
                 }
@@ -2467,7 +2482,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                 if (result.docs[0]) {
                     return this.workoutInvitesCollection.doc(result.docs[0].id).update({ receivers: this.arrayRemove(user) }).then(results => {
                         return this.scheduledWorkoutCollection.where("id", "==", workout).get().then((res) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-                            return this.scheduledWorkoutCollection.doc(res.docs[0].id).update({ participants: this.arrayUnion(user) }).then(result => {
+                            return this.scheduledWorkoutCollection.doc(res.docs[0].id).update({ participants: this.arrayUnion({ 'email': user, 'complete': false }) }).then(result => {
                                 return true;
                             });
                         }));
