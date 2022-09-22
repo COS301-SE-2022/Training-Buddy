@@ -1,4 +1,7 @@
 <mat-dialog-content>
+  <div class="right-align">
+    <mat-icon (click)="onNoClick()"> close</mat-icon>
+  </div>
     <mat-form-field class="mt-3 w-full" appearance="outline">
         <mat-label>Search</mat-label>
         <input id="search" matInput placeholder="Search for buddies to add" name="search" >
@@ -9,21 +12,6 @@
     <div *ngIf="noBuddies" class="my-6">
         <mat-hint class="text-center">No buddies available to add</mat-hint>
     </div>
-    <!-- <mat-list>
-        <mat-list-item *ngFor="let buddy of buddies">
-            <h4 mat-line >{{ buddy?.userName }} {{ buddy?.userSurname }}</h4>
-            <button class="text-center mx-5 button" (click)="sendRequest(buddy?.email)">
-                <mat-icon>add_circle</mat-icon>
-            </button>
-        </mat-list-item>
-    </mat-list> -->
-    <!-- <mat-selection-list #buddiesList [multiple]="true">
-        <mat-list-option *ngFor="let buddy of buddies" [value]="buddy">
-
-            <h4 mat-line >{{ buddy?.userName }} {{ buddy?.userSurname }}</h4>
-        </mat-list-option>
-    </mat-selection-list> -->
-       <!-- Card body -->
        <div class="w-full max-w-2xl mx-auto bg-white">
         <div class="p-3">
               <table class="table-auto w-full">
