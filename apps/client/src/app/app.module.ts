@@ -63,13 +63,13 @@ const firebase = {
       useFactory(httpLink: HttpLink): ApolloClientOptions<any> {
         // Create an http link:
         const http = httpLink.create({
-          uri: 'http://localhost:3333/graphql',
+          uri: 'https://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
         });
 
         // Create a WebSocket link:
         const ws  = new GraphQLWsLink(
           createClient({
-            url: "ws://localhost:3333/graphql"
+            url: 'ws://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
           }),
 
         );
