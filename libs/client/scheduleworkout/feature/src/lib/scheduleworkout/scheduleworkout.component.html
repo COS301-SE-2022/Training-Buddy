@@ -1,152 +1,143 @@
-<!-- <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}"> -->
-
-    <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
-
-    <training-buddy-back-navbar title="Schedule workout"></training-buddy-back-navbar>
-    
-    <mat-grid-list cols="1" rows="1" rowHeight="2:1">
-    
-        <mat-card>
-    
-            <mat-card-content>
-    
-              <form [formGroup]="scheduleWorkout">
-    
-                <!-- <h1 class="text-center">Schedule Workout</h1> -->
-
-                <!-- activity name -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Activity Name</mat-label>
-                    <input formControlName="name" id="name" matInput type="text" placeholder="" name="name">
-                    <mat-error>
-                        Name is required
-                    </mat-error>
-                </mat-form-field>
-
-                <!-- Location with goodle autocompelet-->
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Location</mat-label>
-                    <input formControlName="location" matInput
-                           matGoogleMapsAutocomplete
-                           (onAutocompleteSelected)="onAutocompleteSelected($event)"
-                           (onLocationSelected)="onLocationSelected($event)">
-                    <mat-error *ngIf="scheduleWorkout.controls['location'].errors">
-                        Location is required
-                    </mat-error>
-                    <mat-hint class="fullhint">
-                        <div>
-                            <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
-                        </div>
-                    </mat-hint>
-                </mat-form-field>
 
 
-                <!-- activity type -->
-                <mat-form-field appearance="outline">
+  <training-buddy-back-navbar title="Schedule workout"></training-buddy-back-navbar>
+  <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="pb-20 mb-20">
 
-                    <mat-label>Activity Type</mat-label>
+      <mat-card class="mt-12 mb-20">
 
-                    <mat-select #toggle (selectionChange)="activityToggle(toggle.value)" formControlName="type" id="type" name="type">
-                        <mat-option value="run" default>Run</mat-option>
-                        <mat-option value="ride">Ride</mat-option>
-                        <mat-option value="swim">Swim</mat-option>
-                        <mat-option value="lift">Gym</mat-option>
-                    </mat-select>
+          <mat-card-content>
 
-                </mat-form-field>
+            <form [formGroup]="scheduleWorkout">
 
-                <!-- date and time to be performed -->
-                <mat-form-field appearance="outline">
-                    <mat-label>Activity Start</mat-label>
-                    <!-- <input formControlName="date" id="date" matInput [matDatepicker]="picker"> -->
-                    <input formControlName="date" id="date" matInput type="datetime-local">
-                    <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
-                    <!-- <mat-datepicker #picker></mat-datepicker> -->
-                    <mat-error>
-                        Date is requied
-                    </mat-error>
-                    <mat-hint [align]="'end'">MM/DD/YYYY</mat-hint>
-                </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Activity Name</mat-label>
+                  <input formControlName="name" id="name" matInput type="text" placeholder="" name="name">
+                  <mat-error>
+                      Name is required
+                  </mat-error>
+              </mat-form-field>
 
-                <!-- show distance if not weight lifting -->
-                <div *ngIf="!isWeightLifting">
-                    <!-- distance -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>Distance (km)</mat-label>
-                        <input (input)="calculateDuration()" formControlName="distance" id="distance" matInput type="number" placeholder="5" name="distance">
-                        <mat-error *ngIf="scheduleWorkout.controls['distance'].errors">
-                            Distance is required
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+              <!-- Location with goodle autocompelet-->
 
-                <!-- running or swimming is selected -->
-                <div *ngIf="isRunning || isSwimming">
-                    <!-- running measured with distance and min/km -->
-                    <!-- time inputs -->
+              <mat-form-field appearance="outline">
+                  <mat-label>Location</mat-label>
+                  <input formControlName="location" matInput
+                          matGoogleMapsAutocomplete
+                          (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                          (onLocationSelected)="onLocationSelected($event)">
+                  <mat-error *ngIf="scheduleWorkout.controls['location'].errors">
+                      Location is required
+                  </mat-error>
+                  <mat-hint class="fullhint">
+                      <div>
+                          <div class="row pBy"><p>powered by</p>&nbsp;<p class="b">G</p><p class="r">o</p><p class="y">o</p><p class="b">g</p><p class="g">l</p><p class="r">e</p></div>
+                      </div>
+                  </mat-hint>
+              </mat-form-field>
 
-                    <mat-label *ngIf="isRunning">Pace (min/km):</mat-label>
-                    <mat-label *ngIf="isSwimming">Pace (min/100m):</mat-label>
 
-                    <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
-                        <mat-form-field appearance="outline" class="col-span-1">
-                            <mat-label>Minutes</mat-label>
-                            <input (input)="calculateDuration()" [(ngModel)]="mins" formControlName="minutes" id="minutes" matInput type="number" name="minutes">
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="col-span-1 ml-1">
-                            <mat-label>Secs</mat-label>
-                            <input (input)="calculateDuration()" [(ngModel)]="secs" formControlName="seconds" id="seconds" matInput type="number" name="seconds">
-                        </mat-form-field>
-                    </div>
+              <!-- activity type -->
+              <mat-form-field appearance="outline">
 
-                </div>
+                  <mat-label>Activity Type</mat-label>
 
-                <!-- riding is selected -->
-                <div *ngIf="isRiding">
-                    <!-- riding measured with distance and km/h -->
-                    <mat-form-field appearance="outline" class="col-span-1">
-                        <mat-label>Speed</mat-label>
-                        <input (input)="calculateDuration()" formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
-                    </mat-form-field>
-                </div>
+                  <mat-select #toggle (selectionChange)="activityToggle(toggle.value)" formControlName="type" id="type" name="type">
+                      <mat-option value="run" default>Run</mat-option>
+                      <mat-option value="ride">Ride</mat-option>
+                      <mat-option value="swim">Swim</mat-option>
+                      <mat-option value="lift">Gym</mat-option>
+                  </mat-select>
 
-                <!-- weight lifting is selected -->
-                <div *ngIf="isWeightLifting">
-                    <!-- weight lifiting measured with a duration -->
-                    <!-- time inputs -->
-                    <mat-label>Activity Duration:</mat-label>
-                    <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
-                        <mat-form-field appearance="outline" class="col-span-1 mr-1">
-                            <mat-label>Hours</mat-label>
-                            <input formControlName="hours" id="hours" matInput type="number" name="hours">
-                        </mat-form-field>
+              </mat-form-field>
 
-                        <mat-form-field appearance="outline" class="col-span-1">
-                            <mat-label>Minutes</mat-label>
-                            <input formControlName="minutes" id="minutes" matInput type="number" name="minutes">
-                        </mat-form-field>
-                    </div>
-                </div>
+              <!-- date and time to be performed -->
+              <mat-form-field appearance="outline">
+                  <mat-label>Activity Start</mat-label>
+                  <!-- <input formControlName="date" id="date" matInput [matDatepicker]="picker"> -->
+                  <input formControlName="date" id="date" matInput type="datetime-local">
+                  <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                  <!-- <mat-datepicker #picker></mat-datepicker> -->
+                  <mat-error>
+                      Date is requied
+                  </mat-error>
+                  <mat-hint [align]="'end'">MM/DD/YYYY</mat-hint>
+              </mat-form-field>
 
-                <!-- calculated activity duration -->
-                <div *ngIf="!isWeightLifting && showCalculatedDuration" class="text-center">
-                    <!-- display the activity duration calculation -->
-                    <mat-hint>Approximate Duration: {{ calculatedDuration }}</mat-hint>
-                </div>
+              <!-- show distance if not weight lifting -->
+              <div *ngIf="!isWeightLifting">
+                  <!-- distance -->
+                  <mat-form-field appearance="outline">
+                      <mat-label>Distance (km)</mat-label>
+                      <input (input)="calculateDuration()" formControlName="distance" id="distance" matInput type="number" placeholder="5" name="distance">
+                      <mat-error *ngIf="scheduleWorkout.controls['distance'].errors">
+                          Distance is required
+                      </mat-error>
+                  </mat-form-field>
+              </div>
 
-                <div class="submitButton mt-3">
-                    <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add</button>
-                </div>
-    
-              </form>
-    
-            </mat-card-content>
-    
-          </mat-card>
-    
-    </mat-grid-list>
+              <!-- running or swimming is selected -->
+              <div *ngIf="isRunning || isSwimming">
+                  <!-- running measured with distance and min/km -->
+                  <!-- time inputs -->
 
-    <training-buddy-navbar></training-buddy-navbar>
-    
-<!-- </div> -->
+                  <mat-label *ngIf="isRunning">Pace (min/km):</mat-label>
+                  <mat-label *ngIf="isSwimming">Pace (min/100m):</mat-label>
+
+                  <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
+                      <mat-form-field appearance="outline" class="col-span-1">
+                          <mat-label>Minutes</mat-label>
+                          <input (input)="calculateDuration()" [(ngModel)]="mins" formControlName="minutes" id="minutes" matInput type="number" name="minutes">
+                      </mat-form-field>
+                      <mat-form-field appearance="outline" class="col-span-1 ml-1">
+                          <mat-label>Secs</mat-label>
+                          <input (input)="calculateDuration()" [(ngModel)]="secs" formControlName="seconds" id="seconds" matInput type="number" name="seconds">
+                      </mat-form-field>
+                  </div>
+
+              </div>
+
+              <!-- riding is selected -->
+              <div *ngIf="isRiding">
+                  <!-- riding measured with distance and km/h -->
+                  <mat-form-field appearance="outline" class="col-span-1">
+                      <mat-label>Speed</mat-label>
+                      <input (input)="calculateDuration()" formControlName="kmph" id="kmph" matInput type="number" placeholder="km/h" name="kmph">
+                  </mat-form-field>
+              </div>
+
+              <!-- weight lifting is selected -->
+              <div *ngIf="isWeightLifting">
+                  <!-- weight lifiting measured with a duration -->
+                  <!-- time inputs -->
+                  <mat-label>Activity Duration:</mat-label>
+                  <div class="grid grid-flow-row-dense grid-cols-2 mt-2">
+                      <mat-form-field appearance="outline" class="col-span-1 mr-1">
+                          <mat-label>Hours</mat-label>
+                          <input formControlName="hours" id="hours" matInput type="number" name="hours">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="col-span-1">
+                          <mat-label>Minutes</mat-label>
+                          <input formControlName="minutes" id="minutes" matInput type="number" name="minutes">
+                      </mat-form-field>
+                  </div>
+              </div>
+
+              <!-- calculated activity duration -->
+              <div *ngIf="!isWeightLifting && showCalculatedDuration" class="text-center">
+                  <!-- display the activity duration calculation -->
+                  <mat-hint>Approximate Duration: {{ calculatedDuration }}</mat-hint>
+              </div>
+
+              <div class="submitButton mt-3">
+                  <button id="submit" (click)="add()" class="text-center ml-1" mat-raised-button color="primary">Add</button>
+              </div>
+
+            </form>
+
+          </mat-card-content>
+
+        </mat-card>
+
+  </mat-grid-list>
+  <training-buddy-navbar></training-buddy-navbar>
