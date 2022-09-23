@@ -1,13 +1,11 @@
 import { Injectable} from '@nestjs/common';
 import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig, Invite} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
-import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
 import { sha256 } from 'js-sha256';
-import BTree from 'sorted-btree'
 import * as SendGrid from '@sendgrid/mail';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
-const recommended : any [] =[]
+let recommended : any [] =[]
 @Injectable()
 export class TrainingBuddyServiceService {
    
@@ -19,22 +17,25 @@ export class TrainingBuddyServiceService {
      * @param jwtService 
      */
     constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
-    // async sendEmail(mail: SendGrid.MailDataRequired) {
-    //     SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
-    //     const transport = await SendGrid.send(mail);
-    //     console.log(`Email successfully dispatched to ${mail.to}`)
-    //     return transport;
-    // }
-    // async sendActivityRequestEmail(email : string , user : UserEntity){
+    // async sendEmail(email : string , user : UserEntity) {
+    //     const apiKey = `${process.env.SENDGRID_API_KEY}`;
+    //     console.log(apiKey)
+    //     SendGrid.setApiKey(apiKey);
     //     const mail = {
     //         to: email,
     //         subject: 'Activity Invite From '+ user.userName ,
-    //         from: 'trainingbuddy@gmail.com',
+    //         from: 'trainingbuddy2022@gmail.com',
     //         text: 'Hello you have been invited to a work out by ' + user.userName,
     //         html: '<h1>Hello World from NestJS Sendgrid</h1>'
-    //     };
-
-    //     return await this.sendEmail(mail);
+    //     }
+    //     SendGrid.
+    //     send(mail)
+    //     .then(() => {
+    //         console.log('Email sent')
+    //     })
+    //     .catch((error) => {
+    //         console.error(error)
+    //     })
     // }
     /**
      * 
@@ -101,8 +102,9 @@ export class TrainingBuddyServiceService {
      * @returns Array Of UserEntity
      */
     async getAll(email:string ){
-        
-        const arr = await this.repoService.findAll(email)
+
+        const arr = await this.repoService.findAll(email);
+    
 
         let distance = 0;
         let longitude = 0;
@@ -116,7 +118,7 @@ export class TrainingBuddyServiceService {
             }
         }
         for(let i = 0; i < arr.length; i++){
-            if(arr[i].email!=email){
+            if(arr[i].email!=email && arr[i].metrics!=null){
                 if(await this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)<= distance){
                     people.push(arr[i]);
                 }
@@ -124,6 +126,12 @@ export class TrainingBuddyServiceService {
         }
         people.push(await this.findOne(email));
         return this.collaborativeFiltering(people , email);
+
+
+   
+
+   
+       
     }
     /**
      * 
@@ -477,7 +485,7 @@ export class TrainingBuddyServiceService {
      * @param refresh 
      * @returns ErrorMessage
      */
-    async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any ){
+    async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any, id:any){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         if(!user ){
@@ -485,7 +493,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-             await this.repoService.saveTokens(email , access , refresh, exp, clientId, clientSecret)
+             await this.repoService.saveTokens(email , access , refresh, exp, clientId, clientSecret, id)
              item.message = "Success User Tokens Saved "
              return item;
          }
@@ -548,7 +556,7 @@ export class TrainingBuddyServiceService {
             const val = await this.repoService.sendInvite(email,arr,workoutID)
             if(val){
                 item.message = "Success";
-                //this.sendActivityRequestEmail(email , user);
+               // this.sendEmail(email , user);
                 return item
             }else{
                 item.message = "Failure";
@@ -749,8 +757,10 @@ export class TrainingBuddyServiceService {
         if(people.length <=0){
             return people;
         }
+        recommended = []
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
+        
         const newset = this.getFullDatasetFromRecommended(people,recommended)
         const dataset = this.removeUser(newset,email)
         if(dataset.length <=0){

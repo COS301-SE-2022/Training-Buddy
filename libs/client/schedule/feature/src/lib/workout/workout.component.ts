@@ -22,6 +22,7 @@ export class WorkoutComponent implements OnInit {
   workoutID !: string;
   email : string;
   participants: any;
+  organiser = false;
 
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
@@ -32,7 +33,7 @@ export class WorkoutComponent implements OnInit {
     // console.log('it works');
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
-      // console.log(this.workoutID);
+      console.log(this.workoutID);
       this.getData();
 
     })
@@ -77,12 +78,18 @@ export class WorkoutComponent implements OnInit {
         // data.data.participants.map((el : any) => {
         //   dummy.push(el);
         // });
+
         this.fetchImages(data.data.getWorkout.participants).then((output : any[]) => {
           console.log(output);
           this.participants = output;
         });
 
         this.workout = this.convertQuery(data.data.getWorkout);
+        console.log("organiser", this.workout.organiser);
+        console.log("this email", this.email);
+        if(this.workout.organiser === this.email){
+          this.organiser = true;
+        }
         this.loading = false;
       }
     });
@@ -155,12 +162,18 @@ export class WorkoutComponent implements OnInit {
   }
   rateUser(user: any): void {
     const dialogRef = this.dialog.open(RatingComponent, {
-      width: '250px',
+      width: '350px',
       data: user,
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+  isCurrentUser(user: any): boolean{
+    if(user.email === this.email){
+      return true;
+    }
+    return false;
   }
 
 }

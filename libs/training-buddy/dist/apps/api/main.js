@@ -42,6 +42,7 @@ const admin = __webpack_require__("firebase-admin");
 const platform_express_1 = __webpack_require__("@nestjs/platform-express");
 const express = __webpack_require__("express");
 const functions = __webpack_require__("firebase-functions");
+const data_access_1 = __webpack_require__("./libs/api/internal-api/repository/data-access/src/index.ts");
 const cors = __webpack_require__("cors");
 const corsOptions = {
     origin: '*',
@@ -49,6 +50,7 @@ const corsOptions = {
     method: ["POST", "GET"],
     optionSuccessStatus: 200
 };
+const repo = new data_access_1.ApiInternalApiRepositoryDataAccessService();
 const serviceAccount = __webpack_require__("./apps/api/src/training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json");
 const server = express();
 const createNestServer = (expressInstance) => (0, tslib_1.__awaiter)(void 0, void 0, void 0, function* () {
@@ -66,6 +68,10 @@ exports.createNestServer = createNestServer;
 server.post('/webhook', (req, res) => {
     console.log('webhook event received!', req.query, req.body);
     res.status(200).send('EVENT_RECEIVED');
+    if (req.body.aspect_type == "create")
+        if (req.body.object_type == "activity") {
+            repo.logStrava(req.body.object_id, req.body.owner_id);
+        }
 });
 //add support for GET requests to webhook
 server.get('/webhook', (req, res) => {
@@ -604,6 +610,10 @@ let Tokens = class Tokens {
     (0, graphql_1.Field)(),
     (0, tslib_1.__metadata)("design:type", String)
 ], Tokens.prototype, "clientSecret", void 0);
+(0, tslib_1.__decorate)([
+    (0, graphql_1.Field)(),
+    (0, tslib_1.__metadata)("design:type", String)
+], Tokens.prototype, "id", void 0);
 Tokens = (0, tslib_1.__decorate)([
     (0, graphql_1.ObjectType)()
 ], Tokens);
@@ -1172,8 +1182,8 @@ let TrainingBuddyApiResolver = class TrainingBuddyApiResolver {
      * @param refreshToken
      * @returns
      */
-    saveTokens(userEmail, accessToken, refreshToken, exp, clientId, clientSecret) {
-        return this.trainingBuddyService.saveTokens(userEmail, accessToken, refreshToken, exp, clientId, clientSecret);
+    saveTokens(userEmail, accessToken, refreshToken, exp, clientId, clientSecret, id) {
+        return this.trainingBuddyService.saveTokens(userEmail, accessToken, refreshToken, exp, clientId, clientSecret, id);
     }
     /**
      *
@@ -1468,8 +1478,9 @@ let TrainingBuddyApiResolver = class TrainingBuddyApiResolver {
     (0, tslib_1.__param)(3, (0, graphql_1.Args)("exp")),
     (0, tslib_1.__param)(4, (0, graphql_1.Args)("clientId")),
     (0, tslib_1.__param)(5, (0, graphql_1.Args)("clientSecret")),
+    (0, tslib_1.__param)(6, (0, graphql_1.Args)("id")),
     (0, tslib_1.__metadata)("design:type", Function),
-    (0, tslib_1.__metadata)("design:paramtypes", [String, String, String, Number, String, String]),
+    (0, tslib_1.__metadata)("design:paramtypes", [String, String, String, Number, String, String, String]),
     (0, tslib_1.__metadata)("design:returntype", void 0)
 ], TrainingBuddyApiResolver.prototype, "saveTokens", null);
 (0, tslib_1.__decorate)([
@@ -1756,7 +1767,16 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
         });
     }
     //user - SAVE STRAVA TOKENS
-    saveTokens(email, access, refresh, exp, clientId, clientSecret) {
+    findByStravaId(id) {
+        return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            return this.usersCollection.where('strava.ownerId', '==', id).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+                if (result.docs[0])
+                    return result.docs[0].data();
+                return false;
+            }));
+        });
+    }
+    saveTokens(email, access, refresh, exp, clientId, clientSecret, id) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const data = {
                 strava: {
@@ -1764,10 +1784,58 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                     stravaRefresh: refresh,
                     exp: exp,
                     clientId: clientId,
-                    clientSecret: clientSecret
+                    clientSecret: clientSecret,
+                    ownerId: id
                 },
                 signUpStage: 3
             };
+            const toLog = [];
+            //fetch strava activities
+            yield this.getActivities(access).then((activities) => {
+                //console.log(activities.data) ;
+                activities.data.forEach(activity => {
+                    let valid = false;
+                    let type = "";
+                    if (activity.type == "Run") {
+                        valid = true;
+                        type = "run";
+                    }
+                    else if (activity.type == "Ride") {
+                        valid = true;
+                        type = "ride";
+                    }
+                    else if (activity.type == "Swim") {
+                        valid = true;
+                        type = "swim";
+                    }
+                    else if (activity.type == "Workout") {
+                        valid = true;
+                        type = "lift";
+                    }
+                    //const exists = this.activityExists(activity.id) ;
+                    // if(this.activityExists(activity.id)){
+                    //     console.log("exists") ;
+                    //     valid = false ;
+                    // }
+                    if (valid) {
+                        const date = new Date(activity.start_date);
+                        //console.log(activity) ;
+                        const log = {
+                            id: activity.id,
+                            user: email,
+                            activityType: type,
+                            dateComplete: date,
+                            distance: activity.distance,
+                            name: activity.name,
+                            speed: activity.average_speed,
+                            time: activity.moving_time
+                        };
+                        //console.log(log) ;
+                        toLog.push(log);
+                    }
+                });
+            });
+            yield this.logManyActivities(toLog);
             return this.usersCollection.where('email', '==', email).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 if (result.docs[0])
                     return this.usersCollection.doc(result.docs[0].id).set(data, { merge: true }).then(results => {
@@ -2032,6 +2100,98 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     //TODO: implement
     //ACTIVITY LOGS
     //activity logs - CREATE
+    logStrava(activityId, ownerId) {
+        return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            const user = yield this.findByStravaId(ownerId);
+            if (user) {
+                //check if token is expired
+                console.log("exists");
+                if ((user.strava.exp < Date.now() / 1000)) {
+                    //get new token
+                    yield this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access) => {
+                        console.log(access.data.access_token);
+                        this.updateAccessToken(access.data.access_token, user.email).then((newAccess) => {
+                            axios_1.default.get('https://www.strava.com/api/v3/activities/' + activityId + '?access_token=' + newAccess).then((res) => {
+                                console.log("new access token", res);
+                                let valid = false;
+                                let type = "";
+                                if (res.data.type == "Run") {
+                                    valid = true;
+                                    type = "run";
+                                }
+                                else if (res.data.type == "Ride") {
+                                    valid = true;
+                                    type = "ride";
+                                }
+                                else if (res.data.type == "Swim") {
+                                    valid = true;
+                                    type = "swim";
+                                }
+                                else if (res.data.type == "Workout") {
+                                    valid = true;
+                                    type = "lift";
+                                }
+                                if (valid) {
+                                    const date = new Date(res.data.start_date);
+                                    const log = {
+                                        id: res.data.id,
+                                        user: user.email,
+                                        activityType: type,
+                                        dateComplete: date,
+                                        distance: res.data.distance,
+                                        name: res.data.name,
+                                        speed: res.data.average_speed,
+                                        time: res.data.moving_time
+                                    };
+                                    //console.log(log) ;
+                                    this.activityLogsCollection.doc().set(log);
+                                }
+                            });
+                        });
+                    });
+                }
+                else {
+                    const origAccess = user.strava.stravaAccess;
+                    axios_1.default.get('https://www.strava.com/api/v3/activities/' + activityId + '?access_token=' + origAccess).then((res) => {
+                        console.log("old access token", res);
+                        let valid = false;
+                        let type = "";
+                        if (res.data.type == "Run") {
+                            valid = true;
+                            type = "run";
+                        }
+                        else if (res.data.type == "Ride") {
+                            valid = true;
+                            type = "ride";
+                        }
+                        else if (res.data.type == "Swim") {
+                            valid = true;
+                            type = "swim";
+                        }
+                        else if (res.data.type == "Workout") {
+                            valid = true;
+                            type = "lift";
+                        }
+                        if (valid) {
+                            const date = new Date(res.data.start_date);
+                            const log = {
+                                id: res.data.id,
+                                user: user.email,
+                                activityType: type,
+                                dateComplete: date,
+                                distance: res.data.distance,
+                                name: res.data.name,
+                                speed: res.data.average_speed,
+                                time: res.data.moving_time
+                            };
+                            //console.log(log) ;
+                            this.activityLogsCollection.doc().set(log);
+                        }
+                    });
+                }
+            }
+        });
+    }
     logActivity(log) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const data = {
@@ -2094,67 +2254,6 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     }
     getLogs(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-            //get users strava tokens
-            let user = yield this.login(email);
-            if (user.strava) { //if user has linked strava
-                //check if token is expired
-                if ((user.strava.exp < Date.now() / 1000)) {
-                    //get new token
-                    yield this.getNewToken(user.strava.stravaRefresh, user.strava.clientId, user.strava.clientSecret).then((access) => {
-                        console.log(access.data.access_token);
-                        this.updateAccessToken(access.data.access_token, user.email);
-                    });
-                }
-                user = yield this.login(email); //BUG - this executes before updateAccessToken
-                const access = user.strava.stravaAccess;
-                const toLog = [];
-                //fetch strava activities
-                yield this.getActivities(access).then((activities) => {
-                    //console.log(activities.data) ;
-                    activities.data.forEach(activity => {
-                        let valid = false;
-                        let type = "";
-                        if (activity.type == "Run") {
-                            valid = true;
-                            type = "run";
-                        }
-                        else if (activity.type == "Ride") {
-                            valid = true;
-                            type = "ride";
-                        }
-                        else if (activity.type == "Swim") {
-                            valid = true;
-                            type = "swim";
-                        }
-                        else if (activity.type == "Workout") {
-                            valid = true;
-                            type = "lift";
-                        }
-                        //const exists = this.activityExists(activity.id) ;
-                        // if(this.activityExists(activity.id)){
-                        //     console.log("exists") ;
-                        //     valid = false ;
-                        // }
-                        if (valid) {
-                            const date = new Date(activity.start_date);
-                            //console.log(activity) ;
-                            const log = {
-                                id: activity.id,
-                                user: user.email,
-                                activityType: type,
-                                dateComplete: date,
-                                distance: activity.distance,
-                                name: activity.name,
-                                speed: activity.average_speed,
-                                time: activity.moving_time
-                            };
-                            //console.log(log) ;
-                            toLog.push(log);
-                        }
-                    });
-                });
-                yield this.logManyActivities(toLog);
-            }
             const logs = [];
             yield this.activityLogsCollection.where('user', '==', email).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
@@ -2475,13 +2574,20 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
 ], ApiInternalApiRepositoryDataAccessService.prototype, "findAll", null);
 (0, tslib_1.__decorate)([
     (0, tslib_1.__param)(0, (0, common_1.Param)()),
+    (0, tslib_1.__metadata)("design:type", Function),
+    (0, tslib_1.__metadata)("design:paramtypes", [String]),
+    (0, tslib_1.__metadata)("design:returntype", Promise)
+], ApiInternalApiRepositoryDataAccessService.prototype, "findByStravaId", null);
+(0, tslib_1.__decorate)([
+    (0, tslib_1.__param)(0, (0, common_1.Param)()),
     (0, tslib_1.__param)(1, (0, common_1.Param)()),
     (0, tslib_1.__param)(2, (0, common_1.Param)()),
     (0, tslib_1.__param)(3, (0, common_1.Param)()),
     (0, tslib_1.__param)(4, (0, common_1.Param)()),
     (0, tslib_1.__param)(5, (0, common_1.Param)()),
+    (0, tslib_1.__param)(6, (0, common_1.Param)()),
     (0, tslib_1.__metadata)("design:type", Function),
-    (0, tslib_1.__metadata)("design:paramtypes", [String, String, String, Number, Object, Object]),
+    (0, tslib_1.__metadata)("design:paramtypes", [String, String, String, Number, Object, Object, Object]),
     (0, tslib_1.__metadata)("design:returntype", Promise)
 ], ApiInternalApiRepositoryDataAccessService.prototype, "saveTokens", null);
 (0, tslib_1.__decorate)([
@@ -2608,6 +2714,13 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     (0, tslib_1.__metadata)("design:paramtypes", [String, String]),
     (0, tslib_1.__metadata)("design:returntype", Promise)
 ], ApiInternalApiRepositoryDataAccessService.prototype, "updateAccessToken", null);
+(0, tslib_1.__decorate)([
+    (0, tslib_1.__param)(0, (0, common_1.Param)()),
+    (0, tslib_1.__param)(1, (0, common_1.Param)()),
+    (0, tslib_1.__metadata)("design:type", Function),
+    (0, tslib_1.__metadata)("design:paramtypes", [Object, Object]),
+    (0, tslib_1.__metadata)("design:returntype", Promise)
+], ApiInternalApiRepositoryDataAccessService.prototype, "logStrava", null);
 (0, tslib_1.__decorate)([
     (0, tslib_1.__param)(0, (0, common_1.Param)()),
     (0, tslib_1.__metadata)("design:type", Function),
@@ -2976,7 +3089,7 @@ const jwt_1 = __webpack_require__("@nestjs/jwt");
 const bcrypt = __webpack_require__("bcrypt");
 const js_sha256_1 = __webpack_require__("js-sha256");
 const data_access_2 = __webpack_require__("./libs/api/internal-api/repository/data-access/src/index.ts");
-const recommended = [];
+let recommended = [];
 let TrainingBuddyServiceService = class TrainingBuddyServiceService {
     /**
      *
@@ -2987,21 +3100,25 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
         this.repoService = repoService;
         this.user = user;
     }
-    // async sendEmail(mail: SendGrid.MailDataRequired) {
-    //     SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
-    //     const transport = await SendGrid.send(mail);
-    //     console.log(`Email successfully dispatched to ${mail.to}`)
-    //     return transport;
-    // }
-    // async sendActivityRequestEmail(email : string , user : UserEntity){
+    // async sendEmail(email : string , user : UserEntity) {
+    //     const apiKey = `${process.env.SENDGRID_API_KEY}`;
+    //     console.log(apiKey)
+    //     SendGrid.setApiKey(apiKey);
     //     const mail = {
     //         to: email,
     //         subject: 'Activity Invite From '+ user.userName ,
-    //         from: 'trainingbuddy@gmail.com',
+    //         from: 'trainingbuddy2022@gmail.com',
     //         text: 'Hello you have been invited to a work out by ' + user.userName,
     //         html: '<h1>Hello World from NestJS Sendgrid</h1>'
-    //     };
-    //     return await this.sendEmail(mail);
+    //     }
+    //     SendGrid.
+    //     send(mail)
+    //     .then(() => {
+    //         console.log('Email sent')
+    //     })
+    //     .catch((error) => {
+    //         console.error(error)
+    //     })
     // }
     /**
      *
@@ -3087,7 +3204,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 }
             }
             for (let i = 0; i < arr.length; i++) {
-                if (arr[i].email != email) {
+                if (arr[i].email != email && arr[i].metrics != null) {
                     if ((yield this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)) <= distance) {
                         people.push(arr[i]);
                     }
@@ -3477,7 +3594,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
      * @param refresh
      * @returns ErrorMessage
      */
-    saveTokens(email, access, refresh, exp, clientId, clientSecret) {
+    saveTokens(email, access, refresh, exp, clientId, clientSecret, id) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const user = yield this.findOne(email);
             const item = new data_access_1.ErrorMessage;
@@ -3486,7 +3603,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 return item;
             }
             else {
-                yield this.repoService.saveTokens(email, access, refresh, exp, clientId, clientSecret);
+                yield this.repoService.saveTokens(email, access, refresh, exp, clientId, clientSecret, id);
                 item.message = "Success User Tokens Saved ";
                 return item;
             }
@@ -3550,7 +3667,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 const val = yield this.repoService.sendInvite(email, arr, workoutID);
                 if (val) {
                     item.message = "Success";
-                    //this.sendActivityRequestEmail(email , user);
+                    // this.sendEmail(email , user);
                     return item;
                 }
                 else {
@@ -3764,6 +3881,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             if (people.length <= 0) {
                 return people;
             }
+            recommended = [];
             this.getRecommendations(this.cleanDataset(people), email);
             this.sortRecommended(recommended);
             const newset = this.getFullDatasetFromRecommended(people, recommended);

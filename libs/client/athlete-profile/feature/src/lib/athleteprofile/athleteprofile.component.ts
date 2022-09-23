@@ -43,10 +43,10 @@ export class AthleteprofileComponent implements OnInit {
   radius : number;
 
   //ratings
-  runRating : number;
-  swimRating : number;
-  cycleRating : number;
-  liftRating : number;
+  runRating = 0 ;
+  swimRating = 0;
+  rideRating = 0;
+  liftRating = 0;
   //check box values:
   running : boolean;
   swimming : boolean;
@@ -56,7 +56,6 @@ export class AthleteprofileComponent implements OnInit {
 
   update = false;
   sliderDefault = 2;
-  rateDefault = 0;
 
   sliderMove(value: any) {
     this.radius = value;
@@ -67,7 +66,7 @@ export class AthleteprofileComponent implements OnInit {
   }
 
   moveRide(value: any) {
-    this.cycleRating = value;
+    this.rideRating = value;
   }
 
   moveSwim(value: any) {
@@ -88,7 +87,7 @@ export class AthleteprofileComponent implements OnInit {
   toggleRiding() {
     this.riding = !this.riding;
     if(!this.riding){
-      this.cycleRating = 0;
+      this.rideRating = 0;
     }
   }
 
@@ -125,7 +124,7 @@ export class AthleteprofileComponent implements OnInit {
     this.runRating = 0;
     this.liftRating = 0;
     this.swimRating = 0;
-    this.cycleRating = 0;
+    this.rideRating = 0;
     this.email = this.cookieService.get('email');
     this.running = false;
     this.riding = false;
@@ -154,7 +153,22 @@ export class AthleteprofileComponent implements OnInit {
           this.radius = user.distance;
           this.sliderDefault = user.distance;
           const bio = user.bio;
-
+          if(metrics.run>0){
+            this.running = true;
+            this.runRating = metrics.run;
+          }
+          if(metrics.ride>0){
+            this.riding = true;
+            this.rideRating = metrics.ride;
+          }
+          if(metrics.swim>0){
+            this.swimming = true;
+            this.swimRating = metrics.swim;
+          }
+          if(metrics.lift>0){
+            this.lifting = true;
+            this.liftRating = metrics.lift;
+          }
           this.prefFrm.setValue({
             running: metrics.run,
             riding: metrics.ride,
@@ -273,7 +287,7 @@ export class AthleteprofileComponent implements OnInit {
         userConfig(userConfig:{
           email : "${email}",
           distance : ${distance},
-          riding: ${this.cycleRating},
+          riding: ${this.rideRating},
           running: ${this.runRating},
           swimming: ${this.swimRating},
           weightLifting: ${this.liftRating},
