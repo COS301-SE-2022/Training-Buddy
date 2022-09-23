@@ -706,8 +706,6 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async getScheduledWorkouts(@Param() email: string){
         const workouts = [] ;
-        const map = new Map<boolean, string>() ;
-        map.set(false, email) ;
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', {'email': email, 'complete': false}).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
                 if(doc.data().startTime >= Date.now()/1000)
@@ -721,14 +719,24 @@ export class ApiInternalApiRepositoryDataAccessService {
         const workouts = [] ;
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', {'email': email, 'complete': false}).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                if(doc.data().startTime < Date.now()/1000)
-                    workouts.push(doc.data());
+                if(doc.data().startTime < Date.now()/1000){
+                    const w = doc.data() ;
+                    const c = new Array() ;
+                    c.push(false) ;
+                    w.complete = c; 
+                    workouts.push(w);
+                }
             });
         });
         await this.scheduledWorkoutCollection.where('participants', 'array-contains', {'email': email, 'complete': true}).get().then(async (querySnapshot) =>{
             querySnapshot.docs.forEach((doc) => {
-                if(doc.data().startTime < Date.now()/1000)
-                    workouts.push(doc.data());
+                if(doc.data().startTime < Date.now()/1000){
+                    const w1 = doc.data() ;
+                    const c1 = new Array() ;
+                    c1.push(true) ;
+                    w1.complete = c1; 
+                    workouts.push(w1);
+                }
             });
         });
         return workouts ;

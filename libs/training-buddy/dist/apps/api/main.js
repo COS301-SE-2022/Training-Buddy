@@ -2395,8 +2395,6 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     getScheduledWorkouts(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const workouts = [];
-            const map = new Map();
-            map.set(false, email);
             yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': false }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
                     if (doc.data().startTime >= Date.now() / 1000)
@@ -2411,14 +2409,24 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
             const workouts = [];
             yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': false }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
-                    if (doc.data().startTime < Date.now() / 1000)
-                        workouts.push(doc.data());
+                    if (doc.data().startTime < Date.now() / 1000) {
+                        const w = doc.data();
+                        const c = new Array();
+                        c.push(false);
+                        w.complete = c;
+                        workouts.push(w);
+                    }
                 });
             }));
             yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': true }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
-                    if (doc.data().startTime < Date.now() / 1000)
-                        workouts.push(doc.data());
+                    if (doc.data().startTime < Date.now() / 1000) {
+                        const w1 = doc.data();
+                        const c1 = new Array();
+                        c1.push(true);
+                        w1.complete = c1;
+                        workouts.push(w1);
+                    }
                 });
             }));
             return workouts;
