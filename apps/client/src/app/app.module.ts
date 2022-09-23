@@ -17,6 +17,11 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthGaurdService } from './auth-guard.service';
 
+import { getPerformance } from "firebase/performance";
+import { initializeApp } from "firebase/app";
+
+import { AngularFirePerformanceModule, PerformanceMonitoringService } from '@angular/fire/compat/performance';
+
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
   authDomain: 'training-buddy-2022.firebaseapp.com',
@@ -27,6 +32,14 @@ const firebase = {
   appId: '445917436',
   measurementId: 'G-K7WPZTL3FJ'
 }
+
+// Initialize Firebase
+const app = initializeApp(firebase);
+
+// Initialize Performance Monitoring and get a reference to the service
+const perf = getPerformance(app);
+
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -51,7 +64,8 @@ const firebase = {
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFirePerformanceModule,
   ],
   providers: [
     {
@@ -68,7 +82,8 @@ const firebase = {
       deps: [HttpLink],
     },
     HttpClient,
-    AuthGaurdService
+    AuthGaurdService,
+    PerformanceMonitoringService,
   ],
   bootstrap: [AppComponent],
 })
