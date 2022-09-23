@@ -51,7 +51,6 @@ export class WorkoutComponent implements OnInit {
           startTime,
           organiser,
           participants{
-            complete,
             userName,
             userSurname,
             id,
@@ -61,6 +60,7 @@ export class WorkoutComponent implements OnInit {
           startPoint,
           proposedDistance,
           proposedDuration,
+          complete
         }
       }`,
     })
