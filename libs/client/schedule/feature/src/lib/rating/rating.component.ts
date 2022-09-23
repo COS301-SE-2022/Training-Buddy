@@ -14,7 +14,7 @@ export class RatingComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public user: any) { }
 
   ngOnInit(): void {
-    console.log("Rating this user "+ this.user.email)
+    console.log(this.user)
   }
 
   onNoClick(): void {
