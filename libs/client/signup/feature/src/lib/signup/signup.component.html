@@ -16,9 +16,19 @@
                     
                     <div id="imagecard">
                         
-                        <training-buddy-logo id="logo" dark="true"></training-buddy-logo>
-                        <div id="contentcard">
+                        <div id="contentcard flex-center-content">
+                            <div>
+                                <training-buddy-logo height="85" id="logodesktop" dark="true"></training-buddy-logo>
+                            </div>
+                            
+                        </div>
 
+                        <div id="strava">
+                            <div id="devices"></div>
+                        </div>
+
+                        <div id="description">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, harum minus libero nisi vitae blanditiis omnis fugit reiciendis exercitationem quidem.
                         </div>
 
                     </div>
@@ -32,6 +42,11 @@
         
                             <form [formGroup]="signupFrm">
                 
+
+                                <div class="flex-center-content">
+                                    <training-buddy-logo height="60" id="logomobile" dark="true"></training-buddy-logo>
+                                </div>
+
                                 <h1 class="text-center">Sign Up</h1>
                     
                                 <!-- Name and Surname -->

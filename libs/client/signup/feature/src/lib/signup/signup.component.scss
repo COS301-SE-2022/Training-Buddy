@@ -50,6 +50,9 @@ mat-card {
     width: 100%;
     // background-color: grey;
     border-radius: 10px 0px 0px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (max-width: 1150px) {
@@ -63,21 +66,36 @@ mat-card {
         display: none !important;
     }
 
+    #logomobile {
+        display: block !important;
+        margin-top: 5%;
+    }
+
 }
 
-#logo {
+#logodesktop {
     display: flex;
     justify-content: center;
     width: 100%;
     margin: auto !important;
-    padding-top: 15% !important;
+    // margin-bottom: 5% !important;
+}
+
+#logomobile {
+    display: none;
+}
+
+.flex-center-content {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 #contentcard {
     width: 600px;
 }
 
-#logo {
+#logodesktop {
     width: 600px !important;
 }
 
@@ -88,11 +106,10 @@ mat-card {
 }
 
 #visual {
-    // max-width: 600px;
-    // width: 500px;
-    // width: 80vw !important;
+    max-width: 600px;
     background-color: white;
     border-radius: 10px 0px 0px 10px;
+    max-height: 703px;
 }
 
 .text-center {
@@ -175,4 +192,57 @@ mat-error {
 
 mat-hint {
     text-align: right !important;
+}
+
+#description{
+    width: 70%;
+    opacity: 0.7;
+    // margin-top: 20% !important;
+    // border: 5px solid gray;
+    margin: 0 auto;
+    text-align: center;
+    word-wrap: normal;
+    font-size: medium;
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#rule {
+    // margin-top: 5%;
+    // margin-bottom: 5%;
+    width: 80%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#strava {
+    width: 100%;
+    height: 445px !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#stravainfo {
+    // width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#stravalogo {
+    // height : 150px;
+    // margin-left: auto;
+    // margin-right: auto;
+    height: 630px !important
+}
+
+#devices {
+    background-image: url("./deviceview.png");
+    object-fit: cover;
+    background-repeat: no-repeat;
+    width: 550px !important;
+    height: 440px !important;
+    transform: scale(0.7);
 }
