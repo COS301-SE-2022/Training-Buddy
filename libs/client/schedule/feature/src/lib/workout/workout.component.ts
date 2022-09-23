@@ -15,22 +15,20 @@ import { WorkoutInviteComponent } from '../workout-invite/workout-invite.compone
   styleUrls: ['./workout.component.scss']
 })
 export class WorkoutComponent implements OnInit {
-
-  // constructor() { }
   loading = true;
   workout : any;
   workoutID !: string;
   email : string;
   participants: any;
   organiser = false;
-
+  isPastWorkout = false;
+  completationStatus = false;
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
     this.email = cookieService.get('email');
   }
 
   ngOnInit(): void {
-    // console.log('it works');
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
       console.log(this.workoutID);
@@ -38,6 +36,7 @@ export class WorkoutComponent implements OnInit {
 
     })
   }
+
   getWorkout(){
     return this.apollo
     .query({
@@ -53,6 +52,7 @@ export class WorkoutComponent implements OnInit {
           participants{
             userName,
             userSurname,
+            cellNumber,
             id,
             email
           },
@@ -66,28 +66,13 @@ export class WorkoutComponent implements OnInit {
     })
   }
   getData(){
-    // this.getWorkout().subscribe({
-    //   next: (data: any) =>{
-    //     const swap: any[]= [];
-    //     data.data.getIncomingInvites.map((el : any) => {
-    //       swap.push(this.convertInvitedToCard(el));
-    //     });
     this.getWorkout().subscribe({
       next: (data: any) =>{
-        // console.log(data.data.getWorkout)
-        // const dummy: any[] = [];
-        // data.data.participants.map((el : any) => {
-        //   dummy.push(el);
-        // });
-
-        this.fetchImages(data.data.getWorkout.participants).then((output : any[]) => {
-          console.log(output);
+        this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
         });
 
         this.workout = this.convertQuery(data.data.getWorkout);
-        console.log("organiser", this.workout.organiser);
-        console.log("this email", this.email);
         if(this.workout.organiser === this.email){
           this.organiser = true;
         }
@@ -111,11 +96,13 @@ export class WorkoutComponent implements OnInit {
       startPoint: data.startPoint,
       proposedDistance: data.proposedDistance,
       proposedDuration: data.proposedDuration,
+
     }
   }
-  fetchImages(data : any[]) : Promise<any> {
+  fetchImages(data : any[], completeStatus : any []) : Promise<any> {
     return new Promise<any>((res, rej) => {
      const o : any[] = [];
+     let i = 0;
      data.forEach((usr : any) => {
        this.afStorage
          .ref(`UserProfileImage/${usr.id}`)
@@ -123,11 +110,17 @@ export class WorkoutComponent implements OnInit {
          .pipe(
            tap((url : any) => {
              const image = {image : url};
+             const complete = {complete : completeStatus[i]};
+             if(usr.email === this.email){
+                this.completationStatus = completeStatus[i];
+              }
              const p = {
                ...usr,
-               ...image
+               ...image,
+               ...complete
              }
              o.push(p);
+             i++;
            })
          ).subscribe();
      });
@@ -138,9 +131,12 @@ export class WorkoutComponent implements OnInit {
   startDateTime(data: string): any{
     //write a function that returns the date and time
     const date = new Date(Number(data) * 1000);
+    const now = new Date();
+    if(date < now){
+      this.isPastWorkout = true;
+    }
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
-    // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     return{

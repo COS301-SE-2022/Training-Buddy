@@ -365,23 +365,10 @@ export class ViewscheduleComponent implements OnInit {
     `,
     }).subscribe({
       next: () => {
-        // this.workoutInvites.map((el : any, i : number) => {
-        //   if (el.organiserEmail == email) {
-        //     this.workoutInvites.splice(i, 1);
-        //   }
-        // });
-        // this.workoutInvites.map((el : any, i : number) => {
-        //   if (el[0].organiserEmail == email) {
-        //     this.workoutInvites.splice(i, 1);
-        //   }
-        // });
-        // this.work
-        // console.log(this.workoutInvites);
         this.workoutInvites.map((el : any, i : number) => {
           console.log(el[0]);
           if (el.id == workoutID) {
             this.workoutInvites.splice(i, 1);
-            console.log("sheeeeeesh")
           }
         });
       }
@@ -405,11 +392,6 @@ export class ViewscheduleComponent implements OnInit {
     `,
     }).subscribe({
       next: () => {
-        // this.workoutInvites.map((el : any, i : number) => {
-        //   if (el.organiserEmail== email) {
-        //     this.workoutInvites.splice(i, 1);
-        //   }
-        // });
         this.getData(this.email);
       }
     });
