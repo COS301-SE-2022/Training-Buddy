@@ -22,4 +22,6 @@ export class ResponseWorkout {
     proposedDistance:string
     @Field()
     proposedDuration:string
+    @Field(type=> [Boolean], {nullable:true})
+    complete:boolean[]
 }

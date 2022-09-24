@@ -575,6 +575,10 @@ let ResponseWorkout = class ResponseWorkout {
     (0, graphql_1.Field)(),
     (0, tslib_1.__metadata)("design:type", String)
 ], ResponseWorkout.prototype, "proposedDuration", void 0);
+(0, tslib_1.__decorate)([
+    (0, graphql_1.Field)(type => [Boolean], { nullable: true }),
+    (0, tslib_1.__metadata)("design:type", Array)
+], ResponseWorkout.prototype, "complete", void 0);
 ResponseWorkout = (0, tslib_1.__decorate)([
     (0, graphql_1.ObjectType)()
 ], ResponseWorkout);
@@ -2391,14 +2395,12 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                 id: uuid.v1().toString(),
                 title: workout.title,
                 organiser: workout.email,
-                participants: [workout.email],
+                participants: [{ email: workout.email, complete: false }],
                 startTime: workout.time,
                 activityType: workout.activity,
                 startPoint: workout.location,
                 proposedDistance: workout.distance,
                 proposedDuration: workout.duration,
-                complete: false,
-                logs: []
             };
             yield this.scheduledWorkoutCollection.doc().set(data)
                 .then(results => {
@@ -2410,7 +2412,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     getScheduledWorkouts(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const workouts = [];
-            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': false }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
                     if (doc.data().startTime >= Date.now() / 1000)
                         workouts.push(doc.data());
@@ -2422,10 +2424,26 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     getWorkoutHistory(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const workouts = [];
-            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', email).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': false }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 querySnapshot.docs.forEach((doc) => {
-                    if (doc.data().startTime < Date.now() / 1000)
-                        workouts.push(doc.data());
+                    if (doc.data().startTime < Date.now() / 1000) {
+                        const w = doc.data();
+                        const c = [];
+                        c.push(false);
+                        w.complete = c;
+                        workouts.push(w);
+                    }
+                });
+            }));
+            yield this.scheduledWorkoutCollection.where('participants', 'array-contains', { 'email': email, 'complete': true }).get().then((querySnapshot) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+                querySnapshot.docs.forEach((doc) => {
+                    if (doc.data().startTime < Date.now() / 1000) {
+                        const w1 = doc.data();
+                        const c1 = [];
+                        c1.push(true);
+                        w1.complete = c1;
+                        workouts.push(w1);
+                    }
                 });
             }));
             return workouts;
@@ -2437,10 +2455,13 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                 if (result.docs[0]) {
                     const data = result.docs[0].data();
                     const users = [];
+                    const completeVals = [];
                     data.participants.forEach((user) => {
-                        users.push(this.login(user));
+                        users.push(this.login(user.email));
+                        completeVals.push(this.login(user.complete));
                     });
                     data.participants = users;
+                    data.complete = completeVals;
                     return data;
                     //return result.docs[0].data() ;
                 }
@@ -2486,7 +2507,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                 if (result.docs[0]) {
                     return this.workoutInvitesCollection.doc(result.docs[0].id).update({ receivers: this.arrayRemove(user) }).then(results => {
                         return this.scheduledWorkoutCollection.where("id", "==", workout).get().then((res) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-                            return this.scheduledWorkoutCollection.doc(res.docs[0].id).update({ participants: this.arrayUnion(user) }).then(result => {
+                            return this.scheduledWorkoutCollection.doc(res.docs[0].id).update({ participants: this.arrayUnion({ 'email': user, 'complete': false }) }).then(result => {
                                 return true;
                             });
                         }));

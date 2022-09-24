@@ -16,12 +16,14 @@ export class LogoComponent implements OnInit {
   blck = false;
 
   constructor() {
-    this.height = 100;
     return;
   }
   
   ngOnInit(): void {
+    this.height = 100;
+    console.log(this.dark);
     this.f = this.dark == 'true';
+    console.log(this.f);
     return;
   }
 

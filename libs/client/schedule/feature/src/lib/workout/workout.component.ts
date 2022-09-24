@@ -15,36 +15,30 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./workout.component.scss']
 })
 export class WorkoutComponent implements OnInit {
-
-  // constructor() { }
   loading = true;
   workout : any;
   workoutID !: string;
   email : string;
   participants: any;
   organiser = false;
-
+  isPastWorkout = false;
+  completationStatus = false;
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private firestore : AngularFirestore){
     this.email = cookieService.get('email');
   }
 
   ngOnInit(): void {
-  
-   
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
       this.getData();
 
     })
       this.liveData(this.email);
- 
-    
-    
   }
   liveData(email: string){
     this.firestore
-    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', email))
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', {'email': email, 'complete': false}))
     .valueChanges()
     .subscribe((el : any) => {
       el.map((curr:any)=>{
@@ -61,16 +55,16 @@ export class WorkoutComponent implements OnInit {
 
             });
           })
-     
+
          }
       }
       )
     })
 }
 convertParticipants(curr: any){
-  return{ email: curr.UserEntity.email, 
+  return{ email: curr.UserEntity.email,
     id: curr.UserEntity.id ,
-    userSurname: curr.UserEntity.userSurname, 
+    userSurname: curr.UserEntity.userSurname,
     image: curr.UserEntity.image,
     userName:curr.UserEntity.userName
   }
@@ -122,6 +116,7 @@ getOne(email: string){
           participants{
             userName,
             userSurname,
+            cellNumber,
             id,
             email
           },
@@ -129,6 +124,7 @@ getOne(email: string){
           startPoint,
           proposedDistance,
           proposedDuration,
+          complete
         }
       }`,
     })
@@ -136,9 +132,9 @@ getOne(email: string){
   getData(){
     this.getWorkout().subscribe({
       next: (data: any) =>{
-        this.fetchImages(data.data.getWorkout.participants).then((output : any[]) => {
+        this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
-        });
+            });
         this.workout = this.convertQuery(data.data.getWorkout);
         if(this.workout.organiser === this.email){
           this.organiser = true;
@@ -152,8 +148,8 @@ getOne(email: string){
   viewProfile(participantid: string){
     this.router.navigate([`/profile/${participantid}`]);
   }
-  convertQuery(data : any) : any {
 
+  convertQuery(data : any) : any {
   return {
       title: data.title,
       startTime: this.startDateTime(data.startTime),
@@ -162,11 +158,13 @@ getOne(email: string){
       startPoint: data.startPoint,
       proposedDistance: data.proposedDistance,
       proposedDuration: data.proposedDuration,
+
     }
   }
-  fetchImages(data : any[]) : Promise<any> {
+  fetchImages(data : any[], completeStatus : any []) : Promise<any> {
     return new Promise<any>((res, rej) => {
      const o : any[] = [];
+     let i = 0;
      data.forEach((usr : any) => {
        this.afStorage
          .ref(`UserProfileImage/${usr.id}`)
@@ -174,11 +172,17 @@ getOne(email: string){
          .pipe(
            tap((url : any) => {
              const image = {image : url};
+             const complete = {complete : completeStatus[i]};
+             if(usr.email === this.email){
+                this.completationStatus = completeStatus[i];
+              }
              const p = {
                ...usr,
-               ...image
+               ...image,
+               ...complete
              }
              o.push(p);
+             i++;
            })
          ).subscribe();
      });
@@ -187,8 +191,11 @@ getOne(email: string){
    }
 
   startDateTime(data: string): any{
-    //write a function that returns the date and time
     const date = new Date(Number(data) * 1000);
+    const now = new Date();
+    if(date < now){
+      this.isPastWorkout = true;
+    }
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];

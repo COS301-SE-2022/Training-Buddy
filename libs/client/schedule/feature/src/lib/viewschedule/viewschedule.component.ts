@@ -137,11 +137,11 @@ export class ViewscheduleComponent implements OnInit {
       })
       this.invitesAvailable = false;
       this.workoutInvites=[]
-    }
+  }
 
     )
     this.firestore
-    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', this.email))
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', {'email': this.email, 'complete': false}))
     .valueChanges()
     .subscribe((curr : any) => {
       const swap: any[] = [];
@@ -183,7 +183,7 @@ export class ViewscheduleComponent implements OnInit {
       this.loading = false;
     })
     this.firestore
-    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', this.email))
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', {'email': this.email, 'complete': false} || {'email': this.email, 'complete': true}))
     .valueChanges()
     .subscribe((curr : any) => {
       const swap: any[] = [];
@@ -269,6 +269,7 @@ export class ViewscheduleComponent implements OnInit {
         }`,
     })
   }
+
   getWorkoutHistory(email: string){
     return this.apollo
     .query({
@@ -290,7 +291,7 @@ export class ViewscheduleComponent implements OnInit {
     const val2 = this.apollo
     .query({
       query: gql`
-       query{
+        query{
           getIncomingInvites(email: "${ email }"){
             sender,
             receivers,
@@ -527,6 +528,7 @@ export class ViewscheduleComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.workoutInvites.map((el : any, i : number) => {
+          console.log(el[0]);
           if (el.id == workoutID) {
             this.workoutInvites.splice(i, 1);
           }
@@ -552,11 +554,6 @@ export class ViewscheduleComponent implements OnInit {
     `,
     }).subscribe({
       next: () => {
-        // this.workoutInvites.map((el : any, i : number) => {
-        //   if (el.organiserEmail== email) {
-        //     this.workoutInvites.splice(i, 1);
-        //   }
-        // });
         this.getData(this.email);
       }
     });
