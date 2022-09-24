@@ -207,16 +207,14 @@ getOne(email: string){
     maxWidth: '80%',
     data: this.workoutID
   });
-  dialogRef.afterClosed().subscribe(result => {
-  });
+  dialogRef.afterClosed().subscribe();
   }
   rateUser(user: any): void {
     const dialogRef = this.dialog.open(RatingComponent, {
       width: '350px',
       data: user,
     });
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    dialogRef.afterClosed().subscribe();
   }
   isCurrentUser(user: any): boolean{
     if(user.email === this.email){
