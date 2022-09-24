@@ -107,7 +107,10 @@ export class WorkoutInviteComponent implements OnInit {
           }
         });
         if(data.data.sendInvite.message == "Failure"){
+          //create invite
           this.createInvite(email);
+          //sendRequest
+
         }
       }
     });

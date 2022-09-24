@@ -302,13 +302,9 @@ export class ViewscheduleComponent implements OnInit {
       id: data.workout.id,
       startPoint: data.workout.startPoint,
       startDate: this.startDateTime(data.workout.startTime),
-      image: this.image(data.workout.activityType),
-
+      image: this.image(data.workout.activityType)
     }
   }
-  // completetionSatus(){
-
-  // }
   convertWorkoutToCard(data: any) : any {
     //to do write function to convert the data to a card
     return{
