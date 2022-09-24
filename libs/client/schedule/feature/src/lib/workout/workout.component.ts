@@ -29,17 +29,12 @@ export class WorkoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-   
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
       this.getData();
 
     })
       this.liveData(this.email);
- 
-    
-    
   }
   liveData(email: string){
     this.firestore
@@ -60,16 +55,16 @@ export class WorkoutComponent implements OnInit {
 
             });
           })
-     
+
          }
       }
       )
     })
 }
 convertParticipants(curr: any){
-  return{ email: curr.UserEntity.email, 
+  return{ email: curr.UserEntity.email,
     id: curr.UserEntity.id ,
-    userSurname: curr.UserEntity.userSurname, 
+    userSurname: curr.UserEntity.userSurname,
     image: curr.UserEntity.image,
     userName:curr.UserEntity.userName
   }
@@ -153,8 +148,8 @@ getOne(email: string){
   viewProfile(participantid: string){
     this.router.navigate([`/profile/${participantid}`]);
   }
-  convertQuery(data : any) : any {
 
+  convertQuery(data : any) : any {
   return {
       title: data.title,
       startTime: this.startDateTime(data.startTime),
@@ -196,7 +191,6 @@ getOne(email: string){
    }
 
   startDateTime(data: string): any{
-    //write a function that returns the date and time
     const date = new Date(Number(data) * 1000);
     const now = new Date();
     if(date < now){
