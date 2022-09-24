@@ -100,7 +100,6 @@ export class ViewscheduleComponent implements OnInit {
     .collection('WorkoutInvites', ref => ref.where('receivers', 'array-contains', this.email))
     .valueChanges()
     .subscribe((curr : any) => {
-      
       const swap: any[]= [];
       curr.forEach( (element : any) => {
         this.getWorkout(element.workout, this.email).subscribe( (res : any) => {
@@ -182,42 +181,45 @@ export class ViewscheduleComponent implements OnInit {
         }
       }
       this.loading = false;
-      this.getWorkoutHistory(email).subscribe({
-        next: (data : any) => {
-            const swap: any[] = [];
-            data.data.getWorkoutHistory.map((el : any) => {
-              swap.push(this.convertWorkoutToCard(el));
-            });
-            if(swap.length != 0){
-              swap.sort(function(a,b){
-                return b.startDate.timestamp - a.startDate.timestamp;
-              });
-  
-              const dated: any[][] = [[]];
-              let x = 0;
-              let currentday = swap[0].startDate.day;
-  
-              for(let w = 0; w < swap.length; w++  ){
-                if(swap[w].startDate.day == currentday){
-                  dated[x].push(swap[w]);
-                }
-                else{
-                  currentday = swap[w].startDate.day;
-                  x++;
-                  const temp: any[] = [];
-                  dated.push(temp)
-                  dated[x].push(swap[w]);
-                }
-              }
-              this.workoutHistory = dated;
-              if(this.workoutHistory.length != 0) {
-                this.pastEvents= true;
-              }
-            }
-            this.loading = false;
+    })
+    this.firestore
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', this.email))
+    .valueChanges()
+    .subscribe((curr : any) => {
+      const swap: any[] = [];
+      curr.map((el : any) => {
+        if(el.startTime <  Math.floor(Date.now()/1000)){
+          swap.push(this.convertWorkoutToCard(el));
         }
-  
-      })
+      });
+      if(swap.length != 0){
+        swap.sort(function(a,b){
+          return b.startDate.timestamp - a.startDate.timestamp;
+        });
+
+        const dated: any[][] = [[]];
+        let x = 0;
+        let currentday = swap[0].startDate.day;
+        for(let w = 0; w < swap.length; w++  ){
+          if(swap[w].startDate.day == currentday){
+            dated[x].push(swap[w]);
+          }
+          else{
+            currentday = swap[w].startDate.day;
+            x++;
+            const temp: any[] = [];
+            dated.push(temp)
+            dated[x].push(swap[w]);
+          }
+      
+        }
+        this.workoutHistory = dated;
+        this.workoutsCount = this.workouts.length;
+        if (this.workoutsCount != 0) {
+          this.pastEvents = true;
+        }
+      }
+      this.loading = false;
     })
   
 
@@ -432,7 +434,6 @@ export class ViewscheduleComponent implements OnInit {
             const dated: any[][] = [[]];
             let x = 0;
             let currentday = swap[0].startDate.day;
-
             for(let w = 0; w < swap.length; w++  ){
               if(swap[w].startDate.day == currentday){
                 dated[x].push(swap[w]);
