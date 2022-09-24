@@ -722,7 +722,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             querySnapshot.docs.forEach((doc) => {
                 if(doc.data().startTime < Date.now()/1000){
                     const w = doc.data() ;
-                    const c = new Array() ;
+                    const c = [] ;
                     c.push(false) ;
                     w.complete = c; 
                     workouts.push(w);
@@ -733,7 +733,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             querySnapshot.docs.forEach((doc) => {
                 if(doc.data().startTime < Date.now()/1000){
                     const w1 = doc.data() ;
-                    const c1 = new Array() ;
+                    const c1 = [] ;
                     c1.push(true) ;
                     w1.complete = c1; 
                     workouts.push(w1);
