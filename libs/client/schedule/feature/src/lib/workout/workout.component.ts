@@ -134,7 +134,7 @@ getOne(email: string){
       next: (data: any) =>{
         this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
-        });
+            });
         this.workout = this.convertQuery(data.data.getWorkout);
         if(this.workout.organiser === this.email){
           this.organiser = true;
