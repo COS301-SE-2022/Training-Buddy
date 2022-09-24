@@ -416,6 +416,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //activity logs - CREATE
     async logStrava(@Param() activityId: any, @Param() ownerId: any){
 
+        console.log("repo reached") ;
         const user = await this.findByStravaId(ownerId) ;
 
         if(user){

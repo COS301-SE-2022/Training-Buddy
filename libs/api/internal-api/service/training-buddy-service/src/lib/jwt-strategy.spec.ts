@@ -5,11 +5,22 @@ describe('JwtStrategy', () => {
     expect(new JwtStrategy()).toBeDefined();
   });
 
-  describe('validate', () => {
-    it('should validate user', async () => {
-        expect(new JwtStrategy().validate).toHaveReturned;
+  /**
+   * Test validate function
+   */
+  it('should return a user', () => {
+    const user: any = {
+      email: 'tester@gmail.com',
+      password: '123456',
+    };
+
+    const guard = new JwtStrategy();
+
+    jest.spyOn(guard, 'validate').mockImplementation(() => Promise.resolve(user));
+
+    expect(guard.validate(user)).resolves.toEqual({
+      email: 'tester@gmail.com',
+      password: '123456',
     });
   });
-
-
 });
