@@ -185,6 +185,12 @@ Apache-2.0
 @firebase/messaging
 Apache-2.0
 
+@firebase/performance
+Apache-2.0
+
+@firebase/performance-compat
+Apache-2.0
+
 @firebase/remote-config
 Apache-2.0
 
@@ -312,9 +318,13 @@ firebase/compat/auth
 
 firebase/compat/firestore
 
+firebase/compat/performance
+
 firebase/compat/storage
 
 firebase/messaging
+
+firebase/performance
 
 firebase/remote-config
 
@@ -816,6 +826,9 @@ Apache-2.0
  limitations under the License.
  
 
+
+training-buddy
+MIT
 
 ts-invariant
 MIT

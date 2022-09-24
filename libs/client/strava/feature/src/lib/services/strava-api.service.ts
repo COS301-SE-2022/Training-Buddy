@@ -14,7 +14,7 @@ export class StravaAPIService {
   client_secret = 'a104b3a3699b54450312f26698167e28b61d5624';
   grant_type = 'authorization_code';
 
-  OAuthURI = `http://www.strava.com/oauth/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all`;
+  OAuthURI = `https://www.strava.com/oauth/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=https://training-buddy-2022.web.app/exchange_token&approval_prompt=force&scope=activity:read_all`;
 
   userToken : any;
 
