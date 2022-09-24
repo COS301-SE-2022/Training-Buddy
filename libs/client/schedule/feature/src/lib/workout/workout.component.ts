@@ -43,7 +43,7 @@ export class WorkoutComponent implements OnInit {
   }
   liveData(email: string){
     this.firestore
-    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', email))
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', {'email': email, 'complete': false}))
     .valueChanges()
     .subscribe((el : any) => {
       el.map((curr:any)=>{

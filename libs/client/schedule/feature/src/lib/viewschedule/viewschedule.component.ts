@@ -141,7 +141,7 @@ export class ViewscheduleComponent implements OnInit {
 
     )
     this.firestore
-    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', this.email))
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', {'email': this.email, 'complete': false}))
     .valueChanges()
     .subscribe((curr : any) => {
       const swap: any[] = [];
@@ -183,7 +183,7 @@ export class ViewscheduleComponent implements OnInit {
       this.loading = false;
     })
     this.firestore
-    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', this.email))
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', {'email': this.email, 'complete': false}))
     .valueChanges()
     .subscribe((curr : any) => {
       const swap: any[] = [];
