@@ -46,3 +46,4 @@ ui-debug.log
 pubsub-debug.log
 .env
 database-debug.log
+/libs/training-buddy

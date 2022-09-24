@@ -1059,7 +1059,14 @@ let TrainingBuddyApiResolver = class TrainingBuddyApiResolver {
      * tested
      */
     activitySchedule(activitySchedule) {
-        return this.trainingBuddyService.activitySchedule(activitySchedule);
+        const val = this.trainingBuddyService.activitySchedule(activitySchedule);
+        const data3 = this.trainingBuddyService.getScheduleWorkout(activitySchedule.email);
+        pubsub.publish("getAllWorkouts", { getAllWorkouts: data3 });
+        return val;
+    }
+    getAllWorkouts() {
+        const val = pubsub.asyncIterator("getAllWorkouts");
+        return val;
     }
     sendRequest(userEmail, otherEmail) {
         const val = this.trainingBuddyService.sendRequest(userEmail, otherEmail);
@@ -1374,6 +1381,12 @@ let TrainingBuddyApiResolver = class TrainingBuddyApiResolver {
     (0, tslib_1.__metadata)("design:paramtypes", [typeof (_f = typeof data_access_1.ActivitySchedule !== "undefined" && data_access_1.ActivitySchedule) === "function" ? _f : Object]),
     (0, tslib_1.__metadata)("design:returntype", void 0)
 ], TrainingBuddyApiResolver.prototype, "activitySchedule", null);
+(0, tslib_1.__decorate)([
+    (0, graphql_1.Subscription)(() => [data_access_1.ResponseWorkout]),
+    (0, tslib_1.__metadata)("design:type", Function),
+    (0, tslib_1.__metadata)("design:paramtypes", []),
+    (0, tslib_1.__metadata)("design:returntype", void 0)
+], TrainingBuddyApiResolver.prototype, "getAllWorkouts", null);
 (0, tslib_1.__decorate)([
     (0, graphql_1.Mutation)(() => data_access_1.ErrorMessage),
     (0, tslib_1.__param)(0, (0, graphql_1.Args)('Sender')),
@@ -3982,6 +3995,7 @@ ApiShellFeatureModule = (0, tslib_1.__decorate)([
             graphql_1.GraphQLModule.forRoot({
                 autoSchemaFile: true,
                 driver: apollo_1.ApolloDriver,
+                installSubscriptionHandlers: true,
                 subscriptions: {
                     'graphql-ws': true,
                     'subscriptions-transport-ws': true
