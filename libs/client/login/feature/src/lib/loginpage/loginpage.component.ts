@@ -23,7 +23,7 @@ export class LoginpageComponent implements OnInit {
   frmBuilder! : FormBuilder;
 
   constructor(private snack : MatSnackBar, private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService : CookieService) {
-    this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
+    this.img = 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
     //injections
     this.frmBuilder = frm;
