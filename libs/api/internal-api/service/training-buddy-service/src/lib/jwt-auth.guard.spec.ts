@@ -8,8 +8,7 @@ describe('JwtAuthGuard', () => {
   /**
    * Test getRequest function
    */
-  describe('getRequest', () => {
-    it('should return request body', () => {
+  it('should return request body', () => {
       const context: any = {
         getContext: () => {
           return {
@@ -33,6 +32,6 @@ describe('JwtAuthGuard', () => {
           password: '123456',
         },
       });
-    });
   });
+
 });
