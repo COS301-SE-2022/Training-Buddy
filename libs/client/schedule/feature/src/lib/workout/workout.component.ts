@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { pipe, tap } from 'rxjs';
 import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 @Component({
   selector: 'training-buddy-workout',
   templateUrl: './workout.component.html',
@@ -24,19 +24,88 @@ export class WorkoutComponent implements OnInit {
   isPastWorkout = false;
   completationStatus = false;
 
-  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
+  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private firestore : AngularFirestore){
     this.email = cookieService.get('email');
   }
 
   ngOnInit(): void {
+  
+   
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
-      console.log(this.workoutID);
       this.getData();
 
     })
+      this.liveData(this.email);
+ 
+    
+    
   }
+  liveData(email: string){
+    this.firestore
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', email))
+    .valueChanges()
+    .subscribe((el : any) => {
+      el.map((curr:any)=>{
+        if(curr.id === this.workoutID){
+          const participants :any=[]
+          curr.participants.map((el:any)=>{
+            this.getOne(el).subscribe({
+              next: (data: any) =>{
+                this.fetchImages2(data.data.getOne).then((output : any) => {
+                  participants.push(output);
+                  this.participants = participants;
+                });
+              }
 
+            });
+          })
+     
+         }
+      }
+      )
+    })
+}
+convertParticipants(curr: any){
+  return{ email: curr.UserEntity.email, 
+    id: curr.UserEntity.id ,
+    userSurname: curr.UserEntity.userSurname, 
+    image: curr.UserEntity.image,
+    userName:curr.UserEntity.userName
+  }
+}
+fetchImages2(usr : any) : Promise<any> {
+  return new Promise<any>((res, rej) => {
+     this.afStorage
+       .ref(`UserProfileImage/${usr.id}`)
+       .getDownloadURL()
+       .pipe(
+         tap((url : any) => {
+           const image = {image : url};
+           const p = {
+             ...usr,
+             ...image
+           }
+           res(p);
+         })
+       ).subscribe();
+  })
+ }
+getOne(email: string){
+  return this.apollo
+  .query({
+    query: gql`
+    query{
+        getOne(email:"${ email }"){
+        userName,
+         userSurname,
+         id,
+         email
+       }
+       }
+       `
+  })
+}
   getWorkout(){
     return this.apollo
     .query({
@@ -71,7 +140,6 @@ export class WorkoutComponent implements OnInit {
         this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
         });
-
         this.workout = this.convertQuery(data.data.getWorkout);
         if(this.workout.organiser === this.email){
           this.organiser = true;
@@ -83,7 +151,6 @@ export class WorkoutComponent implements OnInit {
   }
 
   viewProfile(participantid: string){
-    console.log(participantid);
     this.router.navigate([`/profile/${participantid}`]);
   }
   convertQuery(data : any) : any {
@@ -153,18 +220,14 @@ export class WorkoutComponent implements OnInit {
     maxWidth: '80%',
     data: this.workoutID
   });
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
-  });
+  dialogRef.afterClosed().subscribe();
   }
   rateUser(user: any): void {
     const dialogRef = this.dialog.open(RatingComponent, {
       width: '350px',
       data: user,
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe();
   }
   isCurrentUser(user: any): boolean{
     if(user.email === this.email){
