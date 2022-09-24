@@ -6,7 +6,8 @@ import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { Apollo } from 'apollo-angular';
 import firebase = require('firebase/compat');
 import { CookieService } from 'ngx-cookie-service';
-
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { WorkoutComponent } from './workout.component';
 
 describe('WorkoutComponent', () => {
@@ -24,7 +25,15 @@ describe('WorkoutComponent', () => {
         Apollo,
         MatDialog,
         CookieService,
-        { provide: FIREBASE_OPTIONS, useValue:firebase }
+        { provide: FIREBASE_OPTIONS, useValue:firebase },
+        {
+          provide: AngularFirestore,
+          useValue: {}
+        },
+        { 
+          provide: AngularFireStorage,
+          useValue: undefined
+        }
       ],
     })
     .compileComponents();

@@ -77,13 +77,13 @@ const perf = getPerformance(app);
       useFactory(httpLink: HttpLink): ApolloClientOptions<any> {
         // Create an http link:
         const http = httpLink.create({
-          uri: 'https://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
+          uri: 'http://localhost:3333/graphql',
         });
 
         // Create a WebSocket link:
         const ws  = new GraphQLWsLink(
           createClient({
-            url: 'ws://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
+            url: 'wss://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
           }),
 
         );

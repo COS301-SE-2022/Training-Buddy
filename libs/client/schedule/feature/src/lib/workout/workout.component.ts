@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { pipe, tap } from 'rxjs';
 import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 @Component({
   selector: 'training-buddy-workout',
   templateUrl: './workout.component.html',
@@ -25,19 +25,88 @@ export class WorkoutComponent implements OnInit {
   organiser = false;
 
 
-  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
+  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private firestore : AngularFirestore){
     this.email = cookieService.get('email');
   }
 
   ngOnInit(): void {
-    // console.log('it works');
+  
+   
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
-      console.log(this.workoutID);
       this.getData();
 
     })
+      this.liveData(this.email);
+ 
+    
+    
   }
+  liveData(email: string){
+    this.firestore
+    .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', email))
+    .valueChanges()
+    .subscribe((el : any) => {
+      el.map((curr:any)=>{
+        if(curr.id === this.workoutID){
+          let participants :any=[]
+          curr.participants.map((el:any)=>{
+            this.getOne(el).subscribe({
+              next: (data: any) =>{
+                this.fetchImages2(data.data.getOne).then((output : any) => {
+                  participants.push(output);
+                  this.participants = participants;
+                });
+              }
+
+            });
+          })
+     
+         }
+      }
+      )
+    })
+}
+convertParticipants(curr: any){
+  return{ email: curr.UserEntity.email, 
+    id: curr.UserEntity.id ,
+    userSurname: curr.UserEntity.userSurname, 
+    image: curr.UserEntity.image,
+    userName:curr.UserEntity.userName
+  }
+}
+fetchImages2(usr : any) : Promise<any> {
+  return new Promise<any>((res, rej) => {
+     this.afStorage
+       .ref(`UserProfileImage/${usr.id}`)
+       .getDownloadURL()
+       .pipe(
+         tap((url : any) => {
+           const image = {image : url};
+           const p = {
+             ...usr,
+             ...image
+           }
+           res(p);
+         })
+       ).subscribe();
+  })
+ }
+getOne(email: string){
+  return this.apollo
+  .query({
+    query: gql`
+    query{
+        getOne(email:"${ email }"){
+        userName,
+         userSurname,
+         id,
+         email
+       }
+       }
+       `
+  })
+}
   getWorkout(){
     return this.apollo
     .query({
@@ -65,28 +134,12 @@ export class WorkoutComponent implements OnInit {
     })
   }
   getData(){
-    // this.getWorkout().subscribe({
-    //   next: (data: any) =>{
-    //     const swap: any[]= [];
-    //     data.data.getIncomingInvites.map((el : any) => {
-    //       swap.push(this.convertInvitedToCard(el));
-    //     });
     this.getWorkout().subscribe({
       next: (data: any) =>{
-        // console.log(data.data.getWorkout)
-        // const dummy: any[] = [];
-        // data.data.participants.map((el : any) => {
-        //   dummy.push(el);
-        // });
-
         this.fetchImages(data.data.getWorkout.participants).then((output : any[]) => {
-          console.log(output);
           this.participants = output;
         });
-
         this.workout = this.convertQuery(data.data.getWorkout);
-        console.log("organiser", this.workout.organiser);
-        console.log("this email", this.email);
         if(this.workout.organiser === this.email){
           this.organiser = true;
         }
@@ -97,7 +150,6 @@ export class WorkoutComponent implements OnInit {
   }
 
   viewProfile(participantid: string){
-    console.log(participantid);
     this.router.navigate([`/profile/${participantid}`]);
   }
   convertQuery(data : any) : any {
@@ -139,7 +191,6 @@ export class WorkoutComponent implements OnInit {
     const date = new Date(Number(data) * 1000);
     const datepipe: DatePipe = new DatePipe('en-US')
     const formattedDate = datepipe.transform(date, 'HH:mm');
-    // console.log(formattedDate);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     return{
@@ -157,7 +208,6 @@ export class WorkoutComponent implements OnInit {
     data: this.workoutID
   });
   dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
   });
   }
   rateUser(user: any): void {
@@ -166,7 +216,6 @@ export class WorkoutComponent implements OnInit {
       data: user,
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
   isCurrentUser(user: any): boolean{
