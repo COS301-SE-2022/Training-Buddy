@@ -2,7 +2,7 @@
   "name": "training-buddy",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "./libs/training-buddy/dist/apps/api/main.js",
+  "main": "./training-buddy/dist/apps/api/main.js",
   "engines": {
     "node": "16"
   },

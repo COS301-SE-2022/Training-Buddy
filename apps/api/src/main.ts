@@ -42,12 +42,14 @@ export const createNestServer = async (expressInstance: express.Express) => {
 //create endpoint for webhook
   server.post('/webhook',(req,res) => {
     console.log('webhook event received!', req.query, req.body) ;
-    res.status(200).send('EVENT_RECEIVED') ;
-
     if(req.body.aspect_type == "create")
       if(req.body.object_type == "activity"){
-        repo.logStrava(req.body.object_id, req.body.owner_id) ;
+        console.log("storing");
+        console.log("logged object id: "+req.body.object_id) ;
+        console.log("logged owner id: "+req.body.owner_id) ;
+        repo.logStrava(req.body.object_id.toString(), req.body.owner_id.toString()) ;
       }
+    res.status(200).send('EVENT_RECEIVED') ;
   })
 
 //add support for GET requests to webhook
