@@ -880,6 +880,10 @@ let UserEntity = class UserEntity {
     (0, graphql_1.Field)({ nullable: true }),
     (0, tslib_1.__metadata)("design:type", Number)
 ], UserEntity.prototype, "distance", void 0);
+(0, tslib_1.__decorate)([
+    (0, graphql_1.Field)({ nullable: true }),
+    (0, tslib_1.__metadata)("design:type", Number)
+], UserEntity.prototype, "rating", void 0);
 UserEntity = (0, tslib_1.__decorate)([
     (0, graphql_1.ObjectType)()
 ], UserEntity);
@@ -1916,7 +1920,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             return this.usersCollection.where('email', '==', email).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 if (result.docs[0])
-                    return this.usersCollection.doc(result.docs[0].id).update({ rating: this.arrayUnion(rating) }).then(results => {
+                    return this.usersCollection.doc(result.docs[0].id).update({ ratings: this.arrayUnion(rating) }).then(results => {
                         return true;
                     });
                 return false;
@@ -2358,7 +2362,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     }
     //connections - UPDATE (metric)
     //TODO: implement
-    //connections - DELETE 
+    //connections - DELETE
     deleteConnection(user1, user2) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             return this.buddyConnectionsCollection.where('user1', '==', user1).where('user2', '==', user2).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
@@ -3176,8 +3180,12 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                     person.ratings.forEach(element => {
                         total += element;
                     });
-                    person.ratings = total / person.ratings.length;
+                    person.rating = Math.round(total / person.ratings.length);
                 }
+                else {
+                    person.rating = 0;
+                }
+                ;
             }
             return person;
         });
@@ -3412,7 +3420,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             else {
                 yield this.repoService.scheduleWorkout(actSchedule);
                 item.message = "success";
-                //TODO broadcast to all buddies 
+                //TODO broadcast to all buddies
                 return item;
             }
         });

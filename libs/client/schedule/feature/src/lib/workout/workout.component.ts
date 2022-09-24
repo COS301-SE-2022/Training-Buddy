@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
-import { pipe, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'training-buddy-workout',
@@ -24,7 +25,7 @@ export class WorkoutComponent implements OnInit {
   isPastWorkout = false;
   completationStatus = false;
 
-  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router){
+  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private _snackBar: MatSnackBar){
     this.email = cookieService.get('email');
   }
 
@@ -70,6 +71,13 @@ export class WorkoutComponent implements OnInit {
       next: (data: any) =>{
         this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
+          if(!this.completationStatus){
+            this._snackBar.open('Please rate the participants and complete the workout', 'X', {
+              horizontalPosition: "center",
+              verticalPosition: "bottom",
+              duration: 5000,
+            });
+          }
         });
 
         this.workout = this.convertQuery(data.data.getWorkout);

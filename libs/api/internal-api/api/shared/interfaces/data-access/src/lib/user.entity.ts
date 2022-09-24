@@ -22,17 +22,19 @@ export class UserEntity {
     @Field({nullable:true})
     email: string
     @Field({nullable:true})
-    cellNumber: string 
+    cellNumber: string
     @Field({nullable:true})
     id:string
     @Field({nullable:true})
-    bio: string 
+    bio: string
     @Field(()=>Metric, {nullable:true})
     metrics: Metric
     @Field(type=> [String] , {nullable:true})
-    buddies: string[] 
+    buddies: string[]
     @Field(type=> [Number] , {nullable:true})
     ratings: number[]
     @Field({nullable:true})
     distance: number
+    @Field({nullable:true})
+    rating: number
 }
