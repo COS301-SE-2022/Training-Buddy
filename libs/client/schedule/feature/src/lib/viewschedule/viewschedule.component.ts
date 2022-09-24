@@ -145,7 +145,6 @@ export class ViewscheduleComponent implements OnInit {
     .collection('ScheduledWorkouts', ref => ref.where('participants', 'array-contains', this.email))
     .valueChanges()
     .subscribe((curr : any) => {
-      const now =new Date();
       const swap: any[] = [];
       curr.map((el : any) => {
         if(el.startTime > Math.floor(Date.now()/1000)){
