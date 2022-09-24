@@ -1,6 +1,6 @@
 <div id="background" [ngStyle]="{'background-image': 'url(' + img + ')'}">
 
-    <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar>
+    <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
     
     <mat-grid-list cols="1" rowHeight="fit">
     
@@ -11,7 +11,11 @@
                 <mat-card-content>
     
     
-                    <h1 class="text-center">LOGO HERE</h1>
+                    <!-- <h1 class="text-center">LOGO HERE</h1> -->
+
+                    <div id="logo">
+                        <training-buddy-logo id="logo" height="70" dark="true"></training-buddy-logo>
+                    </div>
     
                     <div id="center" class="mt-5">
                         <mat-hint>This will allow us to match you with buddies that have similar training to you.</mat-hint>
