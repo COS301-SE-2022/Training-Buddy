@@ -49,7 +49,7 @@ export class WorkoutComponent implements OnInit {
     .subscribe((el : any) => {
       el.map((curr:any)=>{
         if(curr.id === this.workoutID){
-          let participants :any=[]
+          const participants :any=[]
           curr.participants.map((el:any)=>{
             this.getOne(el).subscribe({
               next: (data: any) =>{
