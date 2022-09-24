@@ -29,7 +29,6 @@ mat-grid-list {
 mat-card {
     width: 90vw;
     max-width: 400px;
-    margin-top: 30%;
 }
 
 mat-spinner {
@@ -73,14 +72,6 @@ mat-hint {
 
 #center {
     text-align: center;
-}
-
-#logo {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    margin-top: 2%;
 }
 
 #stravaLogo {
