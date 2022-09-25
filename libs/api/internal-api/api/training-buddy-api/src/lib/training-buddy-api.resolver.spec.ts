@@ -14,6 +14,7 @@ import {
 
 import { resourceLimits } from 'worker_threads';
 import { resolve } from 'path';
+import e = require('express');
 
 
 describe('TrainingBuddyApiResolver', () => {
@@ -33,6 +34,84 @@ describe('TrainingBuddyApiResolver', () => {
 
   it('should be defined', () => {
     expect(resolver).toBeDefined();
+  });
+
+  /**
+   * Test @Mutation signup
+   */
+  describe('signup', () => {
+    it('should allow user to signup', () => {
+
+      const mockTrainingBuddyService = {
+        signup: jest.fn().mockImplementation((user: UserEntity) => {
+          return user;
+        })
+      }
+
+      const mockUserDto: UserDto = {
+        email: "tester@gmail.com",
+        password: "password",
+        userName: 'testerName',
+        userSurname: 'testerSurname',
+        location: 'Hatfield',
+        longitude: 0,
+        latitude: 0,
+        stravaToken: '',
+        gender: 'M',
+        dob: '1990-01-01',
+        cellNumber: '0123456789'
+      };
+
+      
+      resolver = new TrainingBuddyApiResolver(mockTrainingBuddyService as any);
+
+      const trainingBuddyService = resolver['trainingBuddyService'];
+
+      const result = trainingBuddyService.signup(mockUserDto);
+
+      const promise = new Promise((resolve) => {
+        resolve(result);
+      });
+
+      expect(promise).resolves.toEqual(mockUserDto);
+
+      expect(resolver.signup).toReturn;
+
+    });
+  });  
+
+  /**
+   * Test login function
+   */
+  describe('login', () => {
+    it('should allow user to login', () => {
+        
+        const mockTrainingBuddyService = {
+          login: jest.fn().mockImplementation((user: LoginInput) => {
+            return user;
+          })
+        }
+  
+        const mockLoginInput: LoginInput = {
+          username: "Tester",
+          password: "Test123*"
+        }
+
+        resolver = new TrainingBuddyApiResolver(mockTrainingBuddyService as any);
+
+        const trainingBuddyService = resolver['trainingBuddyService'];
+
+        const result = trainingBuddyService.login(mockLoginInput);
+
+        const promise = new Promise((resolve) => {
+          resolve(result);
+        });
+
+        expect(promise).resolves.toEqual(mockLoginInput);
+
+        expect(resolver.login).toReturn;
+
+      });
   });
 
 });
