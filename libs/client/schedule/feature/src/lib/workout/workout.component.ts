@@ -9,6 +9,7 @@ import { pipe, tap } from 'rxjs';
 import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'training-buddy-workout',
   templateUrl: './workout.component.html',
@@ -22,9 +23,9 @@ export class WorkoutComponent implements OnInit {
   participants: any;
   organiser = false;
   isPastWorkout = false;
-  completationStatus = false;
+  complete = false;
 
-  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private firestore : AngularFirestore){
+  constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private firestore : AngularFirestore, private _snackBar: MatSnackBar){
     this.email = cookieService.get('email');
   }
 
@@ -95,7 +96,8 @@ getOne(email: string){
         userName,
          userSurname,
          id,
-         email
+         email,
+         rating,
        }
        }
        `
@@ -129,6 +131,9 @@ getOne(email: string){
       }`,
     })
   }
+  completeWorkout(){
+    console.log("complete workout");
+  }
   getData(){
     this.getWorkout().subscribe({
       next: (data: any) =>{
@@ -138,6 +143,13 @@ getOne(email: string){
         this.workout = this.convertQuery(data.data.getWorkout);
         if(this.workout.organiser === this.email){
           this.organiser = true;
+        }
+        if(!this.complete){
+          this._snackBar.open('Please rate all the participants and complete your workout', 'x', {
+            horizontalPosition: "center",
+            verticalPosition: "bottom",
+            duration: 5000,
+          });
         }
         this.loading = false;
       }
@@ -174,7 +186,7 @@ getOne(email: string){
              const image = {image : url};
              const complete = {complete : completeStatus[i]};
              if(usr.email === this.email){
-                this.completationStatus = completeStatus[i];
+                this.complete = completeStatus[i];
               }
              const p = {
                ...usr,

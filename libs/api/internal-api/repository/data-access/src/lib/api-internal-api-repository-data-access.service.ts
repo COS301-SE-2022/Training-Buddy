@@ -18,8 +18,8 @@ import { subscribe } from 'graphql';
 
 @Injectable()
 export class ApiInternalApiRepositoryDataAccessService {
-    
-    
+
+
     //readonly arrayUnion = FirebaseFirestore.FieldValue.arrayUnion ;
     firestore = new admin.firestore.Firestore() ;
     readonly arrayUnion = firestore.FieldValue.arrayUnion ;
@@ -51,7 +51,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             password : user.password,
             buddies: [],
             signUpStage : 0,
-            ratings: []       
+            ratings: []
         }
 
         await this.usersCollection.doc().set(data)
@@ -180,7 +180,7 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
                 return true ;
             }) ;
-            return false ; 
+            return false ;
         })
     }
 
@@ -197,12 +197,12 @@ export class ApiInternalApiRepositoryDataAccessService {
     //user - UPDATE
 
     async userConfig(@Param() userConfig: Userconfig){
-        
+
         let run = 0 ;
         let runGroup = -1;
-        let ride = 0; 
+        let ride = 0;
         let rideGroup = -1 ;
-        let swim = 0; 
+        let swim = 0;
         let swimGroup = -1 ;
         let lift = 0 ;
         let liftGroup = -1 ;
@@ -223,11 +223,11 @@ export class ApiInternalApiRepositoryDataAccessService {
             lift =userConfig.weightLifting;
             liftGroup = 0 ;
         }
-        
+
         const data = {
             metrics: {
                 run : run,
-                ride : ride, 
+                ride : ride,
                 swim : swim,
                 lift : lift
             },
@@ -246,17 +246,17 @@ export class ApiInternalApiRepositoryDataAccessService {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).set(data, {merge: true}).then(results => {
                 return true ;
             }) ;
-            return false ; 
+            return false ;
         })
     }
 
     async addRating(@Param() email: string, @Param() rating: number){
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
-            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({rating: this.arrayUnion(rating)}).then(results => {
+            if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({ratings: this.arrayUnion(rating)}).then(results => {
                 return true ;
             }) ;
             return false ;
-        })  
+        })
     }
 
     async updateCellNumber(@Param() cellNumber: string, @Param() email: string){
@@ -265,7 +265,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 return true ;
             }) ;
             return false ;
-        })      
+        })
     }
 
     async updateDistance(@Param() distance: number, @Param() email: string){
@@ -274,7 +274,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 return true ;
             }) ;
             return false ;
-        })      
+        })
     }
 
     async updateEmail(@Param() email: string, @Param() oldEmail: string){
@@ -342,7 +342,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async updateRunning(@Param() run: boolean, @Param() email: string){
         let r = 0 ;
-        if(run) 
+        if(run)
             r = 1 ;
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.run": r}).then(results => {
@@ -354,7 +354,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async updateRiding(@Param() ride: boolean, @Param() email: string){
         let r = 0 ;
-        if(ride) 
+        if(ride)
             r = 1 ;
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.ride": r}).then(results => {
@@ -366,7 +366,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async updateSwimming(@Param() swim: boolean, @Param() email: string){
         let r = 0 ;
-        if(swim) 
+        if(swim)
             r = 1 ;
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.swim": r}).then(results => {
@@ -378,7 +378,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async updateLifting(@Param() lift: boolean, @Param() email: string){
         let r = 0 ;
-        if(lift) 
+        if(lift)
             r = 1 ;
         return this.usersCollection.where('email', '==', email).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({"metrics.lift": r}).then(results => {
@@ -407,7 +407,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //user - DELETE
-    
+
     //TODO: implement
 
 
@@ -446,7 +446,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                             }
 
                             if(valid){
-                                const date = new Date(res.data.start_date) ; 
+                                const date = new Date(res.data.start_date) ;
                                 const log = {
                                     id: res.data.id,
                                     user: user.email,
@@ -483,7 +483,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                             type = "lift" ;
                         }
                         if(valid){
-                            const date = new Date(res.data.start_date) ; 
+                            const date = new Date(res.data.start_date) ;
                             const log = {
                                 id: res.data.id,
                                 user: user.email,
@@ -577,14 +577,14 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //activity logs - DELETE
-    
+
     //TODO: implement
 
     //REQUESTS
 
     //requests - CREATE
     async makeConnectionRequest(@Param() sender: string, @Param() receiver: string){
-        
+
         const now = new Date() ;
         const data = {
             sender: sender,
@@ -599,7 +599,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         return false ;
     }
 
-    
+
 
     //requests - READ
 
@@ -612,9 +612,9 @@ export class ApiInternalApiRepositoryDataAccessService {
             });
         });
         return requests;
-        
+
         //return this.fs.collection('BuddyRequests', ref => ref.where('receiver', '==', email)).valueChanges();
-               
+
     }
 
     //outgoing
@@ -645,7 +645,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //connections - CREATE
     async makeConnection(@Param() user1: string, @Param() user2: string){
 
-    
+
         return this.usersCollection.where('email', '==', user1).get().then(async (result) => {
             if(result.docs[0]) return this.usersCollection.doc(result.docs[0].id).update({buddies: this.arrayUnion(user2)}).then(results => {
                 return this.usersCollection.where('email', '==', user2).get().then(async (result1) =>{
@@ -655,7 +655,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 });
             }) ;
             return false ;
-        })  
+        })
     }
 
     //connections - READ
@@ -672,7 +672,7 @@ export class ApiInternalApiRepositoryDataAccessService {
     //connections - UPDATE (metric)
     //TODO: implement
 
-    //connections - DELETE 
+    //connections - DELETE
     async deleteConnection(@Param() user1: string, @Param() user2: string){
         return this.buddyConnectionsCollection.where('user1', '==', user1).where('user2','==',user2).get().then(async (result) => {
             if(result.docs[0]) return this.buddyConnectionsCollection.doc(result.docs[0].id).delete().then(results => {
@@ -724,7 +724,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                     const w = doc.data() ;
                     const c = [] ;
                     c.push(false) ;
-                    w.complete = c; 
+                    w.complete = c;
                     workouts.push(w);
                 }
             });
@@ -735,7 +735,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                     const w1 = doc.data() ;
                     const c1 = [] ;
                     c1.push(true) ;
-                    w1.complete = c1; 
+                    w1.complete = c1;
                     workouts.push(w1);
                 }
             });
@@ -750,7 +750,7 @@ export class ApiInternalApiRepositoryDataAccessService {
 
                 const users = [] ;
                 const completeVals = [] ;
-                data.participants.forEach((user) => { 
+                data.participants.forEach((user) => {
                     users.push(this.login(user.email)) ;
                     completeVals.push(user.complete) ;
                 })
@@ -759,7 +759,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 data.complete = completeVals ;
                 return data ;
                 //return result.docs[0].data() ;
-            } 
+            }
             return false ;
         });
     }
@@ -787,11 +787,11 @@ export class ApiInternalApiRepositoryDataAccessService {
                     console.log("hello")
                     for(let i = 0; i < receivers.length; i++){
                         this.workoutInvitesCollection.doc(result.docs[0].id).update({receivers: this.arrayUnion(receivers[i])}) ;
-                    }  
+                    }
                     return true ;
-                }                  
+                }
                 return false ;
-            }) 
+            })
     }
 
     //workout invite - ACCEPT
@@ -806,8 +806,8 @@ export class ApiInternalApiRepositoryDataAccessService {
                     } );
                 }) ;
                 };
-            }); 
-            return false; 
+            });
+            return false;
     }
 
     //workout invite - REJECT
@@ -818,7 +818,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                     return true;
                 }) ;
                 return false ;
-            }); 
+            });
         }
     }
 
@@ -865,7 +865,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                 return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({participants: this.arrayRemove({'email': email, 'complete': false})}).then(results => {
                     return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({participants: this.arrayUnion({'email': email, 'complete': true})}) ;
                 })
-            }); 
+            });
         }
 
     }

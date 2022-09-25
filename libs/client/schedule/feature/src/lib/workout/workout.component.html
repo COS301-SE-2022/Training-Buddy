@@ -1,7 +1,21 @@
 <training-buddy-back-navbar title="Event"></training-buddy-back-navbar>
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="pb-20">
-<div *ngIf="!loading" class="md:grid md:grid-cols-2 md:gap-x-2 max-h-max">
+<div  *ngIf="!loading">
+  <div *ngIf="isPastWorkout">
+    <div *ngIf="!complete">
+      <div class="text-center">
+        <p class="text-center">Please rate all particiapnt and complete the workout</p>
+        <button mat-raised-button color="primary" (click)="completeWorkout()">Complete Workout</button>
+      </div>
+    </div>
+    <div *ngIf="complete">
+      <div class="text-center">
+        <p class="text-center">You have already completed this workout</p>
+      </div>
+    </div>
+  </div>
+<div class="md:grid md:grid-cols-2 md:gap-x-2 max-h-max">
   <div class="bg-slate-200 dark:divide-undefined dark:divide-undefined rounded-xl shadow-md p-4 m-4">
     <div class="max-w-6xl mx-auto px-4">
       <div class="text-center">
@@ -75,18 +89,34 @@
     <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-1 lg:grid-cols-2">
 
       <ng-container *ngIf="isPastWorkout">
-        <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
-          <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant.id)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
-          <div class="flex flex-col justify-center">
-            <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
-              <ng-container *ngIf="!isCurrentUser(participant)">
-                <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
-              </ng-container>
-              <ng-container *ngIf="isCurrentUser(participant)">
-                <p class="text-sm text-gray-600 dark:text-gray-600">You can't rate yourself</p>
-              </ng-container>
+        <ng-container *ngIf="!complete">
+          <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
+            <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant.id)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
+            <div class="flex flex-col justify-center">
+              <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
+                <ng-container *ngIf="!isCurrentUser(participant)">
+                  <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
+                </ng-container>
+                <ng-container *ngIf="isCurrentUser(participant)">
+                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here {{participant.rating}}</p>
+                </ng-container>
+            </div>
           </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="complete">
+          <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
+            <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant.id)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
+            <div class="flex flex-col justify-center">
+              <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
+                <ng-container *ngIf="!isCurrentUser(participant)">
+                  <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
+                </ng-container>
+                <ng-container *ngIf="isCurrentUser(participant)">
+                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here</p>
+                </ng-container>
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
       <ng-container *ngIf="!isPastWorkout">
         <div *ngFor="let participant of participants" (click)="viewProfile(participant.id)" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
@@ -98,7 +128,7 @@
       </ng-container>
     </div>
   </div>
-
+  </div>
 </div>
 </mat-grid-list>
 <training-buddy-navbar></training-buddy-navbar>
