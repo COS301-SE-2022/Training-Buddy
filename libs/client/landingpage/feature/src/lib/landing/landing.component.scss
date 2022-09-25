@@ -143,12 +143,15 @@ mat-card-title{
     flex-wrap: wrap;
 }
 
+.self-center {
+    align-self: center;
+}
 
 .center{
     justify-content: center;
 }
 
-.align-x{
+.align-x {
     align-items: center;
 }
 
@@ -185,10 +188,6 @@ mat-card-title{
 
 #logo-sm {
     display: none;
-}
-
-#systeminfo {
-    height: 50vh;
 }
 
 @media (max-width: 900px) {
@@ -242,4 +241,100 @@ mat-card-title{
     .signup {
         margin-left: 0px;
     }
+}
+
+#mockui {
+    height: 30vh;
+    min-width: 388px;
+}
+
+#supportedactivities {
+    // width: 100%;
+}
+
+#systeminfo {
+    height: 50vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.w-50 {
+    width: 50% !important;
+}
+
+.w-30 {
+    width: 40% !important;
+}
+
+.lim-33 {
+    max-width: 33.3%;
+}
+
+.suppparent > div {
+    // margin-bottom: 4px;
+}
+
+.suppparent {
+    padding-top: 5px;
+}
+
+.icon {
+    transform: scale(0.8) !important;
+}
+
+.supp {
+    min-width: 214px !important;
+}
+
+.tbbio {
+    min-width: 530px;
+    width: 80%;
+    max-width: 510px;
+}
+
+@media (max-width: 1180px) {
+
+    #systeminfo {
+        flex-direction: column;
+        height: fit-content;
+        width: 100vw !important;
+    }
+
+    #systeminfo > div {
+        margin-bottom: 50px;
+    }
+
+    #supportedactivities {
+        padding-top: 40px;
+    }
+
+    #mockui {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .lim-33 {
+        min-width: 100%;
+    }
+
+    #suppheading {
+        text-align: center;
+    }
+
+    #supphr {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tbbio {
+        width: 90% !important;
+        text-align: justify;
+        margin-bottom: 0px !important;
+        min-width: 0px;
+    }
+
 }
