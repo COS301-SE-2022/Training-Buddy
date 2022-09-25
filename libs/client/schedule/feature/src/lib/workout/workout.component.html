@@ -112,7 +112,7 @@
                   <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
                 </ng-container>
                 <ng-container *ngIf="isCurrentUser(participant)">
-                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here {{participant.rating}}</p>
                 </ng-container>
             </div>
           </div>
