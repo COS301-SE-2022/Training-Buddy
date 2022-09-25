@@ -1,4 +1,7 @@
-<div class="">
+ <div class="">
+  <div class="right-align">
+    <mat-icon (click)="onNoClick()"> close</mat-icon>
+  </div>
   <div class="py-3 sm:max-w-xl sm:mx-auto">
     <div class="min-w-1xl flex flex-col rounded-xl">
       <div class="w-full flex flex-col items-center">
@@ -6,75 +9,28 @@
           <span class="text-lg text-gray-800 text-center">How would you rate {{user.userName}} {{user.userSurname}}?</span>
         </div>
         <div>
-          <ul class="flex justify-center">
-            <li (click)="setStars(1)">
-              <div *ngIf="greater(1); else elseBlock">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="w-4 text-black-500 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
-                </svg>
-              </div>
-              <ng-template #elseBlock>
-                <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" class="w-4 text-black-500" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
-                </svg>
-              </ng-template>
-            </li>
-            <li (click)="setStars(2)">
-              <div *ngIf="greater(2); else elseBlock">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="w-4 text-black-500 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
-                </svg>
-              </div>
-              <ng-template #elseBlock>
-                <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" class="w-4 text-black-500" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
-                </svg>
-              </ng-template>
-
-            </li>
-            <li (click)="setStars(3)">
-              <div *ngIf="greater(3); else elseBlock">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="w-4 text-black-500 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
-                </svg>
-              </div>
-              <ng-template #elseBlock>
-                <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" class="w-4 text-black-500" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
-                </svg>
-              </ng-template>
-
-            </li>
-            <li (click)="setStars(4)">
-              <div *ngIf="greater(4); else elseBlock">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="w-4 text-black-500 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
-                </svg>
-              </div>
-              <ng-template #elseBlock>
-                <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" class="w-4 text-black-500" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
-                </svg>
-              </ng-template>
-
-            </li>
-            <li (click)="setStars(5)">
-              <div *ngIf="greater(5); else elseBlock">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="w-4 text-black-500 mr-1" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
-                </svg>
-              </div>
-              <ng-template #elseBlock>
-                <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" class="w-4 text-black-500" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path fill="currentColor" d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
-                </svg>
-              </ng-template>
-
-            </li>
-          </ul>
+          <img alt="No alt" src="{{user.image}}"  class="object-cover w-20 h-20 m-4 rounded-full shadow bg-blue-100" />
         </div>
+        <div class="rating">
+
+          <input type="radio" name="rating" id="r1" (click)="setStars(5)">
+          <label for="r1"></label>
+
+          <input type="radio" name="rating" id="r2" (click)="setStars(4)">
+          <label for="r2"></label>
+
+          <input type="radio" name="rating" id="r3" (click)="setStars(3)">
+          <label for="r3"></label>
+
+          <input type="radio" name="rating" id="r4" (click)="setStars(2)">
+          <label for="r4"></label>
+
+          <input type="radio" name="rating" id="r5" (click)="setStars(1)">
+          <label for="r5"></label>
+
+         </div>
         <div class="w-3/4 flex flex-col">
-          <button class="py-3 my-8 text-lg bg-black rounded-xl text-white"  (click)="add()">Rate now</button>
+          <button mat-raised-button color="primary" class="py-3 my-8 text-lg bg-black rounded-xl text-white"  (click)="add()">Rate now</button>
         </div>
       </div>
     </div>

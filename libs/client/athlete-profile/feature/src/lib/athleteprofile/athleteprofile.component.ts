@@ -25,7 +25,7 @@ import {CookieService} from 'ngx-cookie-service';
         ])
       ]
     )
-    
+
   ]
 })
 export class AthleteprofileComponent implements OnInit {
@@ -42,6 +42,18 @@ export class AthleteprofileComponent implements OnInit {
   //trainig radius
   radius : number;
 
+  //ratings
+  runRating = 0 ;
+  swimRating = 0;
+  rideRating = 0;
+  liftRating = 0;
+  //check box values:
+  running : boolean;
+  swimming : boolean;
+  riding : boolean;
+  lifting : boolean;
+
+
   update = false;
   sliderDefault = 2;
 
@@ -49,10 +61,55 @@ export class AthleteprofileComponent implements OnInit {
     this.radius = value;
   }
 
-  constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService, private activated : ActivatedRoute, private cookie : CookieService) { 
+  moveRun(value: any) {
+    this.runRating = value;
+  }
+
+  moveRide(value: any) {
+    this.rideRating = value;
+  }
+
+  moveSwim(value: any) {
+    this.swimRating = value;
+  }
+
+  moveLift(value: any) {
+    this.liftRating = value;
+  }
+
+  toggleRunning() {
+    this.running = !this.running;
+    if(!this.running){
+      this.runRating = 0;
+    }
+  }
+
+  toggleRiding() {
+    this.riding = !this.riding;
+    if(!this.riding){
+      this.rideRating = 0;
+    }
+  }
+
+  toggleSwimming() {
+    this.swimming = !this.swimming;
+    if(!this.swimming){
+      this.swimRating = 0;
+    }
+  }
+
+  toggleLifting() {
+    this.lifting = !this.lifting;
+    if(!this.lifting){
+      this.liftRating = 0;
+    }
+
+  }
+
+  constructor(private frm : FormBuilder, private apollo : Apollo, @Inject(Router) private router : Router, private cookieService: CookieService, private activated : ActivatedRoute, private cookie : CookieService) {
 
     this.img = 'https://images.unsplash.com/photo-1512941675424-1c17dabfdddc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80';
-    
+
     const flag = this.activated.snapshot.paramMap.get('flag');
 
     if (flag != null) {
@@ -64,7 +121,16 @@ export class AthleteprofileComponent implements OnInit {
     this.frmBuilder = frm;
     this.noActivityChosen = false;
     this.radius = 2;
+    this.runRating = 0;
+    this.liftRating = 0;
+    this.swimRating = 0;
+    this.rideRating = 0;
     this.email = this.cookieService.get('email');
+    this.running = false;
+    this.riding = false;
+    this.swimming = false;
+    this.lifting = false;
+
   }
 
   ngOnInit(): void {
@@ -87,7 +153,22 @@ export class AthleteprofileComponent implements OnInit {
           this.radius = user.distance;
           this.sliderDefault = user.distance;
           const bio = user.bio;
-
+          if(metrics.run>0){
+            this.running = true;
+            this.runRating = metrics.run;
+          }
+          if(metrics.ride>0){
+            this.riding = true;
+            this.rideRating = metrics.ride;
+          }
+          if(metrics.swim>0){
+            this.swimming = true;
+            this.swimRating = metrics.swim;
+          }
+          if(metrics.lift>0){
+            this.lifting = true;
+            this.liftRating = metrics.lift;
+          }
           this.prefFrm.setValue({
             running: metrics.run,
             riding: metrics.ride,
@@ -106,7 +187,7 @@ export class AthleteprofileComponent implements OnInit {
     return this.apollo
     .query({
       query: gql`query{getOne(
-        email:"${this.email}" 
+        email:"${this.email}"
       ){
           userName,
           userSurname,
@@ -127,7 +208,7 @@ export class AthleteprofileComponent implements OnInit {
       `,
       // //pollInterval: 25000
     })
-    
+
   }
 
   updateError() {
@@ -182,7 +263,7 @@ export class AthleteprofileComponent implements OnInit {
       return;
     }
 
-    this.setProfile(this.email, running, riding, swimming, weightLifting, bio , this.radius).subscribe({
+    this.setProfile(this.email, bio , this.radius).subscribe({
       next: () => {
         this.router.navigate(['/uploadimage']);
       }
@@ -199,17 +280,17 @@ export class AthleteprofileComponent implements OnInit {
       });
   }
 
-  setProfile(email : string, running : boolean, riding : boolean, swimming : boolean, weightLifiting : boolean, bio : string , distance: number ) {
+  setProfile(email : string, bio : string , distance: number ) {
     return this.apollo
       .mutate({
         mutation: gql`mutation{
         userConfig(userConfig:{
           email : "${email}",
           distance : ${distance},
-          riding: ${riding},
-          running: ${running},
-          swimming: ${swimming},
-          weightLifting: ${weightLifiting},
+          riding: ${this.rideRating},
+          running: ${this.runRating},
+          swimming: ${this.swimRating},
+          weightLifting: ${this.liftRating},
           bio: "${bio}",
         }){
           message

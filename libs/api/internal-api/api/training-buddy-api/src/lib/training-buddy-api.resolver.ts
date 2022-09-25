@@ -90,7 +90,15 @@ export class TrainingBuddyApiResolver {
      */
     @Mutation(()=> ErrorMessage)
     activitySchedule(@Args('ActivitySchedule')activitySchedule: ActivitySchedule){
-        return this.trainingBuddyService.activitySchedule(activitySchedule)
+    const val = this.trainingBuddyService.activitySchedule(activitySchedule)
+    const data3 =this.trainingBuddyService.getScheduleWorkout(activitySchedule.email);
+    pubsub.publish("getAllWorkouts", {getAllWorkouts: data3})
+    return val; 
+    }
+    @Subscription(()=>[ResponseWorkout])
+    getAllWorkouts(){
+        const val = pubsub.asyncIterator("getAllWorkouts")
+        return val;
     }
    
     @Mutation(()=>ErrorMessage)
@@ -235,8 +243,8 @@ export class TrainingBuddyApiResolver {
      */
 
     @Mutation(()=>ErrorMessage)
-    saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken: string, @Args("exp")exp:number,  @Args("clientId")clientId:string,  @Args("clientSecret")clientSecret:string ){
-        return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken, exp, clientId, clientSecret);
+    saveTokens(@Args("email")userEmail :string ,@Args("access")accessToken : string , @Args("refresh")refreshToken: string, @Args("exp")exp:number,  @Args("clientId")clientId:string,  @Args("clientSecret")clientSecret:string, @Args("id")id:string ){
+        return this.trainingBuddyService.saveTokens(userEmail , accessToken , refreshToken, exp, clientId, clientSecret, id);
     }
     /**
      * 
@@ -359,6 +367,7 @@ export class TrainingBuddyApiResolver {
         const data1 =this.trainingBuddyService.getIncomingInvites(otherEmail);
         const data2 =this.trainingBuddyService.getOutgoingInvites(userEmail);
         const data3 =this.trainingBuddyService.getWorkout(userEmail, startTime);
+
         pubsub.publish( "getIncomingInviteSub",{[ "getIncomingInviteSub"]:data1})
         pubsub.publish( "getOutgoingInviteSub",{[ "getOutgoingInviteSub"]:data2})
         pubsub.publish( "getWorkoutSub",{[ "getWorkoutSub"]:data3})
@@ -371,6 +380,7 @@ export class TrainingBuddyApiResolver {
         const val = pubsub.asyncIterator("getIncomingInviteSub")
         return val;
     }
+
 
     @Subscription(()=>[Invite])
     getOutgoingInviteSub(){

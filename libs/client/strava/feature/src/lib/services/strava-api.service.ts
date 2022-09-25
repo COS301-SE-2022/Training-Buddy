@@ -14,7 +14,7 @@ export class StravaAPIService {
   client_secret = 'a104b3a3699b54450312f26698167e28b61d5624';
   grant_type = 'authorization_code';
 
-  OAuthURI = `http://www.strava.com/oauth/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all`;
+  OAuthURI = `https://www.strava.com/oauth/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=https://training-buddy-2022.web.app/exchange_token&approval_prompt=force&scope=activity:read_all`;
 
   userToken : any;
 
@@ -56,13 +56,14 @@ export class StravaAPIService {
           this.userToken = data;
           console.log(data);
           
+          const id = this.userToken.athlete.id ;
           const access = this.userToken.access_token; //used to query the API
           const refresh = this.userToken.refresh_token; //used to get a access_token
           const exp = this.userToken.expires_at; //used to show expiry of the access_token
           const clientId = this.client_id ;
           const clientSecret = this.client_secret ;
 
-          this.sendTokens(access, refresh, exp, clientId, clientSecret).subscribe({
+          this.sendTokens(access, refresh, exp, clientId, clientSecret, id).subscribe({
             next: data => {
               console.log(data);
               //redirect to the login
@@ -84,7 +85,7 @@ export class StravaAPIService {
 
   }
 
-  sendTokens(access: string, refresh: string, exp : number, clientId : string, clientSecret : string) {
+  sendTokens(access: string, refresh: string, exp : number, clientId : string, clientSecret : string, id: string) {
     return this.apollo
       .mutate({
         mutation: gql`mutation{
@@ -94,7 +95,8 @@ export class StravaAPIService {
             refresh: "${refresh}",
             exp: ${Number(exp)},
             clientId: "${clientId}",
-            clientSecret: "${clientSecret}"
+            clientSecret: "${clientSecret},"
+            id: "${id}"
         ){
           message
         }

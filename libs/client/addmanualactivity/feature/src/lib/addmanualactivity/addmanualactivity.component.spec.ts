@@ -59,7 +59,8 @@ describe('AddmanualactivityComponent', () => {
 
   /**
    * Test resetForm
-   */  describe('resetForm', () => {
+   */  
+  describe('resetForm', () => {
    it('should reset form', () => {
   
       expect(component.manualForm.value).toEqual({
@@ -103,7 +104,6 @@ describe('AddmanualactivityComponent', () => {
         op.flush({
           data: {
             addWeightLiftingActivity: {
-              id: '1',
               name: 'test',
               type: 'WeightLifting',
               date: '2022-10-10',

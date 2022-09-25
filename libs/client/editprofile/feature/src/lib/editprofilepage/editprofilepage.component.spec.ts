@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EditprofilepageComponent } from './editprofilepage.component';
-import { Apollo } from 'apollo-angular';
+import { Apollo, gql } from 'apollo-angular';
 import { UiModule } from '@training-buddy/client/shared/components/navbar/ui';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { Component } from '@angular/core';
+
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
   authDomain: 'training-buddy-2022.firebaseapp.com',
@@ -101,9 +101,6 @@ describe('EditprofilepageComponent', () => {
     it('should call getCurrentUser', () => {
       jest.spyOn(component, 'getCurrentUser');
 
-      component.getCurrentUser();
-
-      //Test getCurrentUser graphql query
       component.getCurrentUser().subscribe({
         next: (data: any) => {
           expect(data.data.getOne).toEqual({
@@ -210,6 +207,224 @@ describe('EditprofilepageComponent', () => {
 
       expect(component.validateNameSurname).toHaveBeenCalled();
 
+    });
+  });
+
+  /**
+   * Test validateEmail function
+   */
+  describe('validateEmail', () => {
+    it('should succesfully set valid email', () => {
+      jest.spyOn(component, 'validateEmail');
+
+      expect(component.validateEmail(new FormControl('tester@gmail.com')))
+      .toEqual(null);
+
+      expect(component.validateEmail).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error message if invalid email is set', () => {	
+      jest.spyOn(component, 'validateEmail');
+
+      expect(component.validateEmail(new FormControl('tester')))
+      .toEqual({'error_msg' : 'Valid email is required'});
+
+      expect(component.validateEmail).toHaveBeenCalled();
+
+    });
+
+  });
+
+  /**
+   * Test validateCellNumber function
+   */
+  describe('validateCellNumber', () => {
+    it('should succesfully set valid cell number', () => {
+      jest.spyOn(component, 'validateCellNumber');
+
+      expect(component.validateCellNumber(new FormControl('0123456789')))
+      .toEqual(null);
+
+      expect(component.validateCellNumber).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error message if invalid cell number is set', () => {
+      jest.spyOn(component, 'validateCellNumber');
+
+      expect(component.validateCellNumber(new FormControl('012345678')))
+      .toEqual({'error_msg' : 'Valid phone number is required'});
+
+      expect(component.validateCellNumber).toHaveBeenCalled();
+
+    });
+  });
+
+  /**
+   * Test validateGender function
+   */
+  describe('validateGender', () => {
+    it('should succesfully set valid gender', () => {
+      jest.spyOn(component, 'validateGender');
+
+      expect(component.validateGender(new FormControl('M')))
+      .toEqual(null);
+
+      expect(component.validateGender(new FormControl('F')))
+      .toEqual(null);
+
+      expect(component.validateGender).toHaveBeenCalledTimes(2);
+
+    });
+
+    it('should succesfully return error', () =>  {
+      jest.spyOn(component, 'validateGender');
+
+      expect(component.validateGender(new FormControl('N')))
+      .toEqual({'error_msg' : 'Valid choice required'});
+
+      expect(component.validateGender).toHaveBeenCalled();
+    });
+
+  });
+
+
+  /**
+   * Test validateLocaton function
+   */
+  describe('validateLocation', () => {
+
+    it('should succesfully set valid location', () => {
+      jest.spyOn(component, 'validateLocation');
+
+      expect(component.validateLocation(new FormControl('Hatfield')))
+      .toEqual(null);
+
+      expect(component.validateLocation).toHaveBeenCalled();
+
+    });
+
+    it('should succesfully return error', () =>  {
+      jest.spyOn(component, 'validateLocation');
+
+      expect(component.validateLocation(new FormControl('')))
+      .toEqual({'error_msg' : 'Location is required'});
+
+      expect(component.validateLocation).toHaveBeenCalled();
+
+    });
+
+  });
+
+  /**
+   * Test fileattatched functionality
+   */
+  describe('fileattatched', () => {
+    it('should succesfully upload image', () => {
+      
+      const file = new File([''], 'test.jpg', {type: 'image/jpeg'});
+      const event = {target: {files: [file]}};
+
+      jest.spyOn(component, 'fileattatched');
+
+      component.fileuploadflag = false;
+
+      component.fileattatched(event);
+
+      event.target.files = [file];
+
+      if(event.target.files.length > 0){
+        component.fileuploadflag = true;
+      }
+
+      expect(component.fileuploadflag).toEqual(true);
+      
+    });
+  });
+
+  /**
+   * Test save function
+   */
+  describe('save', () => {
+    it('should succesfully save data', () => {
+      jest.spyOn(component, 'save');
+
+      component.save();
+
+      if(component.newImage != null){
+
+        component.Base64encode(component.newImage).then(encode =>{
+
+          component.updateUser('TesterName', 'TesterSurname', 'tester@gmail.com', '0123456789', 'M', 'Hatfield', encode)
+          .subscribe({
+            next: (data) => {
+              expect(data).toEqual('User updated successfully');
+            }
+          });
+        });
+      } else {
+
+        component.updateUser('TesterName', 'TesterSurname', 'tester@gmail.com', '0123456789', 'M', 'Hatfield', null)
+        .subscribe({
+            next: (data) => {
+              expect(data).not.toEqual('User updated successfully');
+            }
+        });
+      } 
+
+      expect(component.save).toHaveBeenCalled();
+
+    });
+  });
+
+  /**
+   * Test updateUser function
+   */
+  describe('updateUser', () => {
+    it('should succesfully update user', () => {
+      jest.spyOn(component, 'updateUser');
+
+      component.updateUser('TesterName', 'TesterSurname', 'tester@gmail.com', '0123456789', 'M', 'Hatfield', null)
+
+      const query = gql`
+        mutation{
+          updateProfile(UserDto: {
+            oldEmail: "oldTester@gmail.com",
+            userName: "TesterName",
+            userSurname: "TesterSurname",
+            location: "Hatfield",
+            gender: "M",
+            email: "tester@gmail.com",
+            cellNumber: "0123456789",
+            image: null
+          }){
+            message
+          }
+        }
+        `;
+
+        expect(component.updateUser).toHaveBeenCalled();   
+
+    });
+
+  });
+
+  /**
+   * Test Base64encode function
+   */
+  describe('Base64encode', () => {
+    it('should succesfully encode image', () => {
+      jest.spyOn(component, 'Base64encode');
+
+      const file = new File([''], 'test.jpg', {type: 'image/jpeg'});
+
+      component.Base64encode(file);
+
+      expect(component.Base64encode(file)).resolves.toEqual('data:image/jpeg;base64,');
+
+      expect(component.Base64encode).toHaveBeenCalled();
+           
     });
   });
 

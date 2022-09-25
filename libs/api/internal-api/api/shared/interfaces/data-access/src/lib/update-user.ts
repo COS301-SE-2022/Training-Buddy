@@ -33,5 +33,8 @@ export class UpdateUser {
     weightLifting: boolean
     @Field({nullable:true})
     bio: string
+    @Field({nullable:true})
+    gender: string
+
     
 }

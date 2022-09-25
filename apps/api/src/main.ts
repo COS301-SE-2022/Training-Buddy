@@ -11,6 +11,8 @@ import * as admin from "firebase-admin"
 import {ExpressAdapter, NestExpressApplication} from '@nestjs/platform-express';
 import * as express from 'express';
 import * as functions from 'firebase-functions';
+import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
+
 const cors = require('cors');
 const corsOptions ={
     origin:'*', 
@@ -18,6 +20,8 @@ const corsOptions ={
     method: ["POST", "GET"],            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
+
+const repo = new ApiInternalApiRepositoryDataAccessService() ;
 
 
 const serviceAccount = require('./training-buddy-2022-firebase-adminsdk-uine6-59d810bb2a.json')
@@ -38,6 +42,13 @@ export const createNestServer = async (expressInstance: express.Express) => {
 //create endpoint for webhook
   server.post('/webhook',(req,res) => {
     console.log('webhook event received!', req.query, req.body) ;
+    if(req.body.aspect_type == "create")
+      if(req.body.object_type == "activity"){
+        console.log("storing");
+        console.log("logged object id: "+req.body.object_id) ;
+        console.log("logged owner id: "+req.body.owner_id) ;
+        repo.logStrava(req.body.object_id.toString(), req.body.owner_id.toString()) ;
+      }
     res.status(200).send('EVENT_RECEIVED') ;
   })
 

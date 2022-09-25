@@ -16,6 +16,15 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthGaurdService } from './auth-guard.service';
+import {split, ApolloClientOptions} from '@apollo/client/core';
+import {getMainDefinition} from '@apollo/client/utilities';
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+
+import { getPerformance } from "firebase/performance";
+import { initializeApp } from "firebase/app";
+
+import { AngularFirePerformanceModule, PerformanceMonitoringService } from '@angular/fire/compat/performance';
 
 const firebase = {
   apiKey: 'AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM',
@@ -27,6 +36,14 @@ const firebase = {
   appId: '445917436',
   measurementId: 'G-K7WPZTL3FJ'
 }
+
+// Initialize Firebase
+const app = initializeApp(firebase);
+
+// Initialize Performance Monitoring and get a reference to the service
+const perf = getPerformance(app);
+
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -51,24 +68,54 @@ const firebase = {
     MatGoogleMapsAutocompleteModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFirePerformanceModule,
   ],
   providers: [
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => {
-        return {
-          cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: 'https://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
+      useFactory(httpLink: HttpLink): ApolloClientOptions<any> {
+        // Create an http link:
+        const http = httpLink.create({
+          uri:'http://localhost:3333/graphql',
+        });
+
+        // Create a WebSocket link:
+        const ws  = new GraphQLWsLink(
+          createClient({
+            url: 'wss://us-central1-training-buddy-2022.cloudfunctions.net/api/graphql',
           }),
-        fetchOptions: {'mode': 'no-cors'},
+
+        );
+        interface Definintion {
+          kind: string;
+          operation?: string;
+        };
+        // using the ability to split links, you can send data to each link
+        // depending on what kind of operation is being sent
+        const link = split(
+          // split based on operation type
+          ({query}) => {
+            const {kind, operation}:Definintion = getMainDefinition(query);
+            return (
+              kind === 'OperationDefinition' && operation === 'subscription'
+            );
+          },
+          ws,
+          http,
+        );
+
+        return {
+          link,
+          cache: new InMemoryCache()
+          // ... options
         };
       },
       deps: [HttpLink],
     },
     HttpClient,
-    AuthGaurdService
+    AuthGaurdService,
+    PerformanceMonitoringService,
   ],
   bootstrap: [AppComponent],
 })

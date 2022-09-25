@@ -1,16 +1,17 @@
 <training-buddy-back-navbar title="Event"></training-buddy-back-navbar>
 <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
-<div *ngIf="!loading">
-  <div class="dark:divide-undefined dark:divide-undefined">
-    <div class="max-w-7xl mx-auto px-4">
+<mat-grid-list cols="1" rows="1" rowHeight="2:1" class="pb-20">
+<div *ngIf="!loading" class="md:grid md:grid-cols-2 md:gap-x-2 max-h-max">
+  <div class="bg-slate-200 dark:divide-undefined dark:divide-undefined rounded-xl shadow-md p-4 m-4">
+    <div class="max-w-6xl mx-auto px-4">
       <div class="text-center">
-        <p class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900">{{workout?.title}}</p>
+        <p class="mt-2 pt-5 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900">{{workout?.title}}</p>
       </div>
-      <div class="mt-10">
+      <div class="mt-4">
         <dl class="space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
           <div class="relative">
             <dt class="">
-              <p class="with-icon text-xl leading-6 text-gray-900 dark:text-gray-900 font-bold"><mat-icon>date_range</mat-icon> When</p>
+              <p class="with-icon text-xl leading-6 text-gray-600"><mat-icon>date_range</mat-icon> When</p>
             </dt>
             <dd class="mt-2  text-base">
               <p class="">{{workout?.startTime.day}} {{workout?.startTime.month}} {{workout?.startTime.year}} {{workout?.startTime.time}}</p>
@@ -18,7 +19,15 @@
           </div>
           <div class="relative">
             <dt class="">
-              <p class="with-icon text-xl leading-6 text-gray-900 dark:text-gray-900 font-bold">	<mat-icon> directions_bike</mat-icon> Activity Type</p>
+              <p class="with-icon text-xl leading-6 text-gray-600  ">	<mat-icon> directions_bike</mat-icon> Activity Type</p>
+            </dt>
+            <dd class="mt-2  text-base">
+              <p class=""> {{workout?.activityType}} </p>
+            </dd>
+          </div>
+          <div class="relative">
+            <dt class="">
+              <p class="with-icon text-xl leading-6 text-gray-600"><mat-icon> location_on</mat-icon> Where</p>
             </dt>
             <dd class="mt-2  text-base">
               <p class=""> {{workout?.startPoint}} </p>
@@ -26,15 +35,7 @@
           </div>
           <div class="relative">
             <dt class="">
-              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900"><mat-icon> location_on</mat-icon> Where</p>
-            </dt>
-            <dd class="mt-2  text-base">
-              <p class=""> {{workout?.startPoint}} </p>
-            </dd>
-          </div>
-          <div class="relative">
-            <dt class="">
-              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:divide-undefined dark:text-gray-900"><mat-icon>timelapse</mat-icon> Duration</p>
+              <p class="with-icon text-xl leading-6 text-gray-600"><mat-icon>timelapse</mat-icon> Duration</p>
             </dt>
             <dd class="mt-2  text-base">
               <p class=""> {{workout?.proposedDuration}} </p>
@@ -42,7 +43,7 @@
           </div>
           <div class="relative">
             <dt class="">
-              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900"><mat-icon>date_range</mat-icon> Distance</p>
+              <p class="with-icon text-xl leading-6 text-gray-600"><mat-icon>date_range</mat-icon> Distance</p>
             </dt>
             <dd class="mt-2  text-base">
               <p class=""> {{workout?.proposedDistance}} km</p>
@@ -50,7 +51,7 @@
           </div>
           <div class="relative">
             <dt class="">
-              <p class="with-icon text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900">	<mat-icon> email</mat-icon> Organiser</p>
+              <p class="with-icon text-xl leading-6 text-gray-600">	<mat-icon> email</mat-icon> Organiser</p>
             </dt>
             <dd class="mt-2  text-base">
               <p class="">{{workout?.organiser}}</p>
@@ -60,29 +61,45 @@
       </div>
     </div>
   </div>
-  <div class="py-8 pb-24 px-4 mx-auto sm:max-w-xl sm:py-14 md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
-    <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12">
-      <p class=" text-xl leading-6 font-semibold text-gray-900 dark:text-gray-900">Participants
-         <button mat-raised-button id="addbutton"  class="text-white text-sm rounded-lg"(click)="openDialog()">
+  <div class=" bg-slate-600 m-4 sm:max-w-xl p-4 md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8 rounded-xl shadow-md ">
+    <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12 items-center">
+      <p class=" mt-2 pt-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900 ">Participants</p>
+      <ng-container *ngIf="organiser && !isPastWorkout">
+        <button mat-raised-button color="primary" class="text-white text-sm rounded-lg m-4"(click)="openDialog()">
           <mat-icon>add</mat-icon>
         </button>
-      </p>
-      <p class="md:text-lg">These are all the participants of your workout please rate their kindness.</p>
+      </ng-container>
+      <p class="md:text-lg mt-10" *ngIf="isPastWorkout">These were all the participants of your workout please rate their ability</p>
+      <p class="md:text-lg mt-10" *ngIf="!isPastWorkout">These are all the buddies coming to your workout.</p>
     </div>
-    <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-2 lg:grid-cols-3">
-      <div *ngFor="let participant of participants" class="flex"><img alt="No alt" src="{{participant.image}}" class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
-        <div class="flex flex-col justify-center">
-          <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
+    <div class="pb-4 grid gap-10 row-gap-8 mx-auto sm:row-gap-10 lg:max-w-screen-lg sm:grid-cols-1 lg:grid-cols-2">
 
-          <mat-grid-list cols="2" rowHeight="2:1">
-            <mat-grid-tile class="bg-slate-900 text-white rounded-xl" (click)="rateUser(participant)" >Rate</mat-grid-tile>
-            <mat-grid-tile class="bg-slate-900 text-white rounded-xl" (click)="viewProfile(participant)">Profile</mat-grid-tile>
-          </mat-grid-list>
+      <ng-container *ngIf="isPastWorkout">
+        <div *ngFor="let participant of participants" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
+          <img alt="No alt" src="{{participant.image}}" (click)="viewProfile(participant.id)"  class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
+          <div class="flex flex-col justify-center">
+            <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
+              <ng-container *ngIf="!isCurrentUser(participant)">
+                <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
+              </ng-container>
+              <ng-container *ngIf="isCurrentUser(participant)">
+                <p class="text-sm text-gray-600 dark:text-gray-600">You can't rate yourself</p>
+              </ng-container>
+          </div>
         </div>
-      </div>
+      </ng-container>
+      <ng-container *ngIf="!isPastWorkout">
+        <div *ngFor="let participant of participants" (click)="viewProfile(participant.id)" class="flex rounded-xl shadow-md p-4 min-w-full bg-white">
+          <img alt="No alt" src="{{participant.image}}" class="object-cover w-20 h-20 mr-4 rounded-full shadow bg-blue-100" />
+          <div class="flex flex-col justify-center">
+            <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 
 </div>
+</mat-grid-list>
 <training-buddy-navbar></training-buddy-navbar>
 

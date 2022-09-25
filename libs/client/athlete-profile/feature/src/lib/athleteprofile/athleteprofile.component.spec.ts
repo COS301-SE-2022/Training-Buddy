@@ -130,7 +130,7 @@ describe('AthleteprofileComponent', () => {
         
       }
 
-      component.setProfile('tester', true, false, false, false,'', 10);
+      component.setProfile('tester','', 10);
       expect(component.update).toEqual(false);
 
       expect(spy).toHaveBeenCalled();
@@ -147,16 +147,16 @@ describe('AthleteprofileComponent', () => {
 
       const spy = jest.spyOn(component, 'setProfile');
 
-      const op = component.setProfile('tester', true, false, false, false,'', 10).subscribe();
+      const op = component.setProfile('tester', '', 10).subscribe();
       op.add(() => {
         expect(component.setProfile).toEqual({
           userConfig: {
             email: 'tester@gmail.com',	
             distance: 10,
-            riding: false,
-            running: true,
-            swimming: false,
-            lifting: false,
+            riding: 1.4,
+            running: 2.5,
+            swimming: 1.2,
+            lifting: 1.3,
             bio: '',
             },
           });

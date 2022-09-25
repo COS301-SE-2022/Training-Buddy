@@ -1,11 +1,11 @@
 import { Injectable} from '@nestjs/common';
 import {UserDto , UserEntity,ActivitySchedule,  ErrorMessage, ActivityStat,ActivityLog ,UpdateUser, Userconfig, Invite} from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
 import {JwtService} from '@nestjs/jwt'
-import {CollaborativeFilter} from 'collaborative-filter'
 import * as bcrypt from 'bcrypt';
-import BTree from 'sorted-btree'
+import { sha256 } from 'js-sha256';
 import * as SendGrid from '@sendgrid/mail';
 import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/internal-api/repository/data-access';
+let recommended : any [] =[]
 @Injectable()
 export class TrainingBuddyServiceService {
    
@@ -17,23 +17,26 @@ export class TrainingBuddyServiceService {
      * @param jwtService 
      */
     constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
-    async sendEmail(mail: SendGrid.MailDataRequired) {
-        SendGrid.setApiKey(process.env.SENDGRID_API_KEY);
-        const transport = await SendGrid.send(mail);
-        console.log(`Email successfully dispatched to ${mail.to}`)
-        return transport;
-    }
-    async sendActivityRequestEmail(email : string , user : UserEntity){
-        const mail = {
-            to: email,
-            subject: 'Activity Invite From '+ user.userName ,
-            from: 'trainingbuddy@gmail.com',
-            text: 'Hello you have been invited to a work out by ' + user.userName,
-            html: '<h1>Hello World from NestJS Sendgrid</h1>'
-        };
-
-        return await this.sendEmail(mail);
-    }
+    // async sendEmail(email : string , user : UserEntity) {
+    //     const apiKey = `${process.env.SENDGRID_API_KEY}`;
+    //     console.log(apiKey)
+    //     SendGrid.setApiKey(apiKey);
+    //     const mail = {
+    //         to: email,
+    //         subject: 'Activity Invite From '+ user.userName ,
+    //         from: 'trainingbuddy2022@gmail.com',
+    //         text: 'Hello you have been invited to a work out by ' + user.userName,
+    //         html: '<h1>Hello World from NestJS Sendgrid</h1>'
+    //     }
+    //     SendGrid.
+    //     send(mail)
+    //     .then(() => {
+    //         console.log('Email sent')
+    //     })
+    //     .catch((error) => {
+    //         console.error(error)
+    //     })
+    // }
     /**
      * 
      * @param email 
@@ -43,8 +46,10 @@ export class TrainingBuddyServiceService {
     async validateUser(email: string , password: string):Promise<any> {
         const user = await this.findOne(email);
         let valid = false;
-        if(user)
-            valid = await bcrypt.compare(password, user?.password)
+        if(user){
+            const encrypted = sha256(password);
+            valid = await bcrypt.compare(encrypted, user?.password)
+        }
         if(user && valid){ 
             const{password , ...result} = user;
             return result;
@@ -83,12 +88,12 @@ export class TrainingBuddyServiceService {
             return item;
         }
         else{
-            const password = await bcrypt.hash(userdto.password, 10)
+            const encrypted = sha256(userdto.password);
+            const password = await bcrypt.hash(encrypted, 10)
             user = {...userdto, password };
             const ret = await this.repoService.createUser(user);
             const item = new ErrorMessage;
             item.message = ret.id;
-            console.log(item.message);
             return item;
         }
     }
@@ -97,8 +102,9 @@ export class TrainingBuddyServiceService {
      * @returns Array Of UserEntity
      */
     async getAll(email:string ){
-        
-        const arr = await this.repoService.findAll(email)
+
+        const arr = await this.repoService.findAll(email);
+    
 
         let distance = 0;
         let longitude = 0;
@@ -112,14 +118,20 @@ export class TrainingBuddyServiceService {
             }
         }
         for(let i = 0; i < arr.length; i++){
-            if(arr[i].email!=email){
+            if(arr[i].email!=email && arr[i].metrics!=null){
                 if(await this.calculatedistance(arr[i].latitude, arr[i].longitude, latitude, longitude)<= distance){
                     people.push(arr[i]);
                 }
             }
         }
-        
+        people.push(await this.findOne(email));
         return this.collaborativeFiltering(people , email);
+
+
+   
+
+   
+       
     }
     /**
      * 
@@ -149,7 +161,6 @@ export class TrainingBuddyServiceService {
             }
             if(user.email){
                 response = await this.repoService.updateEmail(user.email, user.oldemail);
-                console.log(response);
             }
             if(user.location){
                 response = await this.repoService.updateLocation(user.location, user.oldemail);
@@ -209,7 +220,6 @@ export class TrainingBuddyServiceService {
     async userConfig(config: Userconfig){
         const val =  await this.repoService.userConfig(config);
         const item = new ErrorMessage;
-        console.log(val)
         if(val == false){
             item.message = "failure"
             return item;
@@ -305,7 +315,6 @@ export class TrainingBuddyServiceService {
      * @return ErrorMessage
      */
     async accept(otherEmail: string, userEmail: string) {
-        //console.log("accepting")
         let res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){
@@ -476,7 +485,7 @@ export class TrainingBuddyServiceService {
      * @param refresh 
      * @returns ErrorMessage
      */
-    async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any ){
+    async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any, id:any){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         if(!user ){
@@ -484,7 +493,7 @@ export class TrainingBuddyServiceService {
              return item;
          }
          else{
-             await this.repoService.saveTokens(email , access , refresh, exp, clientId, clientSecret)
+             await this.repoService.saveTokens(email , access , refresh, exp, clientId, clientSecret, id)
              item.message = "Success User Tokens Saved "
              return item;
          }
@@ -547,7 +556,7 @@ export class TrainingBuddyServiceService {
             const val = await this.repoService.sendInvite(email,arr,workoutID)
             if(val){
                 item.message = "Success";
-                this.sendActivityRequestEmail(email , user);
+               // this.sendEmail(email , user);
                 return item
             }else{
                 item.message = "Failure";
@@ -647,48 +656,127 @@ export class TrainingBuddyServiceService {
            
         }
     }
+    /**
+     * 
+     * @param dataset 
+     * @returns newDataset
+     */
+    cleanDataset (dataset){
+        const  newDataset = {};
+        for(const i in dataset){
+            const email = dataset[i].email;
+            newDataset[email] = dataset[i].metrics;
+        }
+        return newDataset;
+    }
+    len(obj){
+        let len=0;
+        for(const i in obj){
+            len++
+        }
+        return len;
+    }
+    pearson_correlation(dataset,p1,p2){
+        const existp1p2 = {};
+        for(const item in dataset[p1]){
+                    if(item in dataset[p2]){
+                        existp1p2[item] = 1
+                    }
+                }
+               const num_existence = this.len(existp1p2);
+        if(num_existence ==0) return 0;
+                let p1_sum=0,
+                    p2_sum=0,
+                    p1_sq_sum=0,
+                    p2_sq_sum=0,
+                    prod_p1p2 = 0;
+                for(const item in existp1p2){
+                    p1_sum += dataset[p1][item];
+                    p2_sum += dataset[p2][item];
+                    p1_sq_sum += Math.pow(dataset[p1][item],2);
+                    p2_sq_sum += Math.pow(dataset[p2][item],2);
+                    prod_p1p2 += dataset[p1][item]*dataset[p2][item];
+                }
+                const numerator =prod_p1p2 - (p1_sum*p2_sum/num_existence);
+                const  st1 = p1_sq_sum - Math.pow(p1_sum,2)/num_existence;
+                const  st2 = p2_sq_sum -Math.pow(p2_sum,2)/num_existence;
+                const  denominator = Math.sqrt(st1*st2);
+        if(denominator ==0) return 0;
+                else {
+                    const val = numerator / denominator;
+                    recommended.push({name:p2, value:val});
+                    return val;
+                }
+    }
+    getRecommendations(dataset,person){
+        const totals = {};
+        const simSums = {};
+        for(const other in dataset){
+            if(other == person) continue;
+            const sim = this.pearson_correlation(dataset,person,other);
+            if(sim<=0) continue;
+            for(const item in dataset[other]){
+                if(item in dataset[person]) continue;
+                totals[item] = totals[item] || 0;
+                totals[item] += dataset[other][item]*sim;
+                simSums[item] = simSums[item] || 0;
+                simSums[item] += sim;
+            }
+        }
+        const rankings: any= [];
+        for(const item in totals){
+            rankings.push([totals[item],item]);
+        }
+        rankings.sort();
+        rankings.reverse();
+        return rankings;
+    }
+   getFullDatasetFromRecommended(dataset,recommended){
+        const newDataset: any= []
+        recommended.forEach(i =>{
+            if(i.value > 0.50){
+                dataset.forEach(element => {
+                    if(element.email == i.name){
+                        newDataset.push(element)
+                    }
+                })
+            }
+        }
+    )
+    return newDataset;
+   }
+   sortRecommended(recommended){
+    recommended.sort(function(a,b){
+        return b.value - a.value;
+    })
+    return recommended;
+    }
+
     
     async collaborativeFiltering(people: any[]  , email: string){
         if(people.length <=0){
             return people;
         }
-        const collaborativeFilter = await import("collaborative-filter")
-        const tree = new BTree;
-        let  person = await this.findOne(email)
-        const metric = [];
-        const recommended = [];
-        let metricact = [];
-        let peoplebtree ;
-        for(let count = 0 ; count < people.length ; count++){
-            metricact.push(people[count].metrics.lift)
-            metricact.push(people[count].metrics.ride)
-            metricact.push(people[count].metrics.run)
-            metricact.push(people[count].metrics.swim)
-            metric.push(metricact)
-            metricact = []
-            peoplebtree = people[count];
-            tree.set(peoplebtree.email, people[count].metrics) 
+        recommended = []
+        this.getRecommendations(this.cleanDataset(people),email)
+        this.sortRecommended(recommended)
+        
+        const newset = this.getFullDatasetFromRecommended(people,recommended)
+        const dataset = this.removeUser(newset,email)
+        if(dataset.length <=0){
+            const val =this.removeUser(people,email);
+            return val
         }
-
-       let res= []
-       res=  collaborativeFilter.cFilter(metric,0)
-       if(res.length<=0){
-        return people;
-       }else{
-        person=[]
-        tree.forEachPair((k, v) => {
-            let count = 0;
-            person = this.findOne(k)
-            res.forEach( async element => {
-                person = await this.findOne(k)
-                if(person.metrics[element]==0){
-                    count ++;
-                }});
-                if(count<= 2 ){
-                    recommended.push(person)
-                }})
-    }     
-    return recommended;
+    return dataset;
+    }
+    removeUser(dataset,email){
+        const newDataset = [];
+        dataset.forEach(element => {
+            if(element.email != email){
+                newDataset.push(element)
+            }
+        });
+        return newDataset;
     }
      /**
      * 
