@@ -8,13 +8,10 @@ import { ApiInternalApiRepositoryDataAccessService } from '@training-buddy/api/i
 let recommended : any [] =[]
 @Injectable()
 export class TrainingBuddyServiceService {
-   
-   
-    
 
     /**
-     * 
-     * @param jwtService 
+     *
+     * @param jwtService
      */
     constructor(private jwtService : JwtService, private repoService : ApiInternalApiRepositoryDataAccessService , private user : UserEntity){}
     async sendEmail(email : string , user : UserEntity) {
@@ -48,9 +45,9 @@ export class TrainingBuddyServiceService {
         });
     }
     /**
-     * 
-     * @param email 
-     * @param password 
+     *
+     * @param email
+     * @param password
      * @returns null || UserEntity
      */
     async validateUser(email: string , password: string):Promise<any> {
@@ -60,15 +57,15 @@ export class TrainingBuddyServiceService {
             const encrypted = sha256(password);
             valid = await bcrypt.compare(encrypted, user?.password)
         }
-        if(user && valid){ 
+        if(user && valid){
             const{password , ...result} = user;
             return result;
         }
         return null;
     }
     /**
-     * 
-     * @param email 
+     *
+     * @param email
      * @returns Promise UserEntity
      */
     async findOne(email: string): Promise<any>{
@@ -80,14 +77,17 @@ export class TrainingBuddyServiceService {
                     person.ratings.forEach(element => {
                         total += element;
                 });
-                person.ratings = total/person.ratings.length;
+                person.rating = Math.round(total/person.ratings.length);
+            }
+            else{
+                person.rating = 0;
             }
         }
         return person;
     }
     /**
-     * 
-     * @param userdto 
+     *
+     * @param userdto
      * @returns ErrorMessage
      */
     async signup(userdto : UserDto){
@@ -114,7 +114,7 @@ export class TrainingBuddyServiceService {
     async getAll(email:string ){
 
         const arr = await this.repoService.findAll(email);
-    
+
 
         let distance = 0;
         let longitude = 0;
@@ -138,15 +138,15 @@ export class TrainingBuddyServiceService {
         return this.collaborativeFiltering(people , email);
 
 
-   
 
-   
-       
+
+
+
     }
     /**
-     * 
-     * @param user 
-     * @returns 
+     *
+     * @param user
+     * @returns
      */
     async login(user:any){
         {
@@ -157,14 +157,14 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param user 
+     *
+     * @param user
      * @returns Response
      */
     async updateUser(user:UpdateUser){
         const users = await this.findOne(user.oldemail)
         const item = new ErrorMessage;
-        let response; 
+        let response;
         if(users){
             if(user.cellNumber){
                 response = await this.repoService.updateCellNumber(user.cellNumber, user.oldemail);
@@ -215,7 +215,7 @@ export class TrainingBuddyServiceService {
             }
             item.message ="failure";
             return item;
-        
+
         }else{
             item.message = "failure"
             return item;
@@ -223,8 +223,8 @@ export class TrainingBuddyServiceService {
 
     }
     /**
-     * 
-     * @param config 
+     *
+     * @param config
      * @return ErrorMessage
      */
     async userConfig(config: Userconfig){
@@ -241,12 +241,12 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param lat1 
-     * @param lon1 
-     * @param lat2 
-     * @param lon2 
-     * @returns distance 
+     *
+     * @param lat1
+     * @param lon1
+     * @param lat2
+     * @param lon2
+     * @returns distance
      */
     async calculatedistance(lat1:number, lon1:number , lat2:number , lon2:number){
         const  R = 6371; // km
@@ -254,28 +254,28 @@ export class TrainingBuddyServiceService {
         const  dLon = this.toRad(lon2-lon1);
         const  latone = this.toRad(lat1);
         const  lattwo = this.toRad(lat2);
-  
+
         const  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo); 
-        const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latone) * Math.cos(lattwo);
+        const  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         const  d = R * c;
         return d;
 
     }
 
     /**
-     * 
-     * @param Value 
+     *
+     * @param Value
      * @returns radians
      */
     toRad(Value):number
     {
         return Value * Math.PI / 180;
     }
-    
+
     /**
-     * 
-     * @param actLog 
+     *
+     * @param actLog
      * @return ErrorMessage
      */
     async activityLog(actLog :ActivityLog ){
@@ -292,16 +292,16 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param userID 
-     * @returns 
+     *
+     * @param userID
+     * @returns
      */
     async getUser(userID:string){
         return this.repoService.getUser(userID)
     }
     /**
-     * 
-     * @param actSchedule 
+     *
+     * @param actSchedule
      * @return ErrorMessage
      */
     async activitySchedule(actSchedule:ActivitySchedule){
@@ -313,15 +313,15 @@ export class TrainingBuddyServiceService {
         }else{
             await this.repoService.scheduleWorkout(actSchedule);
             item.message = "success"
-            //TODO broadcast to all buddies 
+            //TODO broadcast to all buddies
             return item;
         }
-        
+
     }
     /**
-     * 
-     * @param userEmail 
-     * @param otherEmail 
+     *
+     * @param userEmail
+     * @param otherEmail
      * @return ErrorMessage
      */
     async accept(otherEmail: string, userEmail: string) {
@@ -335,12 +335,12 @@ export class TrainingBuddyServiceService {
                 res =  await this.repoService.makeConnection(userEmail, otherEmail);
                 item.message = "Success Connection made"
                 return item;
-            }   
+            }
     }
     /**
-     * 
-     * @param userEmail 
-     * @param otherEmail 
+     *
+     * @param userEmail
+     * @param otherEmail
      * @return ErrorMessage
      */
     async reject(userEmail: string, otherEmail: string) {
@@ -357,10 +357,10 @@ export class TrainingBuddyServiceService {
     }
 
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      * @param otherEmail
-     * @return ErrorMessage 
+     * @return ErrorMessage
      */
     async sendRequest(userEmail: string, otherEmail: string) {
         const user1 = await this.findOne(userEmail);
@@ -384,8 +384,8 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      * @return [ResponseLog]
      */
     async getLogs(userEmail: string) {
@@ -399,8 +399,8 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      * @return [ResponseWorkout]
      */
     async getScheduleWorkout(userEmail: string) {
@@ -414,8 +414,8 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      * @return [ResponseWorkout]
      */
     async getWorkoutHistory(userEmail: string) {
@@ -430,8 +430,8 @@ export class TrainingBuddyServiceService {
         }
     }
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      * @return [userEntities]
      */
     async getConnections(userEmail: string) {
@@ -450,8 +450,8 @@ export class TrainingBuddyServiceService {
     }
 
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      * [userEntities]
      */
     async getOutgoing(userEmail: string) {
@@ -470,8 +470,8 @@ export class TrainingBuddyServiceService {
         else return outgoing;
     }
     /**
-     * 
-     * @param userEmail 
+     *
+     * @param userEmail
      */
     async getIncoming(userEmail: string) {
         const user = await this.findOne(userEmail);
@@ -489,10 +489,10 @@ export class TrainingBuddyServiceService {
         else return outgoing;
     }
     /**
-     * 
-     * @param email 
-     * @param access 
-     * @param refresh 
+     *
+     * @param email
+     * @param access
+     * @param refresh
      * @returns ErrorMessage
      */
     async saveTokens(email:string  , access:string , refresh:string, exp: number, clientId: any, clientSecret : any, id:any){
@@ -509,8 +509,8 @@ export class TrainingBuddyServiceService {
          }
     }
     /**
-     * 
-     * @param email 
+     *
+     * @param email
      * @returns tokens
      */
     async getToken(email:string){
@@ -518,19 +518,19 @@ export class TrainingBuddyServiceService {
         const item = new ErrorMessage;
         if(!user ){
              return item;
-             
+
          }
          else{
             return await this.repoService.getTokens(email)
-          
+
          }
 
 
     }
     /**
-     * 
-     * @param email 
-     * @param startTime 
+     *
+     * @param email
+     * @param startTime
      * @returns ErrorMessage
      */
     async createInvite(email:string , workoutID: string){
@@ -548,17 +548,17 @@ export class TrainingBuddyServiceService {
          }
     }
     /**
-     * 
-     * @param email 
-     * @param receiver 
-     * @param startTime 
+     *
+     * @param email
+     * @param receiver
+     * @param startTime
      * @returns ErrorMessage
      */
     async sendInvite(email:string ,receiver:string ,  workoutID: string){
         const user = await this.findOne(email);
         const item = new ErrorMessage;
         const arr = []
-        arr.push(receiver) 
+        arr.push(receiver)
         if(!user ){
              return item;
          }
@@ -575,11 +575,11 @@ export class TrainingBuddyServiceService {
          }
     }
     /**
-     * 
-     * @param email 
-     * @param sender 
-     * @param startTime 
-     * @returns 
+     *
+     * @param email
+     * @param sender
+     * @param startTime
+     * @returns
      */
     async acceptInvite(email:string ,sender:string ,  workoutID: string){
         const user = await this.findOne(email);
@@ -600,11 +600,11 @@ export class TrainingBuddyServiceService {
          }
     }
     /**
-     * 
-     * @param email 
-     * @param sender 
-     * @param startTime 
-     * @returns 
+     *
+     * @param email
+     * @param sender
+     * @param startTime
+     * @returns
      */
     async rejectInvite(email:string ,sender:string ,  workoutID: string){
         const user = await this.findOne(email);
@@ -625,36 +625,36 @@ export class TrainingBuddyServiceService {
          }
     }
     /**
-     * 
-     * @param email 
-     * @returns 
+     *
+     * @param email
+     * @returns
      */
     async getIncomingInvites(email:string){
        const user = await this.findOne(email);
        if(!user){
             return new Invite;
         }else{
-            return await this.repoService.getIncomingInvites(email)    
+            return await this.repoService.getIncomingInvites(email)
         }
     }
     /**
-     * 
-     * @param email 
-     * @returns 
+     *
+     * @param email
+     * @returns
      */
     async getOutgoingInvites(email:string){
         const user = await this.findOne(email);
         if(!user){
              return new Invite;
          }else{
-             return await this.repoService.getOutgoingInvites(email)    
+             return await this.repoService.getOutgoingInvites(email)
          }
     }
     /**
-     * 
-     * @param userEmail 
-     * @param startTime 
-     * @returns ResponseWorkout 
+     *
+     * @param userEmail
+     * @param startTime
+     * @returns ResponseWorkout
      */
     async getWorkout(userEmail: string , workoutID) {
         const arr =[];
@@ -663,12 +663,12 @@ export class TrainingBuddyServiceService {
             return arr;
         }else{
             return await this.repoService.getWorkout(userEmail,workoutID);
-           
+
         }
     }
     /**
-     * 
-     * @param dataset 
+     *
+     * @param dataset
      * @returns newDataset
      */
     cleanDataset (dataset){
@@ -762,7 +762,7 @@ export class TrainingBuddyServiceService {
     return recommended;
     }
 
-    
+
     async collaborativeFiltering(people: any[]  , email: string){
         if(people.length <=0){
             return people;
@@ -770,7 +770,7 @@ export class TrainingBuddyServiceService {
         recommended = []
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
-        
+
         const newset = this.getFullDatasetFromRecommended(people,recommended)
         const dataset = this.removeUser(newset,email)
         if(dataset.length <=0){
@@ -789,8 +789,8 @@ export class TrainingBuddyServiceService {
         return newDataset;
     }
      /**
-     * 
-     * @param workoutID 
+     *
+     * @param workoutID
      * @returns ErrorMessage
      */
       async completeWorkout(workoutID: string, email: string) {
@@ -816,7 +816,7 @@ export class TrainingBuddyServiceService {
             return item;
         }
     }
-  
+
 
 
 }

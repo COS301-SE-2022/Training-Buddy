@@ -9,6 +9,7 @@ import { pipe, tap } from 'rxjs';
 import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'training-buddy-workout',
   templateUrl: './workout.component.html',
@@ -22,7 +23,7 @@ export class WorkoutComponent implements OnInit {
   participants: any;
   organiser = false;
   isPastWorkout = false;
-  completationStatus = false;
+  complete = false;
 
   constructor(private activated : ActivatedRoute,  private cookieService : CookieService, private apollo : Apollo,  private afStorage: AngularFireStorage, public dialog: MatDialog, private router : Router,private firestore : AngularFirestore){
     this.email = cookieService.get('email');
@@ -31,6 +32,7 @@ export class WorkoutComponent implements OnInit {
   ngOnInit(): void {
     this.activated.params.subscribe((param : any) => {
       this.workoutID = param?.workoutID;
+      console.log(this.workoutID);
       this.getData();
 
     })
@@ -62,11 +64,13 @@ export class WorkoutComponent implements OnInit {
     })
 }
 convertParticipants(curr: any){
-  return{ email: curr.UserEntity.email,
+  return{
+    email: curr.UserEntity.email,
     id: curr.UserEntity.id ,
     userSurname: curr.UserEntity.userSurname,
     image: curr.UserEntity.image,
-    userName:curr.UserEntity.userName
+    userName:curr.UserEntity.userName,
+    rating: curr.UserEntity.rating
   }
 }
 fetchImages2(usr : any) : Promise<any> {
@@ -95,7 +99,7 @@ getOne(email: string){
         userName,
          userSurname,
          id,
-         email
+         email,
        }
        }
        `
@@ -129,20 +133,73 @@ getOne(email: string){
       }`,
     })
   }
+  completeWorkout(){
+    this.apollo.mutate({
+      mutation: gql`
+      mutation{
+        completeWorkout(
+          email:"${ this.email }",
+          workoutID: "${ this.workoutID }",
+        ){
+          message
+        }
+      }`,
+    }).subscribe({
+      next: (data: any) =>{
+        console.log("successfully completed workout");
+        console.log(data);
+        this.addActivity();
+      }
+    });
+
+  }
+  addActivity() {
+    this.apollo
+      .mutate ({
+        mutation: gql`
+        mutation{
+          activityLog(Activitylog:{
+            name : "${this.workout.title}",
+            distance : ${this.workout.proposedDistance},
+            speed: ${this.workout.speed},
+            time : ${this.workout.time},
+            dateCompleted: "${this.workout.startTime.original}",
+            email: "${this.email}",
+            activityType: "${this.workout.activityType}",
+          }){
+            message
+          }
+        }
+        `,
+      }).subscribe({
+        next: (data: any) =>{
+          console.log("successfully added activity");
+          console.log(data);
+          this.router.navigate(['/schedule']);
+        }
+      });
+  }
   getData(){
     this.getWorkout().subscribe({
       next: (data: any) =>{
         this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
-            });
+          // console.log(this.participants);
+        });
         this.workout = this.convertQuery(data.data.getWorkout);
         if(this.workout.organiser === this.email){
           this.organiser = true;
         }
+        console.log(this.workout);
         this.loading = false;
       }
     });
 
+  }
+  toTime(num : string): number{
+    const time = num.split(':');
+    console.log("calucator says: "+(+time[0]) *60 * 60 + (+time[1]) );
+    return Number((+time[0]) *60 * 60 + (+time[1]) *60);
   }
 
   viewProfile(participantid: string){
@@ -158,8 +215,16 @@ getOne(email: string){
       startPoint: data.startPoint,
       proposedDistance: data.proposedDistance,
       proposedDuration: data.proposedDuration,
+      time: this.toTime(data.proposedDuration),
+      speed: this.calculateSpeed(data.proposedDistance, this.toTime(data.proposedDuration)),
 
     }
+  }
+  calculateSpeed(distance: number, time:number) : number {
+    console.log("calculate speed says")
+    console.log(distance);
+    console.log(time);
+    return Number(distance / time);
   }
   fetchImages(data : any[], completeStatus : any []) : Promise<any> {
     return new Promise<any>((res, rej) => {
@@ -174,7 +239,7 @@ getOne(email: string){
              const image = {image : url};
              const complete = {complete : completeStatus[i]};
              if(usr.email === this.email){
-                this.completationStatus = completeStatus[i];
+                this.complete = completeStatus[i];
               }
              const p = {
                ...usr,
@@ -201,6 +266,7 @@ getOne(email: string){
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     return{
+      original: Number(data),
       day: date.getDate(),
       month:  months[date.getMonth()],
       year: date.getFullYear(),

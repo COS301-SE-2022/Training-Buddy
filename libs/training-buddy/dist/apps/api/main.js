@@ -883,6 +883,10 @@ let UserEntity = class UserEntity {
     (0, graphql_1.Field)({ nullable: true }),
     (0, tslib_1.__metadata)("design:type", Number)
 ], UserEntity.prototype, "distance", void 0);
+(0, tslib_1.__decorate)([
+    (0, graphql_1.Field)({ nullable: true }),
+    (0, tslib_1.__metadata)("design:type", Number)
+], UserEntity.prototype, "rating", void 0);
 UserEntity = (0, tslib_1.__decorate)([
     (0, graphql_1.ObjectType)()
 ], UserEntity);
@@ -1746,8 +1750,21 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     login(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             return this.usersCollection.where('email', '==', email).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-                if (result.docs[0])
-                    return result.docs[0].data();
+                if (result.docs[0]) {
+                    let total = 0;
+                    const person = result.docs[0].data();
+                    if (person.ratings.length > 0) {
+                        person.ratings.forEach(element => {
+                            total += element;
+                        });
+                        person.rating = Math.round(total / person.ratings.length);
+                    }
+                    else {
+                        person.rating = 0;
+                    }
+                    return person;
+                }
+                ;
                 return false;
             }));
         });
@@ -1933,7 +1950,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             return this.usersCollection.where('email', '==', email).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
                 if (result.docs[0])
-                    return this.usersCollection.doc(result.docs[0].id).update({ rating: this.arrayUnion(rating) }).then(results => {
+                    return this.usersCollection.doc(result.docs[0].id).update({ ratings: this.arrayUnion(rating) }).then(results => {
                         return true;
                     });
                 return false;
@@ -2376,7 +2393,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     }
     //connections - UPDATE (metric)
     //TODO: implement
-    //connections - DELETE 
+    //connections - DELETE
     deleteConnection(user1, user2) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             return this.buddyConnectionsCollection.where('user1', '==', user1).where('user2', '==', user2).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
@@ -3142,26 +3159,37 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
         this.repoService = repoService;
         this.user = user;
     }
-    // async sendEmail(email : string , user : UserEntity) {
-    //     const apiKey = `${process.env.SENDGRID_API_KEY}`;
-    //     console.log(apiKey)
-    //     SendGrid.setApiKey(apiKey);
-    //     const mail = {
-    //         to: email,
-    //         subject: 'Activity Invite From '+ user.userName ,
-    //         from: 'trainingbuddy2022@gmail.com',
-    //         text: 'Hello you have been invited to a work out by ' + user.userName,
-    //         html: '<h1>Hello World from NestJS Sendgrid</h1>'
-    //     }
-    //     SendGrid.
-    //     send(mail)
-    //     .then(() => {
-    //         console.log('Email sent')
-    //     })
-    //     .catch((error) => {
-    //         console.error(error)
-    //     })
-    // }
+    sendEmail(email, user) {
+        return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            const SibApiV3Sdk = yield Promise.resolve().then(() => __webpack_require__("sib-api-v3-sdk"));
+            const defaultClient = SibApiV3Sdk.ApiClient.instance;
+            const apiKey = defaultClient.authentications['api-key'];
+            apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+            const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+            let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
+            const rec = yield this.findOne(email);
+            sendSmtpEmail = {
+                to: [{
+                        email: email,
+                        name: rec.userName
+                    }],
+                templateId: 1,
+                params: {
+                    name: 'John',
+                    surname: 'Doe'
+                },
+                headers: {
+                    'X-Mailin-custom': 'custom_header_1:custom_value_1|custom_header_2:custom_value_2'
+                }
+            };
+            apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+                //console.log('API called successfully. Returned data: ' + data);
+                return data;
+            }, function (error) {
+                console.error(error);
+            });
+        });
+    }
     /**
      *
      * @param email
@@ -3197,7 +3225,10 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                     person.ratings.forEach(element => {
                         total += element;
                     });
-                    person.ratings = total / person.ratings.length;
+                    person.rating = Math.round(total / person.ratings.length);
+                }
+                else {
+                    person.rating = 0;
                 }
             }
             return person;
@@ -3433,7 +3464,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             else {
                 yield this.repoService.scheduleWorkout(actSchedule);
                 item.message = "success";
-                //TODO broadcast to all buddies 
+                //TODO broadcast to all buddies
                 return item;
             }
         });
@@ -3709,7 +3740,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 const val = yield this.repoService.sendInvite(email, arr, workoutID);
                 if (val) {
                     item.message = "Success";
-                    // this.sendEmail(email , user);
+                    this.sendEmail(receiver, user);
                     return item;
                 }
                 else {
@@ -4157,6 +4188,13 @@ module.exports = require("passport-local");
 /***/ ((module) => {
 
 module.exports = require("rxjs");
+
+/***/ }),
+
+/***/ "sib-api-v3-sdk":
+/***/ ((module) => {
+
+module.exports = require("sib-api-v3-sdk");
 
 /***/ }),
 
