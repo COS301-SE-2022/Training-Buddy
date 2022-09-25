@@ -40,55 +40,40 @@ describe('TrainingBuddyApiResolver', () => {
    * Test @Mutation signup
    */
   describe('signup', () => {
-    it('should return a user', async () => {
+    it('should allow user to signup', () => {
 
-      //Mock implementation of function
-      const mockSignup = jest.fn().mockImplementation((user: UserDto) => {
-        return new Promise((resolve, reject) => {
-          resolve({
-            email: 'tester@gmail.com',
-            password: 'password',
-            userName: '',
-            userSurname: '',
-            location: '',
-            longitude: 0,
-            latitude: 0,
-            stravaToken: '',
-            gender: '',
-            dob: '',
-            cellNumber: ''
-          });
-        });
+      const mockTrainingBuddyService = {
+        signup: jest.fn().mockImplementation((user: UserEntity) => {
+          return user;
+        })
+      }
+
+      const mockUserDto: UserDto = {
+        email: "tester@gmail.com",
+        password: "password",
+        userName: 'testerName',
+        userSurname: 'testerSurname',
+        location: 'Hatfield',
+        longitude: 0,
+        latitude: 0,
+        stravaToken: '',
+        gender: 'M',
+        dob: '1990-01-01',
+        cellNumber: '0123456789'
+      };
+
+      
+      resolver = new TrainingBuddyApiResolver(mockTrainingBuddyService as any);
+
+      const trainingBuddyService = resolver['trainingBuddyService'];
+
+      const result = trainingBuddyService.signup(mockUserDto);
+
+      const promise = new Promise((resolve) => {
+        resolve(result);
       });
 
-
-      // const user: UserDto = {
-      //   email: 'tester@gmail.com',
-      //   password: 'password',
-      //   userName: '',
-      //   userSurname: '',
-      //   location: '',
-      //   longitude: 0,
-      //   latitude: 0,
-      //   stravaToken: '',
-      //   gender: '',
-      //   dob: '',
-      //   cellNumber: ''
-      // };
-
-      // const result = resolver.signup(user);
-
-      // const trainingBuddyService = resolver['trainingBuddyService'];
-
-      // trainingBuddyService.signup(user).then((user) => {
-      //   expect(user).resolves.toEqual(result);
-      // });
-
-
-      // expect(result).resolves.toEqual(user);
-
-      expect(true).toEqual(true);
-
+      expect(promise).resolves.toEqual(mockUserDto);
 
     });
 
