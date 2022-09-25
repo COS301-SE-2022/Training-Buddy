@@ -16,7 +16,7 @@ export class LogoComponent implements OnInit {
   blck = false;
 
   constructor() {
-    this.height = 100;
+    this.height = 50;
     return;
   }
   
