@@ -2457,12 +2457,9 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                     const data = result.docs[0].data();
                     const users = [];
                     const completeVals = [];
-                    yield data.participants.forEach((user) => {
-                        this.login(user.email).then((curr) => {
-                            users.push(curr);
-                            completeVals.push(curr.complete);
-                            completeVals.push(curr.complete);
-                        });
+                    data.participants.forEach((user) => {
+                        users.push(this.login(user.email));
+                        completeVals.push(user.complete);
                     });
                     data.participants = users;
                     data.complete = completeVals;

@@ -750,16 +750,13 @@ export class ApiInternalApiRepositoryDataAccessService {
 
                 const users = [] ;
                 const completeVals = [] ;
-                await data.participants.forEach((user) => { 
-                    this.login(user.email).then((curr) =>{
-                        users.push(curr) ;
-                        completeVals.push(curr.complete) ;
-                    completeVals.push(curr.complete)
-                    })
+                data.participants.forEach((user) => { 
+                    users.push(this.login(user.email)) ;
+                    completeVals.push(user.complete) ;
                 })
+
                 data.participants = users ;
                 data.complete = completeVals ;
-
                 return data ;
                 //return result.docs[0].data() ;
             } 
