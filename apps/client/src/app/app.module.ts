@@ -33,25 +33,25 @@ const firebase = {
   measurementId: 'G-K7WPZTL3FJ'
 }
 
-import { initializeApp } from "firebase/app";
-import { getPerformance } from "firebase/performance";
+// import { initializeApp } from "firebase/app";
+// import { getPerformance } from "firebase/performance";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM",
-  authDomain: "training-buddy-2022.firebaseapp.com",
-  databaseURL: "https://training-buddy-2022-default-rtdb.firebaseio.com",
-  projectId: "training-buddy-2022",
-  storageBucket: "training-buddy-2022.appspot.com",
-  messagingSenderId: "445917436",
-  appId: "1:445917436:web:a79e84196f2d8e48100f79",
-  measurementId: "G-K7WPZTL3FJ"
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyD_61N0OLPsfAKHoawzDtIExK_BU3GR6hM",
+//   authDomain: "training-buddy-2022.firebaseapp.com",
+//   databaseURL: "https://training-buddy-2022-default-rtdb.firebaseio.com",
+//   projectId: "training-buddy-2022",
+//   storageBucket: "training-buddy-2022.appspot.com",
+//   messagingSenderId: "445917436",
+//   appId: "1:445917436:web:a79e84196f2d8e48100f79",
+//   measurementId: "G-K7WPZTL3FJ"
+// };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
 
-// Initialize Performance Monitoring and get a reference to the service
-const perf = getPerformance(app);
+// // Initialize Performance Monitoring and get a reference to the service
+// const perf = getPerformance(app);
 
 @NgModule({
   declarations: [AppComponent,
