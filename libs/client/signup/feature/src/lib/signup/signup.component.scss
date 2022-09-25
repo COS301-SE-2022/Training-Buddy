@@ -11,6 +11,9 @@ mat-grid-list {
     height: 100vw;
     max-height: 90vh;
     min-height: 800px;
+
+    position: relative;
+    top: 4%;
 }
 
 @media (max-width: 300px) {
@@ -25,13 +28,93 @@ mat-grid-list {
     }
 }
 
+.flex {
+    display: flex;
+}
+
+.row {
+    flex-direction: row !important;
+}
+
 mat-card {
-    width: 90vw;
+    // width: 90vw;
+    // max-width: 400px;
+    height: auto;
+    box-shadow: none !important;
+    border-radius: 0px 10px 10px 0px;
+    // background-color: green;
+}
+
+#imagecard {
+    height: 100%;
+    width: 100%;
+    // background-color: grey;
+    border-radius: 10px 0px 0px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 1150px) {
+
+    mat-card {
+        box-shadow: none !important;
+        border-radius: 10px;
+    }
+
+    #visual {
+        display: none !important;
+    }
+
+    #logomobile {
+        display: block !important;
+        margin-top: 5%;
+    }
+
+}
+
+#logodesktop {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: auto !important;
+    // margin-bottom: 5% !important;
+}
+
+#logomobile {
+    display: none;
+}
+
+.flex-center-content {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#contentcard {
+    width: 600px;
+}
+
+#logodesktop {
+    width: 600px !important;
+}
+
+#form {
     max-width: 400px;
+    width: 80vw !important;
+    border-radius: 10px;
+}
+
+#visual {
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px 0px 0px 10px;
+    max-height: 703px;
 }
 
 .text-center {
     text-align: center;
+    margin-top: 2%;
 }
 
 .submitButton {
@@ -88,14 +171,17 @@ mat-form-field {
 
 p {
     font-size: 12px !important;
+    margin-bottom: 0px !important;
 }
 
 .fullhint {
     width: 100% !important;
 }
 
-#background {
-    height: 100vh !important;
+#background, #back {
+    width: 100vw !important;
+    height: 100%;
+    object-fit: cover;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -106,4 +192,57 @@ mat-error {
 
 mat-hint {
     text-align: right !important;
+}
+
+#description{
+    width: 70%;
+    opacity: 0.7;
+    // margin-top: 20% !important;
+    // border: 5px solid gray;
+    margin: 0 auto;
+    text-align: center;
+    word-wrap: normal;
+    font-size: medium;
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#rule {
+    // margin-top: 5%;
+    // margin-bottom: 5%;
+    width: 80%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#strava {
+    width: 100%;
+    height: 445px !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#stravainfo {
+    // width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#stravalogo {
+    // height : 150px;
+    // margin-left: auto;
+    // margin-right: auto;
+    height: 630px !important
+}
+
+#devices {
+    background-image: url("./deviceview.png");
+    object-fit: cover;
+    background-repeat: no-repeat;
+    width: 550px !important;
+    height: 440px !important;
+    transform: scale(0.7);
 }

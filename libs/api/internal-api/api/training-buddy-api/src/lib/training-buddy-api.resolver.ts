@@ -208,8 +208,8 @@ export class TrainingBuddyApiResolver {
      * @returns 
      */
     @Mutation(()=>ErrorMessage)
-    completeWorkout(@Args("workoutID")workoutID:string){
-        return this.trainingBuddyService.completeWorkout(workoutID);
+    completeWorkout(@Args("workoutID")workoutID:string, @Args("email")email:string){
+        return this.trainingBuddyService.completeWorkout(workoutID,email);
     }
     /**
      * 
