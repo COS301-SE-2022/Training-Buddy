@@ -47,7 +47,7 @@ export class WorkoutComponent implements OnInit {
         if(curr.id === this.workoutID){
           const participants :any=[]
           curr.participants.map((el:any)=>{
-            this.getOne(el).subscribe({
+            this.getOne(el.email).subscribe({
               next: (data: any) =>{
                 this.fetchImages2(data.data.getOne).then((output : any) => {
                   participants.push(output);
