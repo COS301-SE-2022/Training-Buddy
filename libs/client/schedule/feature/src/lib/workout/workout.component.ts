@@ -184,12 +184,13 @@ getOne(email: string){
       next: (data: any) =>{
         this.fetchImages(data.data.getWorkout.participants, data.data.getWorkout.complete).then((output : any[]) => {
           this.participants = output;
-          console.log(this.participants);
+          // console.log(this.participants);
         });
         this.workout = this.convertQuery(data.data.getWorkout);
         if(this.workout.organiser === this.email){
           this.organiser = true;
         }
+        console.log(this.workout);
         this.loading = false;
       }
     });
@@ -197,8 +198,8 @@ getOne(email: string){
   }
   toTime(num : string): number{
     const time = num.split(':');
-    console.log("calucator says: "+(+time[0]) * 60 + (+time[1]) );
-    return Number(+time[0]) * 60 + (+time[1]) * 60 + (+time[2]);
+    console.log("calucator says: "+(+time[0]) *60 * 60 + (+time[1]) );
+    return Number((+time[0]) *60 * 60 + (+time[1]) *60);
   }
 
   viewProfile(participantid: string){
@@ -220,7 +221,10 @@ getOne(email: string){
     }
   }
   calculateSpeed(distance: number, time:number) : number {
-    return distance / time;
+    console.log("calculate speed says")
+    console.log(distance);
+    console.log(time);
+    return Number(distance / time);
   }
   fetchImages(data : any[], completeStatus : any []) : Promise<any> {
     return new Promise<any>((res, rej) => {
