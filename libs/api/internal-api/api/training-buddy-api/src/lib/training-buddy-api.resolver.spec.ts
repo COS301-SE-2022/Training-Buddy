@@ -76,8 +76,38 @@ describe('TrainingBuddyApiResolver', () => {
       expect(promise).resolves.toEqual(mockUserDto);
 
     });
+  });  
 
+  /**
+   * Test login function
+   */
+  describe('login', () => {
+    it('should allow user to login', () => {
+        
+        const mockTrainingBuddyService = {
+          login: jest.fn().mockImplementation((user: LoginInput) => {
+            return user;
+          })
+        }
+  
+        const mockLoginInput: LoginInput = {
+          username: "Tester",
+          password: "Test123*"
+        }
 
-  });    
+        resolver = new TrainingBuddyApiResolver(mockTrainingBuddyService as any);
+
+        const trainingBuddyService = resolver['trainingBuddyService'];
+
+        const result = trainingBuddyService.login(mockLoginInput);
+
+        const promise = new Promise((resolve) => {
+          resolve(result);
+        });
+
+        expect(promise).resolves.toEqual(mockLoginInput);
+
+      });
+  });
 
 });
