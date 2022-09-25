@@ -275,9 +275,23 @@ export class AthleteprofileComponent implements OnInit {
     return this.apollo
       .mutate ({
         mutation: gql`
+        mutation{
+          userConfig(userConfig:{
+            email : "${email}",
+            distance : ${distance},
+            riding: ${this.rideRating},
+            running: ${this.runRating},
+            swimming: ${this.swimRating},
+            weightLifting: ${this.liftRating},
+            bio: "${bio}",
+          }){
+            message
+          }
+        }
 
         `,
       });
+      
   }
 
   setProfile(email : string, bio : string , distance: number ) {
