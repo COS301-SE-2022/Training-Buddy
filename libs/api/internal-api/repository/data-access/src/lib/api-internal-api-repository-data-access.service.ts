@@ -65,7 +65,20 @@ export class ApiInternalApiRepositoryDataAccessService {
 
     async login(@Param() email: string):Promise<any>{
         return this.usersCollection.where('email', '==', email).get().then(async (result) =>{
-            if(result.docs[0]) return result.docs[0].data() ;
+            if(result.docs[0]){
+                let total = 0 ;
+                const person = result.docs[0].data();
+                if(person.ratings.length > 0){
+                    person.ratings.forEach(element => {
+                        total += element;
+                    });
+                    person.rating = Math.round(total/person.ratings.length);
+                }
+                else{
+                    person.rating = 0;
+                }
+                return person ;
+            } ;
             return false ;
         });
     }

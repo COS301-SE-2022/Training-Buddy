@@ -1750,8 +1750,21 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
     login(email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             return this.usersCollection.where('email', '==', email).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-                if (result.docs[0])
-                    return result.docs[0].data();
+                if (result.docs[0]) {
+                    let total = 0;
+                    const person = result.docs[0].data();
+                    if (person.ratings.length > 0) {
+                        person.ratings.forEach(element => {
+                            total += element;
+                        });
+                        person.rating = Math.round(total / person.ratings.length);
+                    }
+                    else {
+                        person.rating = 0;
+                    }
+                    return person;
+                }
+                ;
                 return false;
             }));
         });
@@ -3196,17 +3209,6 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             let total = 0;
             const person = yield this.repoService.login(email);
-            if (person) {
-                if (person.ratings.length > 0) {
-                    person.ratings.forEach(element => {
-                        total += element;
-                    });
-                    person.rating = Math.round(total / person.ratings.length);
-                }
-                else {
-                    person.rating = 0;
-                }
-            }
             return person;
         });
     }

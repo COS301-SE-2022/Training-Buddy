@@ -65,17 +65,6 @@ export class TrainingBuddyServiceService {
         let total = 0;
 
         const person =  await this.repoService.login(email);
-        if(person){
-            if(person.ratings.length > 0){
-                    person.ratings.forEach(element => {
-                        total += element;
-                });
-                person.rating = Math.round(total/person.ratings.length);
-            }
-            else{
-                person.rating = 0;
-            }
-        }
         return person;
     }
     /**
