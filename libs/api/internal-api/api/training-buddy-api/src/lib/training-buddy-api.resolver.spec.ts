@@ -14,6 +14,7 @@ import {
 
 import { resourceLimits } from 'worker_threads';
 import { resolve } from 'path';
+import e = require('express');
 
 
 describe('TrainingBuddyApiResolver', () => {
@@ -34,5 +35,64 @@ describe('TrainingBuddyApiResolver', () => {
   it('should be defined', () => {
     expect(resolver).toBeDefined();
   });
+
+  /**
+   * Test @Mutation signup
+   */
+  describe('signup', () => {
+    it('should return a user', async () => {
+
+      //Mock implementation of function
+      const mockSignup = jest.fn().mockImplementation((user: UserDto) => {
+        return new Promise((resolve, reject) => {
+          resolve({
+            email: 'tester@gmail.com',
+            password: 'password',
+            userName: '',
+            userSurname: '',
+            location: '',
+            longitude: 0,
+            latitude: 0,
+            stravaToken: '',
+            gender: '',
+            dob: '',
+            cellNumber: ''
+          });
+        });
+      });
+
+
+      // const user: UserDto = {
+      //   email: 'tester@gmail.com',
+      //   password: 'password',
+      //   userName: '',
+      //   userSurname: '',
+      //   location: '',
+      //   longitude: 0,
+      //   latitude: 0,
+      //   stravaToken: '',
+      //   gender: '',
+      //   dob: '',
+      //   cellNumber: ''
+      // };
+
+      // const result = resolver.signup(user);
+
+      // const trainingBuddyService = resolver['trainingBuddyService'];
+
+      // trainingBuddyService.signup(user).then((user) => {
+      //   expect(user).resolves.toEqual(result);
+      // });
+
+
+      // expect(result).resolves.toEqual(user);
+
+      expect(true).toEqual(true);
+
+
+    });
+
+
+  });    
 
 });
