@@ -685,7 +685,7 @@ describe('getUser', () => {
 describe('completeWorkout', () => {
   it('should complete workout', async () => {
     jest.spyOn(service, 'completeWorkout').mockImplementation(service.completeWorkout);
-    expect(async () => service.completeWorkout (ResponseWorkoutModule.id)).toReturn;
+    expect(async () => service.completeWorkout (ResponseWorkoutModule.id,UserDtoModule.email)).toReturn;
   });
 })
 

@@ -750,13 +750,13 @@ export class ApiInternalApiRepositoryDataAccessService {
 
                 const users = [] ;
                 const completeVals = [] ;
-                data.participants.forEach((user) => {                    
-                    users.push(this.login(user.email));
-                    completeVals.push(this.login(user.complete)) ;
+                data.participants.forEach((user) => { 
+                    users.push(this.login(user.email)) ;
+                    completeVals.push(user.complete) ;
                 })
+
                 data.participants = users ;
                 data.complete = completeVals ;
-
                 return data ;
                 //return result.docs[0].data() ;
             } 
@@ -858,11 +858,13 @@ export class ApiInternalApiRepositoryDataAccessService {
     }
 
     //complete a workout
-    async completeWorkout(@Param() workoutID: string){
+    async completeWorkout(@Param() workoutID: string, @Param() email: string){
         //change status to complete
         if(workoutID != null){
             return this.scheduledWorkoutCollection.where("id", "==", workoutID).get().then(async (result) => {
-                return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({complete: true})
+                return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({participants: this.arrayRemove({'email': email, 'complete': false})}).then(results => {
+                    return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({participants: this.arrayUnion({'email': email, 'complete': true})}) ;
+                })
             }); 
         }
 

@@ -7,6 +7,14 @@ hr.line{
     height: 3px;
 }
 
+.login {
+    margin-right: 8px;
+}
+
+.signup {
+    margin-left: 8px;
+}
+
 #footer{
     margin-top: 50px;
 }
@@ -104,14 +112,20 @@ mat-card-title{
 
 .mat-raised-button {
     width: 150px !important;
-    background-color: rgb(2, 184, 187);
+    background-color: #06b6d4;
     transition: transform .1s;
 }
 
-.mat-raised-button:hover{
-    transform: scale(1.1);
-}
+// .mat-raised-button:hover{
+//     transform: scale(1.1);
+// }
 
+#linksbuttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
 
 .flex{
     display: flex;
@@ -187,7 +201,7 @@ mat-card-title{
 @media (max-width: 600px) {
 
     .bannerabout {
-        width: 70%;
+        width: 90%;
     }
 
 }
@@ -211,4 +225,21 @@ mat-card-title{
     //     transform: scale(0.4);
     // }
 
+}
+
+@media (max-width: 335px) {
+    #linksbuttons {
+        flex-direction: column;
+        width: 100%;
+        align-content: center;
+    }
+
+    .login {
+        margin-right : 0px;
+        margin-bottom: 8px;
+    }
+
+    .signup {
+        margin-left: 0px;
+    }
 }

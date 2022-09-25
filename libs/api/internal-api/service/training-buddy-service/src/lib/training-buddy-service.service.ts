@@ -783,8 +783,8 @@ export class TrainingBuddyServiceService {
      * @param workoutID 
      * @returns ErrorMessage
      */
-      async completeWorkout(workoutID: string) {
-        const val = await this.repoService.completeWorkout(workoutID);
+      async completeWorkout(workoutID: string, email: string) {
+        const val = await this.repoService.completeWorkout(workoutID, email);
         const item = new ErrorMessage;
        if(val==null) {
            item.message = "failure"

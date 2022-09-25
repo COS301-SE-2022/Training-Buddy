@@ -1166,8 +1166,8 @@ let TrainingBuddyApiResolver = class TrainingBuddyApiResolver {
      * @param workoutID
      * @returns
      */
-    completeWorkout(workoutID) {
-        return this.trainingBuddyService.completeWorkout(workoutID);
+    completeWorkout(workoutID, email) {
+        return this.trainingBuddyService.completeWorkout(workoutID, email);
     }
     /**
      *
@@ -1464,8 +1464,9 @@ let TrainingBuddyApiResolver = class TrainingBuddyApiResolver {
 (0, tslib_1.__decorate)([
     (0, graphql_1.Mutation)(() => data_access_1.ErrorMessage),
     (0, tslib_1.__param)(0, (0, graphql_1.Args)("workoutID")),
+    (0, tslib_1.__param)(1, (0, graphql_1.Args)("email")),
     (0, tslib_1.__metadata)("design:type", Function),
-    (0, tslib_1.__metadata)("design:paramtypes", [String]),
+    (0, tslib_1.__metadata)("design:paramtypes", [String, String]),
     (0, tslib_1.__metadata)("design:returntype", void 0)
 ], TrainingBuddyApiResolver.prototype, "completeWorkout", null);
 (0, tslib_1.__decorate)([
@@ -2458,7 +2459,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                     const completeVals = [];
                     data.participants.forEach((user) => {
                         users.push(this.login(user.email));
-                        completeVals.push(this.login(user.complete));
+                        completeVals.push(user.complete);
                     });
                     data.participants = users;
                     data.complete = completeVals;
@@ -2569,12 +2570,14 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
         });
     }
     //complete a workout
-    completeWorkout(workoutID) {
+    completeWorkout(workoutID, email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             //change status to complete
             if (workoutID != null) {
                 return this.scheduledWorkoutCollection.where("id", "==", workoutID).get().then((result) => (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-                    return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({ complete: true });
+                    return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({ participants: this.arrayRemove({ 'email': email, 'complete': false }) }).then(results => {
+                        return this.scheduledWorkoutCollection.doc(result.docs[0].id).update({ participants: this.arrayUnion({ 'email': email, 'complete': true }) });
+                    });
                 }));
             }
         });
@@ -2899,8 +2902,9 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
 ], ApiInternalApiRepositoryDataAccessService.prototype, "getOutgoingInvites", null);
 (0, tslib_1.__decorate)([
     (0, tslib_1.__param)(0, (0, common_1.Param)()),
+    (0, tslib_1.__param)(1, (0, common_1.Param)()),
     (0, tslib_1.__metadata)("design:type", Function),
-    (0, tslib_1.__metadata)("design:paramtypes", [String]),
+    (0, tslib_1.__metadata)("design:paramtypes", [String, String]),
     (0, tslib_1.__metadata)("design:returntype", Promise)
 ], ApiInternalApiRepositoryDataAccessService.prototype, "completeWorkout", null);
 ApiInternalApiRepositoryDataAccessService = (0, tslib_1.__decorate)([
@@ -3945,9 +3949,9 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
     * @param workoutID
     * @returns ErrorMessage
     */
-    completeWorkout(workoutID) {
+    completeWorkout(workoutID, email) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-            const val = yield this.repoService.completeWorkout(workoutID);
+            const val = yield this.repoService.completeWorkout(workoutID, email);
             const item = new data_access_1.ErrorMessage;
             if (val == null) {
                 item.message = "failure";
