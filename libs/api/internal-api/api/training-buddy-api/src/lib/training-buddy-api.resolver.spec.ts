@@ -75,6 +75,8 @@ describe('TrainingBuddyApiResolver', () => {
 
       expect(promise).resolves.toEqual(mockUserDto);
 
+      expect(resolver.signup).toReturn;
+
     });
   });  
 
@@ -106,6 +108,8 @@ describe('TrainingBuddyApiResolver', () => {
         });
 
         expect(promise).resolves.toEqual(mockLoginInput);
+
+        expect(resolver.login).toReturn;
 
       });
   });
