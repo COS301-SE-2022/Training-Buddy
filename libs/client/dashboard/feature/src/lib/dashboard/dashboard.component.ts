@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
     return this.requests == null;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
     //bind to the current user
     this.firestore
@@ -119,7 +119,7 @@ export class DashboardComponent implements OnInit {
       .valueChanges()
       .subscribe((inRequests : any) => {
 
-        this.requests = [];
+        // this.requests = [];
         this.pendingrequests = false;
 
         //get the users the requests came from:
@@ -130,17 +130,10 @@ export class DashboardComponent implements OnInit {
 
           inRequests.forEach((req : any) => {
             
-            this.firestore
-            .collection('Users', ref => ref.where('email', '==', req.sender))
-            .valueChanges()
-            .subscribe((incomingUsrs : any) => {
-              this.requests = [];
-              incomingUsrs.forEach((usr : any) => {
-                this.fetchSingleImage(usr).then((imgUsr : any) => {
-                  this.requests.push(imgUsr);
-                }); 
-              });
-            })
+            this.test(req).then((qback) => {
+              this.requests.push(qback);
+            });
+
           })
 
         }
@@ -155,6 +148,25 @@ export class DashboardComponent implements OnInit {
         this.outgoingRequests = outgoing;
       });
 
+  }
+
+  test(req : any) {
+    return new Promise<any>((res, rej) => {
+
+      this.firestore
+              .collection('Users', ref => ref.where('email', '==', req.sender))
+              .valueChanges()
+              .subscribe((incomingUsrs : any) => {
+                console.log('test ran')
+                this.requests = [];
+                incomingUsrs.forEach((usr : any) => {
+                  this.fetchSingleImage(usr).then((imgUsr : any) => {
+                    // this.requests.push(imgUsr);
+                    res(imgUsr);
+                  }); 
+                });
+              });
+    });
   }
 
   fetchSingleImage(usr : any) : Promise<any> {
