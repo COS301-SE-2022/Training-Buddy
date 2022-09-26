@@ -27,7 +27,7 @@ import { tap } from 'rxjs';
         ]))
         ]),
         transition(':leave', [
-          
+
         ])
       ]
     ),
@@ -46,7 +46,7 @@ import { tap } from 'rxjs';
         ]))
         ]),
         transition(':leave', [
-          
+
         ])
       ]
     ),
@@ -105,19 +105,19 @@ export class ViewprofilepageComponent implements OnInit {
 
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
-    
-    
-  } 
+
+
+  }
 
   changeProfile(id : string) {
     this.logsLoaded = false;
     this.buddiesLoaded = false;
     this.buddyCount = 0;
     this.activityCount = 0;
-    
+
     this.loading = true;
     // const id = this.cookie.get('id');
-    
+
     this.router.navigate([`/profile/${id}`]);
   }
 
@@ -137,7 +137,7 @@ export class ViewprofilepageComponent implements OnInit {
       this.id = routerid
       if (routerid == null)
         this.id = this.cookie.get('id');
-        
+
 
     this.getCurrentUser().subscribe({
       next: (data : any) => {
@@ -215,7 +215,7 @@ export class ViewprofilepageComponent implements OnInit {
     })
    }
 
-  
+
   getCurrentUser() {
     return this.apollo
     .query({
@@ -240,17 +240,17 @@ export class ViewprofilepageComponent implements OnInit {
       `,
       // //pollInterval: 25000
     })
-    
+
   }
 
   getActivityLogs(email : string) {
     return this.apollo
       .query ({
         query: gql`query{getLogs(
-          email:"${ email }" 
+          email:"${ email }"
         ){
           user,
-          activityType, 
+          activityType,
           dateComplete,
           distance,
           name,
@@ -261,7 +261,7 @@ export class ViewprofilepageComponent implements OnInit {
         `,
       })
   }
-  
+
   getBuddies(email : string) {
     return this.apollo
     .query({
@@ -290,6 +290,7 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   convertToCard(data : any) : any {
+    console.log('data', data);
     const date = new Date(data.dateComplete);
     return {
       name: data.name,
@@ -302,11 +303,11 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   type(data : string) : string {
-    if (data == 'Running') 
+    if (data == 'run')
       return 'Run';
-    if (data == 'Riding')
+    if (data == 'ride')
       return 'Ride';
-    if (data == 'Swimming')
+    if (data == 'swim')
       return 'Swim';
     return 'Weights';
   }
