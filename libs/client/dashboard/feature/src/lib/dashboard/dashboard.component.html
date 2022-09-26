@@ -59,16 +59,18 @@
 
                         <div class="md:flex cursor">
                             <div class="md:shrink-0">
-                                <img routerLink="/profile/{{usr.id}}" class="h-48 w-full object-cover md:h-full md:w-48" src={{usr.image}}>
+                                <img routerLink="/profile/{{usr.id}}" class="h-48 w-full profileimagemax object-cover md:h-full md:w-48" src={{usr.image}}>
                             </div>
 
-                            <div class="mb-2 px-4 pb-4 pt-2 mt-2 card-c">
-                                <div class="acceptTitle">
-                                    <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p>
-
+                            <div class="mb-2 px-4 pb-4 pt-2 mt-2 card-c ucard">
+                                <div>
+                                    <div class="acceptTitle">
+                                        <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p>
+    
+                                    </div>
+                                    <div class="tracking-wide text-xs font-semibold"><p>{{ usr.location }}</p></div>
+                                    <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
                                 </div>
-                                <div class="tracking-wide text-xs font-semibold"><p>{{ usr.location }}</p></div>
-                                <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
 
                                 <div class="grid grid-cols-2 mt-2">
                                     <div class="flex request-buttons">
@@ -83,7 +85,6 @@
                                 </div>
 
                             </div>
-
                         </div>
 
                     </div>
