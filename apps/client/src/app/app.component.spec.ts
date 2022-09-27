@@ -59,27 +59,6 @@ describe('AppComponent', () => {
     });
   });
 
-
-
-  /**
-   * Test can activate function
-   */
-  describe('canActivate', () => {
-    it('should return router login', () => {
-
-      const auth = TestBed.inject(AuthGaurdService);
-      const router: Router = TestBed.inject(Router);
-      let result = router.navigate(['/']);
-
-      auth.state = false; 
-      
-      auth.canActivate();
-
-      expect(result).toEqual(router.navigate(['/login']));
-
-    });
-  });
-
   /**
    * Test logIn function
    */
