@@ -118,7 +118,7 @@ export class DashboardComponent implements OnInit {
       .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
       .valueChanges()
       .subscribe((inRequests : any) => {
-
+        console.log('inRequests', inRequests);
         // this.requests = [];
         this.pendingrequests = false;
 

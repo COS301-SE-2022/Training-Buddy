@@ -16,7 +16,7 @@ hr.line{
 }
 
 #footer{
-    margin-top: 50px;
+    // margin-top: 50px;
 }
 
 #epiuseLogo{
@@ -244,7 +244,8 @@ mat-card-title{
 }
 
 #mockui {
-    height: 30vh;
+    // height: 30vh;
+    height: 300px;
     min-width: 388px;
 }
 
@@ -253,8 +254,8 @@ mat-card-title{
 }
 
 #systeminfo {
-    height: 50vh;
-
+    // height: 55vh;
+    min-height: 534px !important;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -296,7 +297,7 @@ mat-card-title{
     text-align: justify;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1200px) {
 
     #systeminfo {
         flex-direction: column;
