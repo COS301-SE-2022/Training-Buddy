@@ -1856,7 +1856,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                     //     valid = false ;
                     // }
                     if (valid) {
-                        const date = new Date(activity.start_date);
+                        const date = Math.floor(new Date(activity.start_date).getTime() / 1000);
                         //console.log(activity) ;
                         const log = {
                             id: activity.id,
