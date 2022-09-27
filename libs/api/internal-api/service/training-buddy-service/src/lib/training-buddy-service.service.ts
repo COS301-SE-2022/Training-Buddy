@@ -749,7 +749,7 @@ export class TrainingBuddyServiceService {
             if(i.value > 0.50 || i.value < -0.50){
                 dataset.forEach(element => {
                     if(element.email == i.name){
-                        if(!this.contains(person.buddies,element.email)){
+                        if(!this.contains(person.buddies,element.email) && element.email != email){
                             newDataset.push(element)
                         }
                     }
@@ -784,13 +784,12 @@ export class TrainingBuddyServiceService {
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
         
-        const newset = this.getFullDatasetFromRecommended(people,recommended, email)
-        const dataset = this.removeUser(newset,email)
-        if(dataset.length <=0){
+        const newset = await this.getFullDatasetFromRecommended(people,recommended, email)
+        if(newset.length <=0){
             const val =this.removeUser(people,email);
             return val
         }
-    return dataset;
+    return newset;
     }
     removeUser(dataset,email){
         const newDataset = [];
