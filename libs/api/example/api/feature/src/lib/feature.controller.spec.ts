@@ -27,7 +27,8 @@ describe('FeatureController', () => {
       const actual = controller.findAll();
 
       expect(actual).toBe(expected);
+      
     });
-  })
+  });
 
 });

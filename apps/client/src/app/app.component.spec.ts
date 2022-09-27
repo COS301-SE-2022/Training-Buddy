@@ -3,6 +3,8 @@ import { AppComponent } from './app.component';
 // import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureModule as ClientShellFeatureModule } from '@training-buddy/client/shell/feature';
+import { AuthGaurdService } from './auth-guard.service';
+import { Router } from '@angular/router';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -18,6 +20,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+
   it(`should have as title 'client'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
@@ -32,4 +35,42 @@ describe('AppComponent', () => {
   //     'Welcome client'
   //   );
   // });
+
+
+  
+  /**
+   * Test logIn function
+   */
+  describe('logIn', () => {
+    it('should return true', () => {
+
+      const auth = TestBed.inject(AuthGaurdService);
+
+      auth.state = false;
+
+      auth.logIn();
+
+      expect(auth.state).toEqual(true);
+
+
+    });
+  });
+
+  /**
+   * Test logOut function
+   */
+  describe('logOut', () => {
+    it('should return false', () => {
+
+      const auth = TestBed.inject(AuthGaurdService);
+
+      auth.state = true;
+
+      auth.logOut();
+
+      expect(auth.state).toEqual(false);
+
+    });
+  });
+
 });
