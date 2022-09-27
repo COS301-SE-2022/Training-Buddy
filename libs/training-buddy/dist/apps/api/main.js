@@ -1856,7 +1856,7 @@ let ApiInternalApiRepositoryDataAccessService = class ApiInternalApiRepositoryDa
                     //     valid = false ;
                     // }
                     if (valid) {
-                        const date = new Date(activity.start_date);
+                        const date = Math.floor(new Date(activity.start_date).getTime() / 1000);
                         //console.log(activity) ;
                         const log = {
                             id: activity.id,
@@ -3496,7 +3496,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
      * @param otherEmail
      * @return ErrorMessage
      */
-    reject(userEmail, otherEmail) {
+    reject(otherEmail, userEmail) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
             const res = yield this.repoService.deleteConnectionRequest(userEmail, otherEmail);
             const item = new data_access_1.ErrorMessage;
