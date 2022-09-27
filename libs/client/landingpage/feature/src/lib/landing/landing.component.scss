@@ -1,11 +1,18 @@
 hr.line{
-
     margin-top: 40px;
     width: 25%;
     margin-left: auto;
     margin-right: auto;
     background-color: black;
     height: 3px;
+}
+
+.login {
+    margin-right: 8px;
+}
+
+.signup {
+    margin-left: 8px;
 }
 
 #footer{
@@ -45,10 +52,10 @@ mat-card-title{
 
 #landingImage{
     background-image:
-    linear-gradient(to right, rgba(250, 252, 253, 0.877), rgba(0, 0, 0, 0.808)),
+    linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0.377)),
     url('https://images.unsplash.com/photo-1539966903171-89770f33f468?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
     width: 100%;
-    height: 50vh;
+    height: 45vh;
     background-size: cover;
 }
 
@@ -105,14 +112,20 @@ mat-card-title{
 
 .mat-raised-button {
     width: 150px !important;
-    background-color: rgb(2, 184, 187);
+    background-color: #06b6d4;
     transition: transform .1s;
 }
 
-.mat-raised-button:hover{
-    transform: scale(1.1);
-}
+// .mat-raised-button:hover{
+//     transform: scale(1.1);
+// }
 
+#linksbuttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
 
 .flex{
     display: flex;
@@ -130,16 +143,199 @@ mat-card-title{
     flex-wrap: wrap;
 }
 
+.self-center {
+    align-self: center;
+}
 
 .center{
     justify-content: center;
 }
 
-.align-x{
+.align-x {
     align-items: center;
 }
 
 .spaceEvenly{
     justify-content: space-evenly;
+
+}
+
+.white {
+    color: white
+}
+
+.bannercontent {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    //vert. align
+    justify-content: space-evenly;
+
+    height: 100%;
+
+    //hor. align
+    align-items: center;
+}
+
+.bannerabout {
+    width: 40%;
+    max-width: 600px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 26px;
+}
+
+#logo-sm {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .bannerabout {
+        width: 60%;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .bannerabout {
+        width: 90%;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .bannerabout {
+        width: 80%;
+        font-size: 16px;
+    }
+
+    #logo-sm {
+        display: block;
+    }
+
+    #logo-lg {
+        display: none;
+    }
+
+    // #logoparent {
+    //     transform: scale(0.4);
+    // }
+
+}
+
+@media (max-width: 335px) {
+    #linksbuttons {
+        flex-direction: column;
+        width: 100%;
+        align-content: center;
+    }
+
+    .login {
+        margin-right : 0px;
+        margin-bottom: 8px;
+    }
+
+    .signup {
+        margin-left: 0px;
+    }
+}
+
+#mockui {
+    height: 30vh;
+    min-width: 388px;
+}
+
+#supportedactivities {
+    // width: 100%;
+}
+
+#systeminfo {
+    height: 50vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.w-50 {
+    width: 50% !important;
+}
+
+.w-30 {
+    width: 40% !important;
+}
+
+.lim-33 {
+    max-width: 33.3%;
+}
+
+.suppparent > div {
+    // margin-bottom: 4px;
+}
+
+.suppparent {
+    padding-top: 5px;
+}
+
+.icon {
+    transform: scale(0.8) !important;
+}
+
+.supp {
+    min-width: 214px !important;
+}
+
+.tbbio {
+    min-width: 530px;
+    width: 80%;
+    max-width: 510px;
+    text-align: justify;
+}
+
+@media (max-width: 1180px) {
+
+    #systeminfo {
+        flex-direction: column;
+        height: fit-content;
+        width: 100vw !important;
+    }
+
+    #systeminfo > div {
+        margin-bottom: 50px;
+    }
+
+    #supportedactivities {
+        padding-top: 40px;
+    }
+
+    #mockui {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .lim-33 {
+        min-width: 100%;
+    }
+
+    #suppheading {
+        text-align: center;
+    }
+
+    #supphr {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tbbio {
+        width: 90% !important;
+        text-align: justify;
+        margin-bottom: 0px !important;
+        min-width: 0px;
+    }
 
 }

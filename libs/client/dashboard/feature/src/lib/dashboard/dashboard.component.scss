@@ -30,12 +30,26 @@ mat-card {
     justify-content: space-between;
 }
 
+mat-grid-list {
+    padding-top: 0px !important
+}
+
+.profileimagemax {
+    max-height: 200px !important;
+}
+
 mat-icon:hover {
     cursor: pointer;
 }
 
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
     stroke: #000000;
+}
+
+.ucard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .dynamic {
@@ -92,5 +106,5 @@ p {
 
 .action-color {
     color: white;
-    background-color: #1b1a1b7c !important;
+    background-color: #06b6d4 !important;
 }
