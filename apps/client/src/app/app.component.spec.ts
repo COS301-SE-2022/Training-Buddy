@@ -45,7 +45,7 @@ describe('AppComponent', () => {
 
       const auth = TestBed.inject(AuthGaurdService);
 
-      const router = TestBed.inject(Router);
+      let router = TestBed.inject(Router);
 
       auth.authStatus.subscribe((val) => {
         if (!val) {
