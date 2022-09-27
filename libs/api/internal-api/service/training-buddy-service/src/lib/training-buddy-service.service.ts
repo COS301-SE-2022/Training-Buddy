@@ -741,13 +741,17 @@ export class TrainingBuddyServiceService {
         rankings.reverse();
         return rankings;
     }
-   getFullDatasetFromRecommended(dataset,recommended){
+   async getFullDatasetFromRecommended(dataset,recommended, email){
         const newDataset: any= []
+        const person = await this.findOne(email);
+
         recommended.forEach(i =>{
-            if(i.value > 0.50){
+            if(i.value > 0.50 || i.value < -0.50){
                 dataset.forEach(element => {
                     if(element.email == i.name){
-                        newDataset.push(element)
+                        if(!this.contains(person.buddies,element.email)){
+                            newDataset.push(element)
+                        }
                     }
                 })
             }
@@ -755,6 +759,15 @@ export class TrainingBuddyServiceService {
     )
     return newDataset;
    }
+   contains(arr: any[] , email: string){
+
+        for(let i = 0 ; i < arr.length ; i++){
+            if(arr[i].email == email){
+                return true;
+            }
+        }
+        return false;
+    }
    sortRecommended(recommended){
     recommended.sort(function(a,b){
         return b.value - a.value;
@@ -770,8 +783,8 @@ export class TrainingBuddyServiceService {
         recommended = []
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
-
-        const newset = this.getFullDatasetFromRecommended(people,recommended)
+        
+        const newset = this.getFullDatasetFromRecommended(people,recommended, email)
         const dataset = this.removeUser(newset,email)
         if(dataset.length <=0){
             const val =this.removeUser(people,email);
