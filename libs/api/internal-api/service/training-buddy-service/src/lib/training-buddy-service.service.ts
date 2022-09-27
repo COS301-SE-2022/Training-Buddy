@@ -343,7 +343,7 @@ export class TrainingBuddyServiceService {
      * @param otherEmail
      * @return ErrorMessage
      */
-    async reject(userEmail: string, otherEmail: string) {
+    async reject(otherEmail: string, userEmail: string) {
         const res =  await this.repoService.deleteConnectionRequest(userEmail, otherEmail);
        const item = new ErrorMessage;
        if(res === false){
