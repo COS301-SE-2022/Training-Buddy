@@ -36,29 +36,8 @@ describe('AppComponent', () => {
   //   );
   // });
 
-  /**
-   * Test constructor
-   */
-  describe('constructor', () => {
-    it('should subscribe to authStatus', () => {
-      const fixture = TestBed.createComponent(AppComponent);
 
-      const auth = TestBed.inject(AuthGaurdService);
-
-      let router = TestBed.inject(Router);
-
-      auth.authStatus.subscribe((val) => {
-        if (!val) {
-          router.navigate(['/login']);
-
-          expect(router.navigate).toHaveBeenCalledWith(['/login']);
-        }
-      });
-
-      expect(auth.authStatus).toBeTruthy();
-    });
-  });
-
+  
   /**
    * Test logIn function
    */
