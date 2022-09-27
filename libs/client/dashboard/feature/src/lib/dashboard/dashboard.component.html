@@ -8,6 +8,8 @@
 
                 <h1 [@fadeIn] *ngIf="pendingrequests" class="text-center">Incoming Requests</h1>
 
+                <pre>{{requests | json}}</pre>
+
                 <ng-container>
                     <div [@fadeIn] *ngFor="let usr of requests; trackBy:trackById" class="dynamic max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-3">
                         <div class="md:flex">
