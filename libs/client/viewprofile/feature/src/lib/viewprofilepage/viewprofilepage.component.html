@@ -5,7 +5,7 @@
     <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
 
     <mat-grid-list class="cont" *ngIf="!loading" [@fadeIn] cols="1" rows="1" rowHeight="2:1">
-    
+
         <!-- <mat-grid-tile> -->
             <!-- <mat-card> -->
             <div id="container">
@@ -13,17 +13,17 @@
                 <!-- <mat-card-content> -->
 
                     <div class="row padding">
-    
+
                         <!-- profile image circle -->
                         <div class="profilecol">
-                            
+
                             <img id="profilepic" class="my-2 ml-2" [ngStyle]="{'background-image': 'url(' + profileImage + ')'}">
 
                         </div>
-    
+
                         <!-- content to the right of the image -->
                         <div class="statsblock">
-                            
+
                             <div class="text-center">
                                 <h1>{{ displayUser?.userName }} {{ displayUser?.userSurname }}</h1>
                                 <h3>{{ displayUser?.location }}</h3>
@@ -42,9 +42,9 @@
                                 </div>
 
                             </div>
-                            
+
                         </div>
-    
+
                     </div>
 
                     <!-- toggle page -->
@@ -60,7 +60,7 @@
                             <ng-container *ngIf="!toggle" ><hr class="hrdark animation-perform" [@swipeRight]/></ng-container>
                         </div>
                     </div>
-    
+
                     <!-- child components -->
                     <div class="padding">
                         <!-- <training-buddy-buddies-list *ngIf="toggle" [observable]="eventBuddies.asObservable()" [@fadeIn]></training-buddy-buddies-list> -->
@@ -78,11 +78,11 @@
                                         <mat-icon>close</mat-icon>
                                     </button>
                                 </mat-form-field>
-                            
+
                                 <div *ngFor="let buddy of buddies" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
-                            
+
                                     <div class="m-3 row space-between align-content">
-                            
+
                                         <div class="row align-content cursor" (click)="changeProfile(buddy.id)">
                                             <img class="my-2 buddypic" src="{{buddy.image}}">
                                             <div class="ml-6">
@@ -90,17 +90,17 @@
                                                 <div><mat-hint>{{ buddy?.location }}</mat-hint></div>
                                             </div>
                                         </div>
-                            
+
                                         <div>
                                             <button class="text-center mx-5 button" (click)="openSheet(buddy)"><mat-icon *ngIf="checkSelf(buddy.id)">more_horiz</mat-icon></button>
                                         </div>
-                            
+
                                     </div>
-                            
+
                                 </div>
-                            
+
                             </div>
-                            
+
                             <div *ngIf="noBuddiesResult || noBuddies" class="my-6">
                                 <mat-hint class="text-center">No Buddies</mat-hint>
                                 <br />
@@ -122,14 +122,14 @@
                                         <mat-icon>close</mat-icon>
                                     </button>
                                 </mat-form-field>
-                            
+
                                 <div *ngFor="let log of logs" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
-                            
+
                                     <div class="m-3">
                                         <div class="flex justify-around">
                                             <h4><strong>{{ log.name }}</strong></h4>
                                             <h4>{{ log.type }}</h4>
-                                            <h4>{{ log.date }}</h4>
+                                            <h4>{{ log.date.day }} {{ log.date.month }} {{ log.date.year }}</h4>
                                         </div>
                                         <div class="flex justify-between">
                                             <h4>{{ log.time }}</h4>
@@ -137,11 +137,11 @@
                                             <h4>{{ log.speed }}</h4>
                                         </div>
                                     </div>
-                            
+
                                 </div>
-                            
+
                             </div>
-                            
+
                             <div *ngIf="noLogsResult || noLogs" class="my-6">
                                 <mat-hint class="text-center">No Activities</mat-hint>
                                 <br />
@@ -156,7 +156,7 @@
 
 
                     </div>
-        
+
                 <!-- </mat-card-content> -->
 
             </div>

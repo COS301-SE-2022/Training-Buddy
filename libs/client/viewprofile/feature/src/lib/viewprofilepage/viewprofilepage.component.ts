@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { CookieService } from 'ngx-cookie-service';
 import Fuse from 'fuse.js';
-import { Subject,take } from 'rxjs';
+import { concat, Subject,take } from 'rxjs';
 import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
 import { tap } from 'rxjs';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'training-buddy-profile-page',
   templateUrl: './viewprofilepage.component.html',
@@ -70,6 +71,8 @@ import { tap } from 'rxjs';
 })
 export class ViewprofilepageComponent implements OnInit {
 
+  d! : any;
+  cc = 0;
   //buddies
   buddyCount = 0;
   @ViewChild('buddySearchBox') buddySearchBox : any;
@@ -105,7 +108,7 @@ export class ViewprofilepageComponent implements OnInit {
 
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
-
+    this.d = new Date();
 
   }
 
@@ -182,7 +185,7 @@ export class ViewprofilepageComponent implements OnInit {
           if (this.logs.length == 0) {
             this.noLogs = true;
           }
-          // console.log('activities', this.logs);
+          console.log('activities', this.logs);
         },
       }
     );
@@ -290,16 +293,18 @@ export class ViewprofilepageComponent implements OnInit {
   }
 
   convertToCard(data : any) : any {
-    console.log('data', data);
-    const date = new Date(data.dateComplete);
-    return {
+    // const date = new Date(Math.trunc(Number(data.dateComplete.split('.')[0])));
+    const c = {
       name: data.name,
       type: this.type(data.activityType),
       distance: this.metersToKm(data.distance),
       speed: this.convertSpeed(data),
       time: this.secondsToString(data.time),
-      date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+      date: this.startDateTime(data.dateComplete),
+      // date: data.date
     }
+    // console.log('data', c);
+    return c;
   }
 
   type(data : string) : string {
@@ -310,6 +315,22 @@ export class ViewprofilepageComponent implements OnInit {
     if (data == 'swim')
       return 'Swim';
     return 'Weights';
+  }
+
+  startDateTime(data: string): any{
+    //write a function that returns the date and time
+    const date = new Date(Number(data) * 1000);
+    const datepipe: DatePipe = new DatePipe('en-US')
+    const formattedDate = datepipe.transform(date, 'HH:mm');
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    return{
+      timestamp: data,
+      day: date.getDate(),
+      month:  months[date.getMonth()],
+      year: date.getFullYear(),
+      time: formattedDate,
+    }
   }
 
   convertSpeed(data : any) : string {
