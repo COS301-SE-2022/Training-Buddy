@@ -630,7 +630,7 @@ const data= {
 describe('getFullDatasetFromRecommended', () => {
   it('should get getFullDatasetFromRecommended', async () => {
     jest.spyOn(service, 'getFullDatasetFromRecommended').mockImplementation(service.getFullDatasetFromRecommended);
-    expect(async () => service.getFullDatasetFromRecommended (dataset,data)).toReturn;
+    expect(async () => service.getFullDatasetFromRecommended (dataset,data,UserDtoModule.email)).toReturn;
   })
 })
 describe('getRecommendations', () => {
