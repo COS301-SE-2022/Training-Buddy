@@ -505,4 +505,29 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     });
   });
 
+  /**
+   * Test updateRiding functionality
+   */
+  describe('updateRiding', () => {
+    it('should allow user to update riding', () => {
+      const email = 'tester@gmail.com';
+      const riding = true;
+
+      let ride = 0;
+
+      if(riding)
+        ride = 1;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({riding: ride})).toEqual(ride);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({riding: ride})).toEqual(true);
+        }
+      });
+      expect(service.updateRiding(riding, email)).toEqual(result);
+    });
+  });
+
 });
