@@ -273,4 +273,25 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     });
   }); 
 
+  /**
+   * Test getTokens function
+   */
+  describe('getTokens', () => {
+    it('should return tokens', () => {
+      const data = [];
+      const userEmail = 'tester@gmail.com';
+
+      const result = service.usersCollection.where('email', '==', userEmail)
+      .get().then(async (result) => {
+        data.push(result.docs[0].data().stravaAccess);
+        data.push(result.docs[0].data().stravaRefresh);
+
+        expect(service.getTokens(userEmail)).toEqual(data);
+      })
+
+      expect(service.getTokens(userEmail)).toEqual(result);
+    
+    }) 
+  })
+
 });
