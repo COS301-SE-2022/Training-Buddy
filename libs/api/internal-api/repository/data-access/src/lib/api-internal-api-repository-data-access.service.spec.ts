@@ -460,4 +460,49 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     });
   });
 
+  /**
+   * Test updateLatitude function
+   */
+  describe('updateLatitude', () => {
+    it('should allow user to update latitude', () => {
+      const email = 'tester@gmail.com';	
+      const latitude = 0;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({latitude: latitude})).toEqual(latitude);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({latitude: latitude})).toEqual(true);
+        }
+      });
+      expect(service.updateLatitude(latitude, email)).toEqual(result);
+
+    });
+  });
+    
+  /**
+   * Test updateRunning function
+   */
+  describe('updateRunning', () => {
+    it('should allow user to update running', () => {
+      const email = 'tester@gmail.com';
+      const running = true;
+      let run = 0;
+
+      if(running)
+        run = 1;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({running: run})).toEqual(run);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({running: run})).toEqual(true);
+        }
+      });
+      expect(service.updateRunning(running, email)).toEqual(result);
+    });
+  });
+
 });
