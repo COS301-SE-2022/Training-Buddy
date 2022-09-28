@@ -38,8 +38,10 @@ export class TrainingBuddyServiceService {
         };
         
         apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
+            console.log(data);
           return data
         }, function(error) {
+            console.log(error);
           console.error(error);
         });
     }
