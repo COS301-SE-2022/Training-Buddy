@@ -45,7 +45,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
    */
   describe('createUser', () => {
 
-    it('should return a user',() => {
+    it('should return a user', () => {
 
       const user: UserDto = {
         userName: 'testerName',
@@ -63,15 +63,12 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
 
       const result = service.createUser(user);
 
-      jest.spyOn(service, 'createUser')
-      .mockImplementation(() => Promise.resolve(result));
-
       service.usersCollection.doc().set(user)
       .then(result => {
-        expect(result).resolves.toEqual(user);
+        expect(result).toEqual(user);
       });
 
-      expect(service.createUser(user)).resolves.toEqual(result);
+      expect(service.createUser(user)).toEqual(result);
 
     });
   });
@@ -81,7 +78,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
    */
   describe('login', () => {
       
-      it('should allow a user to login',() => {
+      it('should allow a user to login', () => {
 
         const userEmail = 'tester@gmail.com';	
 
@@ -100,14 +97,12 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
             else{
               person.rating = 0;
             }
-            expect(service.login(userEmail)).resolves.toEqual(person);
+            expect(service.login(userEmail)).toEqual(person);
           };
 
-          expect(service.login(userEmail)).resolves.toEqual(false);
+          expect(service.login(userEmail)).toEqual(false);
 
       });
-
-      expect(result).resolves.toEqual(service.usersCollection.where('email', '==', userEmail));
 
     });
 
@@ -117,7 +112,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
    * Test getUser function
    */
   describe('getUser', () => {
-      it('should return a user',() => {
+      it('should return a user', () => {
 
       
         const expected = service.usersCollection.where('id', '==', '1')
@@ -128,6 +123,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         else{
           expect(service.getUser('1')).toEqual(false);
         }
+
       });
       
     });
@@ -137,28 +133,18 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
    * Test getMetrics function
    */
   describe('getMetrics', () => {
-      it('should return a user metrics',() => {
+      it('should return a user metrics', () => {
           const data = [];
           const userEmail = 'tester@gmail.com';
           
-          //Mock query snapshot
-          let querySnapshot: QuerySnapshot = {
-            docs: [
-              {
-                id: '1',
-                ref: null,
-                exists: true,
-                metadata: null,
-                createTime: null,
-              }
-            ],
-            empty: false,
-          } as any;
           service.usersCollection.where('email','!=', userEmail)
           .get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
               data.push(doc.data());
           });
+
+          jest.spyOn(service, 'getMetrics')
+          .mockImplementation((data) => Promise.resolve(service.getMetrics(userEmail)));
 
           expect(service.getMetrics(userEmail)).resolves.toEqual(data);
 
