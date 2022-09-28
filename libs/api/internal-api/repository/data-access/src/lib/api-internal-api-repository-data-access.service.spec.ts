@@ -58,7 +58,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         dob: '1990-01-01',
         email: 'tester@gmail.com',
         cellNumber: '0123456789',
-        password: 'Test123*'
+        password: ''
       }
 
       const result = service.createUser(user);
