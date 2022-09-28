@@ -192,7 +192,85 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       });
     });
 
+      /**
+       * test saveTokens function
+       */
+    describe('saveTokens', () => {
+      it('should save user tokens', () => {
+
+        const access = '123456';
+        const email = 'tester@gmail.com';
+        const refresh = '123456';
+        
 
 
+        const data = {
+          stava: {
+            stravaAccess: access, 
+            stravaRefresh: refresh,
+            exp: '2022-01-01',
+            cliendId: '',
+            clientSecret: '',
+            ownerId: '',
+          },
+          signUpStage: 3,
+        }
+
+
+        const toLog = [];
+
+        service.getActivities(access).then((activities: any) => {
+          activities.data.forEach(activity => {
+            let valid = false;
+            let type = "";
+
+            if(activity.type == "Run"){
+              valid = true;
+              type = "run";
+            }else if(activity.type == "Ride"){
+              valid = true ;
+              type = "ride" ;
+          }else if(activity.type == "Swim"){
+              valid = true ;
+              type = "swim" ;
+          }else if(activity.type == "Workout"){
+              valid = true ;
+              type = "lift" ;
+          }
+
+          if(valid){
+            const date = Math.floor(new Date(activity.start_date).getTime() / 1000)
+
+            const log = {
+                id: activity.id,
+                user: email,
+                activityType: type,
+                dateComplete: date,
+                distance: activity.distance,
+                name: activity.name,
+                speed: activity.average_speed,
+                time: activity.moving_time
+            }
+    
+            toLog.push(log) ;
+        }
+
+        service.logManyActivities(toLog);
+
+        const result = service.usersCollection.where('email', '==', email)
+        .get().then((result) => {
+          if(result.docs[0]){
+            expect(service.usersCollection.doc(result.docs[0].id).update(data)).toEqual(data);
+          } else {
+            expect(service.usersCollection.doc(result.docs[0].id).update(data)).toEqual(false);
+          }
+
+          expect(service.saveTokens(email, access, refresh, 123, '', '', '')).toEqual(result);
+        });
+        })
+      })
+
+    });
+  }); 
 
 });
