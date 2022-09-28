@@ -38,7 +38,6 @@ export class TrainingBuddyServiceService {
         };
         
         apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
-          //console.log('API called successfully. Returned data: ' + data);
           return data
         }, function(error) {
           console.error(error);
@@ -760,9 +759,10 @@ export class TrainingBuddyServiceService {
     return newDataset;
    }
    contains(arr: any[] , email: string){
+   
 
         for(let i = 0 ; i < arr.length ; i++){
-            if(arr[i].email == email){
+            if(arr[i] == email){
                 return true;
             }
         }
