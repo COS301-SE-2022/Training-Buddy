@@ -11,7 +11,9 @@ mat-grid-list {
     // background-color: rgba(255, 255, 255, 1);
     height: 100vw;
     max-height: 80vh;
-    min-height: 600px;
+    min-height: 629px;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
 }
 
 @media (max-width: 300px) {
@@ -27,9 +29,10 @@ mat-grid-list {
 }
 
 mat-card {
-    width: 90vw;
+    // width: 90vw;
     max-width: 400px;
-    margin-top: 30%;
+    margin-top: 20%;
+    // min-height: 600px;
 }
 
 mat-spinner {

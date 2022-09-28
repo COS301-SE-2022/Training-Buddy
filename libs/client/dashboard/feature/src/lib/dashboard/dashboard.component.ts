@@ -46,10 +46,10 @@ export class DashboardComponent implements OnInit {
   outgoingRequests: any;
   pendingrequests = false;
   doneloading = false;
-  noBuddies : boolean;
+  noBuddies = true;
   email : string;
+
   constructor(private snackBar : MatSnackBar, private apollo : Apollo, private cookieService:CookieService, private firestore : AngularFirestore, private afStorage: AngularFireStorage) { 
-    this.noBuddies = true;
     this.email = this.cookieService.get('email');
   }
 
@@ -85,6 +85,7 @@ export class DashboardComponent implements OnInit {
       .collection('Users', ref => ref.where('email', '==', this.email))
       .valueChanges()
       .subscribe((curr : any) => {
+        console.log('buds', curr)
         const buds = curr[0].buddies;
         if (this.buddies != null) {
           buds.forEach((b : any) => {
@@ -106,8 +107,13 @@ export class DashboardComponent implements OnInit {
           this.buddies = o;
           this.oldBuddies = o;
           console.log('buddies', this.buddies)
-          if (this.buddies.length == 0)
+          this.noBuddies = true;
+
+          if (this.buddies) {
+            if (this.buddies.length == 0)
             this.noBuddies = false;
+          }
+         
             // console.log('onoBuddies', this.noBuddies)
           this.doneloading = true;
         })
