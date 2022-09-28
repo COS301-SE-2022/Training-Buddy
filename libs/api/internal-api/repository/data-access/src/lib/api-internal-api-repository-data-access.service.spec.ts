@@ -6,7 +6,7 @@ import { UserDto,
   Userconfig,
   ActivityLog,
   ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-import { QuerySnapshot } from 'firebase/firestore';
+
 
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
@@ -115,7 +115,7 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       it('should return a user', () => {
 
       
-        const expected = service.usersCollection.where('id', '==', '1')
+        const returnedResult = service.usersCollection.where('id', '==', '1')
         .get().then((result) => {
          if(result.docs[0]){
             expect(service.getUser('1')).toEqual(result.docs[0].data());
@@ -264,9 +264,10 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
           } else {
             expect(service.usersCollection.doc(result.docs[0].id).update(data)).toEqual(false);
           }
-
-          expect(service.saveTokens(email, access, refresh, 123, '', '', '')).toEqual(result);
         });
+
+        expect(service.saveTokens(email, access, refresh, 123, '', '', '')).toEqual(result);
+
         })
       })
 
@@ -293,5 +294,69 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     
     }) 
   })
+
+  /**
+   * Test addRating function
+   */
+  describe('addRating', () => {
+    it('should add a rating', () => {
+      const email = 'tester@gmail.com';
+      const rating = 5;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({rating: rating})).toEqual(rating);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({rating: rating})).toEqual(true);
+        }
+        expect(service.addRating(email, rating)).toEqual(result);
+      });
+      });
+    });
+
+
+  /**
+   * Test updateCellNumber functions
+   */
+  describe('updateCellNumber', () => {
+    it('should allow user to update cellNumber', () => {
+      const email = 'tester@gmail.com';
+      const cellNumber = '1234567890';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({cellNumber: cellNumber})).toEqual(cellNumber);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({cellNumber: cellNumber})).toEqual(true);
+        }
+        expect(service.updateCellNumber(email, cellNumber)).toEqual(result);
+      });
+    });
+  });
+
+  /**
+   * Test updateEmail functions
+   */
+  describe('updateEmail', () => {	
+    it('should allow user to update email', () => {
+      const password = '';
+      const email = 'tester@gmail.com';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({email: email})).toEqual(email);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({email: email})).toEqual(true);
+        }
+        expect(service.updateEmail(email, password)).toEqual(result);
+      });
+    });
+  });
+
+  
+
 
 });
