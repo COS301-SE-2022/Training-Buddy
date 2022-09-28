@@ -356,7 +356,108 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     });
   });
 
-  
+  /**
+   * Test updateLocation function
+   */
+  describe('updateLocation', () => {
+    it('should allow user to update location', () => {
+      const email = 'tester@gmail.com';	
+      const location = 'Hatfield';
 
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({location: location})).toEqual(location);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({location: location})).toEqual(true);
+        }
+      });
+
+      expect(service.updateLocation(email, location)).toEqual(result);
+
+    });
+  });
+
+  /**
+   * Test updatePassword function
+   */
+  describe('updatePassword', () => {
+    it('should allow user to update password', () => {
+      const email = 'tester@gmail.com';
+      const password = 'password';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({password: password})).toEqual(password);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({password: password})).toEqual(true);
+        }
+      });
+      expect(service.updatePassword(password, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updateUserName function
+   */
+  describe('updateUserName', () => {
+    it('should allow user to update username', () => {
+      const email = 'tester@gmail.com';	
+      const username = 'tester';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({username: username})).toEqual(username);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({username: username})).toEqual(true);
+        }
+      });     
+      expect(service.updateUserName(username, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updateUserSurname
+   */
+  describe('updateUserSurname', () => {
+    it('should allow user to update surname', () => {
+      const email = 'tester@gmail.com';
+      const surname = 'tester';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({surname: surname})).toEqual(surname);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({surname: surname})).toEqual(true);
+        }
+      });
+      expect(service.updateUserSurname(surname, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updateLongitude function
+   */
+  describe('updateLongitude', () => {
+    it('should allow user to update longitude', () => {
+      const email = 'tester@gmail.com';
+      const longitude = 0;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({longitude: longitude})).toEqual(longitude);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({longitude: longitude})).toEqual(true);
+        }
+      });
+
+      expect(service.updateLongitude(longitude, email)).toEqual(result);
+
+    });
+  });
 
 });
