@@ -831,6 +831,9 @@ Apache-2.0
  
 
 
+training-buddy
+MIT
+
 ts-invariant
 MIT
 MIT License

@@ -3930,18 +3930,31 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
         rankings.reverse();
         return rankings;
     }
-    getFullDatasetFromRecommended(dataset, recommended) {
-        const newDataset = [];
-        recommended.forEach(i => {
-            if (i.value > 0.50) {
-                dataset.forEach(element => {
-                    if (element.email == i.name) {
-                        newDataset.push(element);
-                    }
-                });
-            }
+    getFullDatasetFromRecommended(dataset, recommended, email) {
+        return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
+            const newDataset = [];
+            const person = yield this.findOne(email);
+            recommended.forEach(i => {
+                if (i.value > 0.50 || i.value < -0.50) {
+                    dataset.forEach(element => {
+                        if (element.email == i.name) {
+                            if (!this.contains(person.buddies, element.email) && element.email != email) {
+                                newDataset.push(element);
+                            }
+                        }
+                    });
+                }
+            });
+            return newDataset;
         });
-        return newDataset;
+    }
+    contains(arr, email) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].email == email) {
+                return true;
+            }
+        }
+        return false;
     }
     sortRecommended(recommended) {
         recommended.sort(function (a, b) {
@@ -3957,13 +3970,12 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             recommended = [];
             this.getRecommendations(this.cleanDataset(people), email);
             this.sortRecommended(recommended);
-            const newset = this.getFullDatasetFromRecommended(people, recommended);
-            const dataset = this.removeUser(newset, email);
-            if (dataset.length <= 0) {
+            const newset = yield this.getFullDatasetFromRecommended(people, recommended, email);
+            if (newset.length <= 0) {
                 const val = this.removeUser(people, email);
                 return val;
             }
-            return dataset;
+            return newset;
         });
     }
     removeUser(dataset, email) {

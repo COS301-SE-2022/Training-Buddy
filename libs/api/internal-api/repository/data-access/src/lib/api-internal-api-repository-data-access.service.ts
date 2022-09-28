@@ -169,7 +169,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                     // }
 
                     if(valid){
-                        const date = Math.floor(new Date(activity.start_date).getTime() / 1000)
+                        const date = Math.floor(new Date(activity.start_date).getTime() / 1000);
 
                         //console.log(activity) ;
                         const log = {
@@ -460,7 +460,7 @@ export class ApiInternalApiRepositoryDataAccessService {
                             }
 
                             if(valid){
-                                const date = new Date(res.data.start_date) ;
+                                const date = Math.floor(new Date(res.data.start_date).getTime() / 1000);
                                 const log = {
                                     id: res.data.id,
                                     user: user.email,
