@@ -173,7 +173,24 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
         expect(service.findAll(userEmail)).resolves.toEqual(users);
       });
     });
+    
+    /**
+     * Test findByStravaId
+     */
+    describe('findByStravaId', () => {
+      it('should return a user by strava id', () => {
+        const stravaId = '123456';
 
+        service.usersCollection.where('strava.ownerId', '==', stravaId)
+        .get().then((result) => {
+          if(result.docs[0]){
+            expect(service.findByStravaId(stravaId)).toEqual(result.docs[0].data());
+          } else {
+            expect(service.findByStravaId(stravaId)).toEqual(false);
+          }
+        });
+      });
+    });
 
 
 
