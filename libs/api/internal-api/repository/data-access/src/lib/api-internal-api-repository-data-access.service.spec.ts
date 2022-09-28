@@ -152,4 +152,30 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
       });
     });
 
+    /**
+     * Test findAll function
+     */
+    describe('findAll', () => {
+ 
+      it('should final all users', () => {
+
+        const userEmail = 'tester@gmail.com';
+        const users = [];
+
+        service.usersCollection.get().then((querySnapshot) => {
+            querySnapshot.docs.forEach((doc) => {
+              if(doc.data().signupStage > 0){
+                users.push(doc.data());
+              }
+            });
+        });
+
+        expect(service.findAll(userEmail)).resolves.toEqual(users);
+      });
+    });
+
+
+
+
+
 });
