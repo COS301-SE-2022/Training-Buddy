@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private snack : MatSnackBar, private frm : FormBuilder, private apollo: Apollo, @Inject(Router) private router : Router, private cookieService: CookieService) {
     this.img = 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
-    
+
     //injections
     this.frmBuilder = frm;
 
@@ -74,9 +74,17 @@ export class SignupComponent implements OnInit {
     this.querySignup(userNameSurname, userEmail, userPassword, userDOB, userCellNumber, userGender, this.vicinity, this.longitude , this.latitude)
     .subscribe({
       next: (data : any) => {
-        this.cookieService.set('id', data.data.signup.message);
-        this.cookieService.set('email', userEmail);
-        this.router.navigate(['/configureprofile']);
+        console.log(data.data.signup.message);
+        if(data.data.signup.message == "User Already Exists failure"){
+          this.snack.open("User Already Exists", "Close", {
+            duration: 3000,
+          });
+          this.signupFrm.controls['userEmail'].setErrors({'error_msg' : 'User Already Exists'});
+        }else{
+          this.cookieService.set('id', data.data.signup.message);
+          this.cookieService.set('email', userEmail);
+          this.router.navigate(['/configureprofile']);
+        }
       },
       error: () => {
         this.snack.open('Signup failed, please try again.', 'X', {
