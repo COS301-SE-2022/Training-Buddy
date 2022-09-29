@@ -26,7 +26,7 @@
 }
 
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #0284c7 !important;
+    stroke:  #000000 !important;
 }
 
 .row {
@@ -43,15 +43,9 @@
     cursor: pointer;
 }
 
-
-
 //buddy component css
 mat-form-field {
     display: block;
-}
-
-.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #0284c7 !important;
 }
 
 mat-spinner {
@@ -112,5 +106,10 @@ h2 {
 }
 .request-buttons > button {
   width: 96% !important;
+}
+
+.action {
+  color: white;
+  background-color: #06b6d4 !important;
 }
 

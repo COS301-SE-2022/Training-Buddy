@@ -5,8 +5,8 @@
   <div *ngIf="isPastWorkout">
     <div *ngIf="!complete">
       <div class="text-center">
-        <p class="text-center">Please rate all particiapnt and complete the workout</p>
-        <button mat-raised-button color="primary" (click)="completeWorkout()">Complete Workout</button>
+        <p class="text-center">Please rate all participants and complete the workout</p>
+        <button mat-raised-button  (click)="completeWorkout()">Complete Workout</button>
       </div>
     </div>
     <div *ngIf="complete">
@@ -79,7 +79,7 @@
     <div class="max-w-xl mb-10 md:mx-auto text-center lg:max-w-2xl md:mb-12 items-center">
       <p class=" mt-2 pt-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:divide-undefined dark:text-gray-900 ">Participants</p>
       <ng-container *ngIf="organiser && !isPastWorkout">
-        <button mat-raised-button color="primary" class="text-white text-sm rounded-lg m-4"(click)="openDialog()">
+        <button mat-raised-button class="text-white text-sm rounded-lg m-4"(click)="openDialog()">
           <mat-icon>add</mat-icon>
         </button>
       </ng-container>
@@ -98,7 +98,7 @@
                   <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
                 </ng-container>
                 <ng-container *ngIf="isCurrentUser(participant)">
-                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here {{participant.rating}}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here</p>
                 </ng-container>
             </div>
           </div>
@@ -109,10 +109,10 @@
             <div class="flex flex-col justify-center">
               <p class="text-lg font-bold text-slate-900 dark:text-slate-900">{{participant.userName}} {{participant.userSurname}}</p>
                 <ng-container *ngIf="!isCurrentUser(participant)">
-                  <button mat-raised-button color="primary" class="w-10" (click)="rateUser(participant)">Rate</button>
+                  <p class="text-sm text-gray-600 dark:text-gray-600">rating: {{participant.rating}}</p>
                 </ng-container>
                 <ng-container *ngIf="isCurrentUser(participant)">
-                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating will appear here {{participant.rating}}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-600">Your rating: {{participant.rating}}</p>
                 </ng-container>
             </div>
           </div>

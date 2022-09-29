@@ -38,9 +38,10 @@ export class TrainingBuddyServiceService {
         };
         
         apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
-          //console.log('API called successfully. Returned data: ' + data);
+            console.log(data);
           return data
         }, function(error) {
+            console.log(error);
           console.error(error);
         });
     }
@@ -297,7 +298,20 @@ export class TrainingBuddyServiceService {
      * @returns
      */
     async getUser(userID:string){
-        return this.repoService.getUser(userID)
+        const person = await this.repoService.getUser(userID)
+        let total = 0;
+        if(person){
+            if(person.ratings.length > 0){
+                    person.ratings.forEach(element => {
+                        total += element;
+                });
+                person.rating = Math.round(total/person.ratings.length);
+            }
+            else{
+                person.rating = 0;
+            }
+        }
+        return person;
     }
     /**
      *
@@ -760,9 +774,10 @@ export class TrainingBuddyServiceService {
     return newDataset;
    }
    contains(arr: any[] , email: string){
+   
 
         for(let i = 0 ; i < arr.length ; i++){
-            if(arr[i].email == email){
+            if(arr[i] == email){
                 return true;
             }
         }
