@@ -298,7 +298,20 @@ export class TrainingBuddyServiceService {
      * @returns
      */
     async getUser(userID:string){
-        return this.repoService.getUser(userID)
+        const person = await this.repoService.getUser(userID)
+        let total = 0;
+        if(person){
+            if(person.ratings.length > 0){
+                    person.ratings.forEach(element => {
+                        total += element;
+                });
+                person.rating = Math.round(total/person.ratings.length);
+            }
+            else{
+                person.rating = 0;
+            }
+        }
+        return person;
     }
     /**
      *

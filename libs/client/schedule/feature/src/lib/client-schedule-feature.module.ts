@@ -8,6 +8,7 @@ import { WorkoutComponent } from './workout/workout.component';
 import { WorkoutInviteComponent } from './workout-invite/workout-invite.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RatingComponent } from './rating/rating.component';
+import { CompleteWorkoutComponent } from './complete-workout/complete-workout.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { RatingComponent } from './rating/rating.component';
     ViewscheduleComponent,
     WorkoutComponent,
     WorkoutInviteComponent,
-    RatingComponent
+    RatingComponent,
+    CompleteWorkoutComponent
   ],
   providers: [
     CookieService,

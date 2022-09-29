@@ -3183,9 +3183,10 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 }
             };
             apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
-                //console.log('API called successfully. Returned data: ' + data);
+                console.log(data);
                 return data;
             }, function (error) {
+                console.log(error);
                 console.error(error);
             });
         });
@@ -3445,7 +3446,20 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
      */
     getUser(userID) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-            return this.repoService.getUser(userID);
+            const person = yield this.repoService.getUser(userID);
+            let total = 0;
+            if (person) {
+                if (person.ratings.length > 0) {
+                    person.ratings.forEach(element => {
+                        total += element;
+                    });
+                    person.rating = Math.round(total / person.ratings.length);
+                }
+                else {
+                    person.rating = 0;
+                }
+            }
+            return person;
         });
     }
     /**
@@ -3950,7 +3964,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
     }
     contains(arr, email) {
         for (let i = 0; i < arr.length; i++) {
-            if (arr[i].email == email) {
+            if (arr[i] == email) {
                 return true;
             }
         }

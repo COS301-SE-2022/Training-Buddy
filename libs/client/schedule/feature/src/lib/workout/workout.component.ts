@@ -10,6 +10,7 @@ import { RatingComponent } from '../rating/rating.component';
 import { WorkoutInviteComponent } from '../workout-invite/workout-invite.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CompleteWorkoutComponent } from '../complete-workout/complete-workout.component';
 @Component({
   selector: 'training-buddy-workout',
   templateUrl: './workout.component.html',
@@ -122,7 +123,8 @@ getOne(email: string){
             userSurname,
             cellNumber,
             id,
-            email
+            email,
+            rating
           },
           activityType,
           startPoint,
@@ -134,7 +136,7 @@ getOne(email: string){
     })
   }
   completeWorkout(){
-    this.apollo.mutate({
+    return this.apollo.mutate({
       mutation: gql`
       mutation{
         completeWorkout(
@@ -148,13 +150,20 @@ getOne(email: string){
       next: (data: any) =>{
         console.log("successfully completed workout");
         console.log(data);
-        this.addActivity();
+        // this.addActivity();
+        console.log("opening the workout complete dialog");
+        const dialogRef = this.dialog.open(CompleteWorkoutComponent, {
+          width: '350px',
+          data: this.workout,
+          disableClose: true,
+        });
+        dialogRef.afterClosed().subscribe();
       }
     });
 
   }
   addActivity() {
-    this.apollo
+    return this.apollo
       .mutate ({
         mutation: gql`
         mutation{
