@@ -6,22 +6,7 @@ import { UserDto,
   Userconfig,
   ActivityLog,
   ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-
-
-jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-const mockUserDto: jest.Mocked<UserDto> = new UserDto() as UserDto;
-
-jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-const UserEntityMock: jest.Mocked<UserEntity> = new UserEntity() as UserEntity;
-
-jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-const mockUserConfig: jest.Mocked<Userconfig> = new Userconfig() as Userconfig;
-
-jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-const mockActivityLog: jest.Mocked<ActivityLog> = new ActivityLog() as ActivityLog;
-
-jest.mock('@training-buddy/api/internal-api/api/shared/interfaces/data-access');
-const mockActivityStat: jest.Mocked<ActivityStat> = new ActivityStat() as ActivityStat;
+  import axios from 'axios';
 
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
@@ -40,377 +25,808 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     expect(service).toBeTruthy();
   });
 
-    /**
-     * Testing createUser
-     */
-    describe('createUser', () => {
-      it('should allow user to create profile', () => {  
-        try {
+  /**
+   * Test getActivityScheduleCollection function
+   */
 
-            const spyMock = jest.spyOn(service, 'createUser');
+  describe('getActivityScheduleCollection', () => {
+    it('should return a collection of activity schedules', async () => {
+      const result = await service.getActivityScheduleCollection();
 
-            expect(spyMock.mockImplementation(service.createUser)).toHaveBeenCalled;
-          
-        } catch (error) {
+      expect(result).toEqual(service.scheduledWorkoutCollection);
 
-            fail(error);
-        }
-
-     });
     });
-    
-      /**
-       * Test Login Function
-       */
-      describe('login', () => {
-        it('should allow user to login', async () => {
-          try{
-            const spyLogin = jest.spyOn(service, 'login');
+  });
 
-            spyLogin.mockImplementation(service.login);
 
-            expect(service.login).toReturn;
 
-            expect(service.login('tester@gmail.com')).toHaveReturned;
+  /**
+   * Test createUser function
+   */
+  describe('createUser', () => {
 
-          } catch(error) {
+    it('should return a user', () => {
 
-            // fail(error);
-          
-          }
-        });
+      const user: UserDto = {
+        userName: 'testerName',
+        userSurname: 'testerSurname',
+        location: 'Hatfield',
+        longitude: 0,
+        latitude: 0,
+        stravaToken: '',
+        gender: 'M',
+        dob: '1990-01-01',
+        email: 'tester@gmail.com',
+        cellNumber: '0123456789',
+        password: ''
+      }
+
+      const result = service.createUser(user);
+
+      service.usersCollection.doc().set(user)
+      .then(result => {
+        expect(result).toEqual(user);
       });
 
+      expect(service.createUser(user)).toEqual(result);
 
-     /**
-      * Test findAll Function - Location
-      */
-      describe('findAll', () => {
-        const locationResult = UserEntityMock.location;
-        it('should find all users location', async () => {
-          try{
+    });
+  });
 
-            const spyFindAll = jest.spyOn(service, 'findAll');
+  /**
+   * Test login function
+   */
+  describe('login', () => {
+      
+      it('should allow a user to login', () => {
 
-            spyFindAll.mockImplementation(service.findAll);
+        const userEmail = 'tester@gmail.com';	
 
-            
-            expect(service.findAll(locationResult)).toHaveBeenCalled;
+        const result = service.usersCollection.where('email', '==', userEmail)
+        .get().then((result) => {
+          if(result.docs[0]){
+            let total = 0;
+            const person = result.docs[0].data();
 
-            expect(service.findAll).toReturn;
+            if(person.rating.length > 0){
+              person.rating.forEach(element => {
+                total += element;
+              });
+              person.rating = Math.round(total / person.rating.length);
+            }
+            else{
+              person.rating = 0;
+            }
+            expect(service.login(userEmail)).toEqual(person);
+          };
 
-
-          } catch(error) {
-
-            // fail(error);
-
-          }
-        });
-      });
-
-      /**
-       * Test userConfig
-       */
-
-      describe('userConfig', () =>{
-
-        it('should configure a users profile', async () => {
-          try {
-
-            const spyUserConfig = jest.spyOn(service,'userConfig');
-
-            spyUserConfig.mockImplementation(service.userConfig);
-
-            expect(service.userConfig).toBeDefined;
-            
-          } catch (error) {
-
-            fail(error);
-          
-          }
-          
-        });
-      });
-
-      /**
-       * Test UpdateCellNumber function
-       */
-
-      describe('updateCellNumber', () => {
-        const mockCellNumber = mockUserDto.cellNumber;
-        const mockEmail = mockUserDto.email;
-
-        try {
-
-          it('should allow user to update cellNumber and email',async () => {
-
-            const spyUpdateCellNumber = jest.spyOn(service, 'updateCellNumber');
-
-            spyUpdateCellNumber.mockImplementation(service.updateCellNumber);
-
-            expect(service.userConfig).toReturn;
-
-          });
-        } catch (error) {  
-          fail(error);
-        }
+          expect(service.login(userEmail)).toEqual(false);
 
       });
 
-      /**
-       * Testing update distance function
-       */
+    });
 
-      describe('updateDistance', () => {
-        try{
-          it('should allow user to update distance', async () => {
+  });
 
-            const spyUpdateDistance = jest.spyOn(service,'updateDistance');
-
-            spyUpdateDistance.mockImplementation(service.updateDistance);
-
-            expect(service.updateDistance).toBeDefined;
-
-
-          });
-        } catch(error) {
-
-          fail(error);
-
-        }
-
-      });
-
-      /**
-       * Test updateEmail functionality
-       */
-
-      describe('updateEmail', () => {
-        try{
-          it('should allow user to update email', async () => {
-            const spyUpdateEmail = jest.spyOn(service, 'updateEmail');
-
-            spyUpdateEmail.mockImplementation(service.updateEmail);
-
-            expect(service.updateEmail).toBeDefined;
-
-          });
-        } catch (error){
-
-          fail(error);
-
-        }
-
-      });
-
-      /**
-       * Test updateLocation functionality
-       */
-
-      describe('updateLocation', () => {
-        try {
-          it('should allow the user to update location',async () => {
-            const spyUpdateLocation = jest.spyOn(service, 'updateLocation');
-
-            spyUpdateLocation.mockImplementation(service.updateLocation);
-
-            expect(service.updateLocation).toBeDefined;
-          });
-        } catch (error) {
-          
-          fail(error);
-        
-        }
-      });
-
-      /**
-       * Test updatePassword functionlity
-       */
-
-      describe('updatePassword', () => {
-        try {
-          it('should allow the user to update location', async () => {
-            const spyUpdatePassword = jest.spyOn(service, 'updatePassword');
-
-            spyUpdatePassword.mockImplementation(service.updatePassword);
-
-            expect(service.updatePassword).toReturn;
-
-          });
-        } catch (error) {
-          
-          fail(error);
-        
-        }
-      });
-
-      /**
-       * Test updateUserName functionality
-       */
-
-      describe('updateUserName', () => {
-        try {
-          it('should allow user to update location',async () => {
-            const spyUserName = jest.spyOn(service, 'updateUserName');
-
-            spyUserName.mockImplementation(service.updateUserName);
-
-            expect(service.updateUserName).toReturn;
-
-          })
-        } catch (error) {
-          fail(error);
-        }
-
-      });  
-
-
-      /**
-       * Test updateUserSurname functionality
-       */
-
-      describe('updateUserSurname', () => {
-        try {
-          it('should allow user to update surname', async () => {
-            const spyUserSurname = jest.spyOn(service, 'updateUserSurname');
-
-            spyUserSurname.mockImplementation(service.updateUserSurname);
-  
-            expect(service.updateUserSurname).toReturn;
-          });
-
-        } catch (error) {
-          fail(error);
-        }
-      });
-
-      /**
-       * Test logActivity functionality
-       */
-      describe('logActivity', () => {
-        try {
-          it('should allow users to create activity logs', async () => {
-            const spyLogActivity = jest.spyOn(service, 'logActivity');
-
-            spyLogActivity.mockImplementation(service.logActivity);
-
-            expect(service.logActivity).toReturn; 
-
-          });
-
-        } catch (error) {
-          fail(error);
-        }
-      });
+  /**
+   * Test getUser function
+   */
+  describe('getUser', () => {
+      it('should return a user', () => {
 
       
-      /**
-       * Test getLogs functionality
-       */
-      describe('getLogs', () => {
-        try{
-          it('should return user logs', async () => {
-            const spyGetLogs = jest.spyOn(service, 'getLogs');
-
-            spyGetLogs.mockImplementation(service.getLogs);
-
-            expect(service.getLogs).toReturn;
-
-          });
-        } catch(error) {
-          fail(error);
-        }
-      });
-
-      /**
-       * Test makeConnectionRequest functionality
-       */
-      describe('makeConnectionRequest', () =>{
-        try{
-          it('should allow user to make connection request', async () => {
-            const spyMakeConnection = jest.spyOn(service, 'makeConnectionRequest');
-
-            spyMakeConnection.mockImplementation(service.makeConnectionRequest);
-
-            expect(service.makeConnectionRequest).toReturn;
-
-          });
-        } catch(error) {
-          fail(error);
+        const returnedResult = service.usersCollection.where('id', '==', '1')
+        .get().then((result) => {
+         if(result.docs[0]){
+            expect(service.getUser('1')).toEqual(result.docs[0].data());
         } 
+        else{
+          expect(service.getUser('1')).toEqual(false);
+        }
 
       });
+      
+    });
+  });
+
+  /**
+   * Test getMetrics function
+   */
+  describe('getMetrics', () => {
+      it('should return a user metrics', () => {
+          const data = [];
+          const userEmail = 'tester@gmail.com';
+          
+          service.usersCollection.where('email','!=', userEmail)
+          .get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              data.push(doc.data());
+          });
+
+          jest.spyOn(service, 'getMetrics')
+          .mockImplementation((data) => Promise.resolve(service.getMetrics(userEmail)));
+
+          expect(service.getMetrics(userEmail)).resolves.toEqual(data);
+
+        });
+      });
+    });
+
+    /**
+     * Test findAll function
+     */
+    describe('findAll', () => {
+ 
+      it('should final all users', () => {
+
+        const userEmail = 'tester@gmail.com';
+        const users = [];
+
+        service.usersCollection.get().then((querySnapshot) => {
+            querySnapshot.docs.forEach((doc) => {
+              if(doc.data().signupStage > 0){
+                users.push(doc.data());
+              }
+            });
+        });
+
+        expect(service.findAll(userEmail)).resolves.toEqual(users);
+      });
+    });
+    
+    /**
+     * Test findByStravaId
+     */
+    describe('findByStravaId', () => {
+      it('should return a user by strava id', () => {
+        const stravaId = '123456';
+
+        service.usersCollection.where('strava.ownerId', '==', stravaId)
+        .get().then((result) => {
+          if(result.docs[0]){
+            expect(service.findByStravaId(stravaId)).toEqual(result.docs[0].data());
+          } else {
+            expect(service.findByStravaId(stravaId)).toEqual(false);
+          }
+        });
+      });
+    });
 
       /**
-       * Test getConnections functionality
+       * test saveTokens function
        */
-      describe('getConnection', () => {
-        try {
-          it('should get users connections',async () => {
-            const spyGetConnection = jest.spyOn(service, 'getConnections');
+    describe('saveTokens', () => {
+      it('should save user tokens', () => {
 
-            spyGetConnection.mockImplementation(service.getConnections);
+        const access = '123456';
+        const email = 'tester@gmail.com';
+        const refresh = '123456';
+        
 
-            expect(service.getConnections).toReturn;
 
-          });
-        } catch (error) {
-          fail(error);
+        const data = {
+          stava: {
+            stravaAccess: access, 
+            stravaRefresh: refresh,
+            exp: '2022-01-01',
+            cliendId: '',
+            clientSecret: '',
+            ownerId: '',
+          },
+          signUpStage: 3,
+        }
+
+
+        const toLog = [];
+
+        service.getActivities(access).then((activities: any) => {
+          activities.data.forEach(activity => {
+            let valid = false;
+            let type = "";
+
+            if(activity.type == "Run"){
+              valid = true;
+              type = "run";
+            }else if(activity.type == "Ride"){
+              valid = true ;
+              type = "ride" ;
+          }else if(activity.type == "Swim"){
+              valid = true ;
+              type = "swim" ;
+          }else if(activity.type == "Workout"){
+              valid = true ;
+              type = "lift" ;
+          }
+
+          if(valid){
+            const date = Math.floor(new Date(activity.start_date).getTime() / 1000)
+
+            const log = {
+                id: activity.id,
+                user: email,
+                activityType: type,
+                dateComplete: date,
+                distance: activity.distance,
+                name: activity.name,
+                speed: activity.average_speed,
+                time: activity.moving_time
+            }
+    
+            toLog.push(log) ;
+        }
+
+        service.logManyActivities(toLog);
+
+        const result = service.usersCollection.where('email', '==', email)
+        .get().then((result) => {
+          if(result.docs[0]){
+            expect(service.usersCollection.doc(result.docs[0].id).update(data)).toEqual(data);
+          } else {
+            expect(service.usersCollection.doc(result.docs[0].id).update(data)).toEqual(false);
+          }
+        });
+
+        expect(service.saveTokens(email, access, refresh, 123, '', '', '')).toEqual(result);
+
+        })
+      })
+
+    });
+  }); 
+
+  /**
+   * Test getTokens function
+   */
+  describe('getTokens', () => {
+    it('should return tokens', () => {
+      const data = [];
+      const userEmail = 'tester@gmail.com';
+
+      const result = service.usersCollection.where('email', '==', userEmail)
+      .get().then(async (result) => {
+        data.push(result.docs[0].data().stravaAccess);
+        data.push(result.docs[0].data().stravaRefresh);
+
+        expect(service.getTokens(userEmail)).toEqual(data);
+      })
+
+      expect(service.getTokens(userEmail)).toEqual(result);
+    
+    }) 
+  })
+
+  /**
+   * Test addRating function
+   */
+  describe('addRating', () => {
+    it('should add a rating', () => {
+      const email = 'tester@gmail.com';
+      const rating = 5;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({rating: rating})).toEqual(rating);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({rating: rating})).toEqual(true);
+        }
+        expect(service.addRating(email, rating)).toEqual(result);
+      });
+      });
+    });
+
+
+  /**
+   * Test updateCellNumber functions
+   */
+  describe('updateCellNumber', () => {
+    it('should allow user to update cellNumber', () => {
+      const email = 'tester@gmail.com';
+      const cellNumber = '1234567890';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({cellNumber: cellNumber})).toEqual(cellNumber);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({cellNumber: cellNumber})).toEqual(true);
+        }
+        expect(service.updateCellNumber(email, cellNumber)).toEqual(result);
+      });
+    });
+  });
+
+  /**
+   * Test updateEmail functions
+   */
+  describe('updateEmail', () => {	
+    it('should allow user to update email', () => {
+      const password = '';
+      const email = 'tester@gmail.com';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({email: email})).toEqual(email);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({email: email})).toEqual(true);
+        }
+        expect(service.updateEmail(email, password)).toEqual(result);
+      });
+    });
+  });
+
+  /**
+   * Test updateLocation function
+   */
+  describe('updateLocation', () => {
+    it('should allow user to update location', () => {
+      const email = 'tester@gmail.com';	
+      const location = 'Hatfield';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({location: location})).toEqual(location);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({location: location})).toEqual(true);
         }
       });
 
-      /**
-       * Test deleteConnection functionality
-       */
-      describe('deleteConnection', () => {
-        try {
-          it('should delete users connections',async () => {
-            const spyDeleteConnection = jest.spyOn(service, 'deleteConnection');
+      expect(service.updateLocation(email, location)).toEqual(result);
 
-            spyDeleteConnection.mockImplementation(service.deleteConnection);
+    });
+  });
 
-            expect(service.deleteConnection).toReturn;
+  /**
+   * Test updatePassword function
+   */
+  describe('updatePassword', () => {
+    it('should allow user to update password', () => {
+      const email = 'tester@gmail.com';
+      const password = 'password';
 
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({password: password})).toEqual(password);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({password: password})).toEqual(true);
+        }
+      });
+      expect(service.updatePassword(password, email)).toEqual(result);
+    });
+  });
 
-          });
-        } catch (error) {
-          fail(error)
+  /**
+   * Test updateUserName function
+   */
+  describe('updateUserName', () => {
+    it('should allow user to update username', () => {
+      const email = 'tester@gmail.com';	
+      const username = 'tester';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({username: username})).toEqual(username);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({username: username})).toEqual(true);
+        }
+      });     
+      expect(service.updateUserName(username, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updateUserSurname
+   */
+  describe('updateUserSurname', () => {
+    it('should allow user to update surname', () => {
+      const email = 'tester@gmail.com';
+      const surname = 'tester';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({surname: surname})).toEqual(surname);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({surname: surname})).toEqual(true);
+        }
+      });
+      expect(service.updateUserSurname(surname, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updateLongitude function
+   */
+  describe('updateLongitude', () => {
+    it('should allow user to update longitude', () => {
+      const email = 'tester@gmail.com';
+      const longitude = 0;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({longitude: longitude})).toEqual(longitude);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({longitude: longitude})).toEqual(true);
         }
       });
 
-      /**
-       * Tested scheduleWorkout functionality
-       */
-      describe('scheduleWorkout', () => {
-        try {
-          it('should allow user scheduleWorkout',async () => {
-            const spyScheduleWorkout = jest.spyOn(service, 'scheduleWorkout');
+      expect(service.updateLongitude(longitude, email)).toEqual(result);
 
-            spyScheduleWorkout.mockImplementation(service.scheduleWorkout);
-            
-            expect(service.scheduleWorkout).toReturn;
+    });
+  });
 
-          });
-        } catch (error) {
-          fail(error);
+  /**
+   * Test updateLatitude function
+   */
+  describe('updateLatitude', () => {
+    it('should allow user to update latitude', () => {
+      const email = 'tester@gmail.com';	
+      const latitude = 0;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({latitude: latitude})).toEqual(latitude);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({latitude: latitude})).toEqual(true);
         }
       });
+      expect(service.updateLatitude(latitude, email)).toEqual(result);
 
-      /**
-       * Tested getScheduledWorkouts functionality 
-       */
-      describe('getScheduledWorkouts', () => {
-        try {
-          it('should allow user to get schedule workouts',async () => {
-            const spyGetScheduleWorkout = jest.spyOn(service, 'getScheduledWorkouts');
+    });
+  });
+    
+  /**
+   * Test updateRunning function
+   */
+  describe('updateRunning', () => {
+    it('should allow user to update running', () => {
+      const email = 'tester@gmail.com';
+      const running = true;
+      let run = 0;
 
-            spyGetScheduleWorkout.mockImplementation(service.getScheduledWorkouts);
+      if(running)
+        run = 1;
 
-            expect(service.getScheduledWorkouts).toReturn;
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({running: run})).toEqual(run);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({running: run})).toEqual(true);
+        }
+      });
+      expect(service.updateRunning(running, email)).toEqual(result);
+    });
+  });
 
-          });
-        } catch (error) {
-          fail(error);
+  /**
+   * Test updateRiding functionality
+   */
+  describe('updateRiding', () => {
+    it('should allow user to update riding', () => {
+      const email = 'tester@gmail.com';
+      const riding = true;
+
+      let ride = 0;
+
+      if(riding)
+        ride = 1;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({riding: ride})).toEqual(ride);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({riding: ride})).toEqual(true);
+        }
+      });
+      expect(service.updateRiding(riding, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updateSwimming function
+   */
+  describe('updateSwimming', () => {
+    it('should allow user to update swimming', () => {
+      const email = 'tester@gmail.com'; 
+      const swimming = true;
+
+      let swim = 0;
+
+      if(swimming)
+        swim = 1
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({swimming: swim})).toEqual(swim);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({swimming: swim})).toEqual(true);
+        }
+        });
+      expect(service.updateSwimming(swimming, email)).toEqual(result);
+
+    });
+  });
+
+  /**
+   * Test updateLifting function
+   */
+  describe('updateLifting', () => {
+    it('should allow user to update lifting', () => {
+      const email = 'tester@gmail.com';
+      const lifting = true;
+
+      let lift = 0;
+
+      if(lifting)
+        lift = 1;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({lifting: lift})).toEqual(lift);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({lifting: lift})).toEqual(true);
+        }
+      });
+      expect(service.updateLifting(lifting, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updadateBio function
+   */
+  describe('updateBio', () => {
+    it('should allow user to update bio', () => {
+      const email = 'tester@gmail.com';
+      const bio = 'Creating a new bio so for user tester';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({bio: bio})).toEqual(bio);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({bio: bio})).toEqual(true);
         }
       });
     });
+  });
+
+  /**
+   * Test updateAccessToken function
+   */
+  describe('updateAccessToken', () => {
+    it('should allow user to update access token', () => {
+      const email = 'tester@gmail.com';
+      const accessToken = '1234567890';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({accessToken: accessToken})).toEqual(accessToken);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({accessToken: accessToken})).toEqual(true);
+        }
+      });
+      expect(service.updateAccessToken(accessToken, email)).toEqual(result);
+
+    });
+  });
+
+  /**
+   * Test activityExists function
+   */
+  describe('activityExists', () => {
+    it('should check if activity exists', () => {
+      const id = 2;
+
+      const result = service.activityLogsCollection.where('id', '==', id)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.activityExists(id)).toEqual(true);
+        } else {
+          expect(service.activityExists(id)).toEqual(false);
+        }
+      });
+    });
+  });
+
+  /**
+   * Test getActivities functionality
+   */
+  // describe('getActivities', () => {
+  //   it('should get all activities', () => {
+  
+  //       const promise = new Promise((resolve, reject) => {
+  //         axios.get('https://api.strava.com/api/v3/athlete/activities', {
+  //           headers: {
+  //             'Authorization': 'Bearer ' + '1234567890'
+  //           }   
+  //       })
+
+  //       expect(service.getActivities('1234567890')).toEqual(promise);
+
+  //     });
+  //   });
+  // });
+
+
+  /**
+   * Test getLogs function
+   */
+  describe('getLogs', () => {
+    it('should allow user to get log', () => {
+
+      const logs = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.activityLogsCollection.where('user', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          logs.push(doc.data());
+        });
+      });
+    
+      expect(service.getLogs(userEmail)).resolves.toEqual(logs);
+
+    });
+  });
+
+
+  /**
+   * Test makeConnectionRequest function
+   */
+  // describe('makeConnectionRequest', () => { 
+  //   it('should allow user to make buddy request', () => {
+
+  //     const now = new Date();
+
+  //     const mockSender = 'sender@gmail.com';
+  //     const mockReceiver = 'receiver@gmail.com';
+
+  //     const mockData = {
+  //       sender: mockSender,
+  //       receiver: mockReceiver,
+  //       time: now
+  //     }
+
+  //     const result = service.buddyRequestsCollection.doc()
+  //     .set(mockData)
+  //     .then(results => {
+  //       expect(service.makeConnectionRequest(mockSender, mockReceiver))
+  //       .toEqual(true);
+  //     });
+
+  //     expect(service.makeConnectionRequest(mockSender, mockReceiver))
+  //     .toEqual(false);
+  //   });
+  // });
+
+  /**
+   * Test getIncomingRequests function
+   */
+   describe('getIncomingRequests', () => {
+    it('should allow user to get all incoming requests', () => {
+
+      const requests = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.buddyRequestsCollection.where('receiver', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          requests.push(doc.data());
+        });
+      });
+    
+      expect(service.getIncomingRequests(userEmail)).resolves.toEqual(requests);
+
+    });
+  });
+
+  /**
+   * Test getOutgoiningRequests function
+   */
+   describe('getOutgoingRequests', () => {
+    it('should allow user to get all outgoining requests', () => {
+
+      const requests = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.buddyRequestsCollection.where('sender', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          requests.push(doc.data());
+        });
+      });
+    
+      expect(service.getOutgoingRequests(userEmail)).resolves.toEqual(requests);
+
+    });
+  });
+  
+  /**
+   * Test deleteConnectionRequest function
+   */
+  // describe('deleteConnectionRequest', () => {
+  //   it('should allow for delete of all connection requests', () => {
+
+  //     const mockSender = 'sender@gmail.com';
+  //     const mockReceiver = 'receiver@gmail.com';
+
+  //     const result = service.buddyRequestsCollection
+  //     .where('sender', '==', mockSender)
+  //     .where('receiver', '==', mockReceiver)
+  //     .get()
+  //     .then((results) => {
+  //       expect(results)
+  //       .toEqual(true);
+  //     });
+
+  //     expect(service.deleteConnectionRequest(mockReceiver, mockSender))
+  //     .toEqual(false);
+  //   });
+  // });
+
+  /**
+   * Test makeConnection function
+   */
+
+
+    /**
+   * Test getConnections functions
+   */
+   describe('getConnection', () => {
+    it('should get all users connections', () => {
+
+      const buddies = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.buddyConnectionsCollection.where('users', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          buddies.push(doc.data());
+        });
+      });
+    
+      expect(service.getConnections(userEmail)).resolves.toEqual(buddies);
+
+    });
+  });
+
+
+  /**
+   * Test scheduleWorkout function
+   */
+
+
+
+    /**
+     * Test getWorkouts function
+     */
+     describe('getScheduledtWorkouts', () => {
+      it('should get all users connections', () => {
+  
+        const workouts = [];
+        const userEmail  = 'tester@gmail.com';
+  
+        const results = service.scheduledWorkoutCollection.where('participants', 'array-contains', {'email': userEmail, 'complete': false})
+        .get().then((querySnapshot) => {
+          querySnapshot.docs.forEach((doc) => {
+            if(doc.data().startTime >= Date.now()/1000)
+              workouts.push(doc.data());
+          });
+        });
+      
+        expect(service.getScheduledWorkouts(userEmail)).resolves.toEqual(workouts);
+  
+      });
+    });
+});
