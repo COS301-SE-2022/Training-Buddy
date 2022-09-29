@@ -172,7 +172,7 @@ export class ViewprofilepageComponent implements OnInit {
 
           if (data.data.getConnections.length == 0)
             this.noBuddies = true;
-            
+
         });
       }
     })
@@ -309,7 +309,7 @@ export class ViewprofilepageComponent implements OnInit {
     const c = {
       name: data.name,
       type: this.type(data.activityType),
-      distance: this.metersToKm(data.distance),
+      distance: this.stringDistance(data.distance),
       speed: this.convertSpeed(data),
       time: this.secondsToString(data.time),
       date: this.startDateTime(data.dateComplete),
@@ -372,8 +372,8 @@ export class ViewprofilepageComponent implements OnInit {
     return ''; //Weight Lifting
   }
 
-  metersToKm(data : any) : string {
-    return (Math.round(Number(data / 1000) * 100) / 100).toString() + 'km';
+  stringDistance(data : any) : string {
+    return (Math.round(Number(data)).toString() + ' km');
   }
 
   secondsToString(data : number) : string {
