@@ -7,6 +7,10 @@
     text-decoration: underline !important;
 }
 
+#textwrap {
+    overflow-wrap: break-word;
+}
+
 mat-card {
     max-width: 600px;
     width: 90vw;

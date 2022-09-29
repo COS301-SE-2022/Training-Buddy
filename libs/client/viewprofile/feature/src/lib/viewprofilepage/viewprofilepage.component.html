@@ -74,7 +74,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="noBuddiesResult || noBuddies" class="my-6">
+
+                            <div *ngIf="(noBuddiesResult || noBuddies) && buddiesLoaded" class="my-6">
                                 <mat-hint class="text-center">No Buddies</mat-hint>
                                 <br />
                                 <mat-hint class="text-center" *ngIf="currentProfile()">Send some invites to your </mat-hint><a id="configurelink" routerLink="/dashboard"><u>Recommended Buddies</u></a>
