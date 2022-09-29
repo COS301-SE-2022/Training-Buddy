@@ -764,7 +764,17 @@ export class TrainingBuddyServiceService {
                 dataset.forEach(element => {
                     if(element.email == i.name){
                         if(!this.contains(person.buddies,element.email) && element.email != email){
-                            newDataset.push(element)
+                            let total = 0;
+                                if(element.ratings.length > 0){
+                                    element.ratings.forEach(elements => {
+                                        total += elements;
+                                });
+                                element.rating = Math.round(total/element.ratings.length);
+                                }
+                                else{
+                                    element.rating = 0;
+                                }
+                                newDataset.push(element)
                         }
                     }
                 })
@@ -799,11 +809,10 @@ export class TrainingBuddyServiceService {
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
         
-        const newset = await this.getFullDatasetFromRecommended(people,recommended, email)
-        if(newset.length <=0){
-            const val =this.removeUser(people,email);
-            return val
-        }
+        const newset = await this.getFullDatasetFromRecommended(people,recommended, email);
+       
+        
+    
     return newset;
     }
     removeUser(dataset,email){

@@ -18,6 +18,25 @@ mat-card {
     padding: 2em auto;
 }
 
+.chip {
+    transform: scale(0.6);
+}
+
+.mrchip {
+    margin-right: 1px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+
+}
+
 #background {
     height: 100vh;
     background-size: cover;
@@ -111,4 +130,21 @@ p {
 .action-color {
     color: white;
     background-color: #06b6d4 !important;
+}
+
+.biostar {
+    display: flex;
+    flex-direction: row;
+    // align-content: center;
+}
+
+.biotext {
+    height: fit-content;
+    display: flex;
+    align-self: center;
+    margin-bottom: 0px !important;
+}
+
+.authuser {
+    transform: scale(0.7);
 }

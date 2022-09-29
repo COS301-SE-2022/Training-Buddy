@@ -190,6 +190,11 @@ export class ViewprofilepageComponent implements OnInit {
           this.activityCount = swap.length;
           if (this.logs.length == 0) {
             this.noLogs = true;
+          } else {
+            
+            this.logs = this.logsOriginal.sort((a : any, b : any) => {
+              { return Number(b.date.timestamp) - Number(a.date.timestamp) };
+            })
           }
           console.log('activities', this.logs);
         },
