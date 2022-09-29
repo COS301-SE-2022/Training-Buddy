@@ -123,7 +123,8 @@ getOne(email: string){
             userSurname,
             cellNumber,
             id,
-            email
+            email,
+            rating
           },
           activityType,
           startPoint,

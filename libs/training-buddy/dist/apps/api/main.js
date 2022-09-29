@@ -3446,7 +3446,20 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
      */
     getUser(userID) {
         return (0, tslib_1.__awaiter)(this, void 0, void 0, function* () {
-            return this.repoService.getUser(userID);
+            const person = yield this.repoService.getUser(userID);
+            let total = 0;
+            if (person) {
+                if (person.ratings.length > 0) {
+                    person.ratings.forEach(element => {
+                        total += element;
+                    });
+                    person.rating = Math.round(total / person.ratings.length);
+                }
+                else {
+                    person.rating = 0;
+                }
+            }
+            return person;
         });
     }
     /**

@@ -12,7 +12,7 @@
                             <div class="text-center">
                                 <h1>{{ displayUser?.userName }} {{ displayUser?.userSurname }}</h1>
                                 <ng-container *ngIf="checkRating(displayUser?.rating)">
-                                  <h3> rating:{{ displayUser?.rating }}</h3>
+                                  <h3> rating: {{ displayUser?.rating }}</h3>
                                 </ng-container>
                                 <ng-container *ngIf="!checkRating(displayUser?.rating)">
                                   <h3> new user </h3>

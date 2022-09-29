@@ -6,7 +6,7 @@
 }
 
 .spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #1b1a1b;
+    stroke:  #000000;
 }
 
 .with-icon {
@@ -14,4 +14,9 @@
   align-items: center;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+button {
+  color: white;
+  background-color: #06b6d4 !important;
 }
