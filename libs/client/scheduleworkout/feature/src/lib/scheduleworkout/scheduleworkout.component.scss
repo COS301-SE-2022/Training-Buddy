@@ -1,14 +1,21 @@
 mat-card {
-    max-width: 400px;
+    max-width: 500px;
     width: 90vw;
-    margin: 2em auto;
-    padding: 2em auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -0%);
+    // margin: 2em auto;
+    // padding: 2em auto;
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -0%);
     background-color: rgba(255, 255, 255, 1);
 }
+
+#container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 // powered by google
 .b { color: #4285F4; }
 .r { color: #EA4335; }
@@ -62,4 +69,8 @@ mat-error {
 
 mat-hint {
     text-align: right !important;
+}
+
+mat-grid-list {
+    margin-bottom: 20%;
 }
