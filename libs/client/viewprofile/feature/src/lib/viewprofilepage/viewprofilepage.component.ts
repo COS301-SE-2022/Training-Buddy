@@ -163,11 +163,17 @@ export class ViewprofilepageComponent implements OnInit {
     this.getBuddies(email).subscribe({
       next: (data : any) => {
         this.fetchImages(data.data.getConnections).then((out : any[]) => {
+
           this.buddies = out;
-          this.buddiesOriginal = out;
+          this.buddiesOriginal = this.buddies;
+
+          this.buddiesLoaded = true;
+          this.noBuddies = false;
+
+          if (data.data.getConnections.length == 0)
+            this.noBuddies = true;
+            
         });
-        this.buddiesOriginal = this.buddies;
-        this.buddiesLoaded = true;
       }
     })
 
@@ -237,7 +243,8 @@ export class ViewprofilepageComponent implements OnInit {
           cellNumber,
           bio,
           metrics{lift , ride , run , swim},
-          buddies
+          buddies,
+          rating
       }
       }
       `,
