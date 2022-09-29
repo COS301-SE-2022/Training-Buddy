@@ -101,8 +101,8 @@ export class DashboardComponent implements OnInit {
     this.getBuddieRecommended().subscribe({
       next: async (data : any) => {
         console.log('rec',data) ;
-        const filter = this.removeOverlapConnections(data.data.findAll);
-        await this.fetchImages(filter).then((o : any[]) => {
+        // const filter = this.removeOverlapConnections(data.data.findAll);
+        await this.fetchImages(data.data.findAll).then((o : any[]) => {
           this.buddies = o;
           this.oldBuddies = o;
           console.log('buddies', this.buddies)
@@ -119,7 +119,7 @@ export class DashboardComponent implements OnInit {
       .collection('BuddyRequests', ref => ref.where('receiver', '==', this.email))
       .valueChanges()
       .subscribe((inRequests : any) => {
-
+        console.log('inRequests', inRequests);
         // this.requests = [];
         this.pendingrequests = false;
 
@@ -146,6 +146,7 @@ export class DashboardComponent implements OnInit {
       .collection('BuddyRequests', ref => ref.where('sender', '==', this.email))
       .valueChanges()
       .subscribe((outgoing : any) => {
+        console.log('out request ran')
         this.outgoingRequests = outgoing;
       });
 

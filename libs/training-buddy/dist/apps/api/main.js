@@ -3183,9 +3183,10 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 }
             };
             apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
-                //console.log('API called successfully. Returned data: ' + data);
+                console.log(data);
                 return data;
             }, function (error) {
+                console.log(error);
                 console.error(error);
             });
         });
@@ -3950,7 +3951,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
     }
     contains(arr, email) {
         for (let i = 0; i < arr.length; i++) {
-            if (arr[i].email == email) {
+            if (arr[i] == email) {
                 return true;
             }
         }
