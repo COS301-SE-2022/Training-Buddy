@@ -25,7 +25,7 @@ import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask 
         ])
       ]
     )
-    
+
   ]
 })
 export class EditprofilepageComponent implements OnInit {
@@ -52,7 +52,7 @@ export class EditprofilepageComponent implements OnInit {
     this.ref.getDownloadURL().subscribe((downloadURL) => {
     this.currentImage=downloadURL;
     });
-    
+
   }
 
   ngOnInit(): void {
@@ -107,7 +107,7 @@ export class EditprofilepageComponent implements OnInit {
       }`
     })
   }
-  
+
   //Google geocoding functions
   onAutocompleteSelected(event : any) {
     this.vicinity = event.vicinity;
@@ -219,7 +219,7 @@ export class EditprofilepageComponent implements OnInit {
     }
 
     this.newImage = event.target.files[0];
-    
+
     const reader = new FileReader();
     reader.onload = (event:any) => {
         this.currentImage = event.target.result;
@@ -227,6 +227,7 @@ export class EditprofilepageComponent implements OnInit {
     reader.readAsDataURL(this.newImage);
 
   }
+
 
   save(){
 
@@ -241,13 +242,13 @@ export class EditprofilepageComponent implements OnInit {
     if (this.newImage != null) {
       //update to the photo
     const id = this.cookie.get('id');
-    this.ref = this.afStorage.ref("UserProfileImage/"+id);// can set this ref in to a cookie to get download url 
-    this.task = this.ref.put(this.newImage); 
+    this.ref = this.afStorage.ref("UserProfileImage/"+id);// can set this ref in to a cookie to get download url
+    this.task = this.ref.put(this.newImage);
 
       this.Base64encode(this.newImage).then(encode => {
-        this.updateUser(Name, Surname, Email, CellNumber, Gender, Location, encode).subscribe({
+        this.updateUser(Name, Surname, Email, CellNumber, Gender, this.vicinity, encode).subscribe({
           next: () => {
-            this.router.navigate(['settings']);
+            this.router.navigate(['/profile']);
           }
         });
       });
@@ -255,9 +256,9 @@ export class EditprofilepageComponent implements OnInit {
     } else {
 
       //no update to the photo
-      this.updateUser(Name, Surname, Email, CellNumber, Gender, Location, null).subscribe({
+      this.updateUser(Name, Surname, Email, CellNumber, Gender, this.vicinity, null).subscribe({
         next: () => {
-          this.router.navigate(['settings']);
+          this.router.navigate(['/profile']);
         }
       });
 
@@ -266,9 +267,6 @@ export class EditprofilepageComponent implements OnInit {
   }
 
   updateUser(Name : string, Surname : string, Email : string, CellNumber : string, Gender : string, Location : string, newImage : any) {
-
-    //THIS QUERY MUST BE UPDATED TO WORK WITH UPDATING THE PROFILE IMAGE and LONG AND LAT
-    //use this.longitude and this.latitude for the new gps-cords
 
     return this.apollo
         .mutate({
@@ -282,6 +280,8 @@ export class EditprofilepageComponent implements OnInit {
                 gender: "${Gender}",
                 email: "${Email}",
                 cellNumber: "${CellNumber}",
+                longitude: ${this.longitude}
+                latitude: ${this.latitude}
             }){
               message
             }

@@ -1,0 +1,25 @@
+
+#logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2%;
+}
+
+#stravaLogo {
+  height : 150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#stravaText {
+  height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#action {
+  color: white;
+  background-color: #06b6d4 !important;
+}

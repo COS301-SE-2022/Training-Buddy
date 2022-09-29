@@ -1,0 +1,19 @@
+<div class="">
+  <div class="py-3 sm:max-w-xl sm:mx-auto">
+    <div class="min-w-1xl flex flex-col rounded-xl">
+      <div class="w-full flex flex-col items-center">
+        <div class="flex flex-col items-center py-6 space-y-3">
+          <span class="text-lg text-gray-800 text-center">Did you use strava to record your workout? </span>
+        </div>
+        <div>
+          <!-- <img alt="No alt" src="{{}}"  class="object-cover w-20 h-20 m-4 rounded-full shadow bg-blue-100" /> -->
+          <svg  id="stravaLogo" xmlns="http://www.w3.org/2000/svg" aria-label="Strava" viewBox="0 0 512 512"><path fill="#FC4C02" d="M120 288L232 56l112 232h-72l-40-96-40 96z"/><path fill="#fda580" d="M280 288l32 72 32-72h48l-80 168-80-168z"/></svg>
+        </div>
+        <div class="w-3/4 flex flex-col space-y-3">
+          <button (click)="completeWorkout()" mat-raised-button id="action"  class="p-3 m-8 text-lg rounded-xl " >Yes</button>
+          <button (click)="addActivity()" mat-raised-button  class="p-3 m-8 text-lg  rounded-xl" > No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
