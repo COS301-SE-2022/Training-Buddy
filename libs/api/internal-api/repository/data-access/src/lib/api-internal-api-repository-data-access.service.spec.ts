@@ -6,7 +6,7 @@ import { UserDto,
   Userconfig,
   ActivityLog,
   ActivitySchedule } from '@training-buddy/api/internal-api/api/shared/interfaces/data-access';
-
+  import axios from 'axios';
 
 
 describe('ApiInternalApiRepositoryDataAccessService', () => {
@@ -530,4 +530,303 @@ describe('ApiInternalApiRepositoryDataAccessService', () => {
     });
   });
 
+  /**
+   * Test updateSwimming function
+   */
+  describe('updateSwimming', () => {
+    it('should allow user to update swimming', () => {
+      const email = 'tester@gmail.com'; 
+      const swimming = true;
+
+      let swim = 0;
+
+      if(swimming)
+        swim = 1
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({swimming: swim})).toEqual(swim);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({swimming: swim})).toEqual(true);
+        }
+        });
+      expect(service.updateSwimming(swimming, email)).toEqual(result);
+
+    });
+  });
+
+  /**
+   * Test updateLifting function
+   */
+  describe('updateLifting', () => {
+    it('should allow user to update lifting', () => {
+      const email = 'tester@gmail.com';
+      const lifting = true;
+
+      let lift = 0;
+
+      if(lifting)
+        lift = 1;
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({lifting: lift})).toEqual(lift);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({lifting: lift})).toEqual(true);
+        }
+      });
+      expect(service.updateLifting(lifting, email)).toEqual(result);
+    });
+  });
+
+  /**
+   * Test updadateBio function
+   */
+  describe('updateBio', () => {
+    it('should allow user to update bio', () => {
+      const email = 'tester@gmail.com';
+      const bio = 'Creating a new bio so for user tester';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({bio: bio})).toEqual(bio);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({bio: bio})).toEqual(true);
+        }
+      });
+    });
+  });
+
+  /**
+   * Test updateAccessToken function
+   */
+  describe('updateAccessToken', () => {
+    it('should allow user to update access token', () => {
+      const email = 'tester@gmail.com';
+      const accessToken = '1234567890';
+
+      const result = service.usersCollection.where('email', '==', email)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.usersCollection.doc(result.docs[0].id).update({accessToken: accessToken})).toEqual(accessToken);
+        } else {
+          expect(service.usersCollection.doc(result.docs[0].id).update({accessToken: accessToken})).toEqual(true);
+        }
+      });
+      expect(service.updateAccessToken(accessToken, email)).toEqual(result);
+
+    });
+  });
+
+  /**
+   * Test activityExists function
+   */
+  describe('activityExists', () => {
+    it('should check if activity exists', () => {
+      const id = 2;
+
+      const result = service.activityLogsCollection.where('id', '==', id)
+      .get().then((result) => {
+        if(result.docs[0]){
+          expect(service.activityExists(id)).toEqual(true);
+        } else {
+          expect(service.activityExists(id)).toEqual(false);
+        }
+      });
+    });
+  });
+
+  /**
+   * Test getActivities functionality
+   */
+  // describe('getActivities', () => {
+  //   it('should get all activities', () => {
+  
+  //       const promise = new Promise((resolve, reject) => {
+  //         axios.get('https://api.strava.com/api/v3/athlete/activities', {
+  //           headers: {
+  //             'Authorization': 'Bearer ' + '1234567890'
+  //           }   
+  //       })
+
+  //       expect(service.getActivities('1234567890')).toEqual(promise);
+
+  //     });
+  //   });
+  // });
+
+
+  /**
+   * Test getLogs function
+   */
+  describe('getLogs', () => {
+    it('should allow user to get log', () => {
+
+      const logs = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.activityLogsCollection.where('user', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          logs.push(doc.data());
+        });
+      });
+    
+      expect(service.getLogs(userEmail)).resolves.toEqual(logs);
+
+    });
+  });
+
+
+  /**
+   * Test makeConnectionRequest function
+   */
+  // describe('makeConnectionRequest', () => { 
+  //   it('should allow user to make buddy request', () => {
+
+  //     const now = new Date();
+
+  //     const mockSender = 'sender@gmail.com';
+  //     const mockReceiver = 'receiver@gmail.com';
+
+  //     const mockData = {
+  //       sender: mockSender,
+  //       receiver: mockReceiver,
+  //       time: now
+  //     }
+
+  //     const result = service.buddyRequestsCollection.doc()
+  //     .set(mockData)
+  //     .then(results => {
+  //       expect(service.makeConnectionRequest(mockSender, mockReceiver))
+  //       .toEqual(true);
+  //     });
+
+  //     expect(service.makeConnectionRequest(mockSender, mockReceiver))
+  //     .toEqual(false);
+  //   });
+  // });
+
+  /**
+   * Test getIncomingRequests function
+   */
+   describe('getIncomingRequests', () => {
+    it('should allow user to get all incoming requests', () => {
+
+      const requests = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.buddyRequestsCollection.where('receiver', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          requests.push(doc.data());
+        });
+      });
+    
+      expect(service.getIncomingRequests(userEmail)).resolves.toEqual(requests);
+
+    });
+  });
+
+  /**
+   * Test getOutgoiningRequests function
+   */
+   describe('getOutgoingRequests', () => {
+    it('should allow user to get all outgoining requests', () => {
+
+      const requests = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.buddyRequestsCollection.where('sender', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          requests.push(doc.data());
+        });
+      });
+    
+      expect(service.getOutgoingRequests(userEmail)).resolves.toEqual(requests);
+
+    });
+  });
+  
+  /**
+   * Test deleteConnectionRequest function
+   */
+  // describe('deleteConnectionRequest', () => {
+  //   it('should allow for delete of all connection requests', () => {
+
+  //     const mockSender = 'sender@gmail.com';
+  //     const mockReceiver = 'receiver@gmail.com';
+
+  //     const result = service.buddyRequestsCollection
+  //     .where('sender', '==', mockSender)
+  //     .where('receiver', '==', mockReceiver)
+  //     .get()
+  //     .then((results) => {
+  //       expect(results)
+  //       .toEqual(true);
+  //     });
+
+  //     expect(service.deleteConnectionRequest(mockReceiver, mockSender))
+  //     .toEqual(false);
+  //   });
+  // });
+
+  /**
+   * Test makeConnection function
+   */
+
+
+    /**
+   * Test getConnections functions
+   */
+   describe('getConnection', () => {
+    it('should get all users connections', () => {
+
+      const buddies = [];
+      const userEmail  = 'tester@gmail.com';
+
+      const results = service.buddyConnectionsCollection.where('users', '==', userEmail)
+      .get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          buddies.push(doc.data());
+        });
+      });
+    
+      expect(service.getConnections(userEmail)).resolves.toEqual(buddies);
+
+    });
+  });
+
+
+  /**
+   * Test scheduleWorkout function
+   */
+
+
+
+    /**
+     * Test getWorkouts function
+     */
+     describe('getScheduledtWorkouts', () => {
+      it('should get all users connections', () => {
+  
+        const workouts = [];
+        const userEmail  = 'tester@gmail.com';
+  
+        const results = service.scheduledWorkoutCollection.where('participants', 'array-contains', {'email': userEmail, 'complete': false})
+        .get().then((querySnapshot) => {
+          querySnapshot.docs.forEach((doc) => {
+            if(doc.data().startTime >= Date.now()/1000)
+              workouts.push(doc.data());
+          });
+        });
+      
+        expect(service.getScheduledWorkouts(userEmail)).resolves.toEqual(workouts);
+  
+      });
+    });
 });
