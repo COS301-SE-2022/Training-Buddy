@@ -3164,7 +3164,7 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             const SibApiV3Sdk = yield Promise.resolve().then(() => __webpack_require__("sib-api-v3-sdk"));
             const defaultClient = SibApiV3Sdk.ApiClient.instance;
             const apiKey = defaultClient.authentications['api-key'];
-            apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+            apiKey.apiKey = "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";
             const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
             let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
             const rec = yield this.findOne(email);
@@ -3952,13 +3952,16 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
                 if (i.value > 0.50 || i.value < -0.50) {
                     dataset.forEach(element => {
                         if (element.email == i.name) {
+                            console.log(person.buddies);
                             if (!this.contains(person.buddies, element.email) && element.email != email) {
+                                console.log("flag");
                                 newDataset.push(element);
                             }
                         }
                     });
                 }
             });
+            console.log(newDataset);
             return newDataset;
         });
     }
@@ -3985,10 +3988,11 @@ let TrainingBuddyServiceService = class TrainingBuddyServiceService {
             this.getRecommendations(this.cleanDataset(people), email);
             this.sortRecommended(recommended);
             const newset = yield this.getFullDatasetFromRecommended(people, recommended, email);
-            if (newset.length <= 0) {
-                const val = this.removeUser(people, email);
-                return val;
-            }
+            console.log(newset);
+            // if(newset.length <=0){
+            //     const val =this.removeUser(people,email);
+            //     return val
+            // }
             return newset;
         });
     }
