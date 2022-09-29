@@ -109,7 +109,6 @@ export class ViewprofilepageComponent implements OnInit {
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
     this.d = new Date();
-
   }
 
   changeProfile(id : string) {
@@ -150,12 +149,18 @@ export class ViewprofilepageComponent implements OnInit {
         this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
         this.ref.getDownloadURL().subscribe((downloadURL) => {
         this.profileImage=downloadURL;
-        });
+      });
       },
     })
 
     })
 
+  }
+
+  on(i : number) {
+    if (this.displayUser.rating >= i)
+      return true;
+    return false;
   }
 
   getData(email : string) { //this is the email of the user to fetch the data for

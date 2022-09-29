@@ -12,7 +12,26 @@
                             <div class="text-center">
                                 <h1>{{ displayUser?.userName }} {{ displayUser?.userSurname }}</h1>
                                 <ng-container *ngIf="checkRating(displayUser?.rating)">
-                                  <h3> rating: {{ displayUser?.rating }}</h3>
+                                  <!-- <h3> rating: {{ displayUser?.rating }}</h3> -->
+
+                                  <div class="rating">
+
+                                    <div class="starFilled" *ngIf="on(1)"></div>
+                                    <div class="starNotFilled" *ngIf="!on(1)"></div>
+
+                                    <div class="starFilled" *ngIf="on(2)"></div>
+                                    <div class="starNotFilled" *ngIf="!on(2)"></div>
+
+                                    <div class="starFilled" *ngIf="on(3)"></div>
+                                    <div class="starNotFilled" *ngIf="!on(3)"></div>
+
+                                    <div class="starFilled" *ngIf="on(4)"></div>
+                                    <div class="starNotFilled" *ngIf="!on(4)"></div>
+
+                                    <div class="starFilled" *ngIf="on(5)"></div>
+                                    <div class="starNotFilled" *ngIf="!on(5)"></div>
+
+                                  </div>
                                 </ng-container>
                                 <ng-container *ngIf="!checkRating(displayUser?.rating)">
                                   <h3> new user✨</h3>
