@@ -10,7 +10,12 @@
                         </div>
                         <div class="statsblock">
                             <div class="text-center">
-                                <h1>{{ displayUser?.userName }} {{ displayUser?.userSurname }}</h1>
+
+                                <div class="rowauth">
+                                    <h1>{{ displayUser?.userName }} {{ displayUser?.userSurname }}</h1>
+                                    <img *ngIf="displayUser.rating" class="authuser" src="https://img.icons8.com/fluency/48/000000/instagram-check-mark.png">
+                                </div>
+
                                 <ng-container *ngIf="checkRating(displayUser?.rating)">
                                   <h3> rating: {{ displayUser?.rating }}</h3>
                                 </ng-container>

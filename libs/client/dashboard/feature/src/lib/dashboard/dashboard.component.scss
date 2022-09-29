@@ -131,3 +131,20 @@ p {
     color: white;
     background-color: #06b6d4 !important;
 }
+
+.biostar {
+    display: flex;
+    flex-direction: row;
+    // align-content: center;
+}
+
+.biotext {
+    height: fit-content;
+    display: flex;
+    align-self: center;
+    margin-bottom: 0px !important;
+}
+
+.authuser {
+    transform: scale(0.7);
+}

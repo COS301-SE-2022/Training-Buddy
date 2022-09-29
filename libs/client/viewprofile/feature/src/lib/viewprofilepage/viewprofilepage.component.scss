@@ -19,8 +19,19 @@
     stroke: #1b1a1b;
 }
 
+.authuser {
+    transform: scale(0.6);
+}
+
 .cont {
     padding-bottom: 1px;
+}
+
+.rowauth {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 #container {

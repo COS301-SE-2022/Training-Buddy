@@ -64,13 +64,16 @@
                                 <img routerLink="/profile/{{usr.id}}" class="h-48 w-full profileimagemax object-cover md:h-full md:w-48" src={{usr.image}}>
                             </div>
 
-                            <div class="mb-2 px-4 pb-4 pt-2 mt-2 card-c ucard">
+                            <div class="mb-2 px-4 pb-4 pt-2 card-c ucard">
                                 <div>
                                     <div class="acceptTitle">
 
                                         
                                         <div class="chips col">
-                                            <p class="mr-3 block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p>
+                                            <div class="biostar">
+                                                <p class="mr-3 biotext block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p>
+                                                <img *ngIf="usr.rating" class="authuser" src="https://img.icons8.com/fluency/48/000000/instagram-check-mark.png">
+                                            </div>
                                             <div class="row">
                                                 <div *ngIf="usr.metrics.run" class="chip mrchip">
                                                     <img src="https://img.icons8.com/ios/50/000000/running.png">

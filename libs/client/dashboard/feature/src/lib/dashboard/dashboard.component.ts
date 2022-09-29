@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
       .collection('Users', ref => ref.where('email', '==', this.email))
       .valueChanges()
       .subscribe((curr : any) => {
-        console.log('buds', curr)
+        // console.log('buds', curr)
         const buds = curr[0].buddies;
         if (this.buddies != null) {
           buds.forEach((b : any) => {
@@ -327,13 +327,27 @@ export class DashboardComponent implements OnInit {
           bio,
           metrics{lift , run , swim , ride},
           buddies,
-          id
+          id,
+          rating
         }
         }
         `,
       })
     
     
+  }
+
+  average(ratings : any) {
+    console.log('ratings', ratings)
+    let output = 0;
+    ratings.map((el : any) => {
+      output += el;
+    });
+    const flag = Math.trunc(output / ratings.length);
+    console.log('flag', flag)
+    if (flag > 4)
+      return true;
+    return false;
   }
 
   inOutgoing(email : string) : boolean {
