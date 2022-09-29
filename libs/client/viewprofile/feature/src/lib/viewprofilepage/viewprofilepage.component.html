@@ -103,7 +103,7 @@
                                         </div>
                                         <div class="flex justify-between">
                                             <h4>{{ log.time }}</h4>
-                                            <h4>{{ log.distance }}</h4>
+                                            <h4 *ngIf="log.type !== 'Weights'">{{ log.distance }}</h4>
                                             <h4>{{ log.speed }}</h4>
                                         </div>
                                     </div>

@@ -18,6 +18,25 @@ mat-card {
     padding: 2em auto;
 }
 
+.chip {
+    transform: scale(0.6);
+}
+
+.mrchip {
+    margin-right: 1px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+
+}
+
 #background {
     height: 100vh;
     background-size: cover;

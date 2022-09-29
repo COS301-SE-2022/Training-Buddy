@@ -101,7 +101,6 @@ export class DashboardComponent implements OnInit {
     //getting rec. buddies from engine
     this.getBuddieRecommended().subscribe({
       next: async (data : any) => {
-        console.log('rec',data) ;
         // const filter = this.removeOverlapConnections(data.data.findAll);
         await this.fetchImages(data.data.findAll).then((o : any[]) => {
           this.buddies = o;
