@@ -765,8 +765,17 @@ export class TrainingBuddyServiceService {
                     if(element.email == i.name){
                         console.log(person.buddies) ;
                         if(!this.contains(person.buddies,element.email) && element.email != email){
-                            console.log("flag");
-                            newDataset.push(element);
+                            let total = 0;
+                                if(element.ratings.length > 0){
+                                    element.ratings.forEach(elements => {
+                                        total += elements;
+                                });
+                                element.rating = Math.round(total/element.ratings.length);
+                                }
+                                else{
+                                    element.rating = 0;
+                                }
+                                newDataset.push(element)
                         }
                     }
                 })
@@ -802,12 +811,10 @@ export class TrainingBuddyServiceService {
         this.getRecommendations(this.cleanDataset(people),email)
         this.sortRecommended(recommended)
         
-        const newset = await this.getFullDatasetFromRecommended(people,recommended, email)
-        console.log(newset) ;
-        // if(newset.length <=0){
-        //     const val =this.removeUser(people,email);
-        //     return val
-        // }
+        const newset = await this.getFullDatasetFromRecommended(people,recommended, email);
+       
+        
+    
     return newset;
     }
     removeUser(dataset,email){

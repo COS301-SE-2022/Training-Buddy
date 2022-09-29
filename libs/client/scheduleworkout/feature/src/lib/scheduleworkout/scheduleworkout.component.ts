@@ -242,7 +242,7 @@ export class ScheduleworkoutComponent implements OnInit {
         hours++;
         duration-=60;
       }
-      const mins = duration;
+      const mins = Math.trunc(duration);
       if (hours == 0) {
         this.calculatedDuration = `${mins} mins`;
       } else this.calculatedDuration = `${hours} hours ${mins} mins`;
@@ -262,8 +262,9 @@ export class ScheduleworkoutComponent implements OnInit {
     //check running for calculation
     if (this.isRunning) {
       //calculate duration string here:
-      const mins = this.scheduleWorkout.controls['minutes'].value;
-      const secs = this.scheduleWorkout.controls['seconds'].value;
+      console.log('here');
+      const mins = Math.trunc(this.scheduleWorkout.controls['minutes'].value);
+      const secs = Math.trunc(this.scheduleWorkout.controls['seconds'].value);
       const secsPerKm = Number((mins * 60)) + Number(secs);
       const distance = this.scheduleWorkout.controls['distance'].value;
       let durationSeconds = Number(distance) * Number(secsPerKm);
@@ -275,8 +276,8 @@ export class ScheduleworkoutComponent implements OnInit {
       }
       const outputMins = durationSeconds;
       if (hours == 0) {
-        this.calculatedDuration = `${outputMins} mins`;
-      } else this.calculatedDuration = `${hours} hours ${Math.round(outputMins)} mins`;
+        this.calculatedDuration = `${Math.trunc(outputMins)} mins`;
+      } else this.calculatedDuration = `${Math.trunc(hours)} hours ${Math.trunc(outputMins)} mins`;
     }
     //check swimming for calulation
     if (this.isSwimming) {
