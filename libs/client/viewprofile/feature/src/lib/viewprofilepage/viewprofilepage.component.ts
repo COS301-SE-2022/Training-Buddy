@@ -141,7 +141,7 @@ export class ViewprofilepageComponent implements OnInit {
       if (routerid == null)
         this.id = this.cookie.get('id');
 
-
+      console.log("id" +this.id);
     this.getCurrentUser().subscribe({
       next: (data : any) => {
         this.displayUser = data.data.getUser;
@@ -218,7 +218,12 @@ export class ViewprofilepageComponent implements OnInit {
     })
    }
 
-
+  checkRating(rating : any) {
+    if (rating == null || rating == undefined || rating == 0) {
+      return false;
+    }
+    return true;
+  }
   getCurrentUser() {
     return this.apollo
     .query({
@@ -237,7 +242,8 @@ export class ViewprofilepageComponent implements OnInit {
           cellNumber,
           bio,
           metrics{lift , ride , run , swim},
-          buddies
+          buddies,
+          rating
       }
       }
       `,
@@ -399,7 +405,6 @@ export class ViewprofilepageComponent implements OnInit {
   toggleLogs() {
     this.toggle = false;
   }
-
   //code for the buddies//
   showBuddiesClear() {
     this.clearBuddiesbutton = true;
@@ -407,8 +412,6 @@ export class ViewprofilepageComponent implements OnInit {
 
   hideBuddiesClear() {
     this.clearBuddiesbutton = false;
-    // this.input.nativeElement.value = '';
-    // this.buddies = this.buddiesOriginal;
   }
 
   clearBuddiesSearch() {
@@ -502,8 +505,6 @@ export class ViewprofilepageComponent implements OnInit {
 
   hideLogsClear() {
     this.clearLogsbutton = false;
-    // this.input.nativeElement.value = '';
-    // this.logList = this.logListOriginal;
   }
 
   clearLogsSearch() {

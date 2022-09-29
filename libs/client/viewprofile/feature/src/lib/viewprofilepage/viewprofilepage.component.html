@@ -1,52 +1,37 @@
 <!-- <training-buddy-unsigned-navbar></training-buddy-unsigned-navbar> -->
 <training-buddy-settings-navbar *ngIf="currentProfile()"></training-buddy-settings-navbar>
 <training-buddy-back-navbar title="Training Buddy" *ngIf="!currentProfile()"></training-buddy-back-navbar>
-
     <div *ngIf="loading" class="spinner" id="pagespinner"><mat-spinner></mat-spinner></div>
-
     <mat-grid-list class="cont" *ngIf="!loading" [@fadeIn] cols="1" rows="1" rowHeight="2:1">
-
-        <!-- <mat-grid-tile> -->
-            <!-- <mat-card> -->
             <div id="container">
-
-                <!-- <mat-card-content> -->
-
                     <div class="row padding">
-
-                        <!-- profile image circle -->
                         <div class="profilecol">
-
                             <img id="profilepic" class="my-2 ml-2" [ngStyle]="{'background-image': 'url(' + profileImage + ')'}">
-
                         </div>
-
-                        <!-- content to the right of the image -->
                         <div class="statsblock">
-
                             <div class="text-center">
                                 <h1>{{ displayUser?.userName }} {{ displayUser?.userSurname }}</h1>
+                                <ng-container *ngIf="checkRating(displayUser?.rating)">
+                                  <h3> rating:{{ displayUser?.rating }}</h3>
+                                </ng-container>
+                                <ng-container *ngIf="!checkRating(displayUser?.rating)">
+                                  <h3> your rating will appear here</h3>
+                                </ng-container>
+
                                 <h3>{{ displayUser?.location }}</h3>
                             </div>
-
                             <div class="row statscol">
-
                                 <div (click)="toggleBuddiesButton.click()">
                                     <div class="text-center">{{ buddyCount }}</div>
                                     <div>Buddies</div>
                                 </div>
-
                                 <div (click)="toggleLogsButton.click()">
                                     <div class="text-center">{{ activityCount }}</div>
                                     <div>Activities</div>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                     <!-- toggle page -->
                     <div class="row space-around mt-5">
                         <div class="fullwidth text-center">
@@ -60,15 +45,8 @@
                             <ng-container *ngIf="!toggle" ><hr class="hrdark animation-perform" [@swipeRight]/></ng-container>
                         </div>
                     </div>
-
                     <!-- child components -->
                     <div class="padding">
-                        <!-- <training-buddy-buddies-list *ngIf="toggle" [observable]="eventBuddies.asObservable()" [@fadeIn]></training-buddy-buddies-list> -->
-                        <!-- <training-buddy-log-list *ngIf="!toggle" [observable]="eventLogs.asObservable()" [@fadeIn]></training-buddy-log-list> -->
-                        <!-- <div *ngIf="!buddyLoadComp && !logLoadComp" class="spinner" id="childspinner" [@fadeIn]><mat-spinner></mat-spinner></div> -->
-
-
-                        <!-- buddy component -->
                         <ng-container *ngIf="toggle">
                             <div *ngIf="buddyCount !== 0 && buddiesLoaded" [@fadeIn]>
                                 <mat-form-field class="mt-3" appearance="outline">
@@ -80,7 +58,6 @@
                                 </mat-form-field>
 
                                 <div *ngFor="let buddy of buddies" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
-
                                     <div class="m-3 row space-between align-content">
 
                                         <div class="row align-content cursor" (click)="changeProfile(buddy.id)">
@@ -94,23 +71,16 @@
                                         <div>
                                             <button class="text-center mx-5 button" (click)="openSheet(buddy)"><mat-icon *ngIf="checkSelf(buddy.id)">more_horiz</mat-icon></button>
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
-
                             <div *ngIf="noBuddiesResult || noBuddies" class="my-6">
                                 <mat-hint class="text-center">No Buddies</mat-hint>
                                 <br />
                                 <mat-hint class="text-center" *ngIf="currentProfile()">Send some invites to your </mat-hint><a id="configurelink" routerLink="/dashboard"><u>Recommended Buddies</u></a>
                             </div>
-
                             <div *ngIf="!buddiesLoaded" class="spinner" id="childspinner" [@fadeIn]><mat-spinner></mat-spinner></div>
-
                         </ng-container>
-
                         <!-- log component -->
                         <ng-container *ngIf="!toggle">
                             <div *ngIf="!noLogs && logsLoaded" [@fadeIn]>
@@ -124,7 +94,6 @@
                                 </mat-form-field>
 
                                 <div *ngFor="let log of logs" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden max-w-2xl mt-3">
-
                                     <div class="m-3">
                                         <div class="flex justify-around">
                                             <h4><strong>{{ log.name }}</strong></h4>
@@ -137,11 +106,8 @@
                                             <h4>{{ log.speed }}</h4>
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
                             <div *ngIf="noLogsResult || noLogs" class="my-6">
                                 <mat-hint class="text-center">No Activities</mat-hint>
                                 <br />
@@ -149,22 +115,9 @@
                                     <mat-hint class="text-center">Record an activity on Strava or </mat-hint><a id="configurelink" routerLink="/addactivity"><u>Add Activity</u></a>
                                 </ng-container>
                             </div>
-
                             <div *ngIf="!logsLoaded" class="spinner" id="childspinner" [@fadeIn]><mat-spinner></mat-spinner></div>
-
                         </ng-container>
-
-
                     </div>
-
-                <!-- </mat-card-content> -->
-
             </div>
-            <!-- </mat-card> -->
-        <!-- </mat-grid-tile> -->
-
     </mat-grid-list>
-
-    <!-- <h1 class="p-8">test</h1> -->
-
 <training-buddy-navbar class="navfix"></training-buddy-navbar>
