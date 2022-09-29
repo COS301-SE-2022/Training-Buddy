@@ -28,6 +28,7 @@ export class CompleteWorkoutComponent implements OnInit {
     this.router.navigate(['/schedule']);
 
   }
+
   addActivity(){
     this.apollo.mutate({
       mutation: gql`
