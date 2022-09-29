@@ -109,7 +109,6 @@ export class ViewprofilepageComponent implements OnInit {
 
   constructor(private apollo : Apollo, private cookie : CookieService , private activated : ActivatedRoute, private router : Router, private afStorage: AngularFireStorage ){
     this.d = new Date();
-
   }
 
   changeProfile(id : string) {
@@ -150,12 +149,18 @@ export class ViewprofilepageComponent implements OnInit {
         this.ref = this.afStorage.ref("UserProfileImage/"+this.id);
         this.ref.getDownloadURL().subscribe((downloadURL) => {
         this.profileImage=downloadURL;
-        });
+      });
       },
     })
 
     })
 
+  }
+
+  on(i : number) {
+    if (this.displayUser.rating >= i)
+      return true;
+    return false;
   }
 
   getData(email : string) { //this is the email of the user to fetch the data for
@@ -172,7 +177,7 @@ export class ViewprofilepageComponent implements OnInit {
 
           if (data.data.getConnections.length == 0)
             this.noBuddies = true;
-            
+
         });
       }
     })
@@ -314,7 +319,7 @@ export class ViewprofilepageComponent implements OnInit {
     const c = {
       name: data.name,
       type: this.type(data.activityType),
-      distance: this.metersToKm(data.distance),
+      distance: this.stringDistance(data.distance),
       speed: this.convertSpeed(data),
       time: this.secondsToString(data.time),
       date: this.startDateTime(data.dateComplete),
@@ -377,8 +382,8 @@ export class ViewprofilepageComponent implements OnInit {
     return ''; //Weight Lifting
   }
 
-  metersToKm(data : any) : string {
-    return (Math.round(Number(data / 1000) * 100) / 100).toString() + 'km';
+  stringDistance(data : any) : string {
+    return (Math.round(Number(data)).toString() + ' km');
   }
 
   secondsToString(data : number) : string {
