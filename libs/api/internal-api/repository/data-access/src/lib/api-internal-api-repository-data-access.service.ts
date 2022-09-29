@@ -520,7 +520,7 @@ export class ApiInternalApiRepositoryDataAccessService {
         const data = {
             user: log.email,
             activityType: log.activityType,
-            dateComplete: log.dateCompleted,
+            dateComplete: Math.floor(new Date(log.dateCompleted).getTime() / 1000),
             distance: log.distance,
             name: log.name,
             speed: log.speed,
