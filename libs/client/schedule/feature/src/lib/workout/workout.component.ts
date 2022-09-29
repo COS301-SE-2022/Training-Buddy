@@ -162,32 +162,6 @@ getOne(email: string){
     });
 
   }
-  addActivity() {
-    return this.apollo
-      .mutate ({
-        mutation: gql`
-        mutation{
-          activityLog(Activitylog:{
-            name : "${this.workout.title}",
-            distance : ${this.workout.proposedDistance},
-            speed: ${this.workout.speed},
-            time : ${this.workout.time},
-            dateCompleted: "${this.workout.startTime.original}",
-            email: "${this.email}",
-            activityType: "${this.workout.activityType}",
-          }){
-            message
-          }
-        }
-        `,
-      }).subscribe({
-        next: (data: any) =>{
-          console.log("successfully added activity");
-          console.log(data);
-          this.router.navigate(['/schedule']);
-        }
-      });
-  }
   getData(){
     this.getWorkout().subscribe({
       next: (data: any) =>{
@@ -222,18 +196,28 @@ getOne(email: string){
       organiser: data.organiser,
       activityType: data.activityType,
       startPoint: data.startPoint,
-      proposedDistance: data.proposedDistance,
+      proposedDistance: this.distanceFixer(data.proposedDistance),
       proposedDuration: data.proposedDuration,
       time: this.toTime(data.proposedDuration),
       speed: this.calculateSpeed(data.proposedDistance, this.toTime(data.proposedDuration)),
 
     }
   }
+  distanceFixer(distance: number): number{
+    if(isNaN(distance)){
+      distance = 0;
+    }
+    return distance;
+  }
   calculateSpeed(distance: number, time:number) : number {
     console.log("calculate speed says")
     console.log(distance);
     console.log(time);
-    return Number(distance / time);
+    let speed = (distance / time);
+    if(isNaN(speed)){
+      speed = 0;
+    }
+    return speed;
   }
   fetchImages(data : any[], completeStatus : any []) : Promise<any> {
     return new Promise<any>((res, rej) => {
