@@ -70,8 +70,8 @@
                                         <p class="block mt-1 text-2xl leading-tight font-medium text-black" routerLink="/profile/{{usr.id}}">{{ usr.userName }} {{ usr.userSurname }}</p>
     
                                     </div>
-                                    <div class="tracking-wide text-xs font-semibold"><p>{{ usr.location }}</p></div>
-                                    <p class="mt-2 text-slate-500">{{ usr.bio }}</p>
+                                    <div class="tracking-wide text-xs font-semibold">{{ usr.location }}</div>
+                                    <div class="mt-2 text-slate-500" id="textwrap">{{ usr.bio }}</div>
                                 </div>
 
                                 <div class="grid grid-cols-2 mt-2">

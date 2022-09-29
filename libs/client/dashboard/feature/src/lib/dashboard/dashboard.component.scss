@@ -7,8 +7,8 @@
     text-decoration: underline !important;
 }
 
-.wraptext {
-    text-align: justify;
+#textwrap {
+    overflow-wrap: break-word;
 }
 
 mat-card {
