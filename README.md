@@ -14,27 +14,31 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 ## Video Demo Links
 [Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing) <br />
 [Demo 2 Video](https://drive.google.com/file/d/16HGM6abDNq-PTmbMsWscwEkMdnlFbey5/view) <br />
-[Demo 3 Video](https://drive.google.com/file/d/1QhfkF6Se2Vh7Useu7G4fC1lsxzP24H38/view) 
+[Demo 3 Video](https://drive.google.com/file/d/1QhfkF6Se2Vh7Useu7G4fC1lsxzP24H38/view) <br/>
+[Demo 3 Video](https://drive.google.com/file/d/1f9YZdDtqQ-1-LLaHhmr3q-a6UK6JMN-m/view?usp=sharing)
+
 
 ## SRS Documentation 
 [SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation) <br />
 [SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view) <br />
-[SRS Documentation V3.0]() 
+[SRS Documentation V3.0](https://drive.google.com/file/d/1fABmfDkwz0Ezh6cKfqpg52FSbCJvISKI/view?usp=sharing) 
 
 ## Architectural Requirements Documentation
 [Architectural Requirements Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view) <br />
-[Architectural Requirements Documentation V2.0]()
+[Architectural Requirements Documentation V2.0](https://drive.google.com/file/d/1fABmfDkwz0Ezh6cKfqpg52FSbCJvISKI/view?usp=sharing)<br/>
+[Architectural Requirements Documentation V3.0](https://drive.google.com/file/d/1KlKqZSvIDJDhWchjRhmDR57qQ7EfsQ4k/view?usp=sharing)
 
 ## Coding Standards
 [Coding Standards V1.0](https://drive.google.com/file/d/1g6UESbQdgPT59G09W2i9J_fzj0e0kqNq/view) <br />
-[Coding Standards V2.0]()
 
 ## User Manual
 [User Manual V1.0](https://drive.google.com/file/d/1e91Brcpey9gcpRX7sWTTVkQFFI2ISfT_/view?usp=sharing) <br />
-[User Manual V2.0](https://drive.google.com/file/d/1eVV3DswPrMxBuh9t8f9dCcnYcHnR4ijP/view?usp=sharing)
+[User Manual V2.0](https://drive.google.com/file/d/1eVV3DswPrMxBuh9t8f9dCcnYcHnR4ijP/view?usp=sharing) <br/>
+[User Manual V3.0](https://drive.google.com/file/d/1W9fEsayeOTKhEAtDZDiu6kat_7wnuhSY/view?usp=sharing) <br/>
 
 ## Techical Installation Manual
-[Technical Installation Manual V1.0](https://drive.google.com/file/d/1S1eTzJuTcUshSHsP_U5ZVLyc221xTdLc/view?usp=sharing)
+[Technical Installation Manual V1.0](https://drive.google.com/file/d/1S1eTzJuTcUshSHsP_U5ZVLyc221xTdLc/view?usp=sharing) <br/>
+[Technical Installation Manual V2.0](https://drive.google.com/file/d/1YVK2sgfkmA80ODPcHXC7LnNcsD7kjp1n/view?usp=sharing)
 
 ## Project Board
 [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
