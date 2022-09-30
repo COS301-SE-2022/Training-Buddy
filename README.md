@@ -15,18 +15,20 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 [Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing) <br />
 [Demo 2 Video](https://drive.google.com/file/d/16HGM6abDNq-PTmbMsWscwEkMdnlFbey5/view) <br />
 [Demo 3 Video](https://drive.google.com/file/d/1QhfkF6Se2Vh7Useu7G4fC1lsxzP24H38/view) <br/>
-[Demo 3 Video](https://drive.google.com/file/d/1f9YZdDtqQ-1-LLaHhmr3q-a6UK6JMN-m/view?usp=sharing)
+[Demo 4 Video](https://drive.google.com/file/d/1f9YZdDtqQ-1-LLaHhmr3q-a6UK6JMN-m/view?usp=sharing)
 
 
 ## SRS Documentation 
 [SRS Documentation V1.0](https://github.com/COS301-SE-2022/Training-Buddy/wiki/SRS-Documentation) <br />
 [SRS Documentation V2.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view) <br />
-[SRS Documentation V3.0](https://drive.google.com/file/d/1fABmfDkwz0Ezh6cKfqpg52FSbCJvISKI/view?usp=sharing) 
+[SRS Documentation V3.0](https://drive.google.com/file/d/1vYGTjTBwJ1_2B4sOtKG0e5vTziMNE-wg/view) <br />
+[SRS Documentation V4.0](https://drive.google.com/file/d/1fABmfDkwz0Ezh6cKfqpg52FSbCJvISKI/view?usp=sharing) 
 
 ## Architectural Requirements Documentation
 [Architectural Requirements Documentation V1.0](https://drive.google.com/file/d/1xsvFs1x3hQXYKuIIrjz9z2tl8D2qWe4l/view) <br />
 [Architectural Requirements Documentation V2.0](https://drive.google.com/file/d/1fABmfDkwz0Ezh6cKfqpg52FSbCJvISKI/view?usp=sharing)<br/>
-[Architectural Requirements Documentation V3.0](https://drive.google.com/file/d/1KlKqZSvIDJDhWchjRhmDR57qQ7EfsQ4k/view?usp=sharing)
+[Architectural Requirements Documentation V3.0](https://drive.google.com/file/d/1fABmfDkwz0Ezh6cKfqpg52FSbCJvISKI/view?usp=sharing)<br/>
+[Architectural Requirements Documentation V4.0](https://drive.google.com/file/d/1KlKqZSvIDJDhWchjRhmDR57qQ7EfsQ4k/view?usp=sharing)
 
 ## Coding Standards
 [Coding Standards V1.0](https://drive.google.com/file/d/1g6UESbQdgPT59G09W2i9J_fzj0e0kqNq/view) <br />
@@ -40,12 +42,15 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 [Technical Installation Manual V1.0](https://drive.google.com/file/d/1S1eTzJuTcUshSHsP_U5ZVLyc221xTdLc/view?usp=sharing) <br/>
 [Technical Installation Manual V2.0](https://drive.google.com/file/d/1YVK2sgfkmA80ODPcHXC7LnNcsD7kjp1n/view?usp=sharing)
 
+## Testing
+[Testing Policy V1.0](https://docs.google.com/document/d/19uZePnMwIjnwlFIStEqbcuhN2OYqoIHK6RlsLVg4T_4/edit?usp=sharing) <br/>
+[Usability Testing V1.0](https://docs.google.com/document/d/1ItLkJD-1Lg5ZqWheaikVdbUf7orFmawlCgu-fB52aEU/edit?usp=sharing) <br/>
 ## Project Board
 [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
 
 <br />
-## Group Members
 
+## Group Members
 <!-- -------------------------------------------------------------- -->
 <!--SARAH-->
 ## [Sarah King (u20481218)](https://github.com/sarah-a-king) <a href="https://www.linkedin.com/in/sarah-king-030363234/"><img height="30px" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/linkedin.png"></img></a>
@@ -83,7 +88,7 @@ I am a third year BSc Computer Science Student who is passionate about technolog
 ## [Lehlohonolo Sehako (u20557622)](https://github.com/Lehlohonolo-Sehako) <a href="https://www.linkedin.com/in/lehlohonolo-sehako-4378311b6/"><img height="30px" src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/linkedin.png"></img></a>
 <img src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/Lehlohonolo_Sehako.png" alt="Image" align="left" height="180px"/>
 
-I am a third year BSc Computer Science student who is passionate about Machine Learning and developing predictive models. I am familiar with C++, Java, Python, CSS, HTML, Javascript, NodeJS and PHP. I have a good understanding of developing Machine Learning models using ML libraries such as scikit-learn and pandas. I possess good analytical skills that help with providing solutions to complex problems.
+I am a third year BSc Computer Science student who is passionate about Machine Learning and developing predictive models. I am familiar with C++, Java, Python, CSS, HTML, JavaScript, NodeJS and PHP. I have a good understanding of developing Machine Learning models using ML libraries such as scikit-learn and pandas. I possess good analytical skills that help with providing solutions to complex problems.
 
 <br clear="left"/>
 
@@ -102,11 +107,11 @@ NestJs
 ```
 - Database
 ```
-PostgreSQL
+Firestore
 ```
 - Hosting
 ```
-GCP
+Firebase Hosting
 ```
 - Authentication
 ```
