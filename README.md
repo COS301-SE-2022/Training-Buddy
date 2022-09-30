@@ -43,12 +43,10 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 [Technical Installation Manual V2.0](https://drive.google.com/file/d/1YVK2sgfkmA80ODPcHXC7LnNcsD7kjp1n/view?usp=sharing)
 
 ## Testing
-[Testing Policy V1.0](https://docs.google.com/document/d/19uZePnMwIjnwlFIStEqbcuhN2OYqoIHK6RlsLVg4T_4/edit?usp=sharing) <br/>
-[Usability Testing V1.0](https://docs.google.com/document/d/1ItLkJD-1Lg5ZqWheaikVdbUf7orFmawlCgu-fB52aEU/edit?usp=sharing) <br/>
+[Testing Policy V1.0](https://drive.google.com/drive/folders/1BvFLOpGtyEMrmksEEIFJdeTm02gMu0ZF?usp=sharing) <br/>
+[Usability Testing V1.0](https://drive.google.com/drive/folders/1jR68bcUlaCEGVx0pGDFy7-68lqCDx9Ns?usp=sharing) <br/>
 ## Project Board
 [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
-
-<br />
 
 ## Group Members
 <!-- -------------------------------------------------------------- -->
