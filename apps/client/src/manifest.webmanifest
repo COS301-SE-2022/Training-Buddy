@@ -1,7 +1,7 @@
 {
-  "name": "client",
-  "short_name": "client",
-  "theme_color": "#1976d2",
+  "name": "Training Buddy",
+  "short_name": "Training Buddy",
+  "theme_color": "#ffffff",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
