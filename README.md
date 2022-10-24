@@ -1,9 +1,6 @@
 # Derived - Training Buddy
 
 
-<img src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/derived.png" alt="Image" align="center" height="100px"/>
-<img src="https://github.com/COS301-SE-2022/Training-Buddy/blob/main/profileimages/epiuse.png" alt="Image" align="center" height="100px"/>
-
 <a href= "https://github.com/COS301-SE-2022/Training-Buddy/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/COS301-SE-2022/Training-Buddy?style=plastic"></a>
 <a href = "https://github.com/COS301-SE-2022/Training-Buddy/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/COS301-SE-2022/Training-Buddy?style=plastic"></a>
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/COS301-SE-2022/Training-Buddy?style=plastic">
