@@ -15,7 +15,7 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 <!-- [Demo 1 Video](https://drive.google.com/file/d/1VgraqJdbI0Ttjr7Imh1lyMxpHckIchIe/view?usp=sharing) <br />
 [Demo 2 Video](https://drive.google.com/file/d/16HGM6abDNq-PTmbMsWscwEkMdnlFbey5/view) <br />
 [Demo 3 Video](https://drive.google.com/file/d/1QhfkF6Se2Vh7Useu7G4fC1lsxzP24H38/view) <br/> -->
-:film_strip: [Demo 4 Video](https://drive.google.com/file/d/1f9YZdDtqQ-1-LLaHhmr3q-a6UK6JMN-m/view?usp=sharing)
+:film_strip: [Demo Video](https://drive.google.com/file/d/1f9YZdDtqQ-1-LLaHhmr3q-a6UK6JMN-m/view?usp=sharing)
 
 
 ## SRS Documentation 
@@ -47,6 +47,10 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 <!-- [Usability Testing V1.0](https://drive.google.com/drive/folders/1jR68bcUlaCEGVx0pGDFy7-68lqCDx9Ns?usp=sharing) <br/> -->
 ## Project Board
 :computer: [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
+
+## Team
+:email: Team Email : [trainingbuddy2022@gmail.com]()
+
 
 ## Group Members
 <!-- -------------------------------------------------------------- -->
@@ -89,31 +93,5 @@ I am a third year BSc Computer Science Student who is passionate about technolog
 I am a third year BSc Computer Science student who is passionate about Machine Learning and developing predictive models. I am familiar with C++, Java, Python, CSS, HTML, JavaScript, NodeJS and PHP. I have a good understanding of developing Machine Learning models using ML libraries such as scikit-learn and pandas. I possess good analytical skills that help with providing solutions to complex problems.
 
 <br clear="left"/>
-
-## Project Technologies
-- Frontend
-```
-Angular 
-```
-- API
-```
-Node/NestJs
-```
-- Backend
-```
-NestJs
-```
-- Database
-```
-Firestore
-```
-- Hosting
-```
-Firebase Hosting
-```
-- Authentication
-```
-Firebase
-```
 
 <!-- -------------------------------------------------------------- -->
