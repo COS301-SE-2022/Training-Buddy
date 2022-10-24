@@ -49,7 +49,7 @@ Training Buddy has the vision of providing a secure and user-friendly way for ex
 :computer: [Project Board](https://github.com/COS301-SE-2022/Training-Buddy/projects/1)
 
 ## Team
-:email: Team Email : [trainingbuddy2022@gmail.com]()
+:email: Team Email : [trainingbuddy2022@gmail.com](https://trainingbuddy2022@gmail.com)
 
 
 ## Group Members
